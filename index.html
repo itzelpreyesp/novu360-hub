@@ -3,421 +3,613 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Novu 360</title>
-<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,600;1,9..40,300&display=swap" rel="stylesheet">
+<title>Novu 360 — Agencia de Marketing Digital con IA</title>
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,600;1,9..40,300&display=swap" rel="stylesheet">
 <style>
-:root {
-  --bg: #080810;
-  --card: #0f0f1a;
-  --surface: #13131f;
-  --border: rgba(255,255,255,0.06);
-  --accent: #c8f542;
-  --accent-dim: rgba(200,245,66,0.08);
-  --accent-mid: rgba(200,245,66,0.15);
-  --text: #e2e2f0;
-  --muted: #6b6b80;
-  --white: #ffffff;
-  --green: #4ade80;
-  --yellow: #facc15;
-  --red: #f87171;
+:root{
+  --bg:#070707;--bg2:#0b0b0b;--card:#101010;--surface:#161616;
+  --border:rgba(255,255,255,0.07);--border2:rgba(255,255,255,0.12);
+  --accent:#e8390e;--accent2:#ff6b35;
+  --accent-dim:rgba(232,57,14,0.09);
+  --text:#d0d0d0;--muted:#5a5a5a;--white:#fff;
 }
-* { margin:0; padding:0; box-sizing:border-box; -webkit-tap-highlight-color:transparent; }
-body { font-family:'DM Sans',sans-serif; background:var(--bg); color:var(--text); min-height:100vh; overflow-x:hidden; padding-bottom:100px; }
-.bg-glow { position:fixed; top:-150px; left:50%; transform:translateX(-50%); width:700px; height:500px; background:radial-gradient(ellipse,rgba(200,245,66,0.09) 0%,transparent 65%); pointer-events:none; z-index:0; }
-.content { position:relative; z-index:1; max-width:480px; margin:0 auto; padding:0 20px; }
+*{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+html{scroll-behavior:smooth}
+body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--text);overflow-x:hidden}
 
-/* HEADER */
-.header { display:flex; align-items:center; justify-content:space-between; padding:24px 0 20px; }
-.logo { display:flex; align-items:center; gap:10px; font-family:'Syne',sans-serif; font-weight:700; font-size:15px; color:var(--white); text-decoration:none; }
-.logo-mark { width:32px; height:32px; background:var(--accent); border-radius:8px; display:grid; place-items:center; font-size:14px; animation:pulse 3s ease-in-out infinite; }
-@keyframes pulse { 0%,100%{box-shadow:0 0 20px rgba(200,245,66,0.25)} 50%{box-shadow:0 0 40px rgba(200,245,66,0.45)} }
-.refresh-btn { width:34px; height:34px; border-radius:10px; background:var(--surface); border:1px solid var(--border); display:grid; place-items:center; cursor:pointer; font-size:15px; transition:all 0.2s; color:var(--muted); }
-.refresh-btn:hover { color:var(--accent); border-color:rgba(200,245,66,0.3); }
-.refresh-btn.spinning { animation:spin 0.8s linear infinite; }
-@keyframes spin { to{transform:rotate(360deg)} }
+/* CANVAS */
+#pc{position:fixed;inset:0;z-index:0;pointer-events:none}
 
-/* SECTION LABEL */
-.sec-label { font-size:10px; text-transform:uppercase; letter-spacing:0.12em; color:var(--muted); font-weight:700; margin-bottom:12px; margin-top:24px; }
+/* CURSOR GLOW — desktop only */
+@media(min-width:769px){
+  .cg{position:fixed;width:500px;height:500px;background:radial-gradient(circle,rgba(232,57,14,0.055) 0%,transparent 70%);border-radius:50%;pointer-events:none;z-index:1;transform:translate(-50%,-50%);transition:left 0.12s linear,top 0.12s linear}
+}
+@media(max-width:768px){.cg{display:none}}
 
-/* DASHBOARD STATUS */
-.status-bar { display:flex; align-items:center; justify-content:space-between; background:var(--surface); border:1px solid var(--border); border-radius:14px; padding:14px 18px; margin-bottom:16px; }
-.status-left { display:flex; align-items:center; gap:10px; }
-.status-dot { width:10px; height:10px; border-radius:50%; flex-shrink:0; }
-.status-dot.green { background:var(--green); box-shadow:0 0 8px rgba(74,222,128,0.6); }
-.status-dot.yellow { background:var(--yellow); box-shadow:0 0 8px rgba(250,204,21,0.6); }
-.status-dot.red { background:var(--red); box-shadow:0 0 8px rgba(248,113,113,0.6); }
-.status-text { font-size:13px; font-weight:500; color:var(--text); }
-.status-sub { font-size:11px; color:var(--muted); margin-top:1px; }
-.status-right { font-size:11px; color:var(--muted); }
+/* NOISE */
+body::before{content:'';position:fixed;inset:0;background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.022'/%3E%3C/svg%3E");pointer-events:none;z-index:0}
 
-/* STATS GRID */
-.stats-grid { display:grid; grid-template-columns:1fr 1fr; gap:10px; margin-bottom:10px; }
-.stats-grid.cols3 { grid-template-columns:1fr 1fr 1fr; }
+/* NAV */
+nav{position:fixed;top:0;left:0;right:0;z-index:1000;padding:0 6%;height:68px;display:flex;align-items:center;justify-content:space-between;transition:all 0.4s}
+nav.scrolled{background:rgba(7,7,7,0.95);backdrop-filter:blur(24px);border-bottom:1px solid var(--border)}
+.nlogo{display:flex;align-items:center;gap:10px;text-decoration:none}
+.nlm{width:34px;height:34px;background:var(--accent);border-radius:7px;display:grid;place-items:center;font-family:'Bebas Neue',sans-serif;font-size:17px;color:#fff;animation:lp 3s ease-in-out infinite}
+@keyframes lp{0%,100%{box-shadow:0 0 0 0 rgba(232,57,14,0)}50%{box-shadow:0 0 18px 4px rgba(232,57,14,0.45)}}
+.nlt{font-family:'Bebas Neue',sans-serif;font-size:21px;letter-spacing:0.08em;color:#fff}
+.nlt span{color:var(--accent)}
+.nlinks{display:flex;align-items:center;gap:26px;list-style:none}
+.nlinks a{font-size:11px;font-weight:500;color:var(--muted);text-decoration:none;transition:color 0.2s;text-transform:uppercase;letter-spacing:0.07em;position:relative}
+.nlinks a::after{content:'';position:absolute;bottom:-3px;left:0;right:0;height:1px;background:var(--accent);transform:scaleX(0);transition:transform 0.22s}
+.nlinks a:hover{color:#fff}
+.nlinks a:hover::after{transform:scaleX(1)}
+.nli{padding:8px 20px!important;background:transparent!important;border:1.5px solid var(--accent)!important;border-radius:3px!important;color:var(--accent)!important;font-weight:700!important;position:relative!important;overflow:hidden!important;transition:color 0.25s!important}
+.nli::before{content:'';position:absolute;inset:0;background:var(--accent);transform:translateX(-101%);transition:transform 0.25s ease;z-index:0}
+.nli:hover::before{transform:translateX(0)}
+.nli:hover{color:#fff!important}
+.nli span{position:relative;z-index:1}
+.nmb{display:none;background:none;border:none;color:#fff;font-size:26px;cursor:pointer;padding:4px;line-height:1}
+.mm{display:none;position:fixed;inset:0;background:rgba(7,7,7,0.98);z-index:999;flex-direction:column;align-items:center;justify-content:center;gap:20px}
+.mm.open{display:flex;animation:mmIn 0.3s ease}
+@keyframes mmIn{from{opacity:0}to{opacity:1}}
+.mm a{font-family:'Bebas Neue',sans-serif;font-size:36px;letter-spacing:0.08em;color:#fff;text-decoration:none;transition:color 0.2s;opacity:0;animation:sli 0.4s ease forwards}
+.mm.open a:nth-child(2){animation-delay:0.05s}
+.mm.open a:nth-child(3){animation-delay:0.1s}
+.mm.open a:nth-child(4){animation-delay:0.15s}
+.mm.open a:nth-child(5){animation-delay:0.2s}
+.mm.open a:nth-child(6){animation-delay:0.25s}
+.mm.open a:nth-child(7){animation-delay:0.3s}
+@keyframes sli{from{opacity:0;transform:translateY(18px)}to{opacity:1;transform:translateY(0)}}
+.mm a:hover{color:var(--accent)}
+.mmx{position:absolute;top:22px;right:6%;background:none;border:none;color:#fff;font-size:28px;cursor:pointer}
 
-.stat-card { background:var(--card); border:1.5px solid var(--border); border-radius:16px; padding:18px 16px; position:relative; overflow:hidden; transition:border-color 0.2s; }
-.stat-card::after { content:''; position:absolute; top:0; left:0; right:0; height:1px; background:linear-gradient(90deg,transparent,rgba(200,245,66,0.2),transparent); }
-.stat-card:hover { border-color:rgba(200,245,66,0.2); }
-.stat-icon { font-size:18px; margin-bottom:8px; display:block; }
-.stat-num { font-family:'Syne',sans-serif; font-size:28px; font-weight:800; color:var(--white); display:block; line-height:1; margin-bottom:4px; }
-.stat-num.green { color:var(--green); }
-.stat-num.yellow { color:var(--yellow); }
-.stat-num.red { color:var(--red); }
-.stat-label { font-size:11px; color:var(--muted); font-weight:300; }
+/* ============================
+   HERO — CITY BG
+============================ */
+.hero{
+  min-height:100vh;display:flex;align-items:center;
+  position:relative;overflow:hidden;padding:100px 6% 80px;
+}
 
-/* META BAR */
-.meta-card { background:var(--card); border:1.5px solid var(--border); border-radius:16px; padding:18px; margin-bottom:10px; }
-.meta-header { display:flex; justify-content:space-between; align-items:flex-end; margin-bottom:12px; }
-.meta-title { font-family:'Syne',sans-serif; font-size:14px; font-weight:700; color:var(--white); }
-.meta-pct { font-family:'Syne',sans-serif; font-size:20px; font-weight:800; }
-.meta-pct.green { color:var(--green); }
-.meta-pct.yellow { color:var(--yellow); }
-.meta-pct.red { color:var(--red); }
-.meta-bar-track { height:8px; background:var(--surface); border-radius:100px; overflow:hidden; margin-bottom:8px; }
-.meta-bar-fill { height:100%; border-radius:100px; transition:width 1s cubic-bezier(0.4,0,0.2,1); }
-.meta-bar-fill.green { background:var(--green); }
-.meta-bar-fill.yellow { background:var(--yellow); }
-.meta-bar-fill.red { background:var(--red); }
-.meta-sub { font-size:11px; color:var(--muted); }
+/* City background image */
+.hero-img{
+  position:absolute;inset:0;z-index:0;
+  background-image:url('https://images.unsplash.com/photo-1477959858617-67f85cf4f1df?w=1600&q=80&auto=format&fit=crop');
+  background-size:cover;background-position:center;
+  animation:heroZoom 20s ease-in-out infinite alternate;
+}
+@keyframes heroZoom{0%{transform:scale(1)}100%{transform:scale(1.06)}}
 
-/* PROSPECTORAS */
-.prospectora-row { display:flex; align-items:center; gap:12px; padding:12px 0; border-bottom:1px solid var(--border); }
-.prospectora-row:last-child { border-bottom:none; padding-bottom:0; }
-.prosp-avatar { width:36px; height:36px; border-radius:50%; background:var(--accent-dim); border:1.5px solid rgba(200,245,66,0.2); display:grid; place-items:center; font-size:14px; font-weight:700; color:var(--accent); font-family:'Syne',sans-serif; flex-shrink:0; }
-.prosp-info { flex:1; }
-.prosp-name { font-size:13px; font-weight:600; color:var(--white); margin-bottom:3px; }
-.prosp-bar-track { height:4px; background:var(--surface); border-radius:100px; overflow:hidden; }
-.prosp-bar-fill { height:100%; background:var(--accent); border-radius:100px; transition:width 0.8s ease; }
-.prosp-count { font-family:'Syne',sans-serif; font-size:14px; font-weight:800; color:var(--accent); flex-shrink:0; }
+/* Dark overlay layers */
+.hero-overlay{
+  position:absolute;inset:0;z-index:1;
+  background:
+    linear-gradient(135deg,rgba(7,7,7,0.92) 0%,rgba(7,7,7,0.6) 50%,rgba(232,57,14,0.15) 100%),
+    linear-gradient(to top,rgba(7,7,7,0.98) 0%,transparent 40%);
+}
 
-/* CANALES */
-.canal-row { display:flex; align-items:center; gap:12px; padding:10px 0; border-bottom:1px solid var(--border); }
-.canal-row:last-child { border-bottom:none; }
-.canal-icon { font-size:18px; width:32px; text-align:center; flex-shrink:0; }
-.canal-name { font-size:13px; color:var(--text); flex:1; }
-.canal-bar-track { width:80px; height:5px; background:var(--surface); border-radius:100px; overflow:hidden; }
-.canal-bar-fill { height:100%; background:var(--accent); border-radius:100px; transition:width 0.8s ease; }
-.canal-count { font-size:13px; font-weight:600; color:var(--white); width:24px; text-align:right; flex-shrink:0; }
+/* Animated accent glow */
+.hero-glow{
+  position:absolute;inset:0;z-index:2;
+  background:radial-gradient(ellipse 700px 500px at 80% 40%,rgba(232,57,14,0.18) 0%,transparent 65%);
+  animation:glowPulse 5s ease-in-out infinite alternate;
+}
+@keyframes glowPulse{0%{opacity:0.6}100%{opacity:1}}
 
-/* CARDS */
-.dash-card { background:var(--card); border:1.5px solid var(--border); border-radius:16px; padding:18px; margin-bottom:10px; position:relative; overflow:hidden; }
-.dash-card::after { content:''; position:absolute; top:0; left:0; right:0; height:1px; background:linear-gradient(90deg,transparent,rgba(200,245,66,0.2),transparent); }
-.dash-card h3 { font-family:'Syne',sans-serif; font-size:14px; font-weight:700; color:var(--white); margin-bottom:14px; display:flex; align-items:center; gap:8px; }
+/* Scanline effect */
+.hero-scan{
+  position:absolute;inset:0;z-index:2;pointer-events:none;
+  background:repeating-linear-gradient(0deg,transparent,transparent 2px,rgba(0,0,0,0.03) 2px,rgba(0,0,0,0.03) 4px);
+}
 
-/* NAV CARDS */
-.nav-card { background:var(--card); border:1.5px solid var(--border); border-radius:18px; padding:20px; margin-bottom:10px; cursor:pointer; display:flex; align-items:center; gap:16px; transition:all 0.2s; text-decoration:none; position:relative; overflow:hidden; }
-.nav-card::before { content:''; position:absolute; inset:0; background:linear-gradient(135deg,var(--accent-dim),transparent 60%); opacity:0; transition:opacity 0.2s; }
-.nav-card:hover,.nav-card:active { border-color:rgba(200,245,66,0.25); transform:translateY(-1px); }
-.nav-card:hover::before { opacity:1; }
-.nav-icon-box { width:48px; height:48px; border-radius:13px; display:grid; place-items:center; font-size:20px; flex-shrink:0; position:relative; z-index:1; }
-.icon-green { background:rgba(200,245,66,0.1); }
-.icon-purple { background:rgba(150,100,255,0.1); }
-.nav-body { flex:1; position:relative; z-index:1; }
-.nav-badge { display:inline-block; font-size:9px; font-weight:700; text-transform:uppercase; letter-spacing:0.08em; padding:2px 8px; border-radius:4px; margin-bottom:5px; }
-.badge-green { background:rgba(200,245,66,0.15); color:var(--accent); }
-.badge-purple { background:rgba(150,100,255,0.15); color:#b084f0; }
-.nav-body h3 { font-family:'Syne',sans-serif; font-size:15px; font-weight:700; color:var(--white); margin-bottom:3px; }
-.nav-body p { font-size:12px; color:var(--muted); font-weight:300; }
-.nav-arrow { color:var(--muted); font-size:16px; position:relative; z-index:1; }
+/* Grid overlay */
+.hero-grid{
+  position:absolute;inset:0;z-index:2;
+  background-image:linear-gradient(rgba(232,57,14,0.04) 1px,transparent 1px),linear-gradient(90deg,rgba(232,57,14,0.04) 1px,transparent 1px);
+  background-size:60px 60px;
+  mask-image:radial-gradient(ellipse 80% 80% at 50% 50%,black,transparent);
+  animation:gm 25s linear infinite;
+}
+@keyframes gm{0%{background-position:0 0}100%{background-position:60px 60px}}
 
-/* LOADING SKELETON */
-.skeleton { background:linear-gradient(90deg,var(--surface) 25%,var(--card) 50%,var(--surface) 75%); background-size:200% 100%; animation:shimmer 1.5s infinite; border-radius:8px; }
-@keyframes shimmer { 0%{background-position:200% 0} 100%{background-position:-200% 0} }
+.hero-c{position:relative;z-index:3;max-width:780px;width:100%}
 
-/* EMPTY STATE */
-.empty-state { text-align:center; padding:24px 16px; }
-.empty-state p { font-size:13px; color:var(--muted); }
+.htag{
+  display:inline-flex;align-items:center;gap:8px;
+  background:rgba(232,57,14,0.1);border:1px solid rgba(232,57,14,0.25);
+  border-radius:2px;padding:5px 14px;
+  font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:0.16em;
+  color:var(--accent);margin-bottom:24px;
+  opacity:0;animation:fu 0.7s ease 0.3s forwards;
+}
+.htag::before{content:'';width:5px;height:5px;border-radius:50%;background:var(--accent);animation:bl 1.5s ease-in-out infinite}
+@keyframes bl{0%,100%{opacity:1}50%{opacity:0.15}}
+@keyframes fu{to{opacity:1;transform:translateY(0)}}
 
-/* BOTTOM NAV */
-.bottom-nav { position:fixed; bottom:0; left:0; right:0; background:rgba(8,8,16,0.95); backdrop-filter:blur(20px); -webkit-backdrop-filter:blur(20px); border-top:1px solid var(--border); display:flex; justify-content:space-around; align-items:center; padding:12px 0 max(12px,env(safe-area-inset-bottom)); z-index:1000; }
-.nav-item { display:flex; flex-direction:column; align-items:center; gap:4px; padding:4px 20px; border-radius:12px; transition:all 0.2s; text-decoration:none; flex:1; }
-.nav-item.active .nv-icon,.nav-item.active .nv-label { color:var(--accent); }
-.nv-icon { font-size:22px; color:var(--muted); line-height:1; text-align:center; }
-.nv-label { font-size:10px; font-weight:600; color:var(--muted); text-transform:uppercase; letter-spacing:0.06em; text-align:center; }
-.nav-item:active { transform:scale(0.92); }
+.hero h1{
+  font-family:'Bebas Neue',sans-serif;
+  font-size:clamp(52px,10vw,116px);
+  line-height:0.88;letter-spacing:0.02em;color:#fff;
+  margin-bottom:24px;overflow:hidden;
+}
+.hero h1 .ln{
+  display:block;opacity:0;transform:translateY(110%);
+  animation:lr 0.85s cubic-bezier(0.16,1,0.3,1) forwards;
+}
+.hero h1 .ln:nth-child(1){animation-delay:0.45s}
+.hero h1 .ln:nth-child(2){animation-delay:0.6s}
+.hero h1 .ln:nth-child(3){animation-delay:0.75s}
+@keyframes lr{to{opacity:1;transform:translateY(0)}}
+.acc{color:var(--accent)}
+.out{-webkit-text-stroke:1.5px rgba(255,255,255,0.3);color:transparent}
+
+.hdesc{
+  font-size:clamp(14px,2.5vw,17px);font-weight:300;
+  color:rgba(208,208,208,0.85);line-height:1.75;
+  max-width:500px;margin-bottom:36px;
+  opacity:0;animation:fu 0.7s ease 1s forwards;
+}
+.tw-wrap{display:inline;color:#fff;font-weight:500}
+.tw-cur{display:inline-block;width:2px;height:0.85em;background:var(--accent);margin-left:3px;vertical-align:middle;animation:cb 0.8s step-end infinite}
+@keyframes cb{0%,100%{opacity:1}50%{opacity:0}}
+
+.ctas{
+  display:flex;align-items:center;gap:14px;flex-wrap:wrap;
+  opacity:0;animation:fu 0.7s ease 1.15s forwards;
+}
+.btnp{
+  padding:14px 30px;background:var(--accent);color:#fff;border:none;
+  border-radius:3px;font-family:'DM Sans',sans-serif;font-size:13px;
+  font-weight:700;text-transform:uppercase;letter-spacing:0.08em;
+  cursor:pointer;transition:all 0.25s;text-decoration:none;display:inline-block;
+  position:relative;overflow:hidden;
+}
+.btnp::after{content:'';position:absolute;inset:0;background:linear-gradient(135deg,rgba(255,255,255,0.18),transparent);opacity:0;transition:opacity 0.25s}
+.btnp:hover{background:var(--accent2);transform:translateY(-2px);box-shadow:0 12px 36px rgba(232,57,14,0.5)}
+.btnp:hover::after{opacity:1}
+.btng{
+  padding:14px 30px;background:rgba(255,255,255,0.05);color:#fff;
+  border:1px solid rgba(255,255,255,0.2);border-radius:3px;
+  font-family:'DM Sans',sans-serif;font-size:13px;font-weight:600;
+  text-transform:uppercase;letter-spacing:0.08em;
+  cursor:pointer;transition:all 0.25s;text-decoration:none;display:inline-block;
+  backdrop-filter:blur(8px);
+}
+.btng:hover{border-color:var(--accent);color:var(--accent);background:rgba(232,57,14,0.06)}
+
+.hstats{
+  display:flex;gap:clamp(20px,4vw,48px);margin-top:52px;padding-top:36px;
+  border-top:1px solid rgba(255,255,255,0.1);flex-wrap:wrap;
+  opacity:0;animation:fu 0.7s ease 1.3s forwards;
+}
+.hsn{font-family:'Bebas Neue',sans-serif;font-size:clamp(36px,5vw,50px);letter-spacing:0.02em;color:#fff;display:block;line-height:1;margin-bottom:4px}
+.hsn span{color:var(--accent)}
+.hsl{font-size:10px;color:rgba(208,208,208,0.6);text-transform:uppercase;letter-spacing:0.12em}
+
+.scri{
+  position:absolute;bottom:24px;left:6%;z-index:3;
+  display:flex;align-items:center;gap:10px;
+  font-size:9px;text-transform:uppercase;letter-spacing:0.16em;
+  color:rgba(208,208,208,0.4);
+  opacity:0;animation:fu 0.7s ease 1.6s forwards;
+}
+.scrl{width:32px;height:1px;background:rgba(208,208,208,0.3);position:relative;overflow:hidden}
+.scrl::after{content:'';position:absolute;top:0;left:-100%;width:100%;height:100%;background:var(--accent);animation:sa 2s ease-in-out infinite}
+@keyframes sa{0%{left:-100%}100%{left:100%}}
+
+/* ============================
+   SECTIONS
+============================ */
+section{position:relative;z-index:1}
+.sp{padding:clamp(60px,8vw,100px) 6%}
+.slbl{display:inline-flex;align-items:center;gap:8px;font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:0.16em;color:var(--accent);margin-bottom:12px}
+.slbl::before{content:'';width:18px;height:1px;background:var(--accent)}
+.sttl{font-family:'Bebas Neue',sans-serif;font-size:clamp(32px,5vw,66px);line-height:0.93;letter-spacing:0.02em;color:#fff;margin-bottom:12px}
+.sttl span{color:var(--accent)}
+.sdesc{font-size:clamp(13px,2vw,15px);font-weight:300;color:var(--muted);line-height:1.75;max-width:500px}
+
+/* REVEAL */
+.rv{opacity:0;transform:translateY(36px);transition:opacity 0.7s cubic-bezier(0.16,1,0.3,1),transform 0.7s cubic-bezier(0.16,1,0.3,1)}
+.rv.v{opacity:1;transform:none}
+.rvl{opacity:0;transform:translateX(-36px);transition:opacity 0.7s cubic-bezier(0.16,1,0.3,1),transform 0.7s cubic-bezier(0.16,1,0.3,1)}
+.rvl.v{opacity:1;transform:none}
+.rvr{opacity:0;transform:translateX(36px);transition:opacity 0.7s cubic-bezier(0.16,1,0.3,1),transform 0.7s cubic-bezier(0.16,1,0.3,1)}
+.rvr.v{opacity:1;transform:none}
+.stg>*{opacity:0;transform:translateY(28px);transition:opacity 0.6s cubic-bezier(0.16,1,0.3,1),transform 0.6s cubic-bezier(0.16,1,0.3,1)}
+.stg.v>*:nth-child(1){opacity:1;transform:none;transition-delay:0s}
+.stg.v>*:nth-child(2){opacity:1;transform:none;transition-delay:0.08s}
+.stg.v>*:nth-child(3){opacity:1;transform:none;transition-delay:0.16s}
+.stg.v>*:nth-child(4){opacity:1;transform:none;transition-delay:0.24s}
+.stg.v>*:nth-child(5){opacity:1;transform:none;transition-delay:0.32s}
+.stg.v>*:nth-child(6){opacity:1;transform:none;transition-delay:0.4s}
+
+/* ============================
+   SERVICIOS — with bg
+============================ */
+#servicios{
+  background:
+    radial-gradient(ellipse 800px 500px at 100% 50%,rgba(232,57,14,0.07) 0%,transparent 70%),
+    var(--bg2);
+}
+.srv-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1px;background:var(--border);border:1px solid var(--border);margin-top:52px}
+.sc{background:var(--bg2);padding:clamp(24px,3vw,36px) clamp(20px,2.5vw,28px);position:relative;overflow:hidden;transition:background 0.35s;cursor:default}
+.sc::before{content:'';position:absolute;top:0;left:0;right:0;height:2px;background:linear-gradient(90deg,var(--accent),var(--accent2),transparent);transform:scaleX(0);transform-origin:left;transition:transform 0.4s cubic-bezier(0.16,1,0.3,1)}
+.sc::after{content:'';position:absolute;inset:0;background:radial-gradient(ellipse at 50% 110%,rgba(232,57,14,0.1) 0%,transparent 65%);opacity:0;transition:opacity 0.35s}
+.sc:hover{background:var(--card)}
+.sc:hover::before{transform:scaleX(1)}
+.sc:hover::after{opacity:1}
+.scn{font-family:'Bebas Neue',sans-serif;font-size:11px;letter-spacing:0.12em;color:var(--accent);margin-bottom:16px;display:block}
+.sci{font-size:26px;margin-bottom:12px;display:block;transition:transform 0.3s}
+.sc:hover .sci{transform:scale(1.18) rotate(-6deg)}
+.sct{font-family:'Bebas Neue',sans-serif;font-size:clamp(18px,2.5vw,22px);letter-spacing:0.04em;color:#fff;margin-bottom:9px}
+.scd{font-size:13px;font-weight:300;color:var(--muted);line-height:1.7}
+.stags{display:flex;flex-wrap:wrap;gap:5px;margin-top:16px}
+.stag{font-size:9px;font-weight:700;text-transform:uppercase;letter-spacing:0.09em;padding:3px 8px;border-radius:2px;background:rgba(232,57,14,0.08);color:var(--accent);border:1px solid rgba(232,57,14,0.15);transition:all 0.2s}
+.sc:hover .stag{background:rgba(232,57,14,0.15);border-color:rgba(232,57,14,0.3)}
+
+/* ============================
+   POR QUÉ — tech bg
+============================ */
+#porque{
+  background:
+    radial-gradient(ellipse 600px 400px at 0% 50%,rgba(232,57,14,0.08) 0%,transparent 65%),
+    var(--bg);
+}
+.pqlay{display:grid;grid-template-columns:1fr 1fr;gap:clamp(40px,6vw,80px);align-items:center;margin-top:52px}
+.pqbox{background:var(--card);border:1px solid var(--border2);border-radius:3px;padding:clamp(24px,3vw,32px);position:relative;overflow:hidden}
+.pqbox::after{content:'';position:absolute;top:0;left:0;bottom:0;width:2px;background:linear-gradient(180deg,var(--accent),var(--accent2),transparent)}
+.pqbig{font-family:'Bebas Neue',sans-serif;font-size:clamp(60px,8vw,90px);line-height:1;color:var(--accent);opacity:0.09;position:absolute;top:-4px;right:14px;animation:fn 6s ease-in-out infinite}
+@keyframes fn{0%,100%{transform:translateY(0)}50%{transform:translateY(-8px)}}
+.pqm{margin-bottom:22px;padding-bottom:22px;border-bottom:1px solid var(--border)}
+.pqm:last-child{margin-bottom:0;padding-bottom:0;border-bottom:none}
+.pqmn{font-family:'Bebas Neue',sans-serif;font-size:clamp(34px,4vw,44px);letter-spacing:0.02em;color:#fff;line-height:1;margin-bottom:3px}
+.pqmn span{color:var(--accent)}
+.pqml{font-size:12px;color:var(--muted);font-weight:300}
+.pqlist{list-style:none;display:flex;flex-direction:column;gap:16px}
+.pqi{display:flex;gap:13px;align-items:flex-start;transition:transform 0.25s;padding:12px;border-radius:6px;transition:all 0.25s}
+.pqi:hover{transform:translateX(4px);background:rgba(232,57,14,0.04)}
+.pqic{width:36px;height:36px;flex-shrink:0;background:rgba(232,57,14,0.08);border:1px solid rgba(232,57,14,0.2);border-radius:3px;display:grid;place-items:center;font-size:15px;transition:all 0.25s}
+.pqi:hover .pqic{background:rgba(232,57,14,0.16);box-shadow:0 0 12px rgba(232,57,14,0.25)}
+.pqit{font-size:14px;font-weight:600;color:#fff;margin-bottom:3px}
+.pqid{font-size:12px;color:var(--muted);font-weight:300;line-height:1.6}
+
+/* ============================
+   PROCESO
+============================ */
+#proceso{
+  background:
+    radial-gradient(ellipse 700px 400px at 50% 100%,rgba(232,57,14,0.07) 0%,transparent 65%),
+    var(--bg2);
+}
+.prsteps{display:grid;grid-template-columns:repeat(5,1fr);gap:0;margin-top:52px;position:relative}
+.prline{position:absolute;top:26px;left:10%;right:10%;height:1px;background:linear-gradient(90deg,transparent,rgba(232,57,14,0.35),rgba(232,57,14,0.35),transparent);overflow:hidden}
+.prline::after{content:'';position:absolute;top:0;left:-60%;width:60%;height:100%;background:linear-gradient(90deg,transparent,rgba(232,57,14,0.9),transparent);animation:ls 3s ease-in-out infinite}
+@keyframes ls{0%{left:-60%}100%{left:110%}}
+.prstep{padding:0 clamp(8px,1.5vw,16px);text-align:center}
+.prn{width:52px;height:52px;border-radius:50%;background:var(--bg);border:1px solid var(--border2);display:grid;place-items:center;margin:0 auto 16px;font-family:'Bebas Neue',sans-serif;font-size:19px;color:var(--accent);position:relative;z-index:1;transition:all 0.35s cubic-bezier(0.16,1,0.3,1)}
+.prstep:hover .prn{background:var(--accent);color:#fff;border-color:var(--accent);box-shadow:0 0 0 6px rgba(232,57,14,0.14),0 0 22px rgba(232,57,14,0.45);transform:scale(1.12)}
+.prt{font-family:'Bebas Neue',sans-serif;font-size:clamp(14px,1.8vw,17px);letter-spacing:0.04em;color:#fff;margin-bottom:7px}
+.prd{font-size:12px;color:var(--muted);font-weight:300;line-height:1.6}
+
+/* ============================
+   CASOS
+============================ */
+#casos{background:var(--bg)}
+.csgrid{display:grid;grid-template-columns:repeat(3,1fr);gap:1px;background:var(--border);border:1px solid var(--border);margin-top:52px}
+.cc{background:var(--bg2);padding:clamp(24px,3vw,32px) clamp(20px,2.5vw,24px);transition:background 0.3s;position:relative;overflow:hidden}
+.cc::before{content:'';position:absolute;bottom:0;left:0;right:0;height:2px;background:linear-gradient(90deg,var(--accent),var(--accent2),transparent);transform:scaleX(0);transform-origin:left;transition:transform 0.4s cubic-bezier(0.16,1,0.3,1)}
+.cc:hover{background:var(--card)}
+.cc:hover::before{transform:scaleX(1)}
+.ccg{font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:0.12em;color:var(--accent);margin-bottom:12px;display:block}
+.ccr{font-family:'Bebas Neue',sans-serif;font-size:clamp(40px,5vw,52px);letter-spacing:0.02em;color:#fff;line-height:1;margin-bottom:3px;transition:transform 0.3s}
+.cc:hover .ccr{transform:scale(1.05)}
+.ccr span{color:var(--accent)}
+.ccm{font-size:12px;color:var(--muted);margin-bottom:16px;font-weight:300}
+.ccd{font-size:12px;color:var(--text);line-height:1.65;font-weight:300;padding-top:16px;border-top:1px solid var(--border)}
+
+/* ============================
+   CONTACTO
+============================ */
+#contacto{
+  background:
+    radial-gradient(ellipse 800px 600px at 50% 0%,rgba(232,57,14,0.09) 0%,transparent 65%),
+    var(--bg2);
+}
+.ctlay{display:grid;grid-template-columns:1fr 1fr;gap:clamp(36px,6vw,72px);align-items:start;margin-top:52px}
+.cti h3{font-family:'Bebas Neue',sans-serif;font-size:clamp(22px,3vw,28px);letter-spacing:0.04em;color:#fff;margin-bottom:12px}
+.cti p{font-size:clamp(13px,2vw,14px);color:var(--muted);font-weight:300;line-height:1.75;margin-bottom:24px}
+.ctit{display:flex;align-items:center;gap:12px;margin-bottom:16px;transition:transform 0.22s;cursor:default}
+.ctit:hover{transform:translateX(4px)}
+.ctico{width:36px;height:36px;flex-shrink:0;background:rgba(232,57,14,0.08);border:1px solid rgba(232,57,14,0.2);border-radius:3px;display:grid;place-items:center;font-size:15px;transition:all 0.22s}
+.ctit:hover .ctico{background:rgba(232,57,14,0.16);box-shadow:0 0 12px rgba(232,57,14,0.22)}
+.ctil{font-size:10px;color:var(--muted);text-transform:uppercase;letter-spacing:0.1em;margin-bottom:2px}
+.ctiv{font-size:13px;color:var(--text);font-weight:500}
+.fcard{background:var(--card);border:1px solid var(--border2);border-radius:3px;padding:clamp(24px,3vw,32px);position:relative;overflow:hidden}
+.fcard::before{content:'';position:absolute;top:0;left:0;right:0;height:2px;background:linear-gradient(90deg,var(--accent),var(--accent2),transparent)}
+.fg{margin-bottom:16px}
+.fl{display:block;font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:0.1em;color:var(--muted);margin-bottom:6px}
+.fi{width:100%;background:var(--surface);border:1px solid var(--border2);border-radius:3px;padding:12px 14px;font-size:14px;color:#fff;font-family:'DM Sans',sans-serif;outline:none;transition:all 0.25s}
+.fi:focus{border-color:var(--accent);box-shadow:0 0 0 3px rgba(232,57,14,0.09)}
+.fi::placeholder{color:var(--muted)}
+textarea.fi{resize:vertical;min-height:100px}
+.frow{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+
+/* FOOTER */
+footer{background:var(--bg);border-top:1px solid var(--border);padding:36px 6%;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:16px}
+.ftl{font-family:'Bebas Neue',sans-serif;font-size:19px;letter-spacing:0.08em;color:#fff}
+.ftl span{color:var(--accent)}
+.ftlnks{display:flex;gap:22px;list-style:none;flex-wrap:wrap}
+.ftlnks a{font-size:11px;color:var(--muted);text-decoration:none;transition:color 0.2s;text-transform:uppercase;letter-spacing:0.08em}
+.ftlnks a:hover{color:var(--accent)}
+.ftc{font-size:11px;color:var(--muted)}
+
+/* ============================
+   MOBILE RESPONSIVE
+============================ */
+@media(max-width:900px){
+  .srv-grid{grid-template-columns:repeat(2,1fr)}
+  .prsteps{grid-template-columns:repeat(3,1fr);gap:16px}
+  .prline{display:none}
+  .csgrid{grid-template-columns:repeat(2,1fr)}
+}
+
+@media(max-width:640px){
+  nav{padding:0 4%;height:62px}
+  .nlinks{display:none}
+  .nmb{display:block}
+
+  .hero{padding:90px 4% 70px;min-height:100svh}
+  .hero h1{font-size:clamp(48px,13vw,72px)}
+  .hstats{gap:20px;margin-top:40px;padding-top:28px}
+  .hsn{font-size:36px}
+
+  .sp{padding:60px 4%}
+
+  .srv-grid{grid-template-columns:1fr}
+  .prsteps{grid-template-columns:1fr 1fr;gap:14px}
+  .csgrid{grid-template-columns:1fr}
+  .pqlay{grid-template-columns:1fr;gap:28px}
+  .ctlay{grid-template-columns:1fr;gap:28px}
+  .frow{grid-template-columns:1fr}
+
+  footer{flex-direction:column;align-items:flex-start;gap:14px}
+  .ftlnks{gap:14px}
+}
+
+@media(max-width:380px){
+  .hero h1{font-size:44px}
+  .ctas{flex-direction:column;align-items:flex-start}
+  .btnp,.btng{width:100%;text-align:center}
+}
 </style>
 </head>
 <body>
-<div class="bg-glow"></div>
-<div class="content">
 
-  <div class="header">
-    <a href="index.html" class="logo"><div class="logo-mark">⚡</div> Novu 360</a>
-    <div class="refresh-btn" id="refreshBtn" onclick="loadDashboard()" title="Actualizar">↻</div>
-  </div>
+<canvas id="pc"></canvas>
+<div class="cg" id="cg"></div>
 
-  <!-- STATUS BAR -->
-  <div class="status-bar" id="statusBar">
-    <div class="status-left">
-      <div class="status-dot" id="statusDot"></div>
-      <div>
-        <div class="status-text" id="statusText">Cargando...</div>
-        <div class="status-sub" id="statusSub"></div>
-      </div>
-    </div>
-    <div class="status-right" id="statusTime"></div>
-  </div>
-
-  <!-- META SEMANAL -->
-  <div class="meta-card" id="metaCard">
-    <div class="meta-header">
-      <div>
-        <div class="meta-title">📅 Meta semanal</div>
-        <div style="font-size:11px;color:var(--muted);margin-top:2px;" id="metaSub">0 de 50 prospectos</div>
-      </div>
-      <div class="meta-pct" id="metaPct">0%</div>
-    </div>
-    <div class="meta-bar-track">
-      <div class="meta-bar-fill" id="metaFill" style="width:0%"></div>
-    </div>
-    <div class="meta-sub" id="metaMsg">Cargando datos...</div>
-  </div>
-
-  <!-- STATS GRID -->
-  <div class="stats-grid" style="margin-bottom:10px;">
-    <div class="stat-card">
-      <span class="stat-icon">📋</span>
-      <span class="stat-num" id="statTotal">—</span>
-      <span class="stat-label">Total prospectos</span>
-    </div>
-    <div class="stat-card">
-      <span class="stat-icon">📞</span>
-      <span class="stat-num green" id="statLlamadas">—</span>
-      <span class="stat-label">Llamadas agendadas</span>
-    </div>
-  </div>
-  <div class="stats-grid cols3" style="margin-bottom:16px;">
-    <div class="stat-card">
-      <span class="stat-icon">💬</span>
-      <span class="stat-num" id="statRespuesta">—</span>
-      <span class="stat-label">Tasa respuesta</span>
-    </div>
-    <div class="stat-card">
-      <span class="stat-icon">📅</span>
-      <span class="stat-num" id="statHoy">—</span>
-      <span class="stat-label">Hoy</span>
-    </div>
-    <div class="stat-card">
-      <span class="stat-icon">🏆</span>
-      <span class="stat-num" id="statSemana">—</span>
-      <span class="stat-label">Esta semana</span>
-    </div>
-  </div>
-
-  <!-- PROSPECTORAS -->
-  <div class="dash-card">
-    <h3>👥 Por prospectora</h3>
-    <div id="prospectorasList">
-      <div class="skeleton" style="height:40px;margin-bottom:8px;"></div>
-      <div class="skeleton" style="height:40px;"></div>
-    </div>
-  </div>
-
-  <!-- CANALES -->
-  <div class="dash-card">
-    <h3>📡 Por canal</h3>
-    <div id="canalesList">
-      <div class="skeleton" style="height:32px;margin-bottom:6px;"></div>
-      <div class="skeleton" style="height:32px;margin-bottom:6px;"></div>
-      <div class="skeleton" style="height:32px;"></div>
-    </div>
-  </div>
-
-  <!-- ACCESOS -->
-  <p class="sec-label">Herramientas</p>
-
-  <a href="novu360-onboarding.html" class="nav-card">
-    <div class="nav-icon-box icon-green">📚</div>
-    <div class="nav-body">
-      <span class="nav-badge badge-green">Guía</span>
-      <h3>Cómo funciona</h3>
-      <p>Módulos de entrenamiento para prospectar</p>
-    </div>
-    <div class="nav-arrow">→</div>
-  </a>
-
-  <a href="novu360-prospector.html" class="nav-card">
-    <div class="nav-icon-box icon-purple">✦</div>
-    <div class="nav-body">
-      <span class="nav-badge badge-purple">IA integrada</span>
-      <h3>Prospector IA</h3>
-      <p>Genera mensajes y registra prospectos</p>
-    </div>
-    <div class="nav-arrow">→</div>
-  </a>
-
+<!-- MOBILE MENU -->
+<div class="mm" id="mm">
+  <button class="mmx" onclick="toggleMenu()">✕</button>
+  <a href="#servicios" onclick="toggleMenu()">Servicios</a>
+  <a href="#porque" onclick="toggleMenu()">Nosotros</a>
+  <a href="#proceso" onclick="toggleMenu()">Proceso</a>
+  <a href="#casos" onclick="toggleMenu()">Casos</a>
+  <a href="#contacto" onclick="toggleMenu()">Contacto</a>
+  <a href="novu360-hub.html" style="color:var(--accent)">Iniciar sesión</a>
 </div>
 
-<nav class="bottom-nav">
-  <a href="index.html" class="nav-item active"><div class="nv-icon">🏠</div><div class="nv-label">Inicio</div></a>
-  <a href="novu360-onboarding.html" class="nav-item"><div class="nv-icon">📚</div><div class="nv-label">Guía</div></a>
-  <a href="novu360-prospector.html" class="nav-item"><div class="nv-icon">✦</div><div class="nv-label">Prospector</div></a>
+<!-- NAV -->
+<nav id="nav">
+  <a href="#" class="nlogo">
+    <div class="nlm">N</div>
+    <div class="nlt">NOVU <span>360</span></div>
+  </a>
+  <ul class="nlinks">
+    <li><a href="#servicios">Servicios</a></li>
+    <li><a href="#porque">Nosotros</a></li>
+    <li><a href="#proceso">Proceso</a></li>
+    <li><a href="#casos">Casos</a></li>
+    <li><a href="#contacto">Contacto</a></li>
+    <li><a href="novu360-hub.html" class="nli"><span>Iniciar sesión</span></a></li>
+  </ul>
+  <button class="nmb" onclick="toggleMenu()">☰</button>
 </nav>
 
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-img"></div>
+  <div class="hero-overlay"></div>
+  <div class="hero-glow"></div>
+  <div class="hero-scan"></div>
+  <div class="hero-grid"></div>
+  <div class="hero-c">
+    <div class="htag">Agencia Digital con IA · México</div>
+    <h1>
+      <span class="ln">MARKETING</span>
+      <span class="ln"><span class="acc">DIGITAL</span></span>
+      <span class="ln"><span class="out">INTELIGENTE</span></span>
+    </h1>
+    <p class="hdesc">Impulsamos negocios locales en México con estrategias de marketing digital respaldadas por inteligencia artificial. <span class="tw-wrap"><span id="tw"></span><span class="tw-cur"></span></span></p>
+    <div class="ctas">
+      <a href="#contacto" class="btnp">Quiero más clientes →</a>
+      <a href="#servicios" class="btng">Ver servicios</a>
+    </div>
+    <div class="hstats">
+      <div><span class="hsn"><span class="cnt" data-t="50">0</span><span>+</span></span><div class="hsl">Clientes atendidos</div></div>
+      <div><span class="hsn"><span class="cnt" data-t="3">0</span><span>x</span></span><div class="hsl">ROAS promedio</div></div>
+      <div><span class="hsn"><span class="cnt" data-t="98">0</span><span>%</span></span><div class="hsl">Satisfacción</div></div>
+    </div>
+  </div>
+  <div class="scri"><div class="scrl"></div>Scroll</div>
+</section>
+
+<!-- SERVICIOS -->
+<section class="sp" id="servicios">
+  <div class="slbl rv">Lo que hacemos</div>
+  <h2 class="sttl rv">NUESTROS<br><span>SERVICIOS</span></h2>
+  <p class="sdesc rv">Soluciones digitales completas para negocios locales que quieren crecer de verdad.</p>
+  <div class="srv-grid stg">
+    <div class="sc"><span class="scn">01</span><span class="sci">📢</span><div class="sct">Meta Ads</div><p class="scd">Campañas en Facebook e Instagram diseñadas para generar leads reales y ventas medibles.</p><div class="stags"><span class="stag">Facebook</span><span class="stag">Instagram</span><span class="stag">Retargeting</span></div></div>
+    <div class="sc"><span class="scn">02</span><span class="sci">🗺️</span><div class="sct">Google Local</div><p class="scd">Posicionamiento en Google Maps para que los clientes de tu zona te encuentren primero.</p><div class="stags"><span class="stag">Google Maps</span><span class="stag">SEO Local</span><span class="stag">Reseñas</span></div></div>
+    <div class="sc"><span class="scn">03</span><span class="sci">🌐</span><div class="sct">Landing Pages</div><p class="scd">Sitios web profesionales optimizados para convertir visitantes en clientes reales.</p><div class="stags"><span class="stag">Diseño web</span><span class="stag">Conversión</span><span class="stag">WordPress</span></div></div>
+    <div class="sc"><span class="scn">04</span><span class="sci">📱</span><div class="sct">Social Media</div><p class="scd">Gestión profesional de redes sociales con contenido estratégico y alineado a tu marca.</p><div class="stags"><span class="stag">Instagram</span><span class="stag">TikTok</span><span class="stag">Facebook</span></div></div>
+    <div class="sc"><span class="scn">05</span><span class="sci">🧠</span><div class="sct">IA + Automatización</div><p class="scd">Integramos IA para automatizar procesos, personalizar mensajes y escalar resultados.</p><div class="stags"><span class="stag">Chatbots</span><span class="stag">Automatización</span><span class="stag">IA</span></div></div>
+    <div class="sc"><span class="scn">06</span><span class="sci">📊</span><div class="sct">Reportes</div><p class="scd">Reportes mensuales claros y accionables para que siempre sepas qué está funcionando.</p><div class="stags"><span class="stag">Dashboard</span><span class="stag">KPIs</span><span class="stag">Decisiones</span></div></div>
+  </div>
+</section>
+
+<!-- POR QUÉ -->
+<section class="sp" id="porque">
+  <div class="slbl rv">Por qué elegirnos</div>
+  <h2 class="sttl rv">NO SOMOS<br><span>OTRA AGENCIA</span></h2>
+  <div class="pqlay">
+    <div class="pqbox rvl">
+      <div class="pqbig">360</div>
+      <div class="pqm"><div class="pqmn">+3<span>x</span></div><div class="pqml">ROAS promedio en campañas de Meta Ads</div></div>
+      <div class="pqm"><div class="pqmn">-40<span>%</span></div><div class="pqml">Reducción en costo por lead vs mercado</div></div>
+      <div class="pqm"><div class="pqmn">72<span>h</span></div><div class="pqml">Tiempo de entrega de primera campaña</div></div>
+    </div>
+    <ul class="pqlist stg">
+      <li class="pqi"><div class="pqic">🧠</div><div><div class="pqit">IA en cada proceso</div><p class="pqid">Usamos inteligencia artificial para analizar, optimizar y escalar cada estrategia.</p></div></li>
+      <li class="pqi"><div class="pqic">📍</div><div><div class="pqit">Especialistas en mercado mexicano</div><p class="pqid">Conocemos el comportamiento del consumidor local y cómo comunicarles de forma efectiva.</p></div></li>
+      <li class="pqi"><div class="pqic">📊</div><div><div class="pqit">Resultados medibles siempre</div><p class="pqid">Cada peso invertido se rastrea. Reportes con métricas reales y acciones concretas.</p></div></li>
+      <li class="pqi"><div class="pqic">🤝</div><div><div class="pqit">Atención personalizada</div><p class="pqid">Tienes un Account Manager dedicado. No eres un número — somos tu equipo de marketing.</p></div></li>
+    </ul>
+  </div>
+</section>
+
+<!-- PROCESO -->
+<section class="sp" id="proceso">
+  <div class="slbl rv">Cómo trabajamos</div>
+  <h2 class="sttl rv">NUESTRO<br><span>PROCESO</span></h2>
+  <div class="prsteps stg" style="position:relative">
+    <div class="prline"></div>
+    <div class="prstep"><div class="prn">01</div><div class="prt">Brief</div><p class="prd">Conocemos tu negocio, objetivos y público ideal a fondo.</p></div>
+    <div class="prstep"><div class="prn">02</div><div class="prt">Estrategia</div><p class="prd">Plan personalizado con canales, presupuesto y métricas.</p></div>
+    <div class="prstep"><div class="prn">03</div><div class="prt">Producción</div><p class="prd">Creativos, copies y campañas configuradas con IA.</p></div>
+    <div class="prstep"><div class="prn">04</div><div class="prt">Lanzamiento</div><p class="prd">Activamos y monitoreamos en tiempo real desde el día 1.</p></div>
+    <div class="prstep"><div class="prn">05</div><div class="prt">Reporte</div><p class="prd">Reporte mensual con resultados y próximos pasos.</p></div>
+  </div>
+</section>
+
+<!-- CASOS -->
+<section class="sp" id="casos">
+  <div class="slbl rv">Resultados reales</div>
+  <h2 class="sttl rv">CASOS DE<br><span>ÉXITO</span></h2>
+  <div class="csgrid stg">
+    <div class="cc"><span class="ccg">Restaurante · CDMX</span><div class="ccr">+<span>280</span>%</div><div class="ccm">Aumento en reservaciones online</div><p class="ccd">Meta Ads + Google Maps que triplicó las reservaciones en 60 días con $3,000 MXN mensuales.</p></div>
+    <div class="cc"><span class="ccg">Consultorio Dental · Monterrey</span><div class="ccr"><span>$28</span></div><div class="ccm">Costo por lead de nueva consulta</div><p class="ccd">CPL reducido de $180 a $28 en 45 días manteniendo la calidad de los pacientes.</p></div>
+    <div class="cc"><span class="ccg">Academia Fitness · Guadalajara</span><div class="ccr">3.<span>8</span>x</div><div class="ccm">ROAS en temporada baja</div><p class="ccd">Estrategia que mantuvo ROAS de 3.8x incluso en los meses más difíciles del sector.</p></div>
+  </div>
+</section>
+
+<!-- CONTACTO -->
+<section class="sp" id="contacto">
+  <div class="slbl rv">Hablemos</div>
+  <h2 class="sttl rv">¿LISTO PARA<br><span>CRECER</span>?</h2>
+  <div class="ctlay">
+    <div class="cti rvl">
+      <h3>Cuéntanos sobre tu negocio</h3>
+      <p>Agenda una llamada gratuita de 30 minutos. Analizamos tu situación y te decimos exactamente qué podemos hacer por tu negocio.</p>
+      <div class="ctit"><div class="ctico">📧</div><div><div class="ctil">Email</div><div class="ctiv">hola@novu360.mx</div></div></div>
+      <div class="ctit"><div class="ctico">📱</div><div><div class="ctil">WhatsApp</div><div class="ctiv">+52 55 1234 5678</div></div></div>
+      <div class="ctit"><div class="ctico">📍</div><div><div class="ctil">Ubicación</div><div class="ctiv">Ciudad de México, México</div></div></div>
+    </div>
+    <div class="fcard rvr">
+      <div class="frow">
+        <div class="fg"><label class="fl">Nombre</label><input class="fi" type="text" placeholder="Tu nombre"></div>
+        <div class="fg"><label class="fl">Negocio</label><input class="fi" type="text" placeholder="Nombre de tu negocio"></div>
+      </div>
+      <div class="frow">
+        <div class="fg"><label class="fl">Email</label><input class="fi" type="email" placeholder="tu@email.com"></div>
+        <div class="fg"><label class="fl">WhatsApp</label><input class="fi" type="tel" placeholder="55 1234 5678"></div>
+      </div>
+      <div class="fg"><label class="fl">¿En qué podemos ayudarte?</label><textarea class="fi" placeholder="Cuéntanos sobre tu negocio y qué quieres lograr..."></textarea></div>
+      <button class="btnp" style="width:100%">Enviar mensaje →</button>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="ftl">NOVU <span>360</span></div>
+  <ul class="ftlnks">
+    <li><a href="#servicios">Servicios</a></li>
+    <li><a href="#proceso">Proceso</a></li>
+    <li><a href="#contacto">Contacto</a></li>
+    <li><a href="novu360-hub.html">Hub →</a></li>
+  </ul>
+  <div class="ftc">© 2025 Novu 360. Todos los derechos reservados.</div>
+</footer>
+
 <script>
-const SHEET_URL = 'https://script.google.com/macros/s/AKfycbxGJ18a5jwT3Mgyi67yPzd-A721ojHcPii7R-N3wg5XwGGdLVLHHYTh-hAiLHbslMU/exec';
-const META_SEMANAL = 50;
-const META_DIARIA = 10;
-
-const CANAL_ICONS = {
-  'Google Maps': '🗺️',
-  'Instagram': '📸',
-  'Facebook': '📘',
-  'TikTok': '🎵',
-  'Otro': '🔍',
-  '': '❓'
-};
-
-function getSemaforo(pct) {
-  if (pct >= 80) return 'green';
-  if (pct >= 40) return 'yellow';
-  return 'red';
+// PARTICLES
+const canvas=document.getElementById('pc');
+const ctx=canvas.getContext('2d');
+let W,H,pts=[];
+function resize(){W=canvas.width=window.innerWidth;H=canvas.height=window.innerHeight}
+class Pt{
+  constructor(){this.reset()}
+  reset(){this.x=Math.random()*W;this.y=Math.random()*H;this.r=Math.random()*1.4+0.3;this.vx=(Math.random()-.5)*0.35;this.vy=(Math.random()-.5)*0.35;this.o=Math.random()*0.45+0.1;this.c=Math.random()>.88?'#e8390e':'#fff'}
+  step(){this.x+=this.vx;this.y+=this.vy;if(this.x<0||this.x>W||this.y<0||this.y>H)this.reset()}
+  draw(){ctx.globalAlpha=this.o;ctx.fillStyle=this.c;ctx.beginPath();ctx.arc(this.x,this.y,this.r,0,Math.PI*2);ctx.fill()}
 }
-
-function getSemaforoMsg(pct, semana) {
-  if (pct >= 100) return `🏆 ¡Meta semanal cumplida! ${semana} prospectos esta semana.`;
-  if (pct >= 80)  return `🔥 ¡Muy bien! Casi en meta — ${META_SEMANAL - semana} prospectos más.`;
-  if (pct >= 40)  return `⚡ Vamos a mitad de camino — hay que acelerar esta semana.`;
-  if (pct > 0)    return `⚠️ Apenas arrancando — necesitamos ${META_SEMANAL - semana} prospectos más esta semana.`;
-  return `🚀 Sin prospectos esta semana aún — ¡hoy es un buen día para arrancar!`;
-}
-
-function getTodayStr() {
-  return new Date().toLocaleDateString('es-MX');
-}
-
-function getWeekStart() {
-  const d = new Date();
-  const day = d.getDay();
-  const diff = d.getDate() - day + (day === 0 ? -6 : 1);
-  return new Date(d.setDate(diff));
-}
-
-async function loadDashboard() {
-  const btn = document.getElementById('refreshBtn');
-  btn.classList.add('spinning');
-
-  try {
-    const res = await fetch(SHEET_URL + '?action=getData', { method: 'GET' });
-    const data = await res.json();
-    renderDashboard(data.rows || []);
-  } catch(e) {
-    // If fetch fails, show error state
-    renderError();
+function init(){pts=[];const n=Math.min(Math.floor(W*H/9000),120);for(let i=0;i<n;i++)pts.push(new Pt())}
+function loop(){
+  ctx.clearRect(0,0,W,H);
+  for(let i=0;i<pts.length;i++){
+    for(let j=i+1;j<pts.length;j++){
+      const dx=pts[i].x-pts[j].x,dy=pts[i].y-pts[j].y,d=Math.sqrt(dx*dx+dy*dy);
+      if(d<110){ctx.globalAlpha=(1-d/110)*0.07;ctx.strokeStyle='#e8390e';ctx.lineWidth=0.5;ctx.beginPath();ctx.moveTo(pts[i].x,pts[i].y);ctx.lineTo(pts[j].x,pts[j].y);ctx.stroke()}
+    }
   }
-
-  btn.classList.remove('spinning');
-  document.getElementById('statusTime').textContent = 'Actualizado ' + new Date().toLocaleTimeString('es-MX', {hour:'2-digit',minute:'2-digit'});
+  pts.forEach(p=>{p.step();p.draw()});
+  requestAnimationFrame(loop);
 }
+resize();init();loop();
+window.addEventListener('resize',()=>{resize();init()});
 
-function renderDashboard(rows) {
-  const today = getTodayStr();
-  const weekStart = getWeekStart();
+// CURSOR GLOW
+const cg=document.getElementById('cg');
+if(cg){document.addEventListener('mousemove',e=>{cg.style.left=e.clientX+'px';cg.style.top=e.clientY+'px'})}
 
-  // Filter rows (skip header)
-  const data = rows.filter(r => r[0] && r[0] !== 'Fecha');
+// NAV SCROLL
+window.addEventListener('scroll',()=>{document.getElementById('nav').classList.toggle('scrolled',scrollY>50)});
 
-  // TOTAL
-  const total = data.length;
-  document.getElementById('statTotal').textContent = total;
+// MOBILE MENU
+function toggleMenu(){document.getElementById('mm').classList.toggle('open')}
 
-  // HOY
-  const hoy = data.filter(r => r[0] === today).length;
-  document.getElementById('statHoy').textContent = hoy;
-  const statHoyEl = document.getElementById('statHoy');
-  statHoyEl.className = 'stat-num ' + getSemaforo((hoy / META_DIARIA) * 100);
+// SMOOTH SCROLL
+document.querySelectorAll('a[href^="#"]').forEach(a=>{
+  a.addEventListener('click',e=>{const h=a.getAttribute('href');if(h==='#')return;e.preventDefault();const t=document.querySelector(h);if(t)t.scrollIntoView({behavior:'smooth'})});
+});
 
-  // SEMANA
-  const semana = data.filter(r => {
-    const parts = r[0]?.split('/');
-    if (!parts || parts.length < 3) return false;
-    const d = new Date(parts[2], parts[1]-1, parts[0]);
-    return d >= weekStart;
-  }).length;
-  document.getElementById('statSemana').textContent = semana;
+// SCROLL REVEAL
+const obs=new IntersectionObserver(entries=>{
+  entries.forEach(e=>{if(e.isIntersecting){e.target.classList.add('v');obs.unobserve(e.target)}});
+},{threshold:0.1});
+document.querySelectorAll('.rv,.rvl,.rvr,.stg').forEach(el=>obs.observe(el));
 
-  // META SEMANAL
-  const metaPct = Math.min(Math.round((semana / META_SEMANAL) * 100), 100);
-  const color = getSemaforo(metaPct);
-  document.getElementById('metaPct').textContent = metaPct + '%';
-  document.getElementById('metaPct').className = 'meta-pct ' + color;
-  document.getElementById('metaSub').textContent = `${semana} de ${META_SEMANAL} prospectos esta semana`;
-  document.getElementById('metaFill').style.width = metaPct + '%';
-  document.getElementById('metaFill').className = 'meta-bar-fill ' + color;
-  document.getElementById('metaMsg').textContent = getSemaforoMsg(metaPct, semana);
-
-  // STATUS BAR
-  const dot = document.getElementById('statusDot');
-  dot.className = 'status-dot ' + color;
-  const msgs = { green:'¡Vamos muy bien! 🔥', yellow:'Ritmo moderado ⚡', red:'Hay que acelerar ⚠️' };
-  document.getElementById('statusText').textContent = msgs[color];
-  document.getElementById('statusSub').textContent = `${hoy} prospectos hoy · Meta diaria: ${META_DIARIA}`;
-
-  // LLAMADAS
-  const llamadas = data.filter(r => r[14] === 'Sí').length;
-  document.getElementById('statLlamadas').textContent = llamadas;
-
-  // TASA RESPUESTA
-  const conRespuesta = data.filter(r => r[13] && r[13] !== 'Sin respuesta aún' && r[13] !== '').length;
-  const tasa = total > 0 ? Math.round((conRespuesta / total) * 100) : 0;
-  const tasaEl = document.getElementById('statRespuesta');
-  tasaEl.textContent = tasa + '%';
-  tasaEl.className = 'stat-num ' + getSemaforo(tasa);
-
-  // PROSPECTORAS
-  const prosp = {};
-  data.forEach(r => {
-    const name = r[1]?.trim() || 'Sin nombre';
-    prosp[name] = (prosp[name] || 0) + 1;
-  });
-  const maxProsp = Math.max(...Object.values(prosp), 1);
-  const prospHtml = Object.entries(prosp)
-    .sort((a,b) => b[1]-a[1])
-    .map(([name, count]) => {
-      const pct = Math.round((count / maxProsp) * 100);
-      const initials = name.split(' ').map(w=>w[0]).join('').substring(0,2).toUpperCase();
-      return `<div class="prospectora-row">
-        <div class="prosp-avatar">${initials}</div>
-        <div class="prosp-info">
-          <div class="prosp-name">${name}</div>
-          <div class="prosp-bar-track"><div class="prosp-bar-fill" style="width:${pct}%"></div></div>
-        </div>
-        <div class="prosp-count">${count}</div>
-      </div>`;
-    }).join('');
-  document.getElementById('prospectorasList').innerHTML = prospHtml || '<div class="empty-state"><p>Sin datos aún</p></div>';
-
-  // CANALES
-  const canales = {};
-  data.forEach(r => {
-    const canal = r[6]?.trim() || 'Otro';
-    canales[canal] = (canales[canal] || 0) + 1;
-  });
-  const maxCanal = Math.max(...Object.values(canales), 1);
-  const canalesHtml = Object.entries(canales)
-    .sort((a,b) => b[1]-a[1])
-    .map(([canal, count]) => {
-      const pct = Math.round((count / maxCanal) * 100);
-      const icon = CANAL_ICONS[canal] || '🔍';
-      return `<div class="canal-row">
-        <div class="canal-icon">${icon}</div>
-        <div class="canal-name">${canal}</div>
-        <div class="canal-bar-track"><div class="canal-bar-fill" style="width:${pct}%"></div></div>
-        <div class="canal-count">${count}</div>
-      </div>`;
-    }).join('');
-  document.getElementById('canalesList').innerHTML = canalesHtml || '<div class="empty-state"><p>Sin datos aún</p></div>';
+// COUNTERS
+function animCnt(el,target){
+  let n=0;const s=target/(1800/16);
+  const t=setInterval(()=>{n+=s;if(n>=target){n=target;clearInterval(t)}el.textContent=Math.floor(n)},16);
 }
+const cobs=new IntersectionObserver(entries=>{
+  entries.forEach(e=>{if(e.isIntersecting){animCnt(e.target,parseInt(e.target.dataset.t));cobs.unobserve(e.target)}});
+},{threshold:0.5});
+document.querySelectorAll('.cnt').forEach(el=>cobs.observe(el));
 
-function renderError() {
-  document.getElementById('statusText').textContent = 'Sin conexión al Sheet';
-  document.getElementById('statusSub').textContent = 'Actualiza el Apps Script';
-  document.getElementById('statusDot').className = 'status-dot red';
-  document.getElementById('prospectorasList').innerHTML = '<div class="empty-state"><p>No se pudieron cargar los datos</p></div>';
-  document.getElementById('canalesList').innerHTML = '<div class="empty-state"><p>No se pudieron cargar los datos</p></div>';
+// TYPEWRITER
+const phrases=['Más clientes.','Más visibilidad.','Más resultados.','Marketing con IA.'];
+let pi=0,ci=0,del=false;
+const te=document.getElementById('tw');
+function tw(){
+  const p=phrases[pi];
+  if(!del){te.textContent=p.substring(0,++ci);if(ci===p.length){del=true;setTimeout(tw,1800);return}}
+  else{te.textContent=p.substring(0,--ci);if(ci===0){del=false;pi=(pi+1)%phrases.length}}
+  setTimeout(tw,del?48:78);
 }
-
-// Load on start
-loadDashboard();
+setTimeout(tw,2200);
 </script>
 </body>
 </html>
