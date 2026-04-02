@@ -1,0 +1,462 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="es"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Novu 360 · SEO Local</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&amp;family=Inter:wght@400;500;600&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "on-secondary": "#303030",
+                        "outline-variant": "#3c4a46",
+                        "on-tertiary-container": "#752509",
+                        "primary-container": "#00c2a8",
+                        "on-secondary-container": "#b5b5b5",
+                        "secondary": "#c6c6c6",
+                        "error": "#ffb4ab",
+                        "inverse-on-surface": "#2b3230",
+                        "secondary-fixed-dim": "#c6c6c6",
+                        "secondary-fixed": "#e2e2e2",
+                        "on-tertiary": "#5e1700",
+                        "on-tertiary-fixed": "#3a0b00",
+                        "primary-fixed-dim": "#41ddc2",
+                        "on-primary-fixed": "#00201b",
+                        "on-primary": "#00382f",
+                        "background": "#0e1513",
+                        "surface-container": "#1a211f",
+                        "on-surface": "#dde4e1",
+                        "on-secondary-fixed-variant": "#474747",
+                        "tertiary": "#ffb6a0",
+                        "on-primary-container": "#00493e",
+                        "surface-container-lowest": "#09100e",
+                        "inverse-primary": "#006b5c",
+                        "on-error-container": "#ffdad6",
+                        "inverse-surface": "#dde4e1",
+                        "surface-container-highest": "#2f3634",
+                        "surface-bright": "#333b38",
+                        "primary": "#42dec3",
+                        "tertiary-fixed-dim": "#ffb59e",
+                        "primary-fixed": "#65fade",
+                        "surface-dim": "#0e1513",
+                        "outline": "#85948f",
+                        "surface-variant": "#2f3634",
+                        "tertiary-container": "#ff8d69",
+                        "on-tertiary-fixed-variant": "#7e2c0f",
+                        "surface": "#0e1513",
+                        "on-error": "#690005",
+                        "on-background": "#dde4e1",
+                        "on-secondary-fixed": "#1b1b1b",
+                        "on-surface-variant": "#bbcac4",
+                        "error-container": "#93000a",
+                        "tertiary-fixed": "#ffdbd0",
+                        "on-primary-fixed-variant": "#005045",
+                        "surface-tint": "#41ddc2",
+                        "secondary-container": "#474747",
+                        "surface-container-low": "#161d1b",
+                        "surface-container-high": "#242b29"
+                    },
+                    fontFamily: {
+                        "headline": ["Manrope"],
+                        "body": ["Inter"],
+                        "label": ["Inter"]
+                    },
+                    borderRadius: { "DEFAULT": "0.25rem", "lg": "0.5rem", "xl": "0.75rem", "full": "9999px" },
+                },
+            },
+        }
+    </script>
+<style>
+        body { background-color: #000000; font-family: 'Inter', sans-serif; }
+        h1, h2, h3, .font-headline { font-family: 'Manrope', sans-serif; }
+        .material-symbols-outlined { font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24; }
+        .custom-scrollbar::-webkit-scrollbar { width: 4px; }
+        .custom-scrollbar::-webkit-scrollbar-track { background: transparent; }
+        .custom-scrollbar::-webkit-scrollbar-thumb { background: #2f3634; border-radius: 10px; }
+    </style>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;700;800&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css">
+</head>
+<body class="text-on-surface">
+<!-- SideNavBar (Shared Component) -->
+<!-- SideNavBar - Novu 360 -->
+<aside class="bg-black antialiased h-screen w-64 fixed left-0 top-0 flex flex-col py-6 z-20" style="box-shadow: 4px 0 24px rgba(0,0,0,0.6)">
+  <div class="px-6 mb-8">
+    <a href="dashboard.html" class="text-white font-black tracking-widest text-xl block" style="color:#fff;text-decoration:none">Novu 360</a>
+    <div class="text-neutral-500 text-xs uppercase tracking-tighter mt-1 italic">INTELIGENCIA DE AGENCIA</div>
+  </div>
+  <button onclick="window.location.href='dashboard.html'" class="mx-6 mb-8 py-3 font-bold rounded-lg flex items-center justify-center gap-2 transition-transform active:scale-95 duration-150" style="background:linear-gradient(135deg,#00C2A8,#009984);color:#000">
+    <span class="material-symbols-outlined text-sm font-bold">add</span>
+    Nuevo Proyecto
+  </button>
+  <nav class="flex-1 space-y-1 overflow-y-auto">
+    <a class="text-neutral-400 hover:text-white px-4 py-3 flex items-center gap-3 transition-all hover:bg-white/5 rounded-lg mx-3" href="dashboard.html">
+      <span class="material-symbols-outlined">dashboard</span>
+      <span>Dashboard</span>
+    </a>
+<a class="text-neutral-400 hover:text-white px-4 py-3 flex items-center gap-3 transition-all hover:bg-white/5 rounded-lg mx-3" href="ventas.html">
+      <span class="material-symbols-outlined">trending_up</span>
+      <span>Ventas</span>
+    </a>
+<a class="text-neutral-400 hover:text-white px-4 py-3 flex items-center gap-3 transition-all hover:bg-white/5 rounded-lg mx-3" href="ads.html">
+      <span class="material-symbols-outlined">ads_click</span>
+      <span>Ads</span>
+    </a>
+<a class="text-neutral-400 hover:text-white px-4 py-3 flex items-center gap-3 transition-all hover:bg-white/5 rounded-lg mx-3" href="community.html">
+      <span class="material-symbols-outlined">forum</span>
+      <span>Community</span>
+    </a>
+<a class="bg-primary text-black rounded-lg mx-3 flex items-center px-4 py-3 gap-3 transition-all font-bold nav-active" href="seo.html">
+      <span class="material-symbols-outlined">search</span>
+      <span>SEO</span>
+    </a>
+<a class="text-neutral-400 hover:text-white px-4 py-3 flex items-center gap-3 transition-all hover:bg-white/5 rounded-lg mx-3" href="web.html">
+      <span class="material-symbols-outlined">language</span>
+      <span>Web</span>
+    </a>
+<a class="text-neutral-400 hover:text-white px-4 py-3 flex items-center gap-3 transition-all hover:bg-white/5 rounded-lg mx-3" href="portal-cliente.html">
+      <span class="material-symbols-outlined">group</span>
+      <span>Clientes</span>
+    </a>
+<a class="text-neutral-400 hover:text-white px-4 py-3 flex items-center gap-3 transition-all hover:bg-white/5 rounded-lg mx-3" href="finanzas.html">
+      <span class="material-symbols-outlined">payments</span>
+      <span>Finanzas</span>
+    </a>
+<a class="text-neutral-400 hover:text-white px-4 py-3 flex items-center gap-3 transition-all hover:bg-white/5 rounded-lg mx-3" href="aprobaciones.html">
+      <span class="material-symbols-outlined">fact_check</span>
+      <span>Aprobaciones</span>
+    </a>
+<a class="text-neutral-400 hover:text-white px-4 py-3 flex items-center gap-3 transition-all hover:bg-white/5 rounded-lg mx-3" href="onboarding.html">
+      <span class="material-symbols-outlined">rocket_launch</span>
+      <span>Onboarding</span>
+    </a>
+<a class="text-neutral-400 hover:text-white px-4 py-3 flex items-center gap-3 transition-all hover:bg-white/5 rounded-lg mx-3" href="cerebros.html">
+      <span class="material-symbols-outlined">psychology</span>
+      <span>Cerebros IA</span>
+    </a>
+  </nav>
+  <div class="mt-auto pt-4 space-y-1" style="border-top:1px solid rgba(255,255,255,0.05)">
+    <a class="text-neutral-400 hover:text-white px-7 py-3 flex items-center gap-3 transition-all hover:bg-white/5" href="#">
+      <span class="material-symbols-outlined">help</span>
+      <span>Soporte</span>
+    </a>
+    <a class="text-neutral-400 hover:text-white px-7 py-3 flex items-center gap-3 transition-all hover:bg-white/5" href="#">
+      <span class="material-symbols-outlined">person</span>
+      <span>Cuenta</span>
+    </a>
+  </div>
+</aside>
+<!-- TopNavBar (Shared Component) -->
+<header class="fixed top-0 right-0 w-[calc(100%-280px)] z-40 bg-zinc-950/80 backdrop-blur-md border-b border-zinc-800 flex justify-between items-center px-6 h-16 shadow-sm">
+<div class="flex items-center gap-4">
+<div class="bg-zinc-900 border border-zinc-800 rounded-lg px-3 py-1.5 flex items-center gap-2 cursor-pointer hover:bg-zinc-800 transition-all">
+<div class="w-6 h-6 rounded-full bg-teal-400 flex items-center justify-center text-[10px] text-black font-bold">SM</div>
+<span class="text-sm font-medium text-on-surface">Soluciones Médicas Integrales</span>
+<span class="material-symbols-outlined text-zinc-500 text-sm" data-icon="expand_more">expand_more</span>
+</div>
+</div>
+<div class="flex items-center gap-6">
+<div class="flex items-center gap-4 text-zinc-400">
+<span class="material-symbols-outlined hover:text-teal-400 cursor-pointer transition-colors" data-icon="notifications">notifications</span>
+<span class="material-symbols-outlined hover:text-teal-400 cursor-pointer transition-colors" data-icon="settings">settings</span>
+</div>
+<div class="w-8 h-8 rounded-full overflow-hidden border border-teal-400/30">
+<img class="w-full h-full object-cover" data-alt="Corporate professional headshot of a executive manager in a modern office setting" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDTjf_-d3x4_a22gIpEinTHSVgLhHyqZQARP1L2EbnH1EnfekHiee3V8zqK972vemPNS62rNRrvDl-kuLwIv-GF1Z2v1UK0Rq1azf06jS1D0k_cANk5J094c4bIHjF-NMyEjNQLqH4skd6m_cXVkXJ7Fqqet755TpQVyA-Kshhd00-65GFCZfvtz6_WzLo3fWg15xV1y_zJORAGMyO5dtAXSa-lKZehPW9nVmqgf-oWmXcn1MTRJZkMye0v_c5BULkeRUGZmo6ng38"/>
+</div>
+</div>
+</header>
+<!-- Main Content -->
+<main class="ml-[280px] mt-16 p-8 min-h-screen bg-background ml-64">
+<!-- Header Section -->
+<div class="flex flex-col mb-8">
+<h1 class="text-4xl font-extrabold text-teal-400 font-headline mb-2">Google Local / SEO</h1>
+<p class="text-zinc-500 text-sm">Gestiona y optimiza la presencia local de tu cliente en tiempo real.</p>
+</div>
+<!-- Metric Cards (Top Row) -->
+<div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
+<div class="bg-surface-container-low border border-zinc-800 p-6 rounded-xl relative overflow-hidden group">
+<div class="absolute -right-4 -top-4 opacity-10 group-hover:opacity-20 transition-opacity">
+<span class="material-symbols-outlined text-8xl" data-icon="location_on">location_on</span>
+</div>
+<p class="text-zinc-500 text-sm font-medium mb-1 uppercase tracking-wider">Posicion actual en Maps</p>
+<div class="flex items-end gap-3">
+<span class="text-4xl font-black text-on-surface font-headline">#2</span>
+<div class="flex items-center text-teal-400 pb-1">
+<span class="material-symbols-outlined text-lg" data-icon="arrow_upward">arrow_upward</span>
+<span class="text-sm font-bold">1 pts</span>
+</div>
+</div>
+</div>
+<div class="bg-surface-container-low border border-zinc-800 p-6 rounded-xl relative overflow-hidden group">
+<div class="absolute -right-4 -top-4 opacity-10 group-hover:opacity-20 transition-opacity">
+<span class="material-symbols-outlined text-8xl" data-icon="star">star</span>
+</div>
+<p class="text-zinc-500 text-sm font-medium mb-1 uppercase tracking-wider">Calificacion Google</p>
+<div class="flex items-center gap-3">
+<span class="text-4xl font-black text-on-surface font-headline">4.8</span>
+<div class="flex text-amber-400">
+<span class="material-symbols-outlined text-xl" data-icon="star" style="font-variation-settings: 'FILL' 1;">star</span>
+<span class="material-symbols-outlined text-xl" data-icon="star" style="font-variation-settings: 'FILL' 1;">star</span>
+<span class="material-symbols-outlined text-xl" data-icon="star" style="font-variation-settings: 'FILL' 1;">star</span>
+<span class="material-symbols-outlined text-xl" data-icon="star" style="font-variation-settings: 'FILL' 1;">star</span>
+<span class="material-symbols-outlined text-xl" data-icon="star_half" style="font-variation-settings: 'FILL' 1;">star_half</span>
+</div>
+</div>
+</div>
+<div class="bg-surface-container-low border border-zinc-800 p-6 rounded-xl relative overflow-hidden group">
+<div class="absolute -right-4 -top-4 opacity-10 group-hover:opacity-20 transition-opacity">
+<span class="material-symbols-outlined text-8xl" data-icon="reviews">reviews</span>
+</div>
+<p class="text-zinc-500 text-sm font-medium mb-1 uppercase tracking-wider">Resenas este mes</p>
+<div class="flex items-end gap-3">
+<span class="text-4xl font-black text-on-surface font-headline">12</span>
+<span class="text-teal-400 bg-teal-400/10 px-2 py-0.5 rounded text-xs font-bold mb-1">NEW</span>
+</div>
+</div>
+</div>
+<!-- Middle Section: Split 2 Columns -->
+<div class="grid grid-cols-1 lg:grid-cols-2 gap-8 mb-8">
+<!-- Responder Reseñas Section -->
+<section class="flex flex-col gap-4">
+<div class="flex items-center justify-between mb-2">
+<h2 class="text-xl font-bold font-headline text-on-surface">Responder Reseñas</h2>
+<button class="text-teal-400 text-xs font-bold hover:underline">Ver todas</button>
+</div>
+<div class="space-y-4">
+<!-- Review Item 1 -->
+<div class="bg-surface-container-highest/30 border border-zinc-800 rounded-xl p-5">
+<div class="flex justify-between items-start mb-3">
+<div class="flex items-center gap-3">
+<div class="w-10 h-10 rounded-full bg-zinc-800 flex items-center justify-center text-xs font-bold">RH</div>
+<div>
+<p class="text-sm font-bold text-on-surface">Ricardo Hernandez</p>
+<p class="text-[10px] text-zinc-500 uppercase tracking-tighter">Hace 2 horas</p>
+</div>
+</div>
+<div class="flex text-amber-400 scale-75 origin-right">
+<span class="material-symbols-outlined" data-icon="star" style="font-variation-settings: 'FILL' 1;">star</span>
+<span class="material-symbols-outlined" data-icon="star" style="font-variation-settings: 'FILL' 1;">star</span>
+<span class="material-symbols-outlined" data-icon="star" style="font-variation-settings: 'FILL' 1;">star</span>
+<span class="material-symbols-outlined" data-icon="star" style="font-variation-settings: 'FILL' 1;">star</span>
+<span class="material-symbols-outlined" data-icon="star" style="font-variation-settings: 'FILL' 1;">star</span>
+</div>
+</div>
+<p class="text-sm text-zinc-300 italic mb-4 leading-relaxed">"Excelente atención por parte del personal médico. Todo muy limpio y rápido."</p>
+<button class="w-full bg-teal-400/10 hover:bg-teal-400 hover:text-black text-teal-400 text-xs font-black py-2.5 rounded-lg flex items-center justify-center gap-2 transition-all">
+<span class="material-symbols-outlined text-sm" data-icon="auto_awesome">auto_awesome</span>
+                            RESPONDER CON IA
+                        </button>
+</div>
+<!-- Review Item 2 (AI Response Visible) -->
+<div class="bg-surface-container-highest/30 border border-zinc-800 rounded-xl p-5 border-l-2 border-l-teal-400">
+<div class="flex justify-between items-start mb-3">
+<div class="flex items-center gap-3">
+<div class="w-10 h-10 rounded-full bg-zinc-800 flex items-center justify-center text-xs font-bold">LM</div>
+<div>
+<p class="text-sm font-bold text-on-surface">Laura Méndez</p>
+<p class="text-[10px] text-zinc-500 uppercase tracking-tighter">Ayer</p>
+</div>
+</div>
+<div class="flex text-amber-400 scale-75 origin-right">
+<span class="material-symbols-outlined" data-icon="star" style="font-variation-settings: 'FILL' 1;">star</span>
+<span class="material-symbols-outlined" data-icon="star" style="font-variation-settings: 'FILL' 1;">star</span>
+<span class="material-symbols-outlined" data-icon="star" style="font-variation-settings: 'FILL' 1;">star</span>
+<span class="material-symbols-outlined" data-icon="star" style="font-variation-settings: 'FILL' 1;">star</span>
+<span class="material-symbols-outlined" data-icon="star_outline">star_outline</span>
+</div>
+</div>
+<p class="text-sm text-zinc-300 italic mb-4 leading-relaxed">"Buen servicio pero tardaron un poco en darme la receta al final."</p>
+<div class="bg-black/40 rounded-lg p-4 border border-teal-400/20">
+<div class="flex items-center gap-2 mb-2 text-teal-400">
+<span class="material-symbols-outlined text-xs" data-icon="auto_awesome">auto_awesome</span>
+<span class="text-[10px] font-black tracking-widest uppercase">Respuesta Sugerida</span>
+</div>
+<p class="text-xs text-on-surface mb-4 leading-relaxed">"Hola Laura, agradecemos mucho tus comentarios. Lamentamos la espera con tu receta; estamos trabajando para agilizar nuestra entrega. ¡Esperamos verte pronto!"</p>
+<div class="flex gap-2">
+<button class="flex-1 text-xs font-bold border border-zinc-700 py-2 rounded hover:bg-zinc-800 transition-colors">Copiar</button>
+<button class="flex-[2] text-xs font-bold bg-primary text-on-primary py-2 rounded hover:opacity-90 transition-opacity">Enviar</button>
+</div>
+</div>
+</div>
+<!-- Review Item 3 -->
+<div class="bg-surface-container-highest/30 border border-zinc-800 rounded-xl p-5">
+<div class="flex justify-between items-start mb-3">
+<div class="flex items-center gap-3">
+<div class="w-10 h-10 rounded-full bg-zinc-800 flex items-center justify-center text-xs font-bold">JP</div>
+<div>
+<p class="text-sm font-bold text-on-surface">Juan Pérez</p>
+<p class="text-[10px] text-zinc-500 uppercase tracking-tighter">Hace 3 días</p>
+</div>
+</div>
+<div class="flex text-amber-400 scale-75 origin-right">
+<span class="material-symbols-outlined" data-icon="star" style="font-variation-settings: 'FILL' 1;">star</span>
+<span class="material-symbols-outlined" data-icon="star" style="font-variation-settings: 'FILL' 1;">star</span>
+<span class="material-symbols-outlined" data-icon="star" style="font-variation-settings: 'FILL' 1;">star</span>
+<span class="material-symbols-outlined" data-icon="star" style="font-variation-settings: 'FILL' 1;">star</span>
+<span class="material-symbols-outlined" data-icon="star" style="font-variation-settings: 'FILL' 1;">star</span>
+</div>
+</div>
+<p class="text-sm text-zinc-300 italic mb-4">"Altamente recomendados para urgencias, atención premium."</p>
+<button class="w-full bg-teal-400/10 hover:bg-teal-400 hover:text-black text-teal-400 text-xs font-black py-2.5 rounded-lg flex items-center justify-center gap-2 transition-all">
+<span class="material-symbols-outlined text-sm" data-icon="auto_awesome">auto_awesome</span>
+                            RESPONDER CON IA
+                        </button>
+</div>
+</div>
+</section>
+<!-- Checklist Section -->
+<section class="flex flex-col gap-4">
+<div class="flex items-center justify-between mb-2">
+<h2 class="text-xl font-bold font-headline text-on-surface">Checklist de Optimización</h2>
+<button class="text-zinc-500 text-xs font-bold hover:text-teal-400">Marcar Todo</button>
+</div>
+<div class="bg-surface-container-low border border-zinc-800 rounded-xl p-6 h-full flex flex-col">
+<!-- Progress Bar -->
+<div class="mb-8">
+<div class="flex justify-between items-center mb-2">
+<span class="text-sm font-bold text-teal-400">Progreso Perfil</span>
+<span class="text-xs font-black text-zinc-500">5 / 8</span>
+</div>
+<div class="w-full h-2 bg-zinc-900 rounded-full overflow-hidden">
+<div class="w-[62.5%] h-full bg-teal-400 rounded-full"></div>
+</div>
+</div>
+<!-- Checklist Items -->
+<div class="grid grid-cols-1 gap-4 flex-1">
+<div class="flex items-center gap-3 p-3 rounded-lg bg-zinc-900/50 border border-zinc-800/50 hover:border-teal-400/30 transition-all cursor-pointer">
+<div class="w-5 h-5 rounded bg-teal-400 flex items-center justify-center text-black">
+<span class="material-symbols-outlined text-[14px] font-bold" data-icon="check">check</span>
+</div>
+<span class="text-sm text-zinc-300">Fotos actualizadas</span>
+</div>
+<div class="flex items-center gap-3 p-3 rounded-lg bg-zinc-900/50 border border-zinc-800/50 hover:border-teal-400/30 transition-all cursor-pointer">
+<div class="w-5 h-5 rounded bg-teal-400 flex items-center justify-center text-black">
+<span class="material-symbols-outlined text-[14px] font-bold" data-icon="check">check</span>
+</div>
+<span class="text-sm text-zinc-300">Posts publicados</span>
+</div>
+<div class="flex items-center gap-3 p-3 rounded-lg bg-zinc-900/50 border border-zinc-800/50 hover:border-teal-400/30 transition-all cursor-pointer">
+<div class="w-5 h-5 rounded border border-zinc-700"></div>
+<span class="text-sm text-zinc-400">Horarios correctos</span>
+</div>
+<div class="flex items-center gap-3 p-3 rounded-lg bg-zinc-900/50 border border-zinc-800/50 hover:border-teal-400/30 transition-all cursor-pointer">
+<div class="w-5 h-5 rounded bg-teal-400 flex items-center justify-center text-black">
+<span class="material-symbols-outlined text-[14px] font-bold" data-icon="check">check</span>
+</div>
+<span class="text-sm text-zinc-300">Servicios completos</span>
+</div>
+<div class="flex items-center gap-3 p-3 rounded-lg bg-zinc-900/50 border border-zinc-800/50 hover:border-teal-400/30 transition-all cursor-pointer">
+<div class="w-5 h-5 rounded border border-zinc-700"></div>
+<span class="text-sm text-zinc-400">Categorias optimizadas</span>
+</div>
+<div class="flex items-center gap-3 p-3 rounded-lg bg-zinc-900/50 border border-zinc-800/50 hover:border-teal-400/30 transition-all cursor-pointer">
+<div class="w-5 h-5 rounded bg-teal-400 flex items-center justify-center text-black">
+<span class="material-symbols-outlined text-[14px] font-bold" data-icon="check">check</span>
+</div>
+<span class="text-sm text-zinc-300">Preguntas respondidas</span>
+</div>
+<div class="flex items-center gap-3 p-3 rounded-lg bg-zinc-900/50 border border-zinc-800/50 hover:border-teal-400/30 transition-all cursor-pointer">
+<div class="w-5 h-5 rounded border border-zinc-700"></div>
+<span class="text-sm text-zinc-400">Descripción actualizada</span>
+</div>
+<div class="flex items-center gap-3 p-3 rounded-lg bg-zinc-900/50 border border-zinc-800/50 hover:border-teal-400/30 transition-all cursor-pointer">
+<div class="w-5 h-5 rounded bg-teal-400 flex items-center justify-center text-black">
+<span class="material-symbols-outlined text-[14px] font-bold" data-icon="check">check</span>
+</div>
+<span class="text-sm text-zinc-300">Link al sitio web</span>
+</div>
+</div>
+</div>
+</section>
+</div>
+<!-- Bottom: Rendimiento de Palabras Clave -->
+<section>
+<div class="flex items-center justify-between mb-4">
+<h2 class="text-xl font-bold font-headline text-on-surface">Rendimiento de Palabras Clave</h2>
+<div class="flex items-center gap-2">
+<span class="text-xs text-zinc-500">Actualizado: Hoy 09:41 AM</span>
+<button class="bg-zinc-800 p-1.5 rounded-lg text-zinc-400 hover:text-white transition-colors">
+<span class="material-symbols-outlined text-sm" data-icon="refresh">refresh</span>
+</button>
+</div>
+</div>
+<div class="bg-surface-container-low border border-zinc-800 rounded-xl overflow-hidden">
+<table class="w-full text-left border-collapse">
+<thead>
+<tr class="bg-zinc-900/50 border-b border-zinc-800">
+<th class="px-6 py-4 text-[10px] font-black uppercase tracking-widest text-zinc-500">Palabra Clave</th>
+<th class="px-6 py-4 text-[10px] font-black uppercase tracking-widest text-zinc-500">Posición Actual</th>
+<th class="px-6 py-4 text-[10px] font-black uppercase tracking-widest text-zinc-500">Mes Pasado</th>
+<th class="px-6 py-4 text-[10px] font-black uppercase tracking-widest text-zinc-500">Tendencia</th>
+</tr>
+</thead>
+<tbody class="divide-y divide-zinc-800/50">
+<tr class="hover:bg-white/5 transition-colors group">
+<td class="px-6 py-4">
+<div class="flex items-center gap-2">
+<span class="text-sm font-semibold text-on-surface">Pediatra en CDMX</span>
+<span class="text-[10px] bg-teal-400/10 text-teal-400 px-1.5 py-0.5 rounded font-black">TOP 3</span>
+</div>
+</td>
+<td class="px-6 py-4 text-sm font-bold text-on-surface">#1</td>
+<td class="px-6 py-4 text-sm text-zinc-400">#2</td>
+<td class="px-6 py-4">
+<div class="flex items-center text-teal-400 gap-1">
+<span class="material-symbols-outlined text-sm" data-icon="trending_up">trending_up</span>
+<span class="text-xs font-bold">+1</span>
+</div>
+</td>
+</tr>
+<tr class="hover:bg-white/5 transition-colors group">
+<td class="px-6 py-4">
+<span class="text-sm font-semibold text-on-surface">Clínica médica cerca de mi</span>
+</td>
+<td class="px-6 py-4 text-sm font-bold text-on-surface">#3</td>
+<td class="px-6 py-4 text-sm text-zinc-400">#5</td>
+<td class="px-6 py-4">
+<div class="flex items-center text-teal-400 gap-1">
+<span class="material-symbols-outlined text-sm" data-icon="trending_up">trending_up</span>
+<span class="text-xs font-bold">+2</span>
+</div>
+</td>
+</tr>
+<tr class="hover:bg-white/5 transition-colors group">
+<td class="px-6 py-4">
+<span class="text-sm font-semibold text-on-surface">Urgencias 24 horas</span>
+</td>
+<td class="px-6 py-4 text-sm font-bold text-on-surface">#5</td>
+<td class="px-6 py-4 text-sm text-zinc-400">#4</td>
+<td class="px-6 py-4">
+<div class="flex items-center text-error gap-1">
+<span class="material-symbols-outlined text-sm" data-icon="trending_down">trending_down</span>
+<span class="text-xs font-bold">-1</span>
+</div>
+</td>
+</tr>
+<tr class="hover:bg-white/5 transition-colors group">
+<td class="px-6 py-4">
+<span class="text-sm font-semibold text-on-surface">Mejor cardiólogo Benito Juárez</span>
+</td>
+<td class="px-6 py-4 text-sm font-bold text-on-surface">#2</td>
+<td class="px-6 py-4 text-sm text-zinc-400">#2</td>
+<td class="px-6 py-4">
+<div class="flex items-center text-zinc-500 gap-1">
+<span class="material-symbols-outlined text-sm" data-icon="horizontal_rule">horizontal_rule</span>
+<span class="text-xs font-bold">0</span>
+</div>
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</section>
+</main>
+<script src="app.js" defer></script>
+</body></html>

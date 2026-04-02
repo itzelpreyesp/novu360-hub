@@ -1,0 +1,455 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="es"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Novu 360 · Finanzas</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&amp;family=Inter:wght@400;500;600&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            colors: {
+              "surface-variant": "#2f3634",
+              "primary-container": "#00c2a8",
+              "error-container": "#93000a",
+              "surface-container-highest": "#2f3634",
+              "on-secondary-fixed": "#1b1b1b",
+              "on-surface": "#dde4e1",
+              "on-primary": "#00382f",
+              "surface-container": "#1a211f",
+              "tertiary-fixed-dim": "#ffb59e",
+              "on-tertiary": "#5e1700",
+              "on-primary-fixed": "#00201b",
+              "inverse-on-surface": "#2b3230",
+              "on-secondary-container": "#b5b5b5",
+              "tertiary-container": "#ff8d69",
+              "secondary-fixed": "#e2e2e2",
+              "on-secondary": "#303030",
+              "surface-tint": "#41ddc2",
+              "secondary-container": "#474747",
+              "tertiary": "#ffb6a0",
+              "surface-container-low": "#161d1b",
+              "on-tertiary-fixed": "#3a0b00",
+              "tertiary-fixed": "#ffdbd0",
+              "surface-container-high": "#242b29",
+              "surface": "#0e1513",
+              "on-tertiary-container": "#752509",
+              "background": "#0e1513",
+              "on-tertiary-fixed-variant": "#7e2c0f",
+              "secondary-fixed-dim": "#c6c6c6",
+              "secondary": "#c6c6c6",
+              "on-secondary-fixed-variant": "#474747",
+              "surface-dim": "#0e1513",
+              "outline": "#85948f",
+              "error": "#ffb4ab",
+              "outline-variant": "#3c4a46",
+              "on-surface-variant": "#bbcac4",
+              "on-primary-container": "#00493e",
+              "primary-fixed": "#65fade",
+              "primary-fixed-dim": "#41ddc2",
+              "primary": "#42dec3",
+              "on-error": "#690005",
+              "on-primary-fixed-variant": "#005045",
+              "on-background": "#dde4e1",
+              "surface-bright": "#333b38",
+              "inverse-surface": "#dde4e1",
+              "surface-container-lowest": "#09100e",
+              "on-error-container": "#ffdad6",
+              "inverse-primary": "#006b5c"
+            },
+            fontFamily: {
+              "headline": ["Manrope"],
+              "body": ["Inter"],
+              "label": ["Inter"]
+            },
+            borderRadius: {"DEFAULT": "0.25rem", "lg": "0.5rem", "xl": "0.75rem", "full": "9999px"},
+          },
+        },
+      }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        body { font-family: 'Inter', sans-serif; }
+        h1, h2, h3 { font-family: 'Manrope', sans-serif; }
+    </style>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;700;800&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css">
+</head>
+<body class="bg-surface text-on-surface min-h-screen">
+<!-- TopNavBar -->
+<nav class="fixed top-0 w-full z-50 bg-slate-950 text-teal-400 font-['Manrope'] antialiased border-b border-slate-800 shadow-sm flex justify-between items-center px-6 h-16">
+<div class="flex items-center gap-4">
+<span class="text-xl font-bold tracking-tight text-teal-400">Novu 360</span>
+</div>
+<div class="flex items-center gap-6">
+<div class="hidden md:flex items-center gap-8 text-sm">
+<a class="text-slate-400 hover:text-slate-200 transition-colors duration-200" href="#">Dashboard</a>
+<a class="text-slate-400 hover:text-slate-200 transition-colors duration-200" href="#">Clientes</a>
+<a class="text-teal-400 font-semibold border-b-2 border-teal-400 transition-colors duration-200" href="#">Finanzas</a>
+</div>
+<div class="flex items-center gap-3">
+<button class="p-2 text-slate-400 hover:bg-slate-900 transition-colors duration-200 rounded-lg active:scale-95 transition-transform">
+<span class="material-symbols-outlined">notifications</span>
+</button>
+<button class="p-2 text-slate-400 hover:bg-slate-900 transition-colors duration-200 rounded-lg active:scale-95 transition-transform">
+<span class="material-symbols-outlined">settings</span>
+</button>
+<div class="w-8 h-8 rounded-full bg-surface-container overflow-hidden border border-outline-variant">
+<img alt="User profile" class="w-full h-full object-cover" data-alt="professional headshot of a modern creative agency executive dark lighting teal highlights bokeh office background" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBkdfs7uJ9DPt_gOmc4Yz_nm7rj3fesoHSwr5rwQ-MnIxaT9K1Id0GZVzRnQi-X3cyAFydXrVyswPHSPBBbRItXKu9rw5y0dUtuorIevn4nLcusxmfE8Jr-oQid4gOmJ9MIaQAS9CI_Kby8KjTdVj1CrmIDhVq2hhnMtvedcCs0Gh5LqjtaS6053BlO3aPy0LhLnTjxEPTM97y_5-7zjzhT1U-lTHgRww7MHRyy9IYuAWbagtRo9G2ayjuCqGc9MpMLHMtUxHlb3p0"/>
+</div>
+</div>
+</div>
+</nav>
+<!-- SideNavBar -->
+<!-- SideNavBar - Novu 360 -->
+<aside class="bg-black antialiased h-screen w-64 fixed left-0 top-0 flex flex-col py-6 z-20" style="box-shadow: 4px 0 24px rgba(0,0,0,0.6)">
+  <div class="px-6 mb-8">
+    <a href="dashboard.html" class="text-white font-black tracking-widest text-xl block" style="color:#fff;text-decoration:none">Novu 360</a>
+    <div class="text-neutral-500 text-xs uppercase tracking-tighter mt-1 italic">INTELIGENCIA DE AGENCIA</div>
+  </div>
+  <button onclick="window.location.href='dashboard.html'" class="mx-6 mb-8 py-3 font-bold rounded-lg flex items-center justify-center gap-2 transition-transform active:scale-95 duration-150" style="background:linear-gradient(135deg,#00C2A8,#009984);color:#000">
+    <span class="material-symbols-outlined text-sm font-bold">add</span>
+    Nuevo Proyecto
+  </button>
+  <nav class="flex-1 space-y-1 overflow-y-auto">
+    <a class="text-neutral-400 hover:text-white px-4 py-3 flex items-center gap-3 transition-all hover:bg-white/5 rounded-lg mx-3" href="dashboard.html">
+      <span class="material-symbols-outlined">dashboard</span>
+      <span>Dashboard</span>
+    </a>
+<a class="text-neutral-400 hover:text-white px-4 py-3 flex items-center gap-3 transition-all hover:bg-white/5 rounded-lg mx-3" href="ventas.html">
+      <span class="material-symbols-outlined">trending_up</span>
+      <span>Ventas</span>
+    </a>
+<a class="text-neutral-400 hover:text-white px-4 py-3 flex items-center gap-3 transition-all hover:bg-white/5 rounded-lg mx-3" href="ads.html">
+      <span class="material-symbols-outlined">ads_click</span>
+      <span>Ads</span>
+    </a>
+<a class="text-neutral-400 hover:text-white px-4 py-3 flex items-center gap-3 transition-all hover:bg-white/5 rounded-lg mx-3" href="community.html">
+      <span class="material-symbols-outlined">forum</span>
+      <span>Community</span>
+    </a>
+<a class="text-neutral-400 hover:text-white px-4 py-3 flex items-center gap-3 transition-all hover:bg-white/5 rounded-lg mx-3" href="seo.html">
+      <span class="material-symbols-outlined">search</span>
+      <span>SEO</span>
+    </a>
+<a class="text-neutral-400 hover:text-white px-4 py-3 flex items-center gap-3 transition-all hover:bg-white/5 rounded-lg mx-3" href="web.html">
+      <span class="material-symbols-outlined">language</span>
+      <span>Web</span>
+    </a>
+<a class="text-neutral-400 hover:text-white px-4 py-3 flex items-center gap-3 transition-all hover:bg-white/5 rounded-lg mx-3" href="portal-cliente.html">
+      <span class="material-symbols-outlined">group</span>
+      <span>Clientes</span>
+    </a>
+<a class="bg-primary text-black rounded-lg mx-3 flex items-center px-4 py-3 gap-3 transition-all font-bold nav-active" href="finanzas.html">
+      <span class="material-symbols-outlined">payments</span>
+      <span>Finanzas</span>
+    </a>
+<a class="text-neutral-400 hover:text-white px-4 py-3 flex items-center gap-3 transition-all hover:bg-white/5 rounded-lg mx-3" href="aprobaciones.html">
+      <span class="material-symbols-outlined">fact_check</span>
+      <span>Aprobaciones</span>
+    </a>
+<a class="text-neutral-400 hover:text-white px-4 py-3 flex items-center gap-3 transition-all hover:bg-white/5 rounded-lg mx-3" href="onboarding.html">
+      <span class="material-symbols-outlined">rocket_launch</span>
+      <span>Onboarding</span>
+    </a>
+<a class="text-neutral-400 hover:text-white px-4 py-3 flex items-center gap-3 transition-all hover:bg-white/5 rounded-lg mx-3" href="cerebros.html">
+      <span class="material-symbols-outlined">psychology</span>
+      <span>Cerebros IA</span>
+    </a>
+  </nav>
+  <div class="mt-auto pt-4 space-y-1" style="border-top:1px solid rgba(255,255,255,0.05)">
+    <a class="text-neutral-400 hover:text-white px-7 py-3 flex items-center gap-3 transition-all hover:bg-white/5" href="#">
+      <span class="material-symbols-outlined">help</span>
+      <span>Soporte</span>
+    </a>
+    <a class="text-neutral-400 hover:text-white px-7 py-3 flex items-center gap-3 transition-all hover:bg-white/5" href="#">
+      <span class="material-symbols-outlined">person</span>
+      <span>Cuenta</span>
+    </a>
+  </div>
+</aside>
+<!-- Main Content -->
+<main class="md:pl-64 pt-16 min-h-screen ml-64">
+<div class="p-6 md:p-8 max-w-7xl mx-auto space-y-8">
+<!-- Page Header -->
+<div class="flex justify-between items-end">
+<div>
+<h1 class="text-3xl font-extrabold tracking-tight text-white">Administración y Finanzas</h1>
+<p class="text-on-surface-variant mt-1">Visión general del estado financiero de Novu 360 Agency</p>
+</div>
+<div class="hidden md:block">
+<span class="inline-flex items-center gap-2 px-3 py-1 bg-surface-container rounded-full text-xs font-medium border border-outline-variant">
+<span class="w-2 h-2 rounded-full bg-teal-400"></span>
+                        Sistema Operativo
+                    </span>
+</div>
+</div>
+<!-- TOP ROW - 4 KPI cards -->
+<div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+<div class="bg-surface-container p-6 rounded-xl border border-outline-variant hover:border-primary/50 transition-colors group">
+<div class="flex justify-between items-start mb-4">
+<span class="material-symbols-outlined text-primary-container bg-primary-container/10 p-2 rounded-lg">trending_up</span>
+<span class="text-xs font-semibold text-emerald-400 bg-emerald-400/10 px-2 py-0.5 rounded-full">+12%</span>
+</div>
+<h3 class="text-on-surface-variant text-sm font-medium">Ingresos del mes</h3>
+<p class="text-2xl font-bold text-white mt-1">$45,200 MXN</p>
+</div>
+<div class="bg-surface-container p-6 rounded-xl border border-outline-variant hover:border-error/50 transition-colors">
+<div class="flex justify-between items-start mb-4">
+<span class="material-symbols-outlined text-error bg-error/10 p-2 rounded-lg">trending_down</span>
+<span class="text-xs font-semibold text-error bg-error/10 px-2 py-0.5 rounded-full">-5%</span>
+</div>
+<h3 class="text-on-surface-variant text-sm font-medium">Gastos del mes</h3>
+<p class="text-2xl font-bold text-white mt-1">$18,450 MXN</p>
+</div>
+<div class="bg-surface-container p-6 rounded-xl border border-outline-variant hover:border-primary/50 transition-colors">
+<div class="flex justify-between items-start mb-4">
+<span class="material-symbols-outlined text-primary bg-primary/10 p-2 rounded-lg">payments</span>
+<span class="text-xs font-semibold text-primary bg-primary/10 px-2 py-0.5 rounded-full">Meta: 85%</span>
+</div>
+<h3 class="text-on-surface-variant text-sm font-medium">Utilidad neta</h3>
+<p class="text-2xl font-bold text-white mt-1">$26,750 MXN</p>
+</div>
+<div class="bg-surface-container p-6 rounded-xl border border-outline-variant hover:border-primary/50 transition-colors">
+<div class="flex justify-between items-start mb-4">
+<span class="material-symbols-outlined text-on-surface bg-surface-variant p-2 rounded-lg">person</span>
+<div class="flex items-center gap-1.5">
+<span class="w-2.5 h-2.5 rounded-full bg-emerald-500 animate-pulse"></span>
+<span class="text-xs font-medium text-on-surface">Live</span>
+</div>
+</div>
+<h3 class="text-on-surface-variant text-sm font-medium">Clientes activos</h3>
+<p class="text-2xl font-bold text-white mt-1">5</p>
+</div>
+</div>
+<!-- MIDDLE SECTION -->
+<div class="grid grid-cols-1 lg:grid-cols-10 gap-8">
+<!-- LEFT (60%) - Contratos y Pagos -->
+<div class="lg:col-span-6 bg-surface-container rounded-xl border border-outline-variant flex flex-col">
+<div class="p-6 border-b border-outline-variant flex justify-between items-center">
+<h2 class="text-xl font-bold text-white flex items-center gap-2">
+<span class="material-symbols-outlined text-primary">description</span>
+                            Contratos y Pagos
+                        </h2>
+<button class="text-xs font-semibold text-primary uppercase tracking-wider hover:underline">Exportar</button>
+</div>
+<div class="overflow-x-auto">
+<table class="w-full text-left border-collapse">
+<thead>
+<tr class="bg-surface-container-high">
+<th class="px-6 py-4 text-xs font-bold text-on-surface-variant uppercase">Cliente</th>
+<th class="px-6 py-4 text-xs font-bold text-on-surface-variant uppercase">Monto mensual</th>
+<th class="px-6 py-4 text-xs font-bold text-on-surface-variant uppercase">Próximo pago</th>
+<th class="px-6 py-4 text-xs font-bold text-on-surface-variant uppercase text-center">Estado</th>
+<th class="px-6 py-4 text-xs font-bold text-on-surface-variant uppercase">Acción</th>
+</tr>
+</thead>
+<tbody class="divide-y divide-outline-variant">
+<tr class="hover:bg-white/5 transition-colors group">
+<td class="px-6 py-4">
+<div class="flex items-center gap-3">
+<div class="w-8 h-8 rounded bg-primary/20 flex items-center justify-center text-primary font-bold text-xs">BT</div>
+<span class="font-semibold text-white">Blue Tech</span>
+</div>
+</td>
+<td class="px-6 py-4 text-on-surface">$12,000</td>
+<td class="px-6 py-4 text-on-surface-variant">15 Oct</td>
+<td class="px-6 py-4">
+<div class="flex justify-center">
+<span class="px-3 py-1 bg-emerald-500/10 text-emerald-400 text-xs font-bold rounded-full border border-emerald-500/20">Pagado</span>
+</div>
+</td>
+<td class="px-6 py-4">
+<button class="text-xs bg-surface-variant hover:bg-surface-container-highest px-3 py-1.5 rounded text-on-surface transition-colors">Ver Contrato</button>
+</td>
+</tr>
+<tr class="hover:bg-white/5 transition-colors group">
+<td class="px-6 py-4">
+<div class="flex items-center gap-3">
+<div class="w-8 h-8 rounded bg-tertiary/20 flex items-center justify-center text-tertiary font-bold text-xs">LL</div>
+<span class="font-semibold text-white">Luna Logistics</span>
+</div>
+</td>
+<td class="px-6 py-4 text-on-surface">$8,500</td>
+<td class="px-6 py-4 text-on-surface-variant">22 Oct</td>
+<td class="px-6 py-4">
+<div class="flex justify-center">
+<span class="px-3 py-1 bg-yellow-500/10 text-yellow-400 text-xs font-bold rounded-full border border-yellow-500/20">Pendiente</span>
+</div>
+</td>
+<td class="px-6 py-4">
+<button class="text-xs bg-surface-variant hover:bg-surface-container-highest px-3 py-1.5 rounded text-on-surface transition-colors">Ver Contrato</button>
+</td>
+</tr>
+<tr class="hover:bg-white/5 transition-colors group">
+<td class="px-6 py-4">
+<div class="flex items-center gap-3">
+<div class="w-8 h-8 rounded bg-error/20 flex items-center justify-center text-error font-bold text-xs">SV</div>
+<span class="font-semibold text-white">Solar Venture</span>
+</div>
+</td>
+<td class="px-6 py-4 text-on-surface">$15,000</td>
+<td class="px-6 py-4 text-on-surface-variant">02 Oct</td>
+<td class="px-6 py-4">
+<div class="flex justify-center">
+<span class="px-3 py-1 bg-error/10 text-error text-xs font-bold rounded-full border border-error/20">Vencido</span>
+</div>
+</td>
+<td class="px-6 py-4">
+<button class="text-xs bg-surface-variant hover:bg-surface-container-highest px-3 py-1.5 rounded text-on-surface transition-colors">Ver Contrato</button>
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="p-6 mt-auto">
+<button class="w-full bg-primary-container text-on-primary font-bold py-3 rounded-lg flex items-center justify-center gap-2 hover:opacity-90 active:scale-[0.98] transition-all">
+<span class="material-symbols-outlined">add_circle</span>
+                            Registrar Pago
+                        </button>
+</div>
+</div>
+<!-- RIGHT (40%) - Nómina & Chart -->
+<div class="lg:col-span-4 space-y-8">
+<!-- Nómina del Equipo -->
+<div class="bg-surface-container rounded-xl border border-outline-variant flex flex-col">
+<div class="p-6 border-b border-outline-variant">
+<h2 class="text-xl font-bold text-white flex items-center gap-2">
+<span class="material-symbols-outlined text-primary">groups</span>
+                                Nómina del Equipo
+                            </h2>
+</div>
+<div class="p-4 space-y-4">
+<div class="flex items-center justify-between p-3 rounded-lg bg-surface-container-low border border-outline-variant">
+<div class="flex items-center gap-3">
+<div class="w-10 h-10 rounded-full bg-surface-variant overflow-hidden">
+<img alt="Team member" class="w-full h-full object-cover" data-alt="latin modern designer man dark hair beard profile picture" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAkka1I_NwAluTB1x31ZEHPLHXeIa7z730zgYxa_yvmZ_nAhcLfbQS4hOoHaP8Cq5l_llkly2m0nho7V_0n0I02IaulTaXcCLHwWOM8LewTkc7T2L5LAsRHirBAa0eF-IlQo0L3XA9Zja8mZwwp6PnghsZi3Cv6i0xiDtFnZ9M1ipsA2cdwYCfbyWDB8dQ-4SrCwjGty4qOytLgfVSMzz5j20O7BZsdXkGsyu-A1-XzaQdiS6d5zGaVXHPWoVf9whHHoPVdu8KPBxo"/>
+</div>
+<div>
+<p class="text-sm font-bold text-white">Carlos Ruiz</p>
+<p class="text-xs text-on-surface-variant">Lead Designer</p>
+</div>
+</div>
+<div class="text-right">
+<p class="text-sm font-bold text-white">$4,500</p>
+<span class="text-[10px] text-emerald-400 font-bold uppercase">Pagado</span>
+</div>
+</div>
+<div class="flex items-center justify-between p-3 rounded-lg bg-surface-container-low border border-outline-variant">
+<div class="flex items-center gap-3">
+<div class="w-10 h-10 rounded-full bg-surface-variant overflow-hidden">
+<img alt="Team member" class="w-full h-full object-cover" data-alt="young woman marketing specialist dark aesthetic headshot" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCc5ipR_-cpiEPaqjtS8YbiupUNaHYPtBX9B3AIstjtO7QIP-jS38LPSfrsXIwtO9oRam-e8_Jwzms7eEHgr47j-y-IfZUCx-9ndLama5qRQSyz_mU0Fs70OZ0LEYJsygt-7Z-eoyEI5MVFeTmeVTTo95c8GjCZXcCAr3O8qwGR2nXyStHnlSHUoNoNJdhRAktuZ_awo0VLgb1i5bPJ7tCoVjtc_SRKOyR-cvYIc3aZl3ULx-YPc3ZLoQTuR6cV7zSPtSa5Y8c1KnQ"/>
+</div>
+<div>
+<p class="text-sm font-bold text-white">Elena Mora</p>
+<p class="text-xs text-on-surface-variant">Social Media</p>
+</div>
+</div>
+<div class="text-right">
+<p class="text-sm font-bold text-white">$3,800</p>
+<span class="text-[10px] text-yellow-400 font-bold uppercase">Pendiente</span>
+</div>
+</div>
+</div>
+<div class="p-4 pt-0">
+<button class="w-full border border-primary-container text-primary-container font-bold py-2.5 rounded-lg hover:bg-primary-container/10 transition-all text-sm">
+                                Registrar Pago Nómina
+                            </button>
+</div>
+</div>
+<!-- Small Bar Chart -->
+<div class="bg-surface-container p-6 rounded-xl border border-outline-variant">
+<div class="flex justify-between items-center mb-6">
+<h3 class="text-sm font-bold text-white">Histórico (3 Meses)</h3>
+<div class="flex gap-4 text-[10px] font-bold">
+<div class="flex items-center gap-1.5"><span class="w-2 h-2 bg-primary rounded-full"></span> INGRESOS</div>
+<div class="flex items-center gap-1.5"><span class="w-2 h-2 bg-error rounded-full"></span> GASTOS</div>
+</div>
+</div>
+<div class="flex items-end justify-between h-32 gap-6 px-4">
+<!-- Mes 1 -->
+<div class="flex-1 flex flex-col items-center gap-2 h-full justify-end">
+<div class="w-full flex gap-1 items-end justify-center h-full">
+<div class="w-4 bg-primary rounded-t-sm" style="height: 70%"></div>
+<div class="w-4 bg-error rounded-t-sm" style="height: 40%"></div>
+</div>
+<span class="text-[10px] text-on-surface-variant">Ago</span>
+</div>
+<!-- Mes 2 -->
+<div class="flex-1 flex flex-col items-center gap-2 h-full justify-end">
+<div class="w-full flex gap-1 items-end justify-center h-full">
+<div class="w-4 bg-primary rounded-t-sm" style="height: 85%"></div>
+<div class="w-4 bg-error rounded-t-sm" style="height: 35%"></div>
+</div>
+<span class="text-[10px] text-on-surface-variant">Sep</span>
+</div>
+<!-- Mes 3 -->
+<div class="flex-1 flex flex-col items-center gap-2 h-full justify-end">
+<div class="w-full flex gap-1 items-end justify-center h-full">
+<div class="w-4 bg-primary rounded-t-sm" style="height: 95%"></div>
+<div class="w-4 bg-error rounded-t-sm" style="height: 45%"></div>
+</div>
+<span class="text-[10px] text-on-surface-variant font-bold text-white">Oct</span>
+</div>
+</div>
+</div>
+</div>
+</div>
+<!-- BOTTOM - Diagnóstico IA -->
+<section class="bg-surface-container-high rounded-2xl border border-primary-container/30 overflow-hidden relative">
+<!-- AI Sparkle Effect -->
+<div class="absolute top-0 right-0 p-8 pointer-events-none opacity-20">
+<span class="material-symbols-outlined text-7xl text-primary-container" style="font-variation-settings: 'FILL' 1">auto_awesome</span>
+</div>
+<div class="p-8 relative z-10">
+<div class="flex flex-col md:flex-row md:items-center justify-between gap-6 mb-8">
+<div>
+<h2 class="text-2xl font-black text-white">Diagnóstico Estratégico</h2>
+<p class="text-on-surface-variant">Análisis profundo basado en el rendimiento financiero actual.</p>
+</div>
+<button class="bg-primary-container text-on-primary font-extrabold px-8 py-4 rounded-xl flex items-center gap-3 shadow-lg shadow-primary-container/20 hover:scale-105 transition-transform">
+<span class="material-symbols-outlined">psychology</span>
+                            Analizar con Marketerito IA
+                        </button>
+</div>
+<div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+<div class="bg-surface p-6 rounded-xl border border-outline-variant space-y-4">
+<div class="flex items-center gap-2 text-primary">
+<span class="material-symbols-outlined">insights</span>
+<span class="text-sm font-bold uppercase tracking-wider">Eficiencia Operativa</span>
+</div>
+<p class="text-sm text-on-surface">La relación utilidad/ingreso es del 59.1%, superando el promedio de la industria del 45%. Se recomienda optimizar gastos fijos de software.</p>
+</div>
+<div class="bg-surface p-6 rounded-xl border border-outline-variant space-y-4">
+<div class="flex items-center gap-2 text-tertiary">
+<span class="material-symbols-outlined">warning</span>
+<span class="text-sm font-bold uppercase tracking-wider">Riesgo de Cobro</span>
+</div>
+<p class="text-sm text-on-surface">Detectamos 1 contrato con 13 días de retraso (Solar Venture). Impacto proyectado en flujo de caja: -15% para el próximo mes.</p>
+</div>
+<div class="bg-surface p-6 rounded-xl border border-outline-variant space-y-4">
+<div class="flex items-center gap-2 text-emerald-400">
+<span class="material-symbols-outlined">rocket_launch</span>
+<span class="text-sm font-bold uppercase tracking-wider">Recomendación</span>
+</div>
+<p class="text-sm text-on-surface">Escalabilidad positiva: El equipo tiene capacidad para 2 clientes adicionales sin incrementar la nómina actual. Margen de crecimiento: $24k/mes.</p>
+</div>
+</div>
+</div>
+</section>
+</div>
+</main>
+<!-- FAB (Suppressed on Details but kept for Dashboards as per rules) -->
+<button class="fixed bottom-8 right-8 w-14 h-14 bg-primary-container text-on-primary rounded-full shadow-2xl flex items-center justify-center active:scale-95 transition-transform z-40">
+<span class="material-symbols-outlined text-3xl">add</span>
+</button>
+<script src="app.js" defer></script>
+</body></html>

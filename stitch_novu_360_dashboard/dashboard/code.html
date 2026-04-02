@@ -1,0 +1,515 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="es"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;700;800&amp;family=Inter:wght@400;500;600&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+tailwind.config = {
+  darkMode: "class", 
+  theme: {
+    extend: {
+      colors: {
+        error: "#ffb4ab", 
+        "primary-container": "#00c2a8", 
+        "primary-fixed": "#65fade", 
+        "on-tertiary-fixed": "#3a0b00", 
+        "outline-variant": "#262626", 
+        "primary-fixed-dim": "#41ddc2", 
+        outline: "#525252", 
+        "on-surface": "#f5f5f5", 
+        "surface-container": "#171717", 
+        "on-tertiary-fixed-variant": "#7e2c0f", 
+        "surface-variant": "#262626", 
+        "on-secondary-fixed": "#1b1b1b", 
+        "on-secondary-container": "#b5b5b5", 
+        background: "#000000", 
+        "tertiary-fixed": "#ffdbd0", 
+        "on-primary-fixed": "#00201b", 
+        "on-error-container": "#ffdad6", 
+        "surface-container-low": "#121212", 
+        "on-primary-fixed-variant": "#005045", 
+        "on-error": "#690005", 
+        "error-container": "#93000a", 
+        "secondary-fixed": "#e2e2e2", 
+        "surface-tint": "#00C2A8", 
+        "surface-container-lowest": "#0a0a0a", 
+        "tertiary-fixed-dim": "#ffb59e", 
+        "inverse-on-surface": "#171717", 
+        "secondary-container": "#333333", 
+        "on-tertiary-container": "#752509", 
+        "surface-dim": "#000000", 
+        "on-tertiary": "#5e1700", 
+        "on-secondary": "#303030", 
+        primary: "#00C2A8", 
+        "inverse-surface": "#f5f5f5", 
+        "surface-container-high": "#1f1f1f", 
+        tertiary: "#ffb6a0", 
+        "on-primary": "#00382f", 
+        "on-background": "#f5f5f5", 
+        "tertiary-container": "#ff8d69", 
+        "surface-bright": "#262626", 
+        "on-primary-container": "#00493e", 
+        surface: "#000000", 
+        "on-secondary-fixed-variant": "#474747", 
+        "inverse-primary": "#006b5c", 
+        "on-surface-variant": "#a3a3a3", 
+        "secondary-fixed-dim": "#c6c6c6", 
+        secondary: "#c6c6c6", 
+        "surface-container-highest": "#262626"
+      }, 
+      fontFamily: {
+        headline: ["Arial", "sans-serif"], 
+        body: ["Arial", "sans-serif"], 
+        label: ["Arial", "sans-serif"], 
+        display: ["Arial", "sans-serif"]
+      }, 
+      borderRadius: {
+        DEFAULT: "0.5rem", 
+        lg: "0.5rem", 
+        xl: "0.75rem", 
+        full: "1rem"
+      }
+    }
+  }
+};
+</script>
+<style>
+    .material-symbols-outlined {
+      font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+    }
+    .custom-gradient-primary {
+      background: linear-gradient(135deg, #000000 0%, #00C2A8 100%);
+    }
+    body { font-family: 'Arial', sans-serif; background-color: #000000; }
+    h1, h2, h3 { font-family: 'Arial', sans-serif; }
+    ::-webkit-scrollbar {
+      width: 6px;
+    }
+    ::-webkit-scrollbar-track {
+      background: transparent;
+    }
+    ::-webkit-scrollbar-thumb {
+      background: #00c2a8;
+      border-radius: 10px;
+    }
+  </style>
+</head>
+<body class="bg-black text-on-surface antialiased flex overflow-hidden h-screen">
+<!-- SideNavBar -->
+<aside class="bg-black antialiased h-screen w-64 fixed left-0 top-0 flex flex-col py-6 border-r border-white/5 z-20">
+<div class="px-6 mb-8">
+<div class="text-white font-black tracking-widest text-xl">Novu 360</div>
+<div class="text-neutral-500 text-xs uppercase tracking-tighter mt-1 italic">INTELIGENCIA DE AGENCIA</div>
+</div>
+<button class="mx-6 mb-8 py-3 bg-primary text-white font-bold rounded-lg flex items-center justify-center gap-2 transition-transform active:scale-95 duration-150">
+<span class="material-symbols-outlined text-sm font-bold">add</span>
+      Nuevo Proyecto
+    </button>
+<nav class="flex-1 space-y-1 overflow-y-auto custom-scrollbar">
+<a class="bg-primary text-white rounded-lg mx-3 flex items-center px-4 py-3 gap-3 transition-all" href="#">
+<span class="material-symbols-outlined">dashboard</span>
+<span class="font-bold">Dashboard</span>
+</a>
+<a class="text-neutral-400 hover:text-white px-4 py-3 flex items-center gap-3 transition-all hover:bg-white/5 rounded-lg mx-3" href="#">
+<span class="material-symbols-outlined">trending_up</span>
+<span>Ventas</span>
+</a>
+<a class="text-neutral-400 hover:text-white px-4 py-3 flex items-center gap-3 transition-all hover:bg-white/5 rounded-lg mx-3" href="#">
+<span class="material-symbols-outlined">ads_click</span>
+<span>Ads</span>
+</a>
+<a class="text-neutral-400 hover:text-white px-4 py-3 flex items-center gap-3 transition-all hover:bg-white/5 rounded-lg mx-3" href="#">
+<span class="material-symbols-outlined">forum</span>
+<span>Community</span>
+</a>
+<a class="text-neutral-400 hover:text-white px-4 py-3 flex items-center gap-3 transition-all hover:bg-white/5 rounded-lg mx-3" href="#">
+<span class="material-symbols-outlined">search</span>
+<span>SEO</span>
+</a>
+<a class="text-neutral-400 hover:text-white px-4 py-3 flex items-center gap-3 transition-all hover:bg-white/5 rounded-lg mx-3" href="#">
+<span class="material-symbols-outlined">language</span>
+<span>Web</span>
+</a>
+<a class="text-neutral-400 hover:text-white px-4 py-3 flex items-center gap-3 transition-all hover:bg-white/5 rounded-lg mx-3" href="#">
+<span class="material-symbols-outlined">group</span>
+<span>Clientes</span>
+</a>
+<a class="text-neutral-400 hover:text-white px-4 py-3 flex items-center gap-3 transition-all hover:bg-white/5 rounded-lg mx-3" href="#">
+<span class="material-symbols-outlined">payments</span>
+<span>Finanzas</span>
+</a>
+<a class="text-neutral-400 hover:text-white px-4 py-3 flex items-center gap-3 transition-all hover:bg-white/5 rounded-lg mx-3" href="#">
+<span class="material-symbols-outlined">fact_check</span>
+<span>Aprobaciones</span>
+</a>
+<a class="text-neutral-400 hover:text-white px-4 py-3 flex items-center gap-3 transition-all hover:bg-white/5 rounded-lg mx-3" href="#">
+<span class="material-symbols-outlined">rocket_launch</span>
+<span>Onboarding</span>
+</a>
+</nav>
+<div class="mt-auto pt-4 border-t border-white/5 space-y-1">
+<a class="text-neutral-400 hover:text-white px-7 py-3 flex items-center gap-3 transition-all hover:bg-white/5" href="#">
+<span class="material-symbols-outlined">help</span>
+<span>Soporte</span>
+</a>
+<a class="text-neutral-400 hover:text-white px-7 py-3 flex items-center gap-3 transition-all hover:bg-white/5" href="#">
+<span class="material-symbols-outlined">person</span>
+<span>Cuenta</span>
+</a>
+</div>
+</aside>
+<!-- Main Workspace -->
+<main class="ml-64 flex-1 flex flex-col h-full bg-black overflow-y-auto">
+<!-- Top Header -->
+<header class="bg-black flex justify-between items-center h-16 px-8 w-full sticky top-0 z-10 border-b border-white/5">
+<div class="flex items-center gap-6">
+<h1 class="text-xl font-extrabold text-white tracking-tight">Panel de Control Ejecutivo</h1>
+<div class="flex items-center text-xs font-bold text-primary px-3 py-1 bg-primary/10 rounded-full">
+<span class="relative flex h-2 w-2 mr-2">
+<span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-primary opacity-75"></span>
+<span class="relative inline-flex rounded-full h-2 w-2 bg-primary"></span>
+</span>
+          Analítica en tiempo real activada
+        </div>
+</div>
+<div class="flex items-center gap-4">
+<div class="hidden md:flex items-center bg-white/5 rounded-full px-4 py-1.5 gap-2 border border-white/5">
+<span class="material-symbols-outlined text-sm text-neutral-500">search</span>
+<input class="bg-transparent border-none focus:ring-0 text-sm text-on-surface w-48 placeholder-neutral-500" placeholder="Buscar..." type="text"/>
+</div>
+<button class="p-2 rounded-full hover:bg-white/5 transition-colors relative">
+<span class="material-symbols-outlined text-primary">notifications</span>
+</button>
+<div class="flex items-center gap-3 ml-2">
+<div class="text-right">
+<p class="text-xs font-bold text-on-surface">Itzel</p>
+<p class="text-[10px] text-neutral-500 uppercase tracking-widest">Admin</p>
+</div>
+<img alt="User avatar" class="w-10 h-10 rounded-full border-2 border-primary" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDM-vDXQoXtQjtxqJQroo15kDFtGhsQ14wU4kRLvcXCwloOzUX3aNredb2eA_U5TlSQgHAF3-5_jyibV8pdwHxMiohfgrbSYKWHR7gNgRmQlMgeGVioQUbC-ea2tyNZHi-UENZCsiv8yxWm4eg1kmx-Kn-FSN4P7emUF6kNSFozKxZ3FwFy_aiO2JWDZuvdrvpzy3dso6eLPMtfbsGocRSGRcSRfBKwlmTSI57iFtGOXr9Wj9P-cO80FDfBiB7AKguP-mPeUUzDdk4"/>
+</div>
+</div>
+</header>
+<div class="p-8 space-y-8">
+<!-- Executive Overview Section -->
+<section class="bg-surface-container-low text-white rounded-2xl p-8 shadow-2xl relative overflow-hidden border border-white/5">
+<div class="absolute top-0 right-0 p-12 opacity-5">
+<span class="material-symbols-outlined text-[120px]">insights</span>
+</div>
+<div class="relative z-10 grid grid-cols-12 gap-8 items-center">
+<div class="col-span-12 lg:col-span-8">
+<h2 class="text-2xl font-black mb-6 tracking-tight flex items-center gap-3">
+              Resumen Ejecutivo
+            </h2>
+<div class="grid grid-cols-2 md:grid-cols-4 gap-8">
+<div>
+<p class="text-neutral-400 text-[10px] uppercase font-bold tracking-widest mb-1">Clientes Activos</p>
+<div class="flex items-baseline gap-2">
+<span class="text-4xl font-black">6</span>
+<span class="text-primary text-xs font-bold">↑ 12%</span>
+</div>
+<p class="text-neutral-500 text-[10px] mt-2">Pronóstico: 8 (EOM)</p>
+</div>
+<div>
+<p class="text-neutral-400 text-[10px] uppercase font-bold tracking-widest mb-1">Ingresos del Mes</p>
+<div class="flex items-baseline gap-2">
+<span class="text-4xl font-black">$15,400</span>
+<span class="text-primary text-xs font-bold">↑ 2.4%</span>
+</div>
+<p class="text-neutral-500 text-[10px] mt-2">Proyección: $18k</p>
+</div>
+<div>
+<p class="text-neutral-400 text-[10px] uppercase font-bold tracking-widest mb-1">Leads en Pipeline</p>
+<div class="flex items-baseline gap-2">
+<span class="text-4xl font-black">12</span>
+<span class="text-neutral-400 text-xs font-bold">Estable</span>
+</div>
+<p class="text-neutral-500 text-[10px] mt-2">Promedio histórico: 10</p>
+</div>
+<div>
+<p class="text-neutral-400 text-[10px] uppercase font-bold tracking-widest mb-1">Tareas Vencidas</p>
+<div class="flex items-baseline gap-2">
+<span class="text-4xl font-black text-error">04</span>
+<span class="text-error text-xs font-bold">↓ 3%</span>
+</div>
+<p class="text-neutral-500 text-[10px] mt-2">Índice de Riesgo: 1.4</p>
+</div>
+</div>
+</div>
+<!-- Critical Priority Feed -->
+<div class="col-span-12 lg:col-span-4 bg-white/5 rounded-xl p-5 border border-white/10">
+<div class="flex items-center justify-between mb-4">
+<h3 class="text-sm font-bold uppercase tracking-wider text-neutral-300">Feed de Prioridad Crítica</h3>
+<span class="text-[9px] text-primary font-black">ÚLTIMAS ACTUALIZACIONES</span>
+</div>
+<div class="space-y-3">
+<div class="flex gap-3 items-center p-2 rounded bg-error/10 border-l-2 border-error">
+<span class="material-symbols-outlined text-error text-sm">payments</span>
+<div class="flex-1 min-w-0">
+<p class="text-[11px] font-bold text-white truncate">Pago vencido</p>
+<p class="text-[9px] text-neutral-400">Cliente: Aura Media | $12.4k</p>
+</div>
+</div>
+<div class="flex gap-3 items-center p-2 rounded bg-tertiary/10 border-l-2 border-tertiary">
+<span class="material-symbols-outlined text-tertiary text-sm">assignment_late</span>
+<div class="flex-1 min-w-0">
+<p class="text-[11px] font-bold text-white truncate">Entregable pendiente</p>
+<p class="text-[9px] text-neutral-400">Auditoría SEO - Global Log</p>
+</div>
+</div>
+<div class="flex gap-3 items-center p-2 rounded bg-primary/10 border-l-2 border-primary">
+<span class="material-symbols-outlined text-primary text-sm">schedule</span>
+<div class="flex-1 min-w-0">
+<p class="text-[11px] font-bold text-white truncate">Tarea atrasada</p>
+<p class="text-[9px] text-neutral-400">Cierre de mes contable</p>
+</div>
+</div>
+</div>
+</div>
+</div>
+</section>
+<!-- Main Layout Content -->
+<div class="grid grid-cols-12 gap-8">
+<!-- Projects Section -->
+<div class="col-span-12 lg:col-span-8 space-y-6">
+<section class="space-y-4">
+<div class="flex items-center justify-between">
+<h2 class="text-xl font-extrabold tracking-tight text-white">Clientes Activos</h2>
+<button class="text-primary text-sm font-bold flex items-center gap-1 hover:underline">
+                Ver todos los clientes <span class="material-symbols-outlined text-sm">arrow_forward</span>
+</button>
+</div>
+<div class="grid grid-cols-1 gap-4">
+<!-- Project Item 1 -->
+<div class="bg-surface-container-lowest p-6 rounded-xl shadow-sm border border-white/5 flex items-center gap-6 group hover:border-primary/40 transition-all">
+<div class="w-14 h-14 bg-primary/10 rounded-xl flex items-center justify-center">
+<span class="material-symbols-outlined text-primary text-3xl">location_on</span>
+</div>
+<div class="flex-1 grid grid-cols-12 gap-4">
+<div class="col-span-3">
+<h3 class="font-bold text-on-surface">Google Local</h3>
+<p class="text-xs text-neutral-500 mt-1">Aura Media Group</p>
+</div>
+<div class="col-span-3">
+<p class="text-[10px] uppercase font-bold tracking-widest text-neutral-500">Progreso</p>
+<div class="flex items-center gap-2 mt-1">
+<div class="w-24 h-2 bg-neutral-800 rounded-full overflow-hidden">
+<div class="bg-primary h-full" style="width: 75%"></div>
+</div>
+<span class="text-xs font-bold">75%</span>
+</div>
+</div>
+<div class="col-span-2">
+<p class="text-[10px] uppercase font-bold tracking-widest text-neutral-500">Entrega</p>
+<p class="text-xs font-medium mt-1">24 Oct, 2023</p>
+</div>
+<div class="col-span-2">
+<p class="text-[10px] uppercase font-bold tracking-widest text-neutral-500">Equipo</p>
+<div class="flex -space-x-2 mt-1">
+<img alt="Team member" class="w-6 h-6 rounded-full border-2 border-black" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCHXpGZ3a3g-z-uQk4J7S7W8Z8I0Q4M2Z1L9T6R5E4W3Q2A1S0D9F8G7H6J5K4L3M2N1B"/>
+<div class="w-6 h-6 rounded-full bg-neutral-800 text-[10px] font-bold flex items-center justify-center border-2 border-black">+2</div>
+</div>
+</div>
+<div class="col-span-2 flex justify-end items-center">
+<button class="p-2 hover:bg-white/5 rounded-lg transition-colors">
+<span class="material-symbols-outlined text-neutral-500">more_vert</span>
+</button>
+</div>
+</div>
+</div>
+<!-- Project Item 2 -->
+<div class="bg-surface-container-lowest p-6 rounded-xl shadow-sm border border-white/5 flex items-center gap-6 group hover:border-primary/40 transition-all">
+<div class="w-14 h-14 bg-tertiary/10 rounded-xl flex items-center justify-center">
+<span class="material-symbols-outlined text-tertiary text-3xl">web</span>
+</div>
+<div class="flex-1 grid grid-cols-12 gap-4">
+<div class="col-span-3">
+<h3 class="font-bold text-on-surface">Landing Web</h3>
+<p class="text-xs text-neutral-500 mt-1">Global Logistics Inc.</p>
+</div>
+<div class="col-span-3">
+<p class="text-[10px] uppercase font-bold tracking-widest text-neutral-500">Progreso</p>
+<div class="flex items-center gap-2 mt-1">
+<div class="w-24 h-2 bg-neutral-800 rounded-full overflow-hidden">
+<div class="bg-tertiary h-full" style="width: 30%"></div>
+</div>
+<span class="text-xs font-bold text-tertiary">En Pausa</span>
+</div>
+</div>
+<div class="col-span-2">
+<p class="text-[10px] uppercase font-bold tracking-widest text-neutral-500">Entrega</p>
+<p class="text-xs font-medium mt-1">12 Nov, 2023</p>
+</div>
+<div class="col-span-2">
+<p class="text-[10px] uppercase font-bold tracking-widest text-neutral-500">Equipo</p>
+<div class="flex -space-x-2 mt-1">
+<img alt="Team member" class="w-6 h-6 rounded-full border-2 border-black" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCHXpGZ3a3g-z-uQk4J7S7W8Z8I0Q4M2Z1L9T6R5E4W3Q2A1S0D9F8G7H6J5K4L3M2N1D"/>
+</div>
+</div>
+<div class="col-span-2 flex justify-end items-center">
+<button class="p-2 hover:bg-white/5 rounded-lg transition-colors">
+<span class="material-symbols-outlined text-neutral-500">more_vert</span>
+</button>
+</div>
+</div>
+</div>
+<!-- Project Item 3 -->
+<div class="bg-surface-container-lowest p-6 rounded-xl shadow-sm border border-white/5 flex items-center gap-6 group hover:border-primary/40 transition-all">
+<div class="w-14 h-14 bg-primary/10 rounded-xl flex items-center justify-center">
+<span class="material-symbols-outlined text-primary text-3xl">share</span>
+</div>
+<div class="flex-1 grid grid-cols-12 gap-4">
+<div class="col-span-3">
+<h3 class="font-bold text-on-surface">Contenido Redes</h3>
+<p class="text-xs text-neutral-500 mt-1">EcoStyle Fashion</p>
+</div>
+<div class="col-span-3">
+<p class="text-[10px] uppercase font-bold tracking-widest text-neutral-500">Progreso</p>
+<div class="flex items-center gap-2 mt-1">
+<div class="w-24 h-2 bg-neutral-800 rounded-full overflow-hidden">
+<div class="bg-primary h-full" style="width: 90%"></div>
+</div>
+<span class="text-xs font-bold">90%</span>
+</div>
+</div>
+<div class="col-span-2">
+<p class="text-[10px] uppercase font-bold tracking-widest text-neutral-500">Entrega</p>
+<p class="text-xs font-medium mt-1">20 Oct, 2023</p>
+</div>
+<div class="col-span-2">
+<p class="text-[10px] uppercase font-bold tracking-widest text-neutral-500">Equipo</p>
+<div class="flex -space-x-2 mt-1">
+<img alt="Team member" class="w-6 h-6 rounded-full border-2 border-black" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCHXpGZ3a3g-z-uQk4J7S7W8Z8I0Q4M2Z1L9T6R5E4W3Q2A1S0D9F8G7H6J5K4L3M2N1C"/>
+</div>
+</div>
+<div class="col-span-2 flex justify-end items-center">
+<button class="p-2 hover:bg-white/5 rounded-lg transition-colors">
+<span class="material-symbols-outlined text-neutral-500">more_vert</span>
+</button>
+</div>
+</div>
+</div>
+<!-- Project Item 4 -->
+<div class="bg-surface-container-lowest p-6 rounded-xl shadow-sm border border-white/5 flex items-center gap-6 group hover:border-primary/40 transition-all">
+<div class="w-14 h-14 bg-primary/10 rounded-xl flex items-center justify-center">
+<span class="material-symbols-outlined text-primary text-3xl">ads_click</span>
+</div>
+<div class="flex-1 grid grid-cols-12 gap-4">
+<div class="col-span-3">
+<h3 class="font-bold text-on-surface">Ads Meta</h3>
+<p class="text-xs text-neutral-500 mt-1">Nova Tech Solutions</p>
+</div>
+<div class="col-span-3">
+<p class="text-[10px] uppercase font-bold tracking-widest text-neutral-500">Progreso</p>
+<div class="flex items-center gap-2 mt-1">
+<div class="w-24 h-2 bg-neutral-800 rounded-full overflow-hidden">
+<div class="bg-primary h-full" style="width: 55%"></div>
+</div>
+<span class="text-xs font-bold">55%</span>
+</div>
+</div>
+<div class="col-span-2">
+<p class="text-[10px] uppercase font-bold tracking-widest text-neutral-500">Entrega</p>
+<p class="text-xs font-medium mt-1">30 Oct, 2023</p>
+</div>
+<div class="col-span-2">
+<p class="text-[10px] uppercase font-bold tracking-widest text-neutral-500">Equipo</p>
+<div class="flex -space-x-2 mt-1">
+<div class="w-6 h-6 rounded-full bg-neutral-800 text-[10px] font-bold flex items-center justify-center border-2 border-black">+1</div>
+</div>
+</div>
+<div class="col-span-2 flex justify-end items-center">
+<button class="p-2 hover:bg-white/5 rounded-lg transition-colors">
+<span class="material-symbols-outlined text-neutral-500">more_vert</span>
+</button>
+</div>
+</div>
+</div>
+</div>
+</section>
+<!-- Area Health -->
+<div class="space-y-4">
+<h2 class="text-xl font-extrabold tracking-tight text-white">Salud Operativa de Áreas</h2>
+<div class="grid grid-cols-2 md:grid-cols-5 gap-4">
+<div class="bg-surface-container-lowest p-5 rounded-lg border border-white/5 hover:border-primary/30 transition-all group">
+<div class="flex justify-between items-start mb-6">
+<div class="w-3 h-3 bg-primary rounded-full shadow-[0_0_8px_rgba(0,194,168,0.6)]"></div>
+<span class="material-symbols-outlined text-neutral-500 group-hover:text-primary transition-colors">trending_up</span>
+</div>
+<h3 class="font-bold text-on-surface">Ventas</h3>
+<p class="text-[10px] text-neutral-500 mt-1">Meta: 92% Logrado</p>
+</div>
+<div class="bg-surface-container-lowest p-5 rounded-lg border border-white/5 hover:border-primary/30 transition-all group">
+<div class="flex justify-between items-start mb-6">
+<div class="w-3 h-3 bg-primary rounded-full shadow-[0_0_8px_rgba(0,194,168,0.6)]"></div>
+<span class="material-symbols-outlined text-neutral-500 group-hover:text-primary transition-colors">ads_click</span>
+</div>
+<h3 class="font-bold text-on-surface">Ads</h3>
+<p class="text-[10px] text-neutral-500 mt-1">ROAS: 4.2x Prom</p>
+</div>
+<div class="bg-surface-container-lowest p-5 rounded-lg border border-white/5 hover:border-primary/30 transition-all group">
+<div class="flex justify-between items-start mb-6">
+<div class="w-3 h-3 bg-yellow-500 rounded-full shadow-[0_0_8px_rgba(234,179,8,0.6)]"></div>
+<span class="material-symbols-outlined text-neutral-500 group-hover:text-primary transition-colors">forum</span>
+</div>
+<h3 class="font-bold text-on-surface">Community</h3>
+<p class="text-[10px] text-neutral-500 mt-1">2 Tickets pendientes</p>
+</div>
+<div class="bg-surface-container-lowest p-5 rounded-lg border border-white/5 hover:border-primary/30 transition-all group">
+<div class="flex justify-between items-start mb-6">
+<div class="w-3 h-3 bg-red-500 rounded-full shadow-[0_0_8px_rgba(239,68,68,0.6)]"></div>
+<span class="material-symbols-outlined text-neutral-500 group-hover:text-primary transition-colors">search</span>
+</div>
+<h3 class="font-bold text-on-surface">SEO</h3>
+<p class="text-[10px] text-neutral-500 mt-1">Meta: 60% Logrado</p>
+</div>
+<div class="bg-surface-container-lowest p-5 rounded-lg border border-white/5 hover:border-primary/30 transition-all group">
+<div class="flex justify-between items-start mb-6">
+<div class="w-3 h-3 bg-primary rounded-full shadow-[0_0_8px_rgba(0,194,168,0.6)]"></div>
+<span class="material-symbols-outlined text-neutral-500 group-hover:text-primary transition-colors">language</span>
+</div>
+<h3 class="font-bold text-on-surface">Web</h3>
+<p class="text-[10px] text-neutral-500 mt-1">Uptime: 99.9%</p>
+</div>
+</div>
+</div>
+</div>
+<!-- Sidebar Right: Quick Shortcuts & Visuals -->
+<div class="col-span-12 lg:col-span-4 space-y-6">
+<div class="bg-surface-container-low rounded-2xl p-6 border border-white/5 shadow-xl">
+<h2 class="text-sm font-extrabold tracking-tight uppercase mb-4 text-neutral-400">Acciones Rápidas</h2>
+<div class="grid grid-cols-2 gap-3">
+<button class="bg-surface-container-lowest p-4 rounded-xl flex flex-col items-center gap-2 border border-white/5 hover:border-primary transition-all">
+<span class="material-symbols-outlined text-primary">person_add</span>
+<span class="text-[10px] font-bold uppercase tracking-widest text-on-surface">Nuevo Lead</span>
+</button>
+<button class="bg-surface-container-lowest p-4 rounded-xl flex flex-col items-center gap-2 border border-white/5 hover:border-primary transition-all">
+<span class="material-symbols-outlined text-primary">add_task</span>
+<span class="text-[10px] font-bold uppercase tracking-widest text-on-surface">Nueva Tarea</span>
+</button>
+<button class="bg-surface-container-lowest p-4 rounded-xl flex flex-col items-center gap-2 border border-white/5 hover:border-primary transition-all">
+<span class="material-symbols-outlined text-primary">fact_check</span>
+<span class="text-[10px] font-bold uppercase tracking-widest text-on-surface text-center">Ver Aprobaciones</span>
+</button>
+<button class="bg-surface-container-lowest p-4 rounded-xl flex flex-col items-center gap-2 border border-white/5 hover:border-primary transition-all">
+<span class="material-symbols-outlined text-primary">psychology</span>
+<span class="text-[10px] font-bold uppercase tracking-widest text-on-surface">Cerebros IA</span>
+</button>
+</div>
+<!-- Decorative Visual -->
+<div class="mt-8 rounded-xl overflow-hidden relative group">
+<img alt="Data visualization" class="w-full h-48 object-cover opacity-80 group-hover:scale-110 transition-transform duration-700" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAeRMvcBxRvpMtT1PgAGngUaSQZWCnNl6ssPKro-gxeI1CPtDQ8XnDACHoCVaStTARgwZ-tZz9OG1LMn_ztGUhHm0Eq9b4kuZ2fUPkgZHqvVhf2lHz5HPAo4PEeZZHZClCrAHjOT_oGAeiGkgG3NujyIVTyuzURuxx27RAAo2Cjhs1ZeAqRQ4j_09fh_wDWhY8nffFAb6Hb-28XlPKHe6KKTh4aqIa25r0i-SyWouxRJhSIr4sc4cHJ9LBnBekHr0BNPf3WETSyTog"/>
+<div class="absolute inset-0 bg-gradient-to-t from-black to-transparent opacity-60"></div>
+<div class="absolute bottom-4 left-4">
+<p class="text-white text-xs font-bold">Snapshot de Inteligencia</p>
+<p class="text-white/60 text-[10px]">Índice de eficiencia en vivo</p>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</main>
+</body></html>

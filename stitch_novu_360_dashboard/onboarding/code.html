@@ -1,0 +1,295 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="es"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Novu 360 Academy - Prospección con IA</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;700;800&amp;family=Inter:wght@400;500;600&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            colors: {
+              "on-background": "#dde4e1",
+              "on-error": "#690005",
+              "on-primary-fixed-variant": "#005045",
+              "surface-container-lowest": "#09100e",
+              "on-error-container": "#ffdad6",
+              "inverse-primary": "#006b5c",
+              "surface-bright": "#333b38",
+              "inverse-surface": "#dde4e1",
+              "primary-fixed-dim": "#41ddc2",
+              "primary": "#42dec3",
+              "outline-variant": "#3c4a46",
+              "surface-dim": "#0e1513",
+              "outline": "#85948f",
+              "error": "#ffb4ab",
+              "primary-fixed": "#65fade",
+              "on-surface-variant": "#bbcac4",
+              "on-primary-container": "#00493e",
+              "on-tertiary-fixed-variant": "#7e2c0f",
+              "secondary-fixed-dim": "#c6c6c6",
+              "on-secondary-fixed-variant": "#474747",
+              "secondary": "#c6c6c6",
+              "tertiary": "#ffb6a0",
+              "surface-container-low": "#161d1b",
+              "surface": "#0e1513",
+              "on-tertiary-container": "#752509",
+              "background": "#0e1513",
+              "on-tertiary-fixed": "#3a0b00",
+              "tertiary-fixed": "#ffdbd0",
+              "surface-container-high": "#242b29",
+              "tertiary-container": "#ff8d69",
+              "secondary-fixed": "#e2e2e2",
+              "on-secondary": "#303030",
+              "surface-tint": "#41ddc2",
+              "secondary-container": "#474747",
+              "surface-container": "#1a211f",
+              "tertiary-fixed-dim": "#ffb59e",
+              "on-tertiary": "#5e1700",
+              "on-secondary-container": "#b5b5b5",
+              "on-primary-fixed": "#00201b",
+              "inverse-on-surface": "#2b3230",
+              "surface-container-highest": "#2f3634",
+              "on-secondary-fixed": "#1b1b1b",
+              "surface-variant": "#2f3634",
+              "primary-container": "#00c2a8",
+              "error-container": "#93000a",
+              "on-surface": "#dde4e1",
+              "on-primary": "#00382f"
+            },
+            fontFamily: {
+              "headline": ["Manrope"],
+              "body": ["Inter"],
+              "label": ["Inter"]
+            },
+            borderRadius: {"DEFAULT": "0.25rem", "lg": "0.5rem", "xl": "0.75rem", "full": "9999px"},
+          },
+        },
+      }
+    </script>
+<style>
+        body { font-family: 'Inter', sans-serif; background-color: #000000; }
+        h1, h2, h3 { font-family: 'Manrope', sans-serif; }
+        .material-symbols-outlined { font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24; }
+    </style>
+</head>
+<body class="bg-black text-on-surface min-h-screen">
+<!-- TopNavBar -->
+<nav class="fixed top-0 w-full z-50 border-b border-neutral-800 bg-black flex justify-between items-center px-6 h-16 w-full font-manrope tracking-tight">
+<div class="flex items-center gap-8">
+<span class="text-xl font-extrabold text-teal-500 dark:text-teal-400">Novu 360 Academy</span>
+<div class="hidden md:flex items-center gap-6">
+<span class="text-teal-400 font-bold border-b-2 border-teal-400 pb-1 cursor-pointer text-sm">Ruta de Aprendizaje</span>
+<span class="text-neutral-400 hover:text-teal-300 transition-all cursor-pointer text-sm">Mi Progreso</span>
+</div>
+</div>
+<div class="flex items-center gap-4">
+<div class="hidden lg:flex flex-col items-end mr-4">
+<span class="text-xs text-neutral-400 font-medium">Sofia</span>
+<div class="w-32 h-1.5 bg-neutral-800 rounded-full mt-1 overflow-hidden">
+<div class="bg-primary-container h-full w-[60%]"></div>
+</div>
+</div>
+<button class="text-teal-500 hover:text-teal-300 transition-all active:scale-95 duration-150">
+<span class="material-symbols-outlined" data-icon="emoji_events">emoji_events</span>
+</button>
+<button class="text-teal-500 hover:text-teal-300 transition-all active:scale-95 duration-150">
+<span class="material-symbols-outlined" data-icon="notifications">notifications</span>
+</button>
+<button class="text-teal-500 hover:text-teal-300 transition-all active:scale-95 duration-150">
+<span class="material-symbols-outlined" data-icon="account_circle">account_circle</span>
+</button>
+</div>
+</nav>
+<div class="flex pt-16">
+<!-- SideNavBar -->
+<aside class="hidden md:flex h-screen w-72 border-r border-neutral-800 bg-black fixed left-0 top-16 flex-col py-4 font-manrope text-sm font-medium">
+<div class="px-6 mb-8">
+<h3 class="text-neutral-400 uppercase tracking-widest text-[10px] mb-2">Programa de Entrenamiento</h3>
+<div class="flex items-center justify-between">
+<span class="text-teal-500 font-bold">60% Completado</span>
+<span class="text-xs text-neutral-500">3/5 Módulos</span>
+</div>
+</div>
+<nav class="space-y-1">
+<!-- Module 1 -->
+<div class="text-neutral-500 flex items-center px-4 py-3 hover:bg-neutral-900 cursor-pointer transition-all">
+<span class="material-symbols-outlined mr-3 text-green-500" data-icon="check_circle" style="font-variation-settings: 'FILL' 1;">check_circle</span>
+<span>1. Que es Novu 360</span>
+</div>
+<!-- Module 2 -->
+<div class="text-neutral-500 flex items-center px-4 py-3 hover:bg-neutral-900 cursor-pointer transition-all">
+<span class="material-symbols-outlined mr-3 text-green-500" data-icon="check_circle" style="font-variation-settings: 'FILL' 1;">check_circle</span>
+<span>2. Como usar el hub</span>
+</div>
+<!-- Module 3 - ACTIVE -->
+<div class="bg-teal-500/10 text-teal-400 border-r-4 border-teal-500 flex items-center px-4 py-3 rounded-r-lg cursor-pointer transition-all">
+<span class="material-symbols-outlined mr-3" data-icon="psychology">psychology</span>
+<span class="font-bold">3. Prospeccion con IA</span>
+</div>
+<!-- Module 4 -->
+<div class="text-neutral-600 flex items-center px-4 py-3 cursor-not-allowed opacity-50">
+<span class="material-symbols-outlined mr-3" data-icon="lock">lock</span>
+<span>4. Contenido con Freepik</span>
+</div>
+<!-- Module 5 -->
+<div class="text-neutral-600 flex items-center px-4 py-3 cursor-not-allowed opacity-50">
+<span class="material-symbols-outlined mr-3" data-icon="lock">lock</span>
+<span>5. Clientes y Aprobaciones</span>
+</div>
+</nav>
+<div class="mt-auto px-6 py-6 border-t border-neutral-800">
+<div class="bg-neutral-900/50 rounded-xl p-4 border border-neutral-800">
+<p class="text-xs text-neutral-400 mb-2">¿Necesitas ayuda?</p>
+<button class="w-full py-2 bg-neutral-800 text-on-surface text-xs rounded-lg hover:bg-neutral-700 transition-colors">Contactar a Itzel</button>
+</div>
+</div>
+</aside>
+<!-- Main Content Area -->
+<main class="flex-1 ml-0 md:ml-72 p-6 md:p-10 bg-[#0e1513]">
+<div class="max-w-5xl mx-auto space-y-8">
+<!-- Header Card -->
+<header class="relative overflow-hidden rounded-xl bg-primary-container p-8 text-on-primary-container shadow-xl">
+<div class="relative z-10">
+<div class="flex items-center gap-2 mb-2">
+<span class="bg-on-primary-container/20 text-[10px] font-bold uppercase tracking-wider px-2 py-0.5 rounded-full">Actual</span>
+<span class="text-sm font-medium">Módulo 3</span>
+</div>
+<h1 class="text-3xl md:text-4xl font-extrabold mb-3">Prospeccion con IA</h1>
+<p class="text-on-primary-container/90 max-w-2xl font-medium">
+<span class="font-bold">Objetivo:</span> Aprender a buscar negocios locales en Instagram y generar mensajes personalizados con IA en 1 clic.
+                    </p>
+</div>
+<div class="absolute top-0 right-0 w-64 h-64 bg-white/10 rounded-full -mr-20 -mt-20 blur-3xl"></div>
+</header>
+<!-- Step-by-Step Section -->
+<section>
+<div class="flex items-center gap-3 mb-6">
+<span class="material-symbols-outlined text-primary" data-icon="format_list_numbered">format_list_numbered</span>
+<h2 class="text-xl font-bold tracking-tight">Flujo de Trabajo</h2>
+</div>
+<div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+<!-- Step 1 -->
+<div class="bg-surface-container-high p-6 rounded-xl border border-outline-variant hover:border-primary/50 transition-all group">
+<div class="w-12 h-12 bg-primary/10 rounded-lg flex items-center justify-center mb-4 text-primary group-hover:scale-110 transition-transform">
+<span class="material-symbols-outlined" data-icon="search">search</span>
+</div>
+<h3 class="font-bold text-lg mb-2">1. Buscar el negocio</h3>
+<p class="text-on-surface-variant text-sm leading-relaxed">Busca un negocio local en Instagram en tu ciudad. Toma nota de su nombre y usuario.</p>
+</div>
+<!-- Step 2 -->
+<div class="bg-surface-container-high p-6 rounded-xl border border-outline-variant hover:border-primary/50 transition-all group">
+<div class="w-12 h-12 bg-primary/10 rounded-lg flex items-center justify-center mb-4 text-primary group-hover:scale-110 transition-transform">
+<span class="material-symbols-outlined" data-icon="smart_toy">smart_toy</span>
+</div>
+<h3 class="font-bold text-lg mb-2">2. Usar el Prospector IA</h3>
+<p class="text-on-surface-variant text-sm leading-relaxed">Entra a /ventas/prospector, ingresa los datos y genera el mensaje con 1 clic.</p>
+</div>
+<!-- Step 3 -->
+<div class="bg-surface-container-high p-6 rounded-xl border border-outline-variant hover:border-primary/50 transition-all group">
+<div class="w-12 h-12 bg-primary/10 rounded-lg flex items-center justify-center mb-4 text-primary group-hover:scale-110 transition-transform">
+<span class="material-symbols-outlined" data-icon="assignment_turned_in">assignment_turned_in</span>
+</div>
+<h3 class="font-bold text-lg mb-2">3. Registrar en Pipeline</h3>
+<p class="text-on-surface-variant text-sm leading-relaxed">Copia el mensaje, envialo por DM y registra el lead como Contactado en el pipeline.</p>
+</div>
+</div>
+</section>
+<!-- Practical Deliverable Section -->
+<section class="bg-teal-500/5 border border-primary/20 rounded-xl p-8 flex flex-col md:flex-row items-center justify-between gap-6">
+<div class="space-y-2 text-center md:text-left">
+<h2 class="text-2xl font-extrabold text-primary">Entregable Práctico</h2>
+<p class="text-on-surface-variant text-sm max-w-xl">Genera un mensaje DM real para un negocio local de tu ciudad. Copia el resultado y pegalo aqui para completar el modulo.</p>
+</div>
+<button class="whitespace-nowrap px-8 py-4 bg-primary-container text-on-primary font-bold rounded-lg hover:brightness-110 active:scale-95 transition-all flex items-center gap-2 shadow-lg shadow-primary/20">
+<span class="material-symbols-outlined" data-icon="upload_file">upload_file</span>
+                    Enviar Trabajo
+                </button>
+</section>
+<!-- Mini Exam Section -->
+<section class="space-y-6">
+<div class="flex items-center gap-3">
+<span class="material-symbols-outlined text-primary" data-icon="quiz">quiz</span>
+<h2 class="text-xl font-bold tracking-tight">Mini Examen</h2>
+</div>
+<!-- Question 1 -->
+<div class="space-y-4">
+<h3 class="font-bold text-on-surface">1. ¿Cuántas líneas debe tener el mensaje DM generado?</h3>
+<div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3">
+<button class="p-4 rounded-xl border border-outline-variant bg-surface-container hover:border-primary/50 text-sm font-medium transition-all text-left">A) 1 línea</button>
+<button class="p-4 rounded-xl border border-outline-variant bg-surface-container hover:border-primary/50 text-sm font-medium transition-all text-left">B) 2 líneas</button>
+<button class="p-4 rounded-xl border border-outline-variant bg-surface-container hover:border-primary/50 text-sm font-medium transition-all text-left">C) 5 líneas</button>
+<button class="p-4 rounded-xl border border-outline-variant bg-surface-container hover:border-primary/50 text-sm font-medium transition-all text-left">D) No importa</button>
+</div>
+</div>
+<!-- Question 2 -->
+<div class="space-y-4">
+<h3 class="font-bold text-on-surface">2. ¿Qué hace el Cerebro Investigador Emocional?</h3>
+<div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3">
+<button class="p-4 rounded-xl border border-outline-variant bg-surface-container hover:border-primary/50 text-sm font-medium transition-all text-left">A) Genera videos</button>
+<button class="p-4 rounded-xl border border-outline-variant bg-surface-container hover:border-primary/50 text-sm font-medium transition-all text-left">B) Analiza dolores del negocio</button>
+<button class="p-4 rounded-xl border border-outline-variant bg-surface-container hover:border-primary/50 text-sm font-medium transition-all text-left">C) Calcula presupuesto</button>
+<button class="p-4 rounded-xl border border-outline-variant bg-surface-container hover:border-primary/50 text-sm font-medium transition-all text-left">D) Responde reseñas</button>
+</div>
+</div>
+<!-- Question 3 -->
+<div class="space-y-4">
+<h3 class="font-bold text-on-surface">3. ¿Cómo se registra un lead después de enviar el DM?</h3>
+<div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3">
+<button class="p-4 rounded-xl border border-outline-variant bg-surface-container hover:border-primary/50 text-sm font-medium transition-all text-left">A) Por WhatsApp</button>
+<button class="p-4 rounded-xl border border-outline-variant bg-surface-container hover:border-primary/50 text-sm font-medium transition-all text-left">B) En Google Sheets</button>
+<button class="p-4 rounded-xl border border-outline-variant bg-surface-container hover:border-primary/50 text-sm font-medium transition-all text-left">C) Como Contactado en el Pipeline</button>
+<button class="p-4 rounded-xl border border-outline-variant bg-surface-container hover:border-primary/50 text-sm font-medium transition-all text-left">D) No se registra</button>
+</div>
+</div>
+<div class="pt-4">
+<button class="px-8 py-3 bg-teal-500 text-black font-bold rounded-lg hover:bg-teal-400 active:scale-95 transition-all shadow-lg shadow-teal-500/20">
+                        Verificar Respuestas
+                    </button>
+</div>
+</section>
+<!-- Performance Status Badges -->
+<footer class="pt-8 border-t border-neutral-800">
+<h3 class="text-xs font-bold text-neutral-500 uppercase tracking-widest mb-4">Indicadores del Sistema de Calificación</h3>
+<div class="flex flex-wrap gap-4">
+<div class="flex items-center gap-2 px-4 py-2 bg-green-500/10 border border-green-500/20 rounded-full">
+<div class="w-2 h-2 rounded-full bg-green-500"></div>
+<span class="text-sm font-semibold text-green-400">Óptimo</span>
+</div>
+<div class="flex items-center gap-2 px-4 py-2 bg-yellow-500/10 border border-yellow-500/20 rounded-full">
+<div class="w-2 h-2 rounded-full bg-yellow-500"></div>
+<span class="text-sm font-semibold text-yellow-400">Regular</span>
+</div>
+<div class="flex items-center gap-2 px-4 py-2 bg-red-500/10 border border-red-500/20 rounded-full">
+<div class="w-2 h-2 rounded-full bg-red-500"></div>
+<span class="text-sm font-semibold text-red-400">Incorrecto</span>
+</div>
+</div>
+</footer>
+</div>
+</main>
+</div>
+<!-- Mobile BottomNavBar (Hidden on desktop) -->
+<div class="md:hidden fixed bottom-0 left-0 right-0 bg-black border-t border-neutral-800 h-16 flex justify-around items-center px-4 z-50">
+<button class="flex flex-col items-center text-teal-400">
+<span class="material-symbols-outlined" data-icon="school">school</span>
+<span class="text-[10px] mt-1">Aprender</span>
+</button>
+<button class="flex flex-col items-center text-neutral-500">
+<span class="material-symbols-outlined" data-icon="library_books">library_books</span>
+<span class="text-[10px] mt-1">Progreso</span>
+</button>
+<button class="flex flex-col items-center text-neutral-500">
+<span class="material-symbols-outlined" data-icon="forum">forum</span>
+<span class="text-[10px] mt-1">Chat</span>
+</button>
+<button class="flex flex-col items-center text-neutral-500">
+<span class="material-symbols-outlined" data-icon="person">person</span>
+<span class="text-[10px] mt-1">Perfil</span>
+</button>
+</div>
+</body></html>

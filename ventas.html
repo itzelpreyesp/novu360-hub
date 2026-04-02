@@ -1,0 +1,458 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="es"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Novu 360 · Ventas & Prospector IA</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;600;700;800&amp;family=Inter:wght@400;500;600&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+    tailwind.config = {
+      darkMode: "class",
+      theme: {
+        extend: {
+          colors: {
+            "tertiary-fixed": "#ffdbd0",
+            "surface-container": "#09100e",
+            "on-secondary-fixed-variant": "#474747",
+            "on-tertiary-fixed-variant": "#7e2c0f",
+            "surface-container-highest": "#1a211f",
+            "outline-variant": "#3c4a46",
+            "secondary-container": "#474747",
+            "surface-container-lowest": "#000000",
+            "on-tertiary-container": "#752509",
+            "primary-fixed": "#65fade",
+            "error": "#ffb4ab",
+            "surface-container-low": "#0e1513",
+            "surface-bright": "#333b38",
+            "primary": "#00C2A8",
+            "on-primary-fixed-variant": "#005045",
+            "primary-fixed-dim": "#41ddc2",
+            "on-tertiary-fixed": "#3a0b00",
+            "on-primary-fixed": "#00201b",
+            "on-background": "#dde4e1",
+            "primary-container": "#00C2A8",
+            "on-primary": "#00382f",
+            "surface-dim": "#000000",
+            "on-secondary-container": "#b5b5b5",
+            "on-tertiary": "#5e1700",
+            "on-secondary": "#303030",
+            "tertiary-fixed-dim": "#ffb59e",
+            "surface-variant": "#161d1b",
+            "secondary-fixed-dim": "#c6c6c6",
+            "on-surface-variant": "#bbcac4",
+            "on-primary-container": "#00493e",
+            "on-secondary-fixed": "#1b1b1b",
+            "on-error": "#690005",
+            "tertiary-container": "#ff8d69",
+            "outline": "#445550",
+            "inverse-primary": "#006b5c",
+            "surface-tint": "#00C2A8",
+            "secondary-fixed": "#e2e2e2",
+            "on-error-container": "#ffdad6",
+            "error-container": "#93000a",
+            "surface": "#000000",
+            "tertiary": "#ffb6a0",
+            "on-surface": "#dde4e1",
+            "surface-container-high": "#161d1b",
+            "secondary": "#c6c6c6",
+            "background": "#000000",
+            "inverse-on-surface": "#2b3230",
+            "inverse-surface": "#dde4e1"
+          },
+          fontFamily: {
+            "headline": ["Manrope"],
+            "body": ["Inter"],
+            "label": ["Inter"]
+          },
+          borderRadius: {"DEFAULT": "0.25rem", "lg": "0.5rem", "xl": "0.75rem", "full": "9999px"},
+        },
+      },
+    }
+  </script>
+<style>
+    .material-symbols-outlined {
+      font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+    }
+    body { font-family: 'Inter', sans-serif; background-color: #000000; color: #dde4e1; }
+    h1, h2, h3, .brand-font { font-family: 'Manrope', sans-serif; }
+    .no-scrollbar::-webkit-scrollbar { display: none; }
+    .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+    .bg-slate-900 { background-color: #0c0c0c !important; }
+    .bg-slate-950 { background-color: #000000 !important; }
+    .border-slate-800 { border-color: #1f2937 !important; }
+  </style>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;700;800&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css">
+</head>
+<body class="bg-background text-on-background selection:bg-primary-container/30">
+<!-- SideNavBar Shell -->
+<!-- SideNavBar - Novu 360 -->
+<aside class="bg-black antialiased h-screen w-64 fixed left-0 top-0 flex flex-col py-6 z-20" style="box-shadow: 4px 0 24px rgba(0,0,0,0.6)">
+  <div class="px-6 mb-8">
+    <a href="dashboard.html" class="text-white font-black tracking-widest text-xl block" style="color:#fff;text-decoration:none">Novu 360</a>
+    <div class="text-neutral-500 text-xs uppercase tracking-tighter mt-1 italic">INTELIGENCIA DE AGENCIA</div>
+  </div>
+  <button onclick="window.location.href='dashboard.html'" class="mx-6 mb-8 py-3 font-bold rounded-lg flex items-center justify-center gap-2 transition-transform active:scale-95 duration-150" style="background:linear-gradient(135deg,#00C2A8,#009984);color:#000">
+    <span class="material-symbols-outlined text-sm font-bold">add</span>
+    Nuevo Proyecto
+  </button>
+  <nav class="flex-1 space-y-1 overflow-y-auto">
+    <a class="text-neutral-400 hover:text-white px-4 py-3 flex items-center gap-3 transition-all hover:bg-white/5 rounded-lg mx-3" href="dashboard.html">
+      <span class="material-symbols-outlined">dashboard</span>
+      <span>Dashboard</span>
+    </a>
+<a class="bg-primary text-black rounded-lg mx-3 flex items-center px-4 py-3 gap-3 transition-all font-bold nav-active" href="ventas.html">
+      <span class="material-symbols-outlined">trending_up</span>
+      <span>Ventas</span>
+    </a>
+<a class="text-neutral-400 hover:text-white px-4 py-3 flex items-center gap-3 transition-all hover:bg-white/5 rounded-lg mx-3" href="ads.html">
+      <span class="material-symbols-outlined">ads_click</span>
+      <span>Ads</span>
+    </a>
+<a class="text-neutral-400 hover:text-white px-4 py-3 flex items-center gap-3 transition-all hover:bg-white/5 rounded-lg mx-3" href="community.html">
+      <span class="material-symbols-outlined">forum</span>
+      <span>Community</span>
+    </a>
+<a class="text-neutral-400 hover:text-white px-4 py-3 flex items-center gap-3 transition-all hover:bg-white/5 rounded-lg mx-3" href="seo.html">
+      <span class="material-symbols-outlined">search</span>
+      <span>SEO</span>
+    </a>
+<a class="text-neutral-400 hover:text-white px-4 py-3 flex items-center gap-3 transition-all hover:bg-white/5 rounded-lg mx-3" href="web.html">
+      <span class="material-symbols-outlined">language</span>
+      <span>Web</span>
+    </a>
+<a class="text-neutral-400 hover:text-white px-4 py-3 flex items-center gap-3 transition-all hover:bg-white/5 rounded-lg mx-3" href="portal-cliente.html">
+      <span class="material-symbols-outlined">group</span>
+      <span>Clientes</span>
+    </a>
+<a class="text-neutral-400 hover:text-white px-4 py-3 flex items-center gap-3 transition-all hover:bg-white/5 rounded-lg mx-3" href="finanzas.html">
+      <span class="material-symbols-outlined">payments</span>
+      <span>Finanzas</span>
+    </a>
+<a class="text-neutral-400 hover:text-white px-4 py-3 flex items-center gap-3 transition-all hover:bg-white/5 rounded-lg mx-3" href="aprobaciones.html">
+      <span class="material-symbols-outlined">fact_check</span>
+      <span>Aprobaciones</span>
+    </a>
+<a class="text-neutral-400 hover:text-white px-4 py-3 flex items-center gap-3 transition-all hover:bg-white/5 rounded-lg mx-3" href="onboarding.html">
+      <span class="material-symbols-outlined">rocket_launch</span>
+      <span>Onboarding</span>
+    </a>
+<a class="text-neutral-400 hover:text-white px-4 py-3 flex items-center gap-3 transition-all hover:bg-white/5 rounded-lg mx-3" href="cerebros.html">
+      <span class="material-symbols-outlined">psychology</span>
+      <span>Cerebros IA</span>
+    </a>
+  </nav>
+  <div class="mt-auto pt-4 space-y-1" style="border-top:1px solid rgba(255,255,255,0.05)">
+    <a class="text-neutral-400 hover:text-white px-7 py-3 flex items-center gap-3 transition-all hover:bg-white/5" href="#">
+      <span class="material-symbols-outlined">help</span>
+      <span>Soporte</span>
+    </a>
+    <a class="text-neutral-400 hover:text-white px-7 py-3 flex items-center gap-3 transition-all hover:bg-white/5" href="#">
+      <span class="material-symbols-outlined">person</span>
+      <span>Cuenta</span>
+    </a>
+  </div>
+</aside>
+<main class="pl-64 min-h-screen flex flex-col bg-black ml-64">
+<!-- TopNavBar Shell -->
+<header class="flex justify-between items-center pl-6 pr-6 w-full h-16 bg-black/80 backdrop-blur-md border-b border-slate-800 sticky top-0 z-30">
+<div class="flex items-center gap-4">
+<span class="text-lg font-semibold text-slate-100 font-headline">Pipeline de Ventas</span>
+<div class="h-4 w-px bg-slate-800"></div>
+<div class="flex gap-2 items-center text-xs text-[#00C2A8] font-bold bg-[#00C2A8]/10 px-2 py-1 rounded">
+<span class="w-2 h-2 rounded-full bg-[#00C2A8] animate-pulse"></span>
+          EN VIVO
+        </div>
+</div>
+<div class="flex items-center gap-4">
+<div class="relative flex items-center">
+<span class="material-symbols-outlined absolute left-3 text-slate-400 text-sm">search</span>
+<input class="bg-slate-900 border-none rounded-lg pl-9 pr-4 py-1.5 text-sm text-slate-200 focus:ring-1 focus:ring-[#00C2A8] w-64" placeholder="Buscar prospectos..." type="text"/>
+</div>
+<div class="flex items-center gap-1">
+<button class="hover:bg-slate-900 rounded-lg p-2 text-slate-400 hover:text-white transition-colors">
+<span class="material-symbols-outlined" data-icon="notifications">notifications</span>
+</button>
+<button class="hover:bg-slate-900 rounded-lg p-2 text-slate-400 hover:text-white transition-colors">
+<span class="material-symbols-outlined" data-icon="help_outline">help_outline</span>
+</button>
+</div>
+<img alt="Perfil de Usuario" class="w-8 h-8 rounded-full border border-slate-800" data-alt="professional profile photo" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCtIORsbs1dZA4_EP3wjSpM0QtffSLh7iSs3da5_M4w2_Zj3LXaAcQRQOHCJSsQHuHkQi10kqxj2AIj61BRAdcQeVUOE5zBr-v6CjG4z8_2aASHRQ6vkHY1_PT5AWDrVJwxgBxwZxct-sMj_gy-e_ZDxF2Hb796Ua1cHHVo0t58KdunVPcZQKnilAx3j3exJYdEusg3FT_xOjpZWSo1FAtPfwaqdXfGTTzxSbpTT5rT4Bw4aXfstFk8_C6NbtU7XadVlBZAJGps8ME"/>
+</div>
+</header>
+<div class="flex flex-1 p-6 gap-6 overflow-hidden bg-black">
+<!-- LEFT SECTION (60%): Pipeline de Ventas - Table View -->
+<section class="w-3/5 flex flex-col h-full bg-black rounded-xl p-4 border border-slate-800 overflow-hidden">
+<div class="flex justify-between items-center mb-6 px-2">
+<div>
+<h2 class="text-2xl font-bold font-headline text-white">Prospectos</h2>
+<p class="text-slate-500 text-xs mt-1">Gestiona y rastrea los prospectos de tu agencia en detalle.</p>
+</div>
+<div class="flex gap-2">
+<button class="flex items-center gap-2 px-4 py-2 bg-slate-900/50 text-slate-300 text-sm rounded-lg hover:bg-slate-800 border border-slate-800 transition-all">
+<span class="material-symbols-outlined text-sm">filter_list</span>
+              Filtrar
+            </button>
+<button class="flex items-center gap-2 px-4 py-2 bg-[#00C2A8] text-[#00382f] font-bold text-sm rounded-lg hover:brightness-110 transition-all shadow-lg shadow-[#00C2A8]/20">
+<span class="material-symbols-outlined text-sm">add</span>
+              Nueva Etapa
+            </button>
+</div>
+</div>
+<div class="flex-1 overflow-auto no-scrollbar">
+<table class="w-full text-left border-separate border-spacing-y-0">
+<thead>
+<tr class="text-[10px] font-bold text-slate-500 uppercase tracking-widest border-b border-slate-800">
+<th class="px-4 py-4 font-bold">Nombre</th>
+<th class="px-4 py-4 font-bold">Usuario</th>
+<th class="px-4 py-4 font-bold text-center">Fecha</th>
+<th class="px-4 py-4 font-bold text-center">Estado</th>
+<th class="px-4 py-4 font-bold">Resumen IA</th>
+</tr>
+</thead>
+<tbody class="divide-y divide-slate-800/50">
+<!-- Row 1 -->
+<tr class="hover:bg-slate-900/30 transition-colors group">
+<td class="px-4 py-6">
+<span class="text-sm font-bold text-slate-100 block">Restaurante Roma</span>
+</td>
+<td class="px-4 py-6">
+<span class="text-xs text-slate-500">@romafoodies</span>
+</td>
+<td class="px-4 py-6 text-center">
+<div class="text-xs text-slate-400">
+<span class="block">24 Oct,</span>
+<span>2023</span>
+</div>
+</td>
+<td class="px-4 py-6 text-center">
+<span class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-blue-400/10 text-blue-400 text-[10px] font-bold uppercase tracking-wider border border-blue-400/20">
+<span class="w-1.5 h-1.5 rounded-full bg-blue-400"></span>
+                    Nuevo
+                  </span>
+</td>
+<td class="px-4 py-6">
+<p class="text-xs text-slate-600 line-clamp-1">Interesado en marketing...</p>
+</td>
+</tr>
+<!-- Row 2 -->
+<tr class="hover:bg-slate-900/30 transition-colors group">
+<td class="px-4 py-6">
+<span class="text-sm font-bold text-slate-100 block">Studio Glow</span>
+</td>
+<td class="px-4 py-6">
+<span class="text-xs text-slate-500">@studioglow.mx</span>
+</td>
+<td class="px-4 py-6 text-center">
+<div class="text-xs text-slate-400">
+<span class="block">23 Oct,</span>
+<span>2023</span>
+</div>
+</td>
+<td class="px-4 py-6 text-center">
+<span class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-[#A855F7]/10 text-[#A855F7] text-[10px] font-bold uppercase tracking-wider border border-[#A855F7]/20">
+<span class="w-1.5 h-1.5 rounded-full bg-[#A855F7]"></span>
+                    Propuesta
+                  </span>
+</td>
+<td class="px-4 py-6">
+<p class="text-xs text-slate-600 line-clamp-1">Esperando aprobación...</p>
+</td>
+</tr>
+<!-- Row 3 -->
+<tr class="hover:bg-slate-900/30 transition-colors group">
+<td class="px-4 py-6">
+<span class="text-sm font-bold text-slate-100 block">Urban Fitness</span>
+</td>
+<td class="px-4 py-6">
+<span class="text-xs text-slate-500">@urbanfit_oficial</span>
+</td>
+<td class="px-4 py-6 text-center">
+<div class="text-xs text-slate-400">
+<span class="block">22 Oct,</span>
+<span>2023</span>
+</div>
+</td>
+<td class="px-4 py-6 text-center">
+<span class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-amber-400/10 text-amber-400 text-[10px] font-bold uppercase tracking-wider border border-amber-400/20">
+<span class="w-1.5 h-1.5 rounded-full bg-amber-400"></span>
+                    Contactado
+                  </span>
+</td>
+<td class="px-4 py-6">
+<p class="text-xs text-slate-600 line-clamp-1">Presentación enviada...</p>
+</td>
+</tr>
+<!-- Row 4 -->
+<tr class="hover:bg-slate-900/30 transition-colors group">
+<td class="px-4 py-6">
+<span class="text-sm font-bold text-slate-100 block">Dental Care</span>
+</td>
+<td class="px-4 py-6">
+<span class="text-xs text-slate-500">@dentalcare_center</span>
+</td>
+<td class="px-4 py-6 text-center">
+<div class="text-xs text-slate-400">
+<span class="block">20 Oct,</span>
+<span>2023</span>
+</div>
+</td>
+<td class="px-4 py-6 text-center">
+<span class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-purple-400/10 text-purple-400 text-[10px] font-bold uppercase tracking-wider border border-purple-400/20">
+<span class="w-1.5 h-1.5 rounded-full bg-purple-400"></span>
+                    Calificado
+                  </span>
+</td>
+<td class="px-4 py-6">
+<p class="text-xs text-slate-600 line-clamp-1">Reunión agendada...</p>
+</td>
+</tr>
+<!-- Row 5 -->
+<tr class="hover:bg-slate-900/30 transition-colors group">
+<td class="px-4 py-6">
+<span class="text-sm font-bold text-slate-100 block">Pizza Napoli</span>
+</td>
+<td class="px-4 py-6">
+<span class="text-xs text-slate-500">@pizzanapoli</span>
+</td>
+<td class="px-4 py-6 text-center">
+<div class="text-xs text-slate-400">
+<span class="block">15 Oct,</span>
+<span>2023</span>
+</div>
+</td>
+<td class="px-4 py-6 text-center">
+<span class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-emerald-500/10 text-emerald-500 text-[10px] font-bold uppercase tracking-wider border border-emerald-500/20">
+<span class="w-1.5 h-1.5 rounded-full bg-emerald-500"></span>
+                    Cerrado
+                  </span>
+</td>
+<td class="px-4 py-6">
+<p class="text-xs text-slate-600 line-clamp-1">Contrato firmado...</p>
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</section>
+<!-- RIGHT SECTION (40%): AI Prospector, Auditor & Pitch Generator -->
+<section class="w-2/5 flex flex-col gap-6 overflow-y-auto no-scrollbar">
+<!-- AI Prospector Card -->
+<div class="bg-[#0c0c0c] border border-slate-800 rounded-2xl p-6 shadow-2xl relative overflow-hidden">
+<div class="absolute top-0 right-0 p-4 opacity-5">
+<span class="material-symbols-outlined text-6xl" data-icon="psychology">psychology</span>
+</div>
+<div class="flex items-center gap-2 mb-6">
+<span class="material-symbols-outlined text-[#00C2A8]">auto_awesome</span>
+<h2 class="text-xl font-bold font-headline text-white">AI Prospector</h2>
+</div>
+<form class="space-y-4 mb-6">
+<div class="grid grid-cols-2 gap-4">
+<div class="space-y-1.5">
+<label class="text-[10px] font-bold uppercase tracking-wider text-slate-500 ml-1">Nombre del negocio</label>
+<input class="w-full bg-black border-slate-800 rounded-lg text-sm py-2 px-3 focus:ring-[#00C2A8] focus:border-[#00C2A8] text-slate-200" placeholder="Ej: Pizza Napoli" type="text"/>
+</div>
+<div class="space-y-1.5">
+<label class="text-[10px] font-bold uppercase tracking-wider text-slate-500 ml-1">Tipo de negocio</label>
+<select class="w-full bg-black border-slate-800 rounded-lg text-sm py-2 px-3 focus:ring-[#00C2A8] focus:border-[#00C2A8] text-slate-200">
+<option>Restaurante</option>
+<option>Gimnasio</option>
+<option>Estética</option>
+<option>E-commerce</option>
+</select>
+</div>
+</div>
+<div class="grid grid-cols-2 gap-4">
+<div class="space-y-1.5">
+<label class="text-[10px] font-bold uppercase tracking-wider text-slate-500 ml-1">Ciudad</label>
+<input class="w-full bg-black border-slate-800 rounded-lg text-sm py-2 px-3 focus:ring-[#00C2A8] focus:border-[#00C2A8] text-slate-200" placeholder="Ciudad de México" type="text"/>
+</div>
+<div class="space-y-1.5">
+<label class="text-[10px] font-bold uppercase tracking-wider text-slate-500 ml-1">Instagram</label>
+<input class="w-full bg-black border-slate-800 rounded-lg text-sm py-2 px-3 focus:ring-[#00C2A8] focus:border-[#00C2A8] text-slate-200" placeholder="@usuario" type="text"/>
+</div>
+</div>
+<button class="w-full bg-[#00C2A8] hover:bg-[#00ad95] text-[#00382f] font-extrabold py-3.5 rounded-xl transition-all flex items-center justify-center gap-2 shadow-lg shadow-[#00C2A8]/20 group" type="button">
+<span class="material-symbols-outlined text-lg group-hover:animate-pulse">bolt</span>
+              Generar Mensaje IA
+            </button>
+</form>
+<!-- Result Card -->
+<div class="bg-white rounded-xl p-5 border-l-4 border-[#00C2A8] relative group">
+<div class="flex justify-between items-start mb-2">
+<span class="text-[10px] font-extrabold text-[#00C2A8] uppercase tracking-tighter">Borrador Sugerido</span>
+<button class="text-slate-400 hover:text-[#00C2A8] transition-colors p-1 bg-slate-100 rounded-md">
+<span class="material-symbols-outlined text-sm">content_copy</span>
+</button>
+</div>
+<p class="text-slate-800 text-sm italic leading-relaxed">
+              "¡Hola <strong>Roma</strong>! Estuve viendo el perfil de <strong>Restaurante Roma</strong> y me encantó la estética de sus platillos. Noté que tienen un gran potencial para atraer más clientes locales con pauta digital. ¿Te interesaría ver una auditoría gratuita?"
+            </p>
+</div>
+</div>
+<!-- Auditor de Conversación Section -->
+<div class="bg-[#0c0c0c] rounded-2xl p-6 border border-slate-800 shadow-xl">
+<div class="flex items-center gap-3 mb-5">
+<div class="w-10 h-10 rounded-full bg-slate-900 border border-slate-800 flex items-center justify-center">
+<img alt="Diego AI Avatar" class="w-full h-full rounded-full" data-alt="friendly smart AI assistant avatar" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDVtXd7n4y2mJXZkTUO0boHR3d6yQ5YVZdS7Ig2MzkwUEAwRnYwzxMKLYAEZBsT3ooRtDQMUtiTzaeRGuGJPCuePEer1TGcWTOhP9E6JgHyorArjBQxKLHBQ_RAuoDevQSwQhULN6kKCbMrgN5Rv5VmSSRrwe_oN5mwnNo8esliy3XnMb8RMuIftUDDjfavtmUjjCcNaiaA-cRBgHYjbDkuQx9NqU81lpy6RN9aSxbYbLLASCJpfmhPwFDOTgVXe0fYkEqDW_Pi1F0"/>
+</div>
+<div>
+<h3 class="text-white font-bold text-base leading-none">Auditor de Conversación</h3>
+<p class="text-slate-500 text-[11px] mt-1">Potenciado por Diego AI 4.0</p>
+</div>
+</div>
+<div class="space-y-4">
+<div class="space-y-1.5">
+<label class="text-[10px] font-bold uppercase tracking-wider text-slate-500 ml-1">Pega tu conversación aquí</label>
+<textarea class="w-full bg-black border-slate-800 rounded-xl text-sm py-3 px-4 focus:ring-[#00C2A8] focus:border-[#00C2A8] text-slate-200 resize-none" placeholder="Copia y pega los mensajes para analizar el cierre..." rows="3"></textarea>
+</div>
+<button class="w-full bg-slate-900 hover:bg-slate-800 border border-slate-800 text-[#00C2A8] font-bold py-3 rounded-xl transition-all flex items-center justify-center gap-2">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">analytics</span>
+              Analizar con Diego
+            </button>
+</div>
+</div>
+<!-- Generador de Pitch Section -->
+<div class="bg-[#0c0c0c] rounded-2xl p-6 border border-slate-800 shadow-xl">
+<div class="flex items-center gap-3 mb-5">
+<div class="w-10 h-10 rounded-full bg-[#00C2A8]/10 border border-[#00C2A8]/20 flex items-center justify-center">
+<span class="material-symbols-outlined text-[#00C2A8] text-xl">record_voice_over</span>
+</div>
+<div>
+<h3 class="text-white font-bold text-base leading-none">Generador de Pitch</h3>
+<p class="text-slate-500 text-[11px] mt-1">Crea argumentos de venta personalizados</p>
+</div>
+</div>
+<div class="space-y-4">
+<div class="space-y-1.5">
+<label class="text-[10px] font-bold uppercase tracking-wider text-slate-500 ml-1">Seleccionar Prospecto</label>
+<select class="w-full bg-black border-slate-800 rounded-lg text-sm py-2.5 px-3 focus:ring-[#00C2A8] focus:border-[#00C2A8] text-slate-200">
+<option>Restaurante Roma</option>
+<option>Studio Glow</option>
+<option>Urban Fitness</option>
+<option>Dental Care</option>
+</select>
+</div>
+<button class="w-full bg-[#00C2A8] hover:bg-[#00ad95] text-[#00382f] font-extrabold py-3 rounded-xl transition-all flex items-center justify-center gap-2">
+<span class="material-symbols-outlined text-lg">auto_fix_high</span>
+              Generar Pitch IA
+            </button>
+<div class="space-y-1.5">
+<label class="text-[10px] font-bold uppercase tracking-wider text-slate-500 ml-1">Pitch Generado</label>
+<div class="w-full bg-black border border-dashed border-slate-800 rounded-xl p-4 min-h-[80px]">
+<p class="text-slate-500 text-xs italic">El pitch aparecerá aquí...</p>
+</div>
+</div>
+</div>
+</div>
+</section>
+</div>
+</main>
+<button class="fixed bottom-8 right-8 w-14 h-14 bg-[#00C2A8] text-[#00382f] rounded-full shadow-2xl flex items-center justify-center hover:scale-110 active:scale-95 transition-all z-50">
+<span class="material-symbols-outlined text-2xl font-bold" style="font-variation-settings: 'FILL' 1;">add</span>
+</button>
+<script src="app.js" defer></script>
+</body></html>

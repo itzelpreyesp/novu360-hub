@@ -1,0 +1,376 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="es"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Novu 360 · Web & Landing Pages</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;700;800&amp;family=Inter:wght@400;500;600&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "on-tertiary-container": "#752509",
+                        "on-error-container": "#ffdad6",
+                        "surface": "#0e1513",
+                        "on-surface": "#dde4e1",
+                        "error-container": "#93000a",
+                        "on-primary-container": "#00493e",
+                        "on-primary": "#00382f",
+                        "surface-tint": "#41ddc2",
+                        "tertiary-container": "#ff8d69",
+                        "on-secondary-fixed-variant": "#474747",
+                        "surface-container-high": "#242b29",
+                        "secondary-container": "#474747",
+                        "on-secondary": "#303030",
+                        "surface-container": "#1a211f",
+                        "background": "#000000",
+                        "tertiary-fixed-dim": "#ffb59e",
+                        "secondary": "#c6c6c6",
+                        "on-secondary-fixed": "#1b1b1b",
+                        "tertiary-fixed": "#ffdbd0",
+                        "on-tertiary-fixed": "#3a0b00",
+                        "surface-variant": "#2f3634",
+                        "primary": "#00C2A8",
+                        "inverse-primary": "#006b5c",
+                        "surface-container-highest": "#2f3634",
+                        "on-primary-fixed-variant": "#005045",
+                        "error": "#ffb4ab",
+                        "surface-bright": "#333b38",
+                        "surface-container-low": "#161d1b",
+                        "secondary-fixed": "#e2e2e2",
+                        "on-background": "#dde4e1",
+                        "inverse-on-surface": "#2b3230",
+                        "on-error": "#690005",
+                        "inverse-surface": "#dde4e1",
+                        "primary-fixed": "#65fade",
+                        "surface-container-lowest": "#09100e",
+                        "secondary-fixed-dim": "#c6c6c6",
+                        "tertiary": "#ffb6a0",
+                        "outline-variant": "#3c4a46",
+                        "outline": "#85948f",
+                        "on-secondary-container": "#b5b5b5",
+                        "primary-container": "#00c2a8",
+                        "primary-fixed-dim": "#41ddc2",
+                        "surface-dim": "#0e1513",
+                        "on-tertiary": "#5e1700",
+                        "on-surface-variant": "#bbcac4",
+                        "on-primary-fixed": "#00201b",
+                        "on-tertiary-fixed-variant": "#7e2c0f"
+                    },
+                    fontFamily: {
+                        "headline": ["Manrope"],
+                        "body": ["Inter"],
+                        "label": ["Inter"]
+                    },
+                    borderRadius: {"DEFAULT": "0.25rem", "lg": "0.5rem", "xl": "0.75rem", "full": "9999px"},
+                },
+            },
+        }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        body { font-family: 'Inter', sans-serif; background-color: #000000; color: #dde4e1; }
+        h1, h2, h3 { font-family: 'Manrope', sans-serif; }
+    </style>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;700;800&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css">
+</head>
+<body class="antialiased">
+<!-- TopNavBar -->
+<header class="fixed top-0 w-full z-50 bg-black text-teal-400 font-['Manrope'] antialiased border-b border-zinc-800 flex justify-between items-center h-16 px-6">
+<div class="text-2xl font-black text-teal-400 tracking-tighter cursor-pointer active:opacity-80">Novu 360</div>
+<div class="hidden md:flex items-center gap-8">
+<nav class="flex gap-6">
+<a class="text-zinc-400 font-medium hover:text-teal-300 transition-colors duration-200" href="#">Dashboard</a>
+<a class="text-teal-400 font-bold border-b-2 border-teal-400 pb-1" href="#">Web</a>
+<a class="text-zinc-400 font-medium hover:text-teal-300 transition-colors duration-200" href="#">Clientes</a>
+<a class="text-zinc-400 font-medium hover:text-teal-300 transition-colors duration-200" href="#">Finanzas</a>
+</nav>
+</div>
+<div class="flex items-center gap-4">
+<span class="material-symbols-outlined cursor-pointer text-zinc-400 hover:text-teal-300">notifications</span>
+<span class="material-symbols-outlined cursor-pointer text-zinc-400 hover:text-teal-300">settings</span>
+<img alt="User profile" class="w-8 h-8 rounded-full border border-teal-400/30" data-alt="close-up portrait of a professional male digital marketer with clean background and teal lighting accents" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBUCuYai0DSzg8HATWMtfU-efnRCSzuvtox8GJ2UR4rim7vhfju7JkgBl4wzpzkX51WL-dUI4ONnnr5zw8BDJ4hJdk579LEQYwZiwlZ6Qr_R6uUVSItAxKTg9pTdo6aA-TPwbN-Wdemt8tdcFW5iggkZkKkupTlpuarZy6FawzCbPfhV_EDN9h-Kg4UvIBudmkqKVNk7c_rO0AilYEwh2FC2HBAdZk4qNGKQC9twsHFD__KWhnN6Oth45UsyHzyNK6zSiB-6TSyBdo"/>
+</div>
+</header>
+<!-- SideNavBar -->
+<!-- SideNavBar - Novu 360 -->
+<aside class="bg-black antialiased h-screen w-64 fixed left-0 top-0 flex flex-col py-6 z-20" style="box-shadow: 4px 0 24px rgba(0,0,0,0.6)">
+  <div class="px-6 mb-8">
+    <a href="dashboard.html" class="text-white font-black tracking-widest text-xl block" style="color:#fff;text-decoration:none">Novu 360</a>
+    <div class="text-neutral-500 text-xs uppercase tracking-tighter mt-1 italic">INTELIGENCIA DE AGENCIA</div>
+  </div>
+  <button onclick="window.location.href='dashboard.html'" class="mx-6 mb-8 py-3 font-bold rounded-lg flex items-center justify-center gap-2 transition-transform active:scale-95 duration-150" style="background:linear-gradient(135deg,#00C2A8,#009984);color:#000">
+    <span class="material-symbols-outlined text-sm font-bold">add</span>
+    Nuevo Proyecto
+  </button>
+  <nav class="flex-1 space-y-1 overflow-y-auto">
+    <a class="text-neutral-400 hover:text-white px-4 py-3 flex items-center gap-3 transition-all hover:bg-white/5 rounded-lg mx-3" href="dashboard.html">
+      <span class="material-symbols-outlined">dashboard</span>
+      <span>Dashboard</span>
+    </a>
+<a class="text-neutral-400 hover:text-white px-4 py-3 flex items-center gap-3 transition-all hover:bg-white/5 rounded-lg mx-3" href="ventas.html">
+      <span class="material-symbols-outlined">trending_up</span>
+      <span>Ventas</span>
+    </a>
+<a class="text-neutral-400 hover:text-white px-4 py-3 flex items-center gap-3 transition-all hover:bg-white/5 rounded-lg mx-3" href="ads.html">
+      <span class="material-symbols-outlined">ads_click</span>
+      <span>Ads</span>
+    </a>
+<a class="text-neutral-400 hover:text-white px-4 py-3 flex items-center gap-3 transition-all hover:bg-white/5 rounded-lg mx-3" href="community.html">
+      <span class="material-symbols-outlined">forum</span>
+      <span>Community</span>
+    </a>
+<a class="text-neutral-400 hover:text-white px-4 py-3 flex items-center gap-3 transition-all hover:bg-white/5 rounded-lg mx-3" href="seo.html">
+      <span class="material-symbols-outlined">search</span>
+      <span>SEO</span>
+    </a>
+<a class="bg-primary text-black rounded-lg mx-3 flex items-center px-4 py-3 gap-3 transition-all font-bold nav-active" href="web.html">
+      <span class="material-symbols-outlined">language</span>
+      <span>Web</span>
+    </a>
+<a class="text-neutral-400 hover:text-white px-4 py-3 flex items-center gap-3 transition-all hover:bg-white/5 rounded-lg mx-3" href="portal-cliente.html">
+      <span class="material-symbols-outlined">group</span>
+      <span>Clientes</span>
+    </a>
+<a class="text-neutral-400 hover:text-white px-4 py-3 flex items-center gap-3 transition-all hover:bg-white/5 rounded-lg mx-3" href="finanzas.html">
+      <span class="material-symbols-outlined">payments</span>
+      <span>Finanzas</span>
+    </a>
+<a class="text-neutral-400 hover:text-white px-4 py-3 flex items-center gap-3 transition-all hover:bg-white/5 rounded-lg mx-3" href="aprobaciones.html">
+      <span class="material-symbols-outlined">fact_check</span>
+      <span>Aprobaciones</span>
+    </a>
+<a class="text-neutral-400 hover:text-white px-4 py-3 flex items-center gap-3 transition-all hover:bg-white/5 rounded-lg mx-3" href="onboarding.html">
+      <span class="material-symbols-outlined">rocket_launch</span>
+      <span>Onboarding</span>
+    </a>
+<a class="text-neutral-400 hover:text-white px-4 py-3 flex items-center gap-3 transition-all hover:bg-white/5 rounded-lg mx-3" href="cerebros.html">
+      <span class="material-symbols-outlined">psychology</span>
+      <span>Cerebros IA</span>
+    </a>
+  </nav>
+  <div class="mt-auto pt-4 space-y-1" style="border-top:1px solid rgba(255,255,255,0.05)">
+    <a class="text-neutral-400 hover:text-white px-7 py-3 flex items-center gap-3 transition-all hover:bg-white/5" href="#">
+      <span class="material-symbols-outlined">help</span>
+      <span>Soporte</span>
+    </a>
+    <a class="text-neutral-400 hover:text-white px-7 py-3 flex items-center gap-3 transition-all hover:bg-white/5" href="#">
+      <span class="material-symbols-outlined">person</span>
+      <span>Cuenta</span>
+    </a>
+  </div>
+</aside>
+<!-- Main Content -->
+<main class="md:ml-64 pt-20 p-6 min-h-screen">
+<!-- Module Header & Tabs -->
+<div class="flex flex-col md:flex-row md:items-center justify-between mb-8 gap-4">
+<div>
+<h1 class="text-3xl font-extrabold text-white mb-2">Web &amp; Landing Pages</h1>
+<p class="text-zinc-400">Gestiona tus templates y genera nuevas landing pages con IA.</p>
+</div>
+<button class="flex items-center gap-2 bg-primary text-on-primary px-5 py-2.5 rounded-lg font-bold hover:opacity-90 transition-all"><span class="material-symbols-outlined">add</span> Agregar Template</button>
+</div>
+<!-- Navigation Tabs -->
+<div class="flex border-b border-zinc-800 mb-8 overflow-x-auto">
+<button class="px-8 py-4 text-primary font-bold border-b-2 border-primary whitespace-nowrap">Biblioteca de Templates</button>
+<button class="px-8 py-4 text-zinc-500 font-medium hover:text-zinc-300 transition-colors whitespace-nowrap">Generador Juanjo</button>
+</div>
+<!-- Tab 1: Biblioteca de Templates -->
+<section id="template-library">
+<!-- Search and Filter -->
+<div class="flex flex-col lg:flex-row gap-4 mb-8">
+<div class="relative flex-grow">
+<span class="material-symbols-outlined absolute left-4 top-1/2 -translate-y-1/2 text-zinc-500">search</span>
+<input class="w-full bg-surface-container border-none rounded-xl pl-12 pr-4 py-3 text-white focus:ring-2 focus:ring-primary" placeholder="Buscar templates por nombre o categoría..." type="text"/>
+</div>
+<div class="flex gap-2 overflow-x-auto pb-2 lg:pb-0">
+<span class="px-4 py-2 bg-primary text-on-primary rounded-full text-sm font-semibold cursor-pointer">Todos</span>
+<span class="px-4 py-2 bg-surface-container text-zinc-400 rounded-full text-sm font-medium hover:bg-zinc-800 cursor-pointer">restaurante</span>
+<span class="px-4 py-2 bg-surface-container text-zinc-400 rounded-full text-sm font-medium hover:bg-zinc-800 cursor-pointer">clinica</span>
+<span class="px-4 py-2 bg-surface-container text-zinc-400 rounded-full text-sm font-medium hover:bg-zinc-800 cursor-pointer">gimnasio</span>
+<span class="px-4 py-2 bg-surface-container text-zinc-400 rounded-full text-sm font-medium hover:bg-zinc-800 cursor-pointer">servicios</span>
+</div>
+</div>
+<!-- Template Grid -->
+<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+<!-- Card 1 -->
+<div class="bg-surface-container rounded-xl overflow-hidden border border-zinc-800 hover:border-primary/50 transition-all flex flex-col group">
+<div class="h-48 bg-black relative overflow-hidden">
+<div class="absolute inset-0 bg-gradient-to-t from-black/80 to-transparent z-10"></div>
+<img alt="Restaurant Template" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" data-alt="sleek modern restaurant interior with warm ambient lighting and elegant tables in a dark moody atmosphere" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCrqcgmCdcgBHp-0ajqY33SCsjlG3YPoIyPIGl-6YsNO3YF9v-bLw4ZIoObvixBfpAY_jcKCX6AoNlJefPOw3RCq0GQivdXJ4ykfIqawLuW0XC3L5UQ0h2uHVts-p4G_w8Gg8WRIUWwafAJ1KcusA4CUq5L_CUBsNLEBZffcHs-27G3KHhok7b4ifuLaad2V627v4aAZy9EX9AF-j5vYPBKBIKlruZXcJ1cFbHfL3MvDUpNfAURbfVWObvP89msjObLY_uUmTTKJOA"/>
+<div class="absolute top-4 right-4 z-20">
+<span class="bg-black/50 backdrop-blur-md text-[10px] uppercase font-bold tracking-widest px-2 py-1 rounded border border-white/10">Premium</span>
+</div>
+</div>
+<div class="p-5 flex-grow">
+<div class="flex gap-2 mb-3">
+<span class="text-[10px] font-bold uppercase text-primary bg-primary/10 px-2 py-0.5 rounded">restaurante</span>
+</div>
+<h3 class="text-xl font-bold text-white mb-2">Gourmet Experience</h3>
+<p class="text-zinc-400 text-sm mb-6 leading-relaxed">Gestiona tus templates y genera nuevas landing pages con IA.</p>
+<div class="flex gap-3 mt-auto">
+<button class="flex-1 py-2 px-4 rounded-lg border border-zinc-700 text-white font-semibold text-sm hover:bg-zinc-800 transition-colors">Ver Referencia</button>
+<button class="flex-1 py-2 px-4 rounded-lg bg-primary text-on-primary font-bold text-sm hover:opacity-90 transition-opacity">Usar Template</button>
+</div>
+</div>
+</div>
+<!-- Card 2 -->
+<div class="bg-surface-container rounded-xl overflow-hidden border border-zinc-800 hover:border-primary/50 transition-all flex flex-col group">
+<div class="h-48 bg-black relative overflow-hidden">
+<div class="absolute inset-0 bg-gradient-to-t from-black/80 to-transparent z-10"></div>
+<img alt="Gym Template" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" data-alt="dark high-end industrial gym with neon lighting and modern heavy weights equipment" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCHR_EZZWdGCU6UVnfHKzsPKZrcMD_6Qp7dnc26VnnT2vRpITYlIVwv4X1Iyug2m1-ifIA0plj328idPZoXvLakS1-6gGjAcYZXdYYZuMM_j-aAhrB-zQgeq2P4sWWBRRUnW-EShUu-X12Kp5Pj5D_dXSmpd383C-sMK9Q_bTAc3IntuLcT5XOh0mgOntzqlXjN1xsgtk0tFmzgYZY5sIr_trv5Pl_pmEDsQuqXaxhiHgIIirEMArQcmNeKUHd65zvuY5SNlj4qndA"/>
+<div class="absolute top-4 right-4 z-20">
+<span class="bg-black/50 backdrop-blur-md text-[10px] uppercase font-bold tracking-widest px-2 py-1 rounded border border-white/10">Efectivo</span>
+</div>
+</div>
+<div class="p-5 flex-grow">
+<div class="flex gap-2 mb-3">
+<span class="text-[10px] font-bold uppercase text-primary bg-primary/10 px-2 py-0.5 rounded">gimnasio</span>
+</div>
+<h3 class="text-xl font-bold text-white mb-2">Iron Peak Fitness</h3>
+<p class="text-zinc-400 text-sm mb-6 leading-relaxed">Gestiona tus templates y genera nuevas landing pages con IA.</p>
+<div class="flex gap-3 mt-auto">
+<button class="flex-1 py-2 px-4 rounded-lg border border-zinc-700 text-white font-semibold text-sm hover:bg-zinc-800 transition-colors">Ver Referencia</button>
+<button class="flex-1 py-2 px-4 rounded-lg bg-primary text-on-primary font-bold text-sm hover:opacity-90 transition-opacity">Usar Template</button>
+</div>
+</div>
+</div>
+<!-- Card 3 -->
+<div class="bg-surface-container rounded-xl overflow-hidden border border-zinc-800 hover:border-primary/50 transition-all flex flex-col group">
+<div class="h-48 bg-black relative overflow-hidden">
+<div class="absolute inset-0 bg-gradient-to-t from-black/80 to-transparent z-10"></div>
+<img alt="Clinic Template" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" data-alt="modern luxury dental clinic reception area with minimalist design and clean white surfaces" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBokOJNG1Co6f4Rds25ZdVSnz6coRckd042bt_MJWzUV7urAAKDbVQVUuL9RjRpSR2jPuu2q6HLjTyePZ-XRG4PM9t1j4wWjSVaQ1kEnC9SR2O7ICpF6FITBH2XGzPkSl7kxCVhyPeLQ2yxb8a8JBR2hhDL0xBOofjPVmSvvry9EdvoiHThiJU6SBCeufnEtCcHtKbO_QLNh_trxORCNZgn7Zr_1i4CPKHxefuWb97ry5vBfEqe2fLtKxDHTmqw4sC3wspff72I70s"/>
+<div class="absolute top-4 right-4 z-20">
+<span class="bg-black/50 backdrop-blur-md text-[10px] uppercase font-bold tracking-widest px-2 py-1 rounded border border-white/10">Salud</span>
+</div>
+</div>
+<div class="p-5 flex-grow">
+<div class="flex gap-2 mb-3">
+<span class="text-[10px] font-bold uppercase text-primary bg-primary/10 px-2 py-0.5 rounded">clinica</span>
+</div>
+<h3 class="text-xl font-bold text-white mb-2">Dental Care Plus</h3>
+<p class="text-zinc-400 text-sm mb-6 leading-relaxed">Gestiona tus templates y genera nuevas landing pages con IA.</p>
+<div class="flex gap-3 mt-auto">
+<button class="flex-1 py-2 px-4 rounded-lg border border-zinc-700 text-white font-semibold text-sm hover:bg-zinc-800 transition-colors">Ver Referencia</button>
+<button class="flex-1 py-2 px-4 rounded-lg bg-primary text-on-primary font-bold text-sm hover:opacity-90 transition-opacity">Usar Template</button>
+</div>
+</div>
+</div>
+</div>
+</section>
+<!-- Tab 2: Generador Juanjo (IA Area) -->
+<section class="hidden max-w-4xl mx-auto space-y-8" id="juanjo-generator">
+<!-- Selectors -->
+<div class="grid grid-cols-1 md:grid-cols-2 gap-6 bg-surface-container p-6 rounded-2xl border border-zinc-800">
+<div class="space-y-2">
+<label class="text-xs font-bold text-zinc-500 uppercase tracking-wider ml-1">Seleccionar Cliente</label>
+<select class="w-full bg-black border border-zinc-700 rounded-xl px-4 py-3 text-white focus:ring-1 focus:ring-primary appearance-none">
+<option>Clínica Dental Sonrisas</option>
+<option>Gimnasio FitLife</option>
+<option>Restaurante El Olivo</option>
+</select>
+</div>
+<div class="space-y-2">
+<label class="text-xs font-bold text-zinc-500 uppercase tracking-wider ml-1">Plantilla Base</label>
+<select class="w-full bg-black border border-zinc-700 rounded-xl px-4 py-3 text-white focus:ring-1 focus:ring-primary appearance-none">
+<option>Landing de Servicios V1</option>
+<option>Formulario de Captación V2</option>
+<option>E-commerce Minimalista</option>
+</select>
+</div>
+<button class="md:col-span-2 bg-primary text-on-primary font-black py-4 rounded-xl hover:shadow-[0_0_20px_rgba(0,194,168,0.4)] transition-all uppercase tracking-widest text-sm"><span class="material-symbols-outlined">add</span> Agregar Template</button>
+</div>
+<!-- Conversation Area -->
+<div class="bg-surface-container rounded-2xl border border-zinc-800 overflow-hidden flex flex-col h-[500px]">
+<div class="p-4 border-b border-zinc-800 flex justify-between items-center bg-zinc-900/50">
+<div class="flex items-center gap-3">
+<div class="w-8 h-8 rounded-full bg-primary flex items-center justify-center">
+<span class="material-symbols-outlined text-on-primary text-sm">smart_toy</span>
+</div>
+<span class="font-bold text-white">Juanjo AI Assistant</span>
+</div>
+<span class="text-xs font-medium text-zinc-500">Pregunta 3 de 6</span>
+</div>
+<div class="flex-grow p-6 overflow-y-auto space-y-6 flex flex-col">
+<!-- IA Bubble -->
+<div class="flex gap-4 max-w-[80%]">
+<div class="w-10 h-10 rounded-full bg-zinc-800 flex-shrink-0 flex items-center justify-center">
+<span class="material-symbols-outlined text-primary">robot_2</span>
+</div>
+<div class="bg-zinc-800 p-4 rounded-2xl rounded-tl-none text-white leading-relaxed">
+                            ¡Excelente! Entiendo que el público objetivo son adultos de 25 a 45 años. Ahora, ¿cuál es el beneficio principal o "gancho" que queremos destacar en el Hero de la página?
+                        </div>
+</div>
+<!-- User Bubble (Theoretical) -->
+<div class="flex gap-4 max-w-[80%] self-end flex-row-reverse">
+<div class="w-10 h-10 rounded-full bg-primary flex-shrink-0 flex items-center justify-center">
+<span class="material-symbols-outlined text-on-primary">person</span>
+</div>
+<div class="bg-primary/20 border border-primary/30 p-4 rounded-2xl rounded-tr-none text-white leading-relaxed">
+                            Queremos ofrecer una primera consulta gratuita y un 20% de descuento en el primer tratamiento de blanqueamiento.
+                        </div>
+</div>
+<!-- IA Bubble Thinking -->
+<div class="flex gap-4 max-w-[80%]">
+<div class="w-10 h-10 rounded-full bg-zinc-800 flex-shrink-0 flex items-center justify-center">
+<span class="material-symbols-outlined text-primary">robot_2</span>
+</div>
+<div class="bg-zinc-800 p-4 rounded-2xl rounded-tl-none text-white leading-relaxed italic text-zinc-400">
+                            Procesando oferta... cuéntame un poco sobre el tono de voz, ¿prefieres algo muy clínico y serio, o más cercano y amigable?
+                        </div>
+</div>
+</div>
+<!-- Input Area -->
+<div class="p-4 bg-zinc-900/50 border-t border-zinc-800 flex gap-3">
+<input class="flex-grow bg-black border border-zinc-700 rounded-xl px-4 py-2 text-white focus:ring-1 focus:ring-primary outline-none" placeholder="Escribe tu respuesta aquí..." type="text"/>
+<button class="bg-primary text-on-primary w-12 h-12 rounded-xl flex items-center justify-center hover:scale-105 transition-transform"><span class="material-symbols-outlined">add</span> Agregar Template</button>
+</div>
+</div>
+<!-- Results Preview Area -->
+<div class="bg-surface-container rounded-2xl border border-primary/30 overflow-hidden shadow-2xl shadow-primary/10">
+<div class="bg-primary px-6 py-3 flex justify-between items-center">
+<span class="font-black text-on-primary text-sm uppercase tracking-widest">Prompt Listo</span>
+<span class="material-symbols-outlined text-on-primary">verified</span>
+</div>
+<div class="p-6">
+<div class="bg-black/50 border border-zinc-800 rounded-xl p-4 mb-6 font-mono text-xs text-zinc-400 leading-relaxed max-h-40 overflow-y-auto">
+                        /generate landing_page --client "Clínica Dental Sonrisas" --template "Servicios V1" --main_offer "Consulta gratis + 20% Blanqueamiento" --target "Adultos 25-45" --tone "Amigable y Profesional" --sections ["Hero", "Beneficios", "Testimonios", "Formulario"] --colors ["#FFFFFF", "#00C2A8", "#1A1A1A"] --copy_strategy "Direct Response" --urgency "Limited time offer"
+                    </div>
+<button class="w-full flex items-center justify-center gap-3 bg-white text-black font-extrabold py-4 rounded-xl hover:bg-zinc-200 transition-colors uppercase tracking-tight">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">php</span>
+                        Construir en WordPress
+                    </button>
+</div>
+</div>
+</section>
+</main>
+<!-- BottomNavBar (Mobile Only) -->
+<nav class="md:hidden fixed bottom-0 left-0 w-full bg-black border-t border-zinc-800 h-16 flex items-center justify-around z-50">
+<button class="flex flex-col items-center gap-1 text-zinc-500">
+<span class="material-symbols-outlined">dashboard</span>
+<span class="text-[10px]">Home</span>
+</button>
+<button class="flex flex-col items-center gap-1 text-primary">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">language</span>
+<span class="text-[10px] font-bold">Web</span>
+</button>
+<button class="flex flex-col items-center gap-1 text-zinc-500">
+<span class="material-symbols-outlined">person</span>
+<span class="text-[10px]">Clientes</span>
+</button>
+<button class="flex flex-col items-center gap-1 text-zinc-500">
+<span class="material-symbols-outlined">settings</span>
+<span class="text-[10px]">Settings</span>
+</button>
+</nav>
+<script src="app.js" defer></script>
+</body></html>
