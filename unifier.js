@@ -16,6 +16,8 @@ const screens = [
   { folder: 'cerebros',       out: 'cerebros.html',      active: 'Cerebros IA', title: 'Novu 360 · Cerebros IA',            hasSidebar: true  },
   { folder: 'onboarding',     out: 'onboarding.html',    active: 'Onboarding',  title: 'Novu 360 · Academy & Onboarding',   hasSidebar: true  },
   { folder: 'portal-cliente', out: 'portal-cliente.html',active: 'Clientes',    title: 'Novu 360 · Portal del Cliente',     hasSidebar: true  },
+  { folder: 'ads',            out: 'ads.html',           active: 'Ads',         title: 'Novu 360 · Ads Meta',               hasSidebar: true  },
+  { folder: 'aprobacion',     out: 'aprobaciones.html',  active: 'Aprobaciones',title: 'Novu 360 · Aprobaciones',           hasSidebar: true  },
 ];
 
 // Full sidebar HTML to inject (replaces any existing sidebar or adds after <body>)
@@ -93,6 +95,9 @@ screens.forEach(screen => {
 
   let html = fs.readFileSync(srcFile, 'utf8');
 
+  // Strip arbitrary <style> block from raw Stitch export so we only use style.css
+  html = html.replace(/<style>[\s\S]*?<\/style>/i, '');
+
   // 1. Inject title
   html = html.replace(/<title>.*?<\/title>/i, `<title>${screen.title}</title>`);
   if (!/<title>/i.test(html)) {
@@ -130,7 +135,7 @@ screens.forEach(screen => {
       return `${p1}${p2 || ''} class="ml-64"${p3}`;
     });
 
-  } else {
+  } else if (screen.folder !== 'index') {
     // 4b. No sidebar - add Back to Dashboard floating button
     html = html.replace('</body>', `${BACK_BTN}\n</body>`);
   }
@@ -140,4 +145,4 @@ screens.forEach(screen => {
   console.log(`✅ ${screen.out} [${screen.active || 'login'}]`);
 });
 
-console.log('\n🚀 All 10 screens processed!');
+console.log('\n🚀 All screens processed!');
