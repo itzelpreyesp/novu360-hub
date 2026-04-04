@@ -1,13 +1,5 @@
-// NOVU 360 HUB - config.example.js
-// Template to configure Supabase and Gemini API credentials
-
-const SUPABASE_URL = 'YOUR_SUPABASE_URL_HERE';
-const SUPABASE_KEY = 'YOUR_SUPABASE_ANON_KEY_HERE'; 
-const GEMINI_KEY = 'YOUR_GEMINI_API_KEY_HERE';
-
-// Export for usage
-if (typeof module !== 'undefined' && module.exports) {
-    module.exports = { SUPABASE_URL, SUPABASE_KEY, GEMINI_KEY };
-} else {
-    window.CONFIG = { SUPABASE_URL, SUPABASE_KEY, GEMINI_KEY };
-}
+const SUPABASE_URL = 'https://tmyniibsccxhfifhcqpa.supabase.co'
+const SUPABASE_ANON_KEY = 'sb_publishable_oqhiSuKengQF6ak76JTSEg_FNQl9G79'  
+const GEMINI_KEY = 'AIzaSyCY06mg8RjTju4FU9pJnZjAvbt6nsCM1Pw'
+window.CONFIG = { SUPABASE_URL, SUPABASE_ANON_KEY, GEMINI_KEY }
+window.supabaseClient = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY)

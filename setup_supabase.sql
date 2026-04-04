@@ -19,7 +19,7 @@ CREATE TABLE IF NOT EXISTS public.usuarios (
     full_name TEXT NOT NULL,
     email TEXT UNIQUE NOT NULL,
     avatar_url TEXT,
-    role user_role NOT NULL DEFAULT 'cliente',
+    rol user_role NOT NULL DEFAULT 'cliente',
     created_at TIMESTAMPTZ DEFAULT NOW(),
     updated_at TIMESTAMPTZ DEFAULT NOW()
 );
@@ -28,7 +28,7 @@ CREATE TABLE IF NOT EXISTS public.usuarios (
 CREATE TABLE IF NOT EXISTS public.usuario_roles (
     id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
     user_id UUID REFERENCES public.usuarios(id) ON DELETE CASCADE,
-    role user_role NOT NULL,
+    rol user_role NOT NULL,
     granted_at TIMESTAMPTZ DEFAULT NOW()
 );
 
@@ -204,7 +204,7 @@ ALTER TABLE public.templates_web ENABLE ROW LEVEL SECURITY;
 -- 4. RLS POLICIES (Admin Full Access, Staff Assigned, User Own)
 
 CREATE OR REPLACE FUNCTION is_admin() RETURNS BOOLEAN AS $$
-  SELECT role = 'admin' FROM public.usuarios WHERE id = auth.uid();
+  SELECT rol = 'admin' FROM public.usuarios WHERE id = auth.uid();
 $$ LANGUAGE sql SECURITY DEFINER;
 
 -- Users can see profiles
@@ -227,7 +227,7 @@ CREATE POLICY "Staff see assigned/involved tareas" ON public.tareas FOR SELECT U
 CREATE OR REPLACE FUNCTION public.handle_new_user()
 RETURNS TRIGGER AS $$
 BEGIN
-  INSERT INTO public.usuarios (id, full_name, email, role)
+  INSERT INTO public.usuarios (id, full_name, email, rol)
   VALUES (new.id, COALESCE(new.raw_user_meta_data->>'full_name', 'Nuevo Usuario'), new.email, 'cliente');
   RETURN NEW;
 END;

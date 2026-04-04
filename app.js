@@ -129,8 +129,8 @@ document.addEventListener('DOMContentLoaded', () => {
    ============================================================ */
 (function CerebrosChat() {
 
-  // ── Initialize Supabase client globally ──────────────────────────
-  const supabase = window.supabase.createClient(CONFIG.SUPABASE_URL, CONFIG.SUPABASE_KEY);
+  // ── Use the global Supabase client from config.js ──────────────────
+  // window.supabaseClient is already initialized
 
 
   // ── Cerebro config per role ──────────────────────────────────────────
