@@ -82,7 +82,9 @@ const BACK_BTN = `<a href="dashboard.html" style="position:fixed;bottom:24px;rig
 // Shared head injections (fonts + our shared CSS/JS)
 const HEAD_INJECT = `<link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;700;800&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="style.css">`;
+<link rel="stylesheet" href="style.css">
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script src="config.js"></script>`;
 
 const BODY_END_INJECT = `<script src="app.js" defer></script>`;
 
@@ -107,8 +109,14 @@ screens.forEach(screen => {
   // 2. Inject shared CSS & fonts before </head>
   html = html.replace('</head>', `${HEAD_INJECT}\n</head>`);
 
-  // 3. Inject shared app.js before </body>
-  html = html.replace('</body>', `${BODY_END_INJECT}\n</body>`);
+  // 3. Inject shared app.js or auth.js before </body>
+  if (screen.folder === 'index') {
+    html = html.replace('</body>', `<script src="auth.js" defer></script>\n</body>`);
+    // Also inject ID to login form for auth.js
+    html = html.replace(/<form\b([^>]*class="[^"]*space-y-6[^"]*")([^>]*)>/i, '<form $1 id="login-form" $2>');
+  } else {
+    html = html.replace('</body>', `${BODY_END_INJECT}\n</body>`);
+  }
 
   if (screen.hasSidebar) {
     // 4a. Replace existing <aside> if found, otherwise inject after <body ...>

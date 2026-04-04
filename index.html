@@ -76,6 +76,8 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;700;800&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="style.css">
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script src="config.js"></script>
 </head>
 <body class="font-body text-on-background min-h-screen flex items-center justify-center p-4">
 <!-- Login Container -->
@@ -87,7 +89,7 @@
 </div>
 <!-- Auth Card -->
 <div class="bg-surface-container border border-outline-variant rounded-xl p-8 shadow-2xl">
-<form class="space-y-6">
+<form  class="space-y-6" id="login-form" >
 <!-- Email Field -->
 <div class="space-y-2">
 <label class="block font-label text-sm font-medium text-on-surface" for="email">Correo electrónico</label>
@@ -153,5 +155,5 @@
 <!-- Background Decorative Element (Asymmetric) -->
 <div class="fixed top-0 right-0 w-[500px] h-[500px] bg-primary/5 rounded-full blur-[120px] -mr-64 -mt-64 pointer-events-none"></div>
 <div class="fixed bottom-0 left-0 w-[400px] h-[400px] bg-primary/5 rounded-full blur-[100px] -ml-48 -mb-48 pointer-events-none"></div>
-<script src="app.js" defer></script>
+<script src="auth.js" defer></script>
 </body></html>

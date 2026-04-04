@@ -129,6 +129,10 @@ document.addEventListener('DOMContentLoaded', () => {
    ============================================================ */
 (function CerebrosChat() {
 
+  // ── Initialize Supabase client globally ──────────────────────────
+  const supabase = window.supabase.createClient(CONFIG.SUPABASE_URL, CONFIG.SUPABASE_KEY);
+
+
   // ── Cerebro config per role ──────────────────────────────────────────
   const CEREBROS = {
     admin: {
@@ -383,7 +387,7 @@ document.addEventListener('DOMContentLoaded', () => {
     if (indicator) indicator.remove();
   }
 
-  function sendMessage(text) {
+  async function sendMessage(text) {
     const msg = (text || inputEl.value).trim();
     if (!msg || isTyping) return;
 
@@ -395,17 +399,38 @@ document.addEventListener('DOMContentLoaded', () => {
     sendBtn.disabled = true;
     showTyping();
 
-    // Simulate AI thinking time (1-2.5s)
-    const delay = 1000 + Math.random() * 1500;
-    setTimeout(() => {
+    try {
+      // ── Connect to Gemini API ─────────────────────────────────────
+      const systemPrompt = `Eres ${cerebro.name}, un asistente experto en ${cerebro.role}. 
+      Contexto de Novu 360: Eres parte de una plataforma de gestión de agencias. 
+      Instrucciones: ${cerebro.desc}. Responde de forma concisa, profesional y usa markdown para resaltar puntos clave.`;
+
+      const response = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=${CONFIG.GEMINI_KEY}`, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+              contents: [
+                  { role: "user", parts: [{ text: systemPrompt }] },
+                  { role: "user", parts: [{ text: msg }] }
+              ]
+          })
+      });
+
+      const data = await response.json();
+      const aiText = data.candidates?.[0]?.content?.parts?.[0]?.text || "No pude generar una respuesta. Revisa tu API Key.";
+
       removeTyping();
-      const response = cerebro.responses[responseIndex % cerebro.responses.length];
-      responseIndex++;
-      addMessage(response, 'ai', false);
+      addMessage(aiText, 'ai', false);
+      
+    } catch (error) {
+      console.error('Gemini Error:', error);
+      removeTyping();
+      addMessage(`Error técnico: ${error.message}. Asegúrate de que tu API Key sea válida.`, 'ai');
+    } finally {
       isTyping = false;
       sendBtn.disabled = false;
       inputEl.focus();
-    }, delay);
+    }
   }
 
   // ── Panel open/close ───────────────────────────────────────────────

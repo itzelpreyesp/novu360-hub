@@ -1,0 +1,6 @@
+.env
+node_modules/
+.DS_Store
+.agents/
+stitch_novu_360_dashboard/
+*.log
