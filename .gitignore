@@ -1,4 +1,8 @@
+# NOVU 360 HUB - gitignore
 .env
+config.js
+*.env
+.env.local
 node_modules/
 .DS_Store
 .agents/
