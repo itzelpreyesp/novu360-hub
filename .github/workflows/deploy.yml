@@ -16,31 +16,24 @@ jobs:
       - name: Checkout 🛎️
         uses: actions/checkout@v4
 
-      - name: Inline Config in HTML files 🔑
+      - name: Create config.js from Secrets 🔑
         run: |
-          INLINE_SCRIPT="<script>
-            const SUPABASE_URL = '${{ secrets.SUPABASE_URL }}';
-            const SUPABASE_ANON_KEY = '${{ secrets.SUPABASE_ANON_KEY }}';
-            const GEMINI_KEY = '${{ secrets.GEMINI_KEY }}';
-            
-            // Iniciar Supabase Globals
-            if (window.supabase) {
-              window.supabaseClient = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
-              window.CONFIG = { SUPABASE_URL, SUPABASE_ANON_KEY, GEMINI_KEY };
-            }
-          </script>"
+          cat <<EOF > config.js
+          const SUPABASE_URL = '${{ secrets.SUPABASE_URL }}';
+          const SUPABASE_ANON_KEY = '${{ secrets.SUPABASE_ANON_KEY }}';
+          const GEMINI_KEY = '${{ secrets.GEMINI_KEY }}';
+
+          // Initialize Supabase Globals
+          if (window.supabase) {
+            window.supabaseClient = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+            window.CONFIG = { SUPABASE_URL, SUPABASE_ANON_KEY, GEMINI_KEY };
+          }
           
-          # Escapar para sed (aunque usaremos algo más robusto si es posible)
-          # Usamos un archivo temporal para la sustitución segura
-          echo "$INLINE_SCRIPT" > inline_script.txt
-          
-          for file in *.html; do
-            echo "Processing $file..."
-            # Reemplazar la línea del script config.js con el contenido de inline_script.txt
-            sed -i '/<script src="config.js"><\/script>/r inline_script.txt' "$file"
-            sed -i '/<script src="config.js"><\/script>/d' "$file"
-          done
-          rm inline_script.txt
+          // Export for use in other scripts (optional)
+          if (typeof module !== 'undefined' && module.exports) {
+              module.exports = { SUPABASE_URL, SUPABASE_ANON_KEY, GEMINI_KEY, supabaseClient: window.supabaseClient };
+          }
+          EOF
 
       - name: Deploy 🚀
         uses: JamesIves/github-pages-deploy-action@v4
