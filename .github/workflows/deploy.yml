@@ -1,0 +1,42 @@
+name: Deploy to GitHub Pages
+
+on:
+  push:
+    branches:
+      - main
+
+permissions:
+  contents: write
+
+jobs:
+  build-and-deploy:
+    concurrency: ci-${{ github.ref }}
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout 🛎️
+        uses: actions/checkout@v4
+
+      - name: Create config.js from Secrets 🔑
+        run: |
+          cat <<EOF > config.js
+          const SUPABASE_URL = '${{ secrets.SUPABASE_URL }}';
+          const SUPABASE_ANON_KEY = '${{ secrets.SUPABASE_ANON_KEY }}';
+          const GEMINI_KEY = '${{ secrets.GEMINI_KEY }}';
+
+          // Create Supabase Client Globally
+          const supabaseClient = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+
+          // Export for use in other scripts
+          if (typeof module !== 'undefined' && module.exports) {
+              module.exports = { SUPABASE_URL, SUPABASE_ANON_KEY, GEMINI_KEY, supabaseClient };
+          } else {
+              window.CONFIG = { SUPABASE_URL, SUPABASE_ANON_KEY, GEMINI_KEY };
+              window.supabaseClient = supabaseClient;
+          }
+          EOF
+
+      - name: Deploy 🚀
+        uses: JamesIves/github-pages-deploy-action@v4
+        with:
+          folder: . # The folder the action should deploy.
+          branch: gh-pages # The branch the action should deploy to.

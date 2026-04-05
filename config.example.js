@@ -1,5 +1,5 @@
-const SUPABASE_URL = 'https://tmyniibsccxhfifhcqpa.supabase.co'
-const SUPABASE_ANON_KEY = 'sb_publishable_oqhiSuKengQF6ak76JTSEg_FNQl9G79'  
-const GEMINI_KEY = 'AIzaSyCY06mg8RjTju4FU9pJnZjAvbt6nsCM1Pw'
+const SUPABASE_URL = 'YOUR_SUPABASE_URL'
+const SUPABASE_ANON_KEY = 'YOUR_SUPABASE_ANON_KEY'  
+const GEMINI_KEY = 'YOUR_GEMINI_API_KEY'
 window.CONFIG = { SUPABASE_URL, SUPABASE_ANON_KEY, GEMINI_KEY }
 window.supabaseClient = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY)
