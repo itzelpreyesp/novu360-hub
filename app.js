@@ -2,6 +2,7 @@
    NOVU 360 · app.js
    - Demo Mode Auth Bypass (Login → Dashboard)
    - Demo interactivity (AI responses, form confirms, card modals)
+   - Shared AI (Gemini) & Database (Supabase) helpers
    - NO nav mapping needed: sidebar hrefs are now hardcoded in HTML
    ============================================================ */
 document.addEventListener('DOMContentLoaded', () => {
@@ -499,6 +500,58 @@ document.addEventListener('DOMContentLoaded', () => {
   console.log(`✅ Cerebros IA Chat initialized → Cerebro: ${cerebro.name} (${role})`);
 
 })();
+
+/* ============================================================
+   NOVU 360 · SHARED AI HELPERS (GEMINI)
+   ============================================================ */
+async function callGemini(prompt, systemPrompt = "Eres un asistente experto en marketing digital.") {
+  if (!window.CONFIG || !window.CONFIG.GEMINI_KEY) {
+    throw new Error("API Key de Gemini no configurada");
+  }
+
+  try {
+    const response = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=${window.CONFIG.GEMINI_KEY}`, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        contents: [
+          { role: "user", parts: [{ text: `SYSTEM: ${systemPrompt}` }] },
+          { role: "user", parts: [{ text: prompt }] }
+        ]
+      })
+    });
+
+    const data = await response.json();
+    return data.candidates?.[0]?.content?.parts?.[0]?.text || "No se pudo generar respuesta.";
+  } catch (error) {
+    console.error("Error calling Gemini:", error);
+    throw error;
+  }
+}
+
+async function analyzeAdsROI(investment, cpl, ticket) {
+  const leads = investment / cpl;
+  const revenue = leads * ticket * 0.1; // 10% conversion rate assumed
+  const roi = ((revenue - investment) / investment) * 100;
+
+  const prompt = `Actúa como un experto senior en Media Buying para Meta Ads. 
+  Métricas actuales:
+  - Inversión: $${investment}
+  - CPL: $${cpl}
+  - Ticket Promedio: $${ticket}
+  - Leads estimados: ${leads.toFixed(0)}
+  - Ratio de cierre estimado: 10%
+  - ROI proyectado: ${roi.toFixed(0)}%
+
+  Dame un diagnóstico de 2-3 líneas máximo con consejos accionables para mejorar estos números. Sé directo y profesional.`;
+
+  const advice = await callGemini(prompt, "Experto en Meta Ads y Rentabilidad de Agencias.");
+  
+  return {
+    roi: roi.toFixed(0),
+    advice: advice
+  };
+}
 
 /* ============================================================
    NOVU 360 · MOBILE RESPONSIVE MODULE
