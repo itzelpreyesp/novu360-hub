@@ -76,17 +76,7 @@
 <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;700;800&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="style.css">
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-<script>
-  const SUPABASE_URL = '';
-  const SUPABASE_ANON_KEY = '';
-  const GEMINI_KEY = '';
-  
-  // Iniciar Supabase Globals
-  if (window.supabase) {
-    window.supabaseClient = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
-    window.CONFIG = { SUPABASE_URL, SUPABASE_ANON_KEY, GEMINI_KEY };
-  }
-</script>
+<script src="config.js"></script>
 </head>
 <body class="font-body">
 <!-- SideNavBar - Novu 360 -->
