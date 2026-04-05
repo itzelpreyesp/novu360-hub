@@ -6,14 +6,14 @@ const GEMINI_KEY = '${process.env.GEMINI_KEY || ""}';
 
 window.CONFIG = { SUPABASE_URL, SUPABASE_ANON_KEY, GEMINI_KEY };
 
-document.addEventListener('DOMContentLoaded', function() {
-  if (window.supabase) {
-    window.supabaseClient = window.supabase.createClient(
-      SUPABASE_URL, 
-      SUPABASE_ANON_KEY
-    );
-  }
-});
+if (window.supabase) {
+  window.supabaseClient = window.supabase.createClient(
+    SUPABASE_URL, 
+    SUPABASE_ANON_KEY
+  );
+} else {
+  console.error('Supabase CDN not loaded before config.js');
+}
 `;
 
 fs.writeFileSync('config.js', configContent);
