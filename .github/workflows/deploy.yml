@@ -16,27 +16,34 @@ jobs:
       - name: Checkout 🛎️
         uses: actions/checkout@v4
 
-      - name: Create config.js from Secrets 🔑
+      - name: Inline Config in HTML files 🔑
         run: |
-          cat <<EOF > config.js
-          const SUPABASE_URL = '${{ secrets.SUPABASE_URL }}';
-          const SUPABASE_ANON_KEY = '${{ secrets.SUPABASE_ANON_KEY }}';
-          const GEMINI_KEY = '${{ secrets.GEMINI_KEY }}';
-
-          // Create Supabase Client Globally
-          const supabaseClient = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
-
-          // Export for use in other scripts
-          if (typeof module !== 'undefined' && module.exports) {
-              module.exports = { SUPABASE_URL, SUPABASE_ANON_KEY, GEMINI_KEY, supabaseClient };
-          } else {
+          INLINE_SCRIPT="<script>
+            const SUPABASE_URL = '${{ secrets.SUPABASE_URL }}';
+            const SUPABASE_ANON_KEY = '${{ secrets.SUPABASE_ANON_KEY }}';
+            const GEMINI_KEY = '${{ secrets.GEMINI_KEY }}';
+            
+            // Iniciar Supabase Globals
+            if (window.supabase) {
+              window.supabaseClient = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
               window.CONFIG = { SUPABASE_URL, SUPABASE_ANON_KEY, GEMINI_KEY };
-              window.supabaseClient = supabaseClient;
-          }
-          EOF
+            }
+          </script>"
+          
+          # Escapar para sed (aunque usaremos algo más robusto si es posible)
+          # Usamos un archivo temporal para la sustitución segura
+          echo "$INLINE_SCRIPT" > inline_script.txt
+          
+          for file in *.html; do
+            echo "Processing $file..."
+            # Reemplazar la línea del script config.js con el contenido de inline_script.txt
+            sed -i '/<script src="config.js"><\/script>/r inline_script.txt' "$file"
+            sed -i '/<script src="config.js"><\/script>/d' "$file"
+          done
+          rm inline_script.txt
 
       - name: Deploy 🚀
         uses: JamesIves/github-pages-deploy-action@v4
         with:
-          folder: . # The folder the action should deploy.
-          branch: gh-pages # The branch the action should deploy to.
+          folder: .
+          branch: gh-pages
