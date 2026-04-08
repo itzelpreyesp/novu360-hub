@@ -1,451 +1,307 @@
 <!DOCTYPE html>
-
-<html class="dark" lang="es"><head>
-<meta charset="utf-8"/>
-<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
-<title>Novu 360 · Ventas & Prospector IA</title>
-<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
-<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;600;700;800&amp;family=Inter:wght@400;500;600&amp;display=swap" rel="stylesheet"/>
-<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
-<script id="tailwind-config">
+<html class="dark" lang="es">
+<head>
+  <meta charset="utf-8" />
+  <meta content="width=device-width, initial-scale=1.0" name="viewport" />
+  <title>Novu 360 · Ventas</title>
+  <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;600;700;800&family=Inter:wght@400;500;600&display=swap" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet" />
+  <script id="tailwind-config">
     tailwind.config = {
       darkMode: "class",
       theme: {
         extend: {
           colors: {
-            "tertiary-fixed": "#ffdbd0",
-            "surface-container": "#09100e",
-            "on-secondary-fixed-variant": "#474747",
-            "on-tertiary-fixed-variant": "#7e2c0f",
-            "surface-container-highest": "#1a211f",
-            "outline-variant": "#3c4a46",
-            "secondary-container": "#474747",
-            "surface-container-lowest": "#000000",
-            "on-tertiary-container": "#752509",
-            "primary-fixed": "#65fade",
-            "error": "#ffb4ab",
-            "surface-container-low": "#0e1513",
-            "surface-bright": "#333b38",
-            "primary": "#00C2A8",
-            "on-primary-fixed-variant": "#005045",
-            "primary-fixed-dim": "#41ddc2",
-            "on-tertiary-fixed": "#3a0b00",
-            "on-primary-fixed": "#00201b",
-            "on-background": "#dde4e1",
-            "primary-container": "#00C2A8",
+            primary: "#00C2A8",
             "on-primary": "#00382f",
-            "surface-dim": "#000000",
-            "on-secondary-container": "#b5b5b5",
-            "on-tertiary": "#5e1700",
-            "on-secondary": "#303030",
-            "tertiary-fixed-dim": "#ffb59e",
-            "surface-variant": "#161d1b",
-            "secondary-fixed-dim": "#c6c6c6",
-            "on-surface-variant": "#bbcac4",
-            "on-primary-container": "#00493e",
-            "on-secondary-fixed": "#1b1b1b",
-            "on-error": "#690005",
-            "tertiary-container": "#ff8d69",
-            "outline": "#445550",
-            "inverse-primary": "#006b5c",
-            "surface-tint": "#00C2A8",
-            "secondary-fixed": "#e2e2e2",
-            "on-error-container": "#ffdad6",
-            "error-container": "#93000a",
-            "surface": "#000000",
-            "tertiary": "#ffb6a0",
-            "on-surface": "#dde4e1",
-            "surface-container-high": "#161d1b",
-            "secondary": "#c6c6c6",
-            "background": "#000000",
-            "inverse-on-surface": "#2b3230",
-            "inverse-surface": "#dde4e1"
+            background: "#000000",
+            "on-background": "#dde4e1"
           },
-          fontFamily: {
-            "headline": ["Manrope"],
-            "body": ["Inter"],
-            "label": ["Inter"]
-          },
-          borderRadius: {"DEFAULT": "0.25rem", "lg": "0.5rem", "xl": "0.75rem", "full": "9999px"},
-        },
-      },
-    }
+          fontFamily: { headline: ["Manrope"], body: ["Inter"] }
+        }
+      }
+    };
   </script>
-
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;700;800&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="style.css">
-<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-<script src="config.js"></script>
-<script src="auth.js"></script>
-<script>checkAuth();</script>
+  <link rel="stylesheet" href="style.css" />
+  <script src="novu-client.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script src="config.js"></script>
+  <script src="auth.js"></script>
+  <script>checkAuth();</script>
+  <style>
+    html, body { margin: 0; background: #000; }
+    .no-scrollbar::-webkit-scrollbar { display: none; }
+    .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+    #sidebar-overlay { display: none; }
+    #sidebar-overlay.active { display: block; }
+    @media (max-width: 1023px) {
+      #main-content { margin-left: 0 !important; }
+    }
+    .skeleton { background: linear-gradient(90deg, #1a211f 25%, #243330 50%, #1a211f 75%); background-size: 200% 100%; animation: shimmer 1.5s infinite; border-radius: 6px; }
+    @keyframes shimmer { 0% { background-position: 200% 0; } 100% { background-position: -200% 0; } }
+    .badge-nuevo{background:rgba(96,165,250,.1);color:#60a5fa;border-color:rgba(96,165,250,.2)}
+    .badge-contactado{background:rgba(251,191,36,.1);color:#fbbf24;border-color:rgba(251,191,36,.2)}
+    .badge-calificado{background:rgba(168,85,247,.1);color:#a855f7;border-color:rgba(168,85,247,.2)}
+    .badge-propuesta{background:rgba(236,72,153,.1);color:#ec4899;border-color:rgba(236,72,153,.2)}
+    .badge-cerrado{background:rgba(16,185,129,.1);color:#10b981;border-color:rgba(16,185,129,.2)}
+    .badge-perdido{background:rgba(239,68,68,.1);color:#ef4444;border-color:rgba(239,68,68,.2)}
+    .dot-nuevo{background:#60a5fa}.dot-contactado{background:#fbbf24}.dot-calificado{background:#a855f7}.dot-propuesta{background:#ec4899}.dot-cerrado{background:#10b981}.dot-perdido{background:#ef4444}
+    .modal-backdrop { background: rgba(0,0,0,.8); backdrop-filter: blur(4px); }
+  </style>
 </head>
-<body class="bg-background text-on-background selection:bg-primary-container/30">
-<!-- SideNavBar Shell -->
-<!-- SideNavBar - Novu 360 -->
-<aside class="bg-black antialiased h-screen w-64 fixed left-0 top-0 flex flex-col py-6 z-20" style="box-shadow: 4px 0 24px rgba(0,0,0,0.6)">
-  <div class="px-6 mb-8">
-    <a href="dashboard.html" class="text-white font-black tracking-widest text-xl block" style="color:#fff;text-decoration:none">Novu 360</a>
-    <div class="text-neutral-500 text-xs uppercase tracking-tighter mt-1 italic">INTELIGENCIA DE AGENCIA</div>
-  </div>
-  <button onclick="window.location.href='dashboard.html'" class="mx-6 mb-8 py-3 font-bold rounded-lg flex items-center justify-center gap-2 transition-transform active:scale-95 duration-150" style="background:linear-gradient(135deg,#00C2A8,#009984);color:#000">
-    <span class="material-symbols-outlined text-sm font-bold">add</span>
-    Nuevo Proyecto
-  </button>
-  <nav class="flex-1 space-y-1 overflow-y-auto">
-    <a class="text-neutral-400 hover:text-white px-4 py-3 flex items-center gap-3 transition-all hover:bg-white/5 rounded-lg mx-3" href="dashboard.html">
-      <span class="material-symbols-outlined">dashboard</span>
-      <span>Dashboard</span>
-    </a>
-<a class="bg-primary text-black rounded-lg mx-3 flex items-center px-4 py-3 gap-3 transition-all font-bold nav-active" href="ventas.html">
-      <span class="material-symbols-outlined">trending_up</span>
-      <span>Ventas</span>
-    </a>
-<a class="text-neutral-400 hover:text-white px-4 py-3 flex items-center gap-3 transition-all hover:bg-white/5 rounded-lg mx-3" href="ads.html">
-      <span class="material-symbols-outlined">ads_click</span>
-      <span>Ads</span>
-    </a>
-<a class="text-neutral-400 hover:text-white px-4 py-3 flex items-center gap-3 transition-all hover:bg-white/5 rounded-lg mx-3" href="community.html">
-      <span class="material-symbols-outlined">forum</span>
-      <span>Community</span>
-    </a>
-<a class="text-neutral-400 hover:text-white px-4 py-3 flex items-center gap-3 transition-all hover:bg-white/5 rounded-lg mx-3" href="seo.html">
-      <span class="material-symbols-outlined">search</span>
-      <span>SEO</span>
-    </a>
-<a class="text-neutral-400 hover:text-white px-4 py-3 flex items-center gap-3 transition-all hover:bg-white/5 rounded-lg mx-3" href="web.html">
-      <span class="material-symbols-outlined">language</span>
-      <span>Web</span>
-    </a>
-<a class="text-neutral-400 hover:text-white px-4 py-3 flex items-center gap-3 transition-all hover:bg-white/5 rounded-lg mx-3" href="portal-cliente.html">
-      <span class="material-symbols-outlined">group</span>
-      <span>Clientes</span>
-    </a>
-<a class="text-neutral-400 hover:text-white px-4 py-3 flex items-center gap-3 transition-all hover:bg-white/5 rounded-lg mx-3" href="finanzas.html">
-      <span class="material-symbols-outlined">payments</span>
-      <span>Finanzas</span>
-    </a>
-<a class="text-neutral-400 hover:text-white px-4 py-3 flex items-center gap-3 transition-all hover:bg-white/5 rounded-lg mx-3" href="aprobaciones.html">
-      <span class="material-symbols-outlined">fact_check</span>
-      <span>Aprobaciones</span>
-    </a>
-<a class="text-neutral-400 hover:text-white px-4 py-3 flex items-center gap-3 transition-all hover:bg-white/5 rounded-lg mx-3" href="onboarding.html">
-      <span class="material-symbols-outlined">rocket_launch</span>
-      <span>Onboarding</span>
-    </a>
-<a class="text-neutral-400 hover:text-white px-4 py-3 flex items-center gap-3 transition-all hover:bg-white/5 rounded-lg mx-3" href="cerebros.html">
-      <span class="material-symbols-outlined">psychology</span>
-      <span>Cerebros IA</span>
-    </a>
-  </nav>
-  <div class="mt-auto pt-4 space-y-1" style="border-top:1px solid rgba(255,255,255,0.05)">
-    <a class="text-neutral-400 hover:text-white px-7 py-3 flex items-center gap-3 transition-all hover:bg-white/5" href="#">
-      <span class="material-symbols-outlined">help</span>
-      <span>Soporte</span>
-    </a>
-    <a class="text-neutral-400 hover:text-white px-7 py-3 flex items-center gap-3 transition-all hover:bg-white/5" href="#">
-      <span class="material-symbols-outlined">person</span>
-      <span>Cuenta</span>
-    </a>
-  </div>
-</aside>
-<main class="pl-64 min-h-screen flex flex-col bg-black ml-64">
-<!-- TopNavBar Shell -->
-<header class="flex justify-between items-center pl-6 pr-6 w-full h-16 bg-black/80 backdrop-blur-md border-b border-slate-800 sticky top-0 z-30">
-<div class="flex items-center gap-4">
-<span class="text-lg font-semibold text-slate-100 font-headline">Pipeline de Ventas</span>
-<div class="h-4 w-px bg-slate-800"></div>
-<div class="flex gap-2 items-center text-xs text-[#00C2A8] font-bold bg-[#00C2A8]/10 px-2 py-1 rounded">
-<span class="w-2 h-2 rounded-full bg-[#00C2A8] animate-pulse"></span>
-          EN VIVO
+<body class="m-0 bg-black text-on-background font-body">
+  <div id="sidebar-overlay" class="fixed inset-0 bg-black/60 z-30 lg:hidden" onclick="closeSidebar()"></div>
+
+  <aside id="sidebar" class="bg-black h-screen w-64 fixed left-0 top-0 flex flex-col py-6 z-40 transform -translate-x-full transition-transform duration-300 ease-out lg:translate-x-0" style="box-shadow: 4px 0 24px rgba(0,0,0,.6)">
+    <div class="px-6 mb-8">
+      <a href="dashboard.html" class="text-white font-black tracking-widest text-xl block font-headline" style="text-decoration:none">Novu 360</a>
+      <div class="text-neutral-500 text-xs uppercase tracking-tighter mt-1 italic">INTELIGENCIA DE AGENCIA</div>
+    </div>
+    <button onclick="window.location.href='dashboard.html'" class="mx-6 mb-8 py-3 font-bold rounded-lg flex items-center justify-center gap-2 transition-transform active:scale-95 duration-150" style="background:linear-gradient(135deg,#00C2A8,#009984);color:#000">
+      <span class="material-symbols-outlined text-sm font-bold">add</span>Nuevo Proyecto
+    </button>
+    <nav class="flex-1 space-y-1 overflow-y-auto no-scrollbar">
+      <a class="text-neutral-400 hover:text-white px-4 py-3 flex items-center gap-3 transition-all hover:bg-white/5 rounded-lg mx-3" href="dashboard.html"><span class="material-symbols-outlined">dashboard</span><span>Dashboard</span></a>
+      <a class="bg-primary text-black rounded-lg mx-3 flex items-center px-4 py-3 gap-3 font-bold" href="ventas.html"><span class="material-symbols-outlined">trending_up</span><span>Ventas</span></a>
+      <a class="text-neutral-400 hover:text-white px-4 py-3 flex items-center gap-3 transition-all hover:bg-white/5 rounded-lg mx-3" href="prospector.html"><span class="material-symbols-outlined">auto_awesome</span><span>Prospector IA</span></a>
+      <a class="text-neutral-400 hover:text-white px-4 py-3 flex items-center gap-3 transition-all hover:bg-white/5 rounded-lg mx-3" href="ads.html"><span class="material-symbols-outlined">ads_click</span><span>Ads</span></a>
+      <a class="text-neutral-400 hover:text-white px-4 py-3 flex items-center gap-3 transition-all hover:bg-white/5 rounded-lg mx-3" href="community.html"><span class="material-symbols-outlined">forum</span><span>Community</span></a>
+      <a class="text-neutral-400 hover:text-white px-4 py-3 flex items-center gap-3 transition-all hover:bg-white/5 rounded-lg mx-3" href="seo.html"><span class="material-symbols-outlined">search</span><span>SEO</span></a>
+      <a class="text-neutral-400 hover:text-white px-4 py-3 flex items-center gap-3 transition-all hover:bg-white/5 rounded-lg mx-3" href="web.html"><span class="material-symbols-outlined">language</span><span>Web</span></a>
+    </nav>
+    <div class="mt-auto pt-4 space-y-1" style="border-top:1px solid rgba(255,255,255,0.05)">
+      <button onclick="signOut()" class="w-full text-left text-neutral-400 hover:text-white px-7 py-3 flex items-center gap-3 transition-all hover:bg-white/5"><span class="material-symbols-outlined">logout</span><span>Cerrar sesión</span></button>
+    </div>
+  </aside>
+
+  <main id="main-content" class="md:ml-64 min-h-screen flex flex-col bg-black">
+    <header class="flex justify-between items-center px-4 md:px-8 w-full h-16 bg-black/80 backdrop-blur-md border-b border-slate-800 sticky top-0 z-20">
+      <div class="flex items-center gap-3">
+        <button onclick="openSidebar()" class="lg:hidden p-2 text-slate-400 hover:text-white"><span class="material-symbols-outlined">menu</span></button>
+        <span class="text-base md:text-lg font-semibold text-slate-100 font-headline">Pipeline de Ventas</span>
+      </div>
+      <div class="flex items-center gap-2 md:gap-4">
+        <div class="relative hidden md:flex items-center">
+          <span class="material-symbols-outlined absolute left-3 text-slate-400 text-sm">search</span>
+          <input id="search-input" class="bg-slate-900 border-none rounded-lg pl-9 pr-4 py-1.5 text-sm text-slate-200 focus:ring-1 focus:ring-[#00C2A8] w-64" placeholder="Buscar prospectos..." type="text" oninput="filterLeads(this.value)" />
         </div>
-</div>
-<div class="flex items-center gap-4">
-<div class="relative flex items-center">
-<span class="material-symbols-outlined absolute left-3 text-slate-400 text-sm">search</span>
-<input class="bg-slate-900 border-none rounded-lg pl-9 pr-4 py-1.5 text-sm text-slate-200 focus:ring-1 focus:ring-[#00C2A8] w-64" placeholder="Buscar prospectos..." type="text"/>
-</div>
-<div class="flex items-center gap-1">
-<button class="hover:bg-slate-900 rounded-lg p-2 text-slate-400 hover:text-white transition-colors">
-<span class="material-symbols-outlined" data-icon="notifications">notifications</span>
-</button>
-<button class="hover:bg-slate-900 rounded-lg p-2 text-slate-400 hover:text-white transition-colors">
-<span class="material-symbols-outlined" data-icon="help_outline">help_outline</span>
-</button>
-</div>
-<img alt="Perfil de Usuario" class="w-8 h-8 rounded-full border border-slate-800" data-alt="professional profile photo" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCtIORsbs1dZA4_EP3wjSpM0QtffSLh7iSs3da5_M4w2_Zj3LXaAcQRQOHCJSsQHuHkQi10kqxj2AIj61BRAdcQeVUOE5zBr-v6CjG4z8_2aASHRQ6vkHY1_PT5AWDrVJwxgBxwZxct-sMj_gy-e_ZDxF2Hb796Ua1cHHVo0t58KdunVPcZQKnilAx3j3exJYdEusg3FT_xOjpZWSo1FAtPfwaqdXfGTTzxSbpTT5rT4Bw4aXfstFk8_C6NbtU7XadVlBZAJGps8ME"/>
-</div>
-</header>
-<div class="flex flex-1 p-6 gap-6 overflow-hidden bg-black">
-<!-- LEFT SECTION (60%): Pipeline de Ventas - Table View -->
-<section class="w-3/5 flex flex-col h-full bg-black rounded-xl p-4 border border-slate-800 overflow-hidden">
-<div class="flex justify-between items-center mb-6 px-2">
-<div>
-<h2 class="text-2xl font-bold font-headline text-white">Prospectos</h2>
-<p class="text-slate-500 text-xs mt-1">Gestiona y rastrea los prospectos de tu agencia en detalle.</p>
-</div>
-<div class="flex gap-2">
-<button class="flex items-center gap-2 px-4 py-2 bg-slate-900/50 text-slate-300 text-sm rounded-lg hover:bg-slate-800 border border-slate-800 transition-all">
-<span class="material-symbols-outlined text-sm">filter_list</span>
-              Filtrar
+        <button onclick="openModal('modal-nuevo-lead')" class="flex items-center gap-1.5 px-3 py-1.5 bg-[#00C2A8] text-[#00382f] font-bold text-xs rounded-lg hover:brightness-110 transition-all">
+          <span class="material-symbols-outlined text-sm">add</span>Nuevo
+        </button>
+      </div>
+    </header>
+
+    <div class="flex flex-col flex-1 px-4 md:px-8 pt-4 md:pt-6 pb-24 md:pb-8 gap-4 md:gap-6 overflow-hidden bg-black">
+      <section class="w-full flex flex-col bg-black rounded-xl border border-slate-800 overflow-hidden" style="min-height:400px;">
+        <div class="flex justify-between items-center p-4 md:p-5 border-b border-slate-800">
+          <div>
+            <h2 class="text-xl font-bold font-headline text-white">Prospectos</h2>
+            <p id="leads-count" class="text-slate-500 text-xs mt-0.5">Cargando...</p>
+          </div>
+          <div class="flex gap-2">
+            <select id="filter-etapa" onchange="filterLeads()" class="bg-slate-900 border border-slate-700 text-slate-300 text-xs rounded-lg px-2 py-1.5 focus:ring-1 focus:ring-[#00C2A8] hidden sm:block">
+              <option value="">Todas las etapas</option><option value="nuevo">Nuevo</option><option value="contactado">Contactado</option><option value="calificado">Calificado</option><option value="propuesta">Propuesta</option><option value="cerrado">Cerrado</option><option value="perdido">Perdido</option>
+            </select>
+            <button onclick="openModal('modal-nuevo-lead')" class="hidden lg:flex items-center gap-2 px-4 py-2 bg-[#00C2A8] text-[#00382f] font-bold text-sm rounded-lg hover:brightness-110 transition-all">
+              <span class="material-symbols-outlined text-sm">add</span>Nuevo Lead
             </button>
-<button class="flex items-center gap-2 px-4 py-2 bg-[#00C2A8] text-[#00382f] font-bold text-sm rounded-lg hover:brightness-110 transition-all shadow-lg shadow-[#00C2A8]/20">
-<span class="material-symbols-outlined text-sm">add</span>
-              Nueva Etapa
-            </button>
-</div>
-</div>
-<div class="flex-1 overflow-auto no-scrollbar">
-<table class="w-full text-left border-separate border-spacing-y-0">
-<thead>
-<tr class="text-[10px] font-bold text-slate-500 uppercase tracking-widest border-b border-slate-800">
-<th class="px-4 py-4 font-bold">Nombre</th>
-<th class="px-4 py-4 font-bold">Usuario</th>
-<th class="px-4 py-4 font-bold text-center">Fecha</th>
-<th class="px-4 py-4 font-bold text-center">Estado</th>
-<th class="px-4 py-4 font-bold">Resumen IA</th>
-</tr>
-</thead>
-<tbody class="divide-y divide-slate-800/50">
-<!-- Row 1 -->
-<tr class="hover:bg-slate-900/30 transition-colors group">
-<td class="px-4 py-6">
-<span class="text-sm font-bold text-slate-100 block">Restaurante Roma</span>
-</td>
-<td class="px-4 py-6">
-<span class="text-xs text-slate-500">@romafoodies</span>
-</td>
-<td class="px-4 py-6 text-center">
-<div class="text-xs text-slate-400">
-<span class="block">24 Oct,</span>
-<span>2023</span>
-</div>
-</td>
-<td class="px-4 py-6 text-center">
-<span class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-blue-400/10 text-blue-400 text-[10px] font-bold uppercase tracking-wider border border-blue-400/20">
-<span class="w-1.5 h-1.5 rounded-full bg-blue-400"></span>
-                    Nuevo
-                  </span>
-</td>
-<td class="px-4 py-6">
-<p class="text-xs text-slate-600 line-clamp-1">Interesado en marketing...</p>
-</td>
-</tr>
-<!-- Row 2 -->
-<tr class="hover:bg-slate-900/30 transition-colors group">
-<td class="px-4 py-6">
-<span class="text-sm font-bold text-slate-100 block">Studio Glow</span>
-</td>
-<td class="px-4 py-6">
-<span class="text-xs text-slate-500">@studioglow.mx</span>
-</td>
-<td class="px-4 py-6 text-center">
-<div class="text-xs text-slate-400">
-<span class="block">23 Oct,</span>
-<span>2023</span>
-</div>
-</td>
-<td class="px-4 py-6 text-center">
-<span class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-[#A855F7]/10 text-[#A855F7] text-[10px] font-bold uppercase tracking-wider border border-[#A855F7]/20">
-<span class="w-1.5 h-1.5 rounded-full bg-[#A855F7]"></span>
-                    Propuesta
-                  </span>
-</td>
-<td class="px-4 py-6">
-<p class="text-xs text-slate-600 line-clamp-1">Esperando aprobación...</p>
-</td>
-</tr>
-<!-- Row 3 -->
-<tr class="hover:bg-slate-900/30 transition-colors group">
-<td class="px-4 py-6">
-<span class="text-sm font-bold text-slate-100 block">Urban Fitness</span>
-</td>
-<td class="px-4 py-6">
-<span class="text-xs text-slate-500">@urbanfit_oficial</span>
-</td>
-<td class="px-4 py-6 text-center">
-<div class="text-xs text-slate-400">
-<span class="block">22 Oct,</span>
-<span>2023</span>
-</div>
-</td>
-<td class="px-4 py-6 text-center">
-<span class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-amber-400/10 text-amber-400 text-[10px] font-bold uppercase tracking-wider border border-amber-400/20">
-<span class="w-1.5 h-1.5 rounded-full bg-amber-400"></span>
-                    Contactado
-                  </span>
-</td>
-<td class="px-4 py-6">
-<p class="text-xs text-slate-600 line-clamp-1">Presentación enviada...</p>
-</td>
-</tr>
-<!-- Row 4 -->
-<tr class="hover:bg-slate-900/30 transition-colors group">
-<td class="px-4 py-6">
-<span class="text-sm font-bold text-slate-100 block">Dental Care</span>
-</td>
-<td class="px-4 py-6">
-<span class="text-xs text-slate-500">@dentalcare_center</span>
-</td>
-<td class="px-4 py-6 text-center">
-<div class="text-xs text-slate-400">
-<span class="block">20 Oct,</span>
-<span>2023</span>
-</div>
-</td>
-<td class="px-4 py-6 text-center">
-<span class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-purple-400/10 text-purple-400 text-[10px] font-bold uppercase tracking-wider border border-purple-400/20">
-<span class="w-1.5 h-1.5 rounded-full bg-purple-400"></span>
-                    Calificado
-                  </span>
-</td>
-<td class="px-4 py-6">
-<p class="text-xs text-slate-600 line-clamp-1">Reunión agendada...</p>
-</td>
-</tr>
-<!-- Row 5 -->
-<tr class="hover:bg-slate-900/30 transition-colors group">
-<td class="px-4 py-6">
-<span class="text-sm font-bold text-slate-100 block">Pizza Napoli</span>
-</td>
-<td class="px-4 py-6">
-<span class="text-xs text-slate-500">@pizzanapoli</span>
-</td>
-<td class="px-4 py-6 text-center">
-<div class="text-xs text-slate-400">
-<span class="block">15 Oct,</span>
-<span>2023</span>
-</div>
-</td>
-<td class="px-4 py-6 text-center">
-<span class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-emerald-500/10 text-emerald-500 text-[10px] font-bold uppercase tracking-wider border border-emerald-500/20">
-<span class="w-1.5 h-1.5 rounded-full bg-emerald-500"></span>
-                    Cerrado
-                  </span>
-</td>
-<td class="px-4 py-6">
-<p class="text-xs text-slate-600 line-clamp-1">Contrato firmado...</p>
-</td>
-</tr>
-</tbody>
-</table>
-</div>
-</section>
-<!-- RIGHT SECTION (40%): AI Prospector, Auditor & Pitch Generator -->
-<section class="w-2/5 flex flex-col gap-6 overflow-y-auto no-scrollbar">
-<!-- AI Prospector Card -->
-<div class="bg-[#0c0c0c] border border-slate-800 rounded-2xl p-6 shadow-2xl relative overflow-hidden">
-<div class="absolute top-0 right-0 p-4 opacity-5">
-<span class="material-symbols-outlined text-6xl" data-icon="psychology">psychology</span>
-</div>
-<div class="flex items-center gap-2 mb-6">
-<span class="material-symbols-outlined text-[#00C2A8]">auto_awesome</span>
-<h2 class="text-xl font-bold font-headline text-white">AI Prospector</h2>
-</div>
-<form class="space-y-4 mb-6">
-<div class="grid grid-cols-2 gap-4">
-<div class="space-y-1.5">
-<label class="text-[10px] font-bold uppercase tracking-wider text-slate-500 ml-1">Nombre del negocio</label>
-<input class="w-full bg-black border-slate-800 rounded-lg text-sm py-2 px-3 focus:ring-[#00C2A8] focus:border-[#00C2A8] text-slate-200" placeholder="Ej: Pizza Napoli" type="text"/>
-</div>
-<div class="space-y-1.5">
-<label class="text-[10px] font-bold uppercase tracking-wider text-slate-500 ml-1">Tipo de negocio</label>
-<select class="w-full bg-black border-slate-800 rounded-lg text-sm py-2 px-3 focus:ring-[#00C2A8] focus:border-[#00C2A8] text-slate-200">
-<option>Restaurante</option>
-<option>Gimnasio</option>
-<option>Estética</option>
-<option>E-commerce</option>
-</select>
-</div>
-</div>
-<div class="grid grid-cols-2 gap-4">
-<div class="space-y-1.5">
-<label class="text-[10px] font-bold uppercase tracking-wider text-slate-500 ml-1">Ciudad</label>
-<input class="w-full bg-black border-slate-800 rounded-lg text-sm py-2 px-3 focus:ring-[#00C2A8] focus:border-[#00C2A8] text-slate-200" placeholder="Ciudad de México" type="text"/>
-</div>
-<div class="space-y-1.5">
-<label class="text-[10px] font-bold uppercase tracking-wider text-slate-500 ml-1">Instagram</label>
-<input class="w-full bg-black border-slate-800 rounded-lg text-sm py-2 px-3 focus:ring-[#00C2A8] focus:border-[#00C2A8] text-slate-200" placeholder="@usuario" type="text"/>
-</div>
-</div>
-<button class="w-full bg-[#00C2A8] hover:bg-[#00ad95] text-[#00382f] font-extrabold py-3.5 rounded-xl transition-all flex items-center justify-center gap-2 shadow-lg shadow-[#00C2A8]/20 group" type="button">
-<span class="material-symbols-outlined text-lg group-hover:animate-pulse">bolt</span>
-              Generar Mensaje IA
-            </button>
-</form>
-<!-- Result Card -->
-<div class="bg-white rounded-xl p-5 border-l-4 border-[#00C2A8] relative group">
-<div class="flex justify-between items-start mb-2">
-<span class="text-[10px] font-extrabold text-[#00C2A8] uppercase tracking-tighter">Borrador Sugerido</span>
-<button class="text-slate-400 hover:text-[#00C2A8] transition-colors p-1 bg-slate-100 rounded-md">
-<span class="material-symbols-outlined text-sm">content_copy</span>
-</button>
-</div>
-<p class="text-slate-800 text-sm italic leading-relaxed">
-              "¡Hola <strong>Roma</strong>! Estuve viendo el perfil de <strong>Restaurante Roma</strong> y me encantó la estética de sus platillos. Noté que tienen un gran potencial para atraer más clientes locales con pauta digital. ¿Te interesaría ver una auditoría gratuita?"
-            </p>
-</div>
-</div>
-<!-- Auditor de Conversación Section -->
-<div class="bg-[#0c0c0c] rounded-2xl p-6 border border-slate-800 shadow-xl">
-<div class="flex items-center gap-3 mb-5">
-<div class="w-10 h-10 rounded-full bg-slate-900 border border-slate-800 flex items-center justify-center">
-<img alt="Diego AI Avatar" class="w-full h-full rounded-full" data-alt="friendly smart AI assistant avatar" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDVtXd7n4y2mJXZkTUO0boHR3d6yQ5YVZdS7Ig2MzkwUEAwRnYwzxMKLYAEZBsT3ooRtDQMUtiTzaeRGuGJPCuePEer1TGcWTOhP9E6JgHyorArjBQxKLHBQ_RAuoDevQSwQhULN6kKCbMrgN5Rv5VmSSRrwe_oN5mwnNo8esliy3XnMb8RMuIftUDDjfavtmUjjCcNaiaA-cRBgHYjbDkuQx9NqU81lpy6RN9aSxbYbLLASCJpfmhPwFDOTgVXe0fYkEqDW_Pi1F0"/>
-</div>
-<div>
-<h3 class="text-white font-bold text-base leading-none">Auditor de Conversación</h3>
-<p class="text-slate-500 text-[11px] mt-1">Potenciado por Diego AI 4.0</p>
-</div>
-</div>
-<div class="space-y-4">
-<div class="space-y-1.5">
-<label class="text-[10px] font-bold uppercase tracking-wider text-slate-500 ml-1">Pega tu conversación aquí</label>
-<textarea class="w-full bg-black border-slate-800 rounded-xl text-sm py-3 px-4 focus:ring-[#00C2A8] focus:border-[#00C2A8] text-slate-200 resize-none" placeholder="Copia y pega los mensajes para analizar el cierre..." rows="3"></textarea>
-</div>
-<button class="w-full bg-slate-900 hover:bg-slate-800 border border-slate-800 text-[#00C2A8] font-bold py-3 rounded-xl transition-all flex items-center justify-center gap-2">
-<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">analytics</span>
-              Analizar con Diego
-            </button>
-</div>
-</div>
-<!-- Generador de Pitch Section -->
-<div class="bg-[#0c0c0c] rounded-2xl p-6 border border-slate-800 shadow-xl">
-<div class="flex items-center gap-3 mb-5">
-<div class="w-10 h-10 rounded-full bg-[#00C2A8]/10 border border-[#00C2A8]/20 flex items-center justify-center">
-<span class="material-symbols-outlined text-[#00C2A8] text-xl">record_voice_over</span>
-</div>
-<div>
-<h3 class="text-white font-bold text-base leading-none">Generador de Pitch</h3>
-<p class="text-slate-500 text-[11px] mt-1">Crea argumentos de venta personalizados</p>
-</div>
-</div>
-<div class="space-y-4">
-<div class="space-y-1.5">
-<label class="text-[10px] font-bold uppercase tracking-wider text-slate-500 ml-1">Seleccionar Prospecto</label>
-<select class="w-full bg-black border-slate-800 rounded-lg text-sm py-2.5 px-3 focus:ring-[#00C2A8] focus:border-[#00C2A8] text-slate-200">
-<option>Restaurante Roma</option>
-<option>Studio Glow</option>
-<option>Urban Fitness</option>
-<option>Dental Care</option>
-</select>
-</div>
-<button class="w-full bg-[#00C2A8] hover:bg-[#00ad95] text-[#00382f] font-extrabold py-3 rounded-xl transition-all flex items-center justify-center gap-2">
-<span class="material-symbols-outlined text-lg">auto_fix_high</span>
-              Generar Pitch IA
-            </button>
-<div class="space-y-1.5">
-<label class="text-[10px] font-bold uppercase tracking-wider text-slate-500 ml-1">Pitch Generado</label>
-<div class="w-full bg-black border border-dashed border-slate-800 rounded-xl p-4 min-h-[80px]">
-<p class="text-slate-500 text-xs italic">El pitch aparecerá aquí...</p>
-</div>
-</div>
-</div>
-</div>
-</section>
-</div>
-</main>
-<button class="fixed bottom-8 right-8 w-14 h-14 bg-[#00C2A8] text-[#00382f] rounded-full shadow-2xl flex items-center justify-center hover:scale-110 active:scale-95 transition-all z-50">
-<span class="material-symbols-outlined text-2xl font-bold" style="font-variation-settings: 'FILL' 1;">add</span>
-</button>
-<script src="app.js" defer></script>
-</body></html>
+          </div>
+        </div>
+        <div class="flex-1 overflow-x-auto overflow-y-auto no-scrollbar">
+          <table class="min-w-[700px] w-full text-left">
+            <thead>
+              <tr class="text-[10px] font-bold text-slate-500 uppercase tracking-widest border-b border-slate-800 bg-black sticky top-0">
+                <th class="px-4 py-3">Negocio</th><th class="px-4 py-3 hidden md:table-cell">Giro</th><th class="px-4 py-3 hidden sm:table-cell text-center">Fecha</th><th class="px-4 py-3 text-center">Etapa</th><th class="px-4 py-3 text-center">Acciones</th>
+              </tr>
+            </thead>
+            <tbody id="leads-tbody" class="divide-y divide-slate-800/50">
+              <tr><td colspan="5" class="px-4 py-4"><div class="space-y-3"><div class="skeleton h-4 w-full"></div><div class="skeleton h-4 w-5/6"></div><div class="skeleton h-4 w-4/6"></div></div></td></tr>
+            </tbody>
+          </table>
+        </div>
+        <div id="empty-state" class="hidden flex-1 flex flex-col items-center justify-center p-8 text-center">
+          <span class="material-symbols-outlined text-5xl text-slate-700 mb-3">inbox</span>
+          <p class="text-slate-500 text-sm font-medium">Sin prospectos todavía</p>
+          <p class="text-slate-600 text-xs mt-1">Agrega tu primer lead con el botón "Nuevo Lead"</p>
+        </div>
+      </section>
+    </div>
+  </main>
+
+  <button onclick="openModal('modal-nuevo-lead')" class="fixed bottom-6 right-6 w-14 h-14 bg-[#00C2A8] text-[#00382f] rounded-full shadow-2xl flex items-center justify-center hover:scale-110 active:scale-95 transition-all z-50 lg:hidden"><span class="material-symbols-outlined text-2xl" style="font-variation-settings:'FILL' 1;">add</span></button>
+
+  <div id="modal-nuevo-lead" class="fixed inset-0 z-50 hidden items-center justify-center p-4">
+    <div class="modal-backdrop absolute inset-0" onclick="closeModal('modal-nuevo-lead')"></div>
+    <div class="relative bg-[#0c0c0c] border border-slate-800 rounded-2xl p-6 w-full max-w-md shadow-2xl">
+      <div class="flex items-center justify-between mb-5"><h3 class="text-lg font-bold font-headline text-white">Nuevo Lead</h3><button onclick="closeModal('modal-nuevo-lead')" class="text-slate-500 hover:text-white"><span class="material-symbols-outlined">close</span></button></div>
+      <div class="space-y-3">
+        <div class="grid grid-cols-2 gap-3"><div><label class="text-[10px] font-bold uppercase tracking-wider text-slate-500 block mb-1">Nombre del negocio *</label><input id="nl-nombre" class="w-full bg-black border border-slate-800 rounded-lg text-sm py-2 px-3 focus:ring-1 focus:ring-[#00C2A8] text-slate-200" type="text" /></div><div><label class="text-[10px] font-bold uppercase tracking-wider text-slate-500 block mb-1">Giro</label><input id="nl-giro" class="w-full bg-black border border-slate-800 rounded-lg text-sm py-2 px-3 focus:ring-1 focus:ring-[#00C2A8] text-slate-200" type="text" /></div></div>
+        <div class="grid grid-cols-2 gap-3"><div><label class="text-[10px] font-bold uppercase tracking-wider text-slate-500 block mb-1">Contacto</label><input id="nl-contacto" class="w-full bg-black border border-slate-800 rounded-lg text-sm py-2 px-3 focus:ring-1 focus:ring-[#00C2A8] text-slate-200" type="text" /></div><div><label class="text-[10px] font-bold uppercase tracking-wider text-slate-500 block mb-1">Teléfono</label><input id="nl-telefono" class="w-full bg-black border border-slate-800 rounded-lg text-sm py-2 px-3 focus:ring-1 focus:ring-[#00C2A8] text-slate-200" type="text" /></div></div>
+        <div class="grid grid-cols-2 gap-3"><div><label class="text-[10px] font-bold uppercase tracking-wider text-slate-500 block mb-1">Ciudad</label><input id="nl-ciudad" class="w-full bg-black border border-slate-800 rounded-lg text-sm py-2 px-3 focus:ring-1 focus:ring-[#00C2A8] text-slate-200" type="text" /></div><div><label class="text-[10px] font-bold uppercase tracking-wider text-slate-500 block mb-1">Etapa</label><select id="nl-etapa" class="w-full bg-black border border-slate-800 rounded-lg text-sm py-2 px-3 focus:ring-1 focus:ring-[#00C2A8] text-slate-200"><option value="nuevo">Nuevo</option><option value="contactado">Contactado</option><option value="calificado">Calificado</option><option value="propuesta">Propuesta</option><option value="cerrado">Cerrado</option><option value="perdido">Perdido</option></select></div></div>
+        <div><label class="text-[10px] font-bold uppercase tracking-wider text-slate-500 block mb-1">Notas</label><textarea id="nl-notas" class="w-full bg-black border border-slate-800 rounded-lg text-sm py-2 px-3 focus:ring-1 focus:ring-[#00C2A8] text-slate-200 resize-none" rows="3"></textarea></div>
+        <div id="nl-error" class="hidden text-red-400 text-xs bg-red-400/10 border border-red-400/20 rounded-lg px-3 py-2"></div>
+        <button id="btn-nl-guardar" onclick="guardarNuevoLead()" class="w-full bg-[#00C2A8] hover:bg-[#00ad95] text-[#00382f] font-extrabold py-3 rounded-xl transition-all">Guardar Lead</button>
+      </div>
+    </div>
+  </div>
+
+  <div id="modal-editar-lead" class="fixed inset-0 z-50 hidden items-center justify-center p-4">
+    <div class="modal-backdrop absolute inset-0" onclick="closeModal('modal-editar-lead')"></div>
+    <div class="relative bg-[#0c0c0c] border border-slate-800 rounded-2xl p-6 w-full max-w-md shadow-2xl">
+      <div class="flex items-center justify-between mb-5"><h3 class="text-lg font-bold font-headline text-white">Editar Lead</h3><button onclick="closeModal('modal-editar-lead')" class="text-slate-500 hover:text-white"><span class="material-symbols-outlined">close</span></button></div>
+      <input type="hidden" id="el-id" />
+      <div class="space-y-3">
+        <div class="grid grid-cols-2 gap-3"><div><label class="text-[10px] font-bold uppercase tracking-wider text-slate-500 block mb-1">Nombre *</label><input id="el-nombre" class="w-full bg-black border border-slate-800 rounded-lg text-sm py-2 px-3 focus:ring-1 focus:ring-[#00C2A8] text-slate-200" type="text" /></div><div><label class="text-[10px] font-bold uppercase tracking-wider text-slate-500 block mb-1">Giro</label><input id="el-giro" class="w-full bg-black border border-slate-800 rounded-lg text-sm py-2 px-3 focus:ring-1 focus:ring-[#00C2A8] text-slate-200" type="text" /></div></div>
+        <div class="grid grid-cols-2 gap-3"><div><label class="text-[10px] font-bold uppercase tracking-wider text-slate-500 block mb-1">Contacto</label><input id="el-contacto" class="w-full bg-black border border-slate-800 rounded-lg text-sm py-2 px-3 focus:ring-1 focus:ring-[#00C2A8] text-slate-200" type="text" /></div><div><label class="text-[10px] font-bold uppercase tracking-wider text-slate-500 block mb-1">Teléfono</label><input id="el-telefono" class="w-full bg-black border border-slate-800 rounded-lg text-sm py-2 px-3 focus:ring-1 focus:ring-[#00C2A8] text-slate-200" type="text" /></div></div>
+        <div class="grid grid-cols-2 gap-3"><div><label class="text-[10px] font-bold uppercase tracking-wider text-slate-500 block mb-1">Ciudad</label><input id="el-ciudad" class="w-full bg-black border border-slate-800 rounded-lg text-sm py-2 px-3 focus:ring-1 focus:ring-[#00C2A8] text-slate-200" type="text" /></div><div><label class="text-[10px] font-bold uppercase tracking-wider text-slate-500 block mb-1">Etapa</label><select id="el-etapa" class="w-full bg-black border border-slate-800 rounded-lg text-sm py-2 px-3 focus:ring-1 focus:ring-[#00C2A8] text-slate-200"><option value="nuevo">Nuevo</option><option value="contactado">Contactado</option><option value="calificado">Calificado</option><option value="propuesta">Propuesta</option><option value="cerrado">Cerrado</option><option value="perdido">Perdido</option></select></div></div>
+        <div><label class="text-[10px] font-bold uppercase tracking-wider text-slate-500 block mb-1">Notas</label><textarea id="el-notas" class="w-full bg-black border border-slate-800 rounded-lg text-sm py-2 px-3 focus:ring-1 focus:ring-[#00C2A8] text-slate-200 resize-none" rows="3"></textarea></div>
+        <div id="el-error" class="hidden text-red-400 text-xs bg-red-400/10 border border-red-400/20 rounded-lg px-3 py-2"></div>
+        <div class="flex gap-2"><button id="btn-el-guardar" onclick="actualizarLead()" class="flex-1 bg-[#00C2A8] hover:bg-[#00ad95] text-[#00382f] font-extrabold py-3 rounded-xl transition-all">Guardar Cambios</button><button onclick="eliminarLead()" class="px-4 bg-red-500/10 hover:bg-red-500/20 border border-red-500/20 text-red-400 font-bold rounded-xl transition-all"><span class="material-symbols-outlined text-lg">delete</span></button></div>
+      </div>
+    </div>
+  </div>
+
+  <div id="toast" class="fixed bottom-24 lg:bottom-8 left-1/2 -translate-x-1/2 z-50 hidden"><div class="bg-[#00C2A8] text-[#00382f] font-bold text-sm px-5 py-3 rounded-full shadow-2xl"><span id="toast-msg">Guardado</span></div></div>
+
+  <nav class="fixed bottom-0 left-0 w-full z-30 border-t border-white/10 bg-black/95 backdrop-blur md:hidden" id="mobile-bottom-nav">
+    <div class="flex flex-row items-center justify-around">
+      <a href="dashboard.html" class="mobile-bottom-link flex flex-1 flex-col items-center justify-center gap-1 px-2 py-3 text-neutral-400">
+        <span class="material-symbols-outlined text-[20px]">dashboard</span>
+        <span class="text-[10px] font-bold uppercase tracking-wide">Home</span>
+      </a>
+      <a href="ventas.html" class="mobile-bottom-link flex flex-1 flex-col items-center justify-center gap-1 px-2 py-3 text-primary">
+        <span class="material-symbols-outlined text-[20px]">trending_up</span>
+        <span class="text-[10px] font-bold uppercase tracking-wide">Ventas</span>
+      </a>
+      <a href="community.html" class="mobile-bottom-link flex flex-1 flex-col items-center justify-center gap-1 px-2 py-3 text-neutral-400">
+        <span class="material-symbols-outlined text-[20px]">forum</span>
+        <span class="text-[10px] font-bold uppercase tracking-wide">Community</span>
+      </a>
+      <a href="seo.html" class="mobile-bottom-link flex flex-1 flex-col items-center justify-center gap-1 px-2 py-3 text-neutral-400">
+        <span class="material-symbols-outlined text-[20px]">search</span>
+        <span class="text-[10px] font-bold uppercase tracking-wide">SEO</span>
+      </a>
+      <a href="cerebros.html" class="mobile-bottom-link flex flex-1 flex-col items-center justify-center gap-1 px-2 py-3 text-neutral-400">
+        <span class="material-symbols-outlined text-[20px]">psychology</span>
+        <span class="text-[10px] font-bold uppercase tracking-wide">IA</span>
+      </a>
+    </div>
+  </nav>
+
+  <script>
+    let allLeads = [];
+    let currentLeadId = null;
+
+    function openSidebar() {
+      const sidebar = document.getElementById("sidebar");
+      sidebar.classList.remove("-translate-x-full");
+      sidebar.classList.add("translate-x-0");
+      document.getElementById("sidebar-overlay").classList.add("active");
+    }
+    function closeSidebar() {
+      const sidebar = document.getElementById("sidebar");
+      sidebar.classList.remove("translate-x-0");
+      sidebar.classList.add("-translate-x-full");
+      document.getElementById("sidebar-overlay").classList.remove("active");
+    }
+    function openModal(id) { const el = document.getElementById(id); el.classList.remove("hidden"); el.classList.add("flex"); document.body.style.overflow = "hidden"; }
+    function closeModal(id) { const el = document.getElementById(id); el.classList.add("hidden"); el.classList.remove("flex"); document.body.style.overflow = ""; }
+    function showToast(msg, isError = false) { const t = document.getElementById("toast"); const tm = document.getElementById("toast-msg"); const inner = t.firstElementChild; tm.textContent = msg; inner.style.background = isError ? "#ef4444" : "#00C2A8"; inner.style.color = isError ? "#fff" : "#00382f"; t.classList.remove("hidden"); setTimeout(() => t.classList.add("hidden"), 3000); }
+    function badgeEtapa(etapa) { const e = (etapa || "nuevo").toLowerCase(); return `<span class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full badge-${e} text-[10px] font-bold uppercase tracking-wider border"><span class="w-1.5 h-1.5 rounded-full dot-${e}"></span>${e}</span>`; }
+    function fechaCorta(ts) { if (!ts) return "—"; const d = new Date(ts); return d.toLocaleDateString("es-MX", { day: "2-digit", month: "short", year: "2-digit" }); }
+
+    async function cargarLeads() {
+      try {
+        const { data, error } = await window.supabaseClient.from("leads").select("*").order("created_at", { ascending: false });
+        if (error) throw error;
+        allLeads = data || [];
+        renderLeads(allLeads);
+      } catch (e) {
+        document.getElementById("leads-tbody").innerHTML = '<tr><td colspan="5" class="px-4 py-8 text-center text-red-400 text-sm">Error al cargar prospectos.</td></tr>';
+      }
+    }
+    function renderLeads(leads) {
+      const tbody = document.getElementById("leads-tbody");
+      const empty = document.getElementById("empty-state");
+      document.getElementById("leads-count").textContent = `${leads.length} prospecto${leads.length !== 1 ? "s" : ""}`;
+      if (!leads.length) { tbody.innerHTML = ""; empty.classList.remove("hidden"); return; }
+      empty.classList.add("hidden");
+      tbody.innerHTML = leads.map(l => `<tr class="hover:bg-slate-900/30 transition-colors cursor-pointer group" onclick="abrirEditar('${l.id}')"><td class="px-4 py-4"><span class="text-sm font-bold text-slate-100 block">${l.nombre_negocio || ""}</span><span class="text-xs text-slate-500">${l.contacto || ""}</span></td><td class="px-4 py-4 hidden md:table-cell"><span class="text-xs text-slate-400">${l.giro || "—"}</span></td><td class="px-4 py-4 hidden sm:table-cell text-center"><span class="text-xs text-slate-400">${fechaCorta(l.created_at)}</span></td><td class="px-4 py-4 text-center">${badgeEtapa(l.etapa)}</td><td class="px-4 py-4 text-center"><button onclick="event.stopPropagation(); abrirEditar('${l.id}')" class="text-slate-600 hover:text-[#00C2A8] transition-colors p-1"><span class="material-symbols-outlined text-base">edit</span></button></td></tr>`).join("");
+    }
+    function filterLeads(searchVal) {
+      const search = (searchVal !== undefined ? searchVal : document.getElementById("search-input")?.value || "").toLowerCase();
+      const etapa = document.getElementById("filter-etapa")?.value || "";
+      let filtered = allLeads;
+      if (search) filtered = filtered.filter(l => (l.nombre_negocio || "").toLowerCase().includes(search) || (l.contacto || "").toLowerCase().includes(search) || (l.giro || "").toLowerCase().includes(search));
+      if (etapa) filtered = filtered.filter(l => (l.etapa || "nuevo") === etapa);
+      renderLeads(filtered);
+    }
+
+    function setupBottomNavActiveState() {
+      const currentPage = window.location.pathname.split("/").pop() || "dashboard.html";
+      document.querySelectorAll("#mobile-bottom-nav .mobile-bottom-link").forEach(function (link) {
+        const href = link.getAttribute("href");
+        const isActive = href === currentPage;
+        link.classList.toggle("text-primary", isActive);
+        link.classList.toggle("text-neutral-400", !isActive);
+      });
+    }
+
+    function mostrarError(elId, msg) { const el = document.getElementById(elId); el.textContent = msg; el.classList.remove("hidden"); }
+    function setLoading(btn, loading, defaultText) { if (loading) { btn.disabled = true; btn.textContent = "Procesando..."; } else { btn.disabled = false; btn.textContent = defaultText; } }
+
+    async function guardarNuevoLead() {
+      const nombre = document.getElementById("nl-nombre").value.trim();
+      if (!nombre) return mostrarError("nl-error", "El nombre del negocio es obligatorio.");
+      const btn = document.getElementById("btn-nl-guardar"); setLoading(btn, true, "Guardar Lead");
+      try {
+        const { error } = await window.supabaseClient.from("leads").insert([{ nombre_negocio: nombre, giro: document.getElementById("nl-giro").value.trim(), contacto: document.getElementById("nl-contacto").value.trim(), telefono: document.getElementById("nl-telefono").value.trim(), ciudad: document.getElementById("nl-ciudad").value.trim(), etapa: document.getElementById("nl-etapa").value, notas: document.getElementById("nl-notas").value.trim() }]);
+        if (error) throw error;
+        closeModal("modal-nuevo-lead");
+        ["nl-nombre","nl-giro","nl-contacto","nl-telefono","nl-ciudad","nl-notas"].forEach(id => document.getElementById(id).value = "");
+        document.getElementById("nl-etapa").value = "nuevo";
+        document.getElementById("nl-error").classList.add("hidden");
+        showToast("Lead guardado");
+        await cargarLeads();
+      } catch (e) { mostrarError("nl-error", "Error al guardar: " + (e.message || e)); }
+      finally { setLoading(btn, false, "Guardar Lead"); }
+    }
+
+    function abrirEditar(id) {
+      const lead = allLeads.find(l => l.id === id); if (!lead) return; currentLeadId = id;
+      document.getElementById("el-id").value = id;
+      document.getElementById("el-nombre").value = lead.nombre_negocio || "";
+      document.getElementById("el-giro").value = lead.giro || "";
+      document.getElementById("el-contacto").value = lead.contacto || "";
+      document.getElementById("el-telefono").value = lead.telefono || "";
+      document.getElementById("el-ciudad").value = lead.ciudad || "";
+      document.getElementById("el-etapa").value = lead.etapa || "nuevo";
+      document.getElementById("el-notas").value = lead.notas || "";
+      document.getElementById("el-error").classList.add("hidden");
+      openModal("modal-editar-lead");
+    }
+    async function actualizarLead() {
+      const nombre = document.getElementById("el-nombre").value.trim();
+      if (!nombre) return mostrarError("el-error", "El nombre es obligatorio.");
+      const btn = document.getElementById("btn-el-guardar"); setLoading(btn, true, "Guardar Cambios");
+      try {
+        const { error } = await window.supabaseClient.from("leads").update({ nombre_negocio: nombre, giro: document.getElementById("el-giro").value.trim(), contacto: document.getElementById("el-contacto").value.trim(), telefono: document.getElementById("el-telefono").value.trim(), ciudad: document.getElementById("el-ciudad").value.trim(), etapa: document.getElementById("el-etapa").value, notas: document.getElementById("el-notas").value.trim() }).eq("id", currentLeadId);
+        if (error) throw error;
+        closeModal("modal-editar-lead"); showToast("Lead actualizado"); await cargarLeads();
+      } catch (e) { mostrarError("el-error", "Error: " + (e.message || e)); }
+      finally { setLoading(btn, false, "Guardar Cambios"); }
+    }
+    async function eliminarLead() {
+      if (!confirm("¿Eliminar este lead?")) return;
+      try { const { error } = await window.supabaseClient.from("leads").delete().eq("id", currentLeadId); if (error) throw error; closeModal("modal-editar-lead"); showToast("Lead eliminado"); await cargarLeads(); }
+      catch (e) { showToast("Error al eliminar", true); }
+    }
+    function signOut() { window.supabaseClient.auth.signOut().then(() => window.location.href = "index.html"); }
+    document.addEventListener("DOMContentLoaded", function () {
+      cargarLeads();
+      setupBottomNavActiveState();
+    });
+  </script>
+</body>
+</html>

@@ -1,0 +1,355 @@
+﻿<!DOCTYPE html>
+<html class="dark" lang="es">
+<head>
+  <meta charset="utf-8" />
+  <meta content="width=device-width, initial-scale=1.0" name="viewport" />
+  <title>Novu 360 Â· Prospector IA</title>
+  <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;600;700;800&family=Inter:wght@400;500;600&display=swap" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="style.css" />
+<script src="novu-client.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script src="config.js"></script>
+  <script src="auth.js"></script>
+  <script>checkAuth();</script>
+  <style>
+    html, body { margin: 0; background: #000; }
+    .no-scrollbar::-webkit-scrollbar { display: none; }
+    .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+    #sidebar-overlay { display: none; }
+    #sidebar-overlay.active { display: block; }
+    @media (max-width: 1023px) { #sidebar { transform: translateX(-100%); transition: transform .3s ease; } #sidebar.open { transform: translateX(0); } }
+    .ai-typing::after { content: "|"; animation: blink .8s infinite; }
+    @keyframes blink { 0%,100% { opacity: 1; } 50% { opacity: 0; } }
+    .modal-backdrop { background: rgba(0,0,0,.8); backdrop-filter: blur(4px); }
+  </style>
+</head>
+<body class="m-0 bg-black text-slate-200 font-body">
+  <div id="sidebar-overlay" class="fixed inset-0 bg-black/60 z-30 lg:hidden" onclick="closeSidebar()"></div>
+  <aside id="sidebar" class="bg-black h-screen w-64 fixed left-0 top-0 flex flex-col py-6 z-40" style="box-shadow: 4px 0 24px rgba(0,0,0,.6)">
+    <div class="px-6 mb-8">
+      <a href="dashboard.html" class="text-white font-black tracking-widest text-xl block font-headline" style="text-decoration:none">Novu 360</a>
+      <div class="text-neutral-500 text-xs uppercase tracking-tighter mt-1 italic">INTELIGENCIA DE AGENCIA</div>
+    </div>
+    <button onclick="window.location.href='dashboard.html'" class="mx-6 mb-8 py-3 font-bold rounded-lg flex items-center justify-center gap-2 transition-transform active:scale-95 duration-150" style="background:linear-gradient(135deg,#00C2A8,#009984);color:#000">
+      <span class="material-symbols-outlined text-sm font-bold">add</span>Nuevo Proyecto
+    </button>
+    <nav class="flex-1 space-y-1 overflow-y-auto no-scrollbar">
+      <a class="text-neutral-400 hover:text-white px-4 py-3 flex items-center gap-3 transition-all hover:bg-white/5 rounded-lg mx-3" href="dashboard.html"><span class="material-symbols-outlined">dashboard</span><span>Dashboard</span></a>
+      <a class="text-neutral-400 hover:text-white px-4 py-3 flex items-center gap-3 transition-all hover:bg-white/5 rounded-lg mx-3" href="ventas.html"><span class="material-symbols-outlined">trending_up</span><span>Ventas</span></a>
+      <a class="bg-[#00C2A8] text-[#00382f] rounded-lg mx-3 flex items-center px-4 py-3 gap-3 font-bold" href="prospector.html"><span class="material-symbols-outlined">auto_awesome</span><span>Prospector IA</span></a>
+    </nav>
+    <div class="mt-auto pt-4 border-t border-white/5">
+      <button onclick="signOut()" class="w-full text-left text-neutral-400 hover:text-white px-7 py-3 flex items-center gap-3 transition-all hover:bg-white/5"><span class="material-symbols-outlined">logout</span><span>Cerrar sesiÃ³n</span></button>
+    </div>
+  </aside>
+
+  <main class="lg:ml-64 min-h-screen flex flex-col bg-black">
+    <header class="flex justify-between items-center px-4 md:px-8 h-16 bg-black/80 backdrop-blur border-b border-slate-800 sticky top-0 z-20">
+      <div class="flex items-center gap-3">
+        <button onclick="openSidebar()" class="lg:hidden p-2 text-slate-400 hover:text-white"><span class="material-symbols-outlined">menu</span></button>
+        <span class="text-base md:text-lg font-semibold text-slate-100 font-headline">Prospector IA</span>
+      </div>
+      <a href="ventas.html" class="px-3 py-1.5 rounded-lg border border-slate-700 text-xs font-bold text-[#00C2A8] hover:bg-slate-900">Ir a Pipeline</a>
+    </header>
+
+    <div class="px-4 md:px-8 pt-4 md:pt-6 pb-6 md:pb-8 space-y-4 md:space-y-6">
+      <section class="bg-[#0c0c0c] border border-slate-800 rounded-2xl p-5 shadow-2xl relative overflow-hidden">
+        <div class="absolute top-0 right-0 p-4 opacity-5 pointer-events-none"><span class="material-symbols-outlined text-6xl">psychology</span></div>
+        <div class="flex items-center gap-2 mb-1"><span class="material-symbols-outlined text-[#00C2A8]">auto_awesome</span><h2 class="text-lg font-bold font-headline text-white">AI Prospector</h2></div>
+        <p class="text-slate-500 text-xs mb-4">Sube capturas del prospecto y genera mensajes de apertura.</p>
+        <div class="space-y-3 mb-4">
+          <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+            <div><label class="text-[10px] font-bold uppercase tracking-wider text-slate-500 block mb-1">Nombre del negocio *</label><input id="prosp-nombre" class="w-full bg-black border border-slate-800 rounded-lg text-sm py-2 px-3 focus:ring-1 focus:ring-[#00C2A8]" type="text" /></div>
+            <div><label class="text-[10px] font-bold uppercase tracking-wider text-slate-500 block mb-1">Giro</label><input id="prosp-tipo" class="w-full bg-black border border-slate-800 rounded-lg text-sm py-2 px-3 focus:ring-1 focus:ring-[#00C2A8]" type="text" /></div>
+          </div>
+          <div><label class="text-[10px] font-bold uppercase tracking-wider text-slate-500 block mb-1">Ciudad</label><input id="prosp-ciudad" class="w-full bg-black border border-slate-800 rounded-lg text-sm py-2 px-3 focus:ring-1 focus:ring-[#00C2A8]" type="text" /></div>
+        </div>
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-2 mb-4" id="canales-grid">
+          <label class="flex items-center justify-between gap-3 bg-black border border-slate-800 rounded-xl px-3 py-2.5"><span class="text-xs font-bold text-slate-300">Instagram</span><input type="file" accept="image/*" class="canal-input text-xs" data-canal="instagram" onchange="handleCanalFile(this)" /></label>
+          <label class="flex items-center justify-between gap-3 bg-black border border-slate-800 rounded-xl px-3 py-2.5"><span class="text-xs font-bold text-slate-300">Facebook</span><input type="file" accept="image/*" class="canal-input text-xs" data-canal="facebook" onchange="handleCanalFile(this)" /></label>
+          <label class="flex items-center justify-between gap-3 bg-black border border-slate-800 rounded-xl px-3 py-2.5"><span class="text-xs font-bold text-slate-300">Google Maps</span><input type="file" accept="image/*" class="canal-input text-xs" data-canal="maps" onchange="handleCanalFile(this)" /></label>
+          <label class="flex items-center justify-between gap-3 bg-black border border-slate-800 rounded-xl px-3 py-2.5"><span class="text-xs font-bold text-slate-300">TikTok</span><input type="file" accept="image/*" class="canal-input text-xs" data-canal="tiktok" onchange="handleCanalFile(this)" /></label>
+          <label class="flex items-center justify-between gap-3 bg-black border border-slate-800 rounded-xl px-3 py-2.5 sm:col-span-2"><span class="text-xs font-bold text-slate-300">Sitio Web</span><input type="file" accept="image/*" class="canal-input text-xs" data-canal="web" onchange="handleCanalFile(this)" /></label>
+        </div>
+        <button id="btn-analizar-prospecto" onclick="analizarProspecto()" class="w-full bg-[#00C2A8] hover:bg-[#00ad95] text-[#00382f] font-extrabold py-3 rounded-xl transition-all">Analizar y Generar Mensajes</button>
+        <div id="prosp-result" class="hidden mt-4 space-y-3">
+          <div class="bg-slate-950 rounded-xl p-4 border border-slate-800"><span class="text-[10px] font-extrabold text-amber-400 uppercase tracking-wider">DiagnÃ³stico</span><p id="prosp-diagnostico" class="text-slate-300 text-xs leading-relaxed whitespace-pre-line mt-2"></p></div>
+          <div class="bg-slate-950 rounded-xl p-4 border-l-4 border-green-500"><span class="text-[10px] font-extrabold text-green-400 uppercase tracking-tighter">Mensaje WhatsApp</span><p id="prosp-msg-wa" class="text-slate-300 text-sm leading-relaxed mt-2"></p></div>
+          <div class="bg-slate-950 rounded-xl p-4 border-l-4 border-pink-500"><span class="text-[10px] font-extrabold text-pink-400 uppercase tracking-tighter">DM Instagram</span><p id="prosp-msg-ig" class="text-slate-300 text-sm leading-relaxed mt-2"></p></div>
+          <button onclick="guardarLeadDesdeProspector()" class="w-full border border-[#00C2A8]/30 text-[#00C2A8] text-xs font-bold py-2.5 rounded-xl hover:bg-[#00C2A8]/10 transition-all">Agregar al Pipeline como Lead</button>
+        </div>
+      </section>
+
+      <section class="bg-[#0c0c0c] rounded-2xl p-5 border border-slate-800 shadow-xl">
+        <h3 class="text-white font-bold text-sm font-headline mb-3">Auditor de ConversaciÃ³n</h3>
+        <textarea id="auditor-input" class="w-full bg-black border border-slate-800 rounded-xl text-sm py-3 px-4 focus:ring-1 focus:ring-[#00C2A8] resize-none" rows="4" placeholder="Pega aquÃ­ la conversaciÃ³n..."></textarea>
+        <button id="btn-auditar" onclick="auditarConversacion()" class="w-full mt-3 bg-slate-900 hover:bg-slate-800 border border-slate-700 text-[#00C2A8] font-bold py-2.5 rounded-xl transition-all">Analizar ConversaciÃ³n</button>
+        <div id="auditor-result" class="hidden bg-black border border-slate-800 rounded-xl p-4 mt-3"><p id="auditor-output" class="text-slate-300 text-sm leading-relaxed whitespace-pre-line"></p></div>
+      </section>
+
+      <section class="bg-[#0c0c0c] rounded-2xl p-5 border border-slate-800 shadow-xl">
+        <h3 class="text-white font-bold text-sm font-headline mb-3">Generador de Pitch</h3>
+        <div class="space-y-3">
+          <select id="pitch-select" class="w-full bg-black border border-slate-800 rounded-lg text-sm py-2.5 px-3 focus:ring-1 focus:ring-[#00C2A8]"><option value="">â€” Elige un prospecto â€”</option></select>
+          <select id="pitch-servicio" class="w-full bg-black border border-slate-800 rounded-lg text-sm py-2.5 px-3 focus:ring-1 focus:ring-[#00C2A8]"><option>Google Maps SEO Local</option><option>Meta Ads</option><option>Redes Sociales</option><option>Landing Page</option><option>Paquete Completo</option></select>
+          <button id="btn-pitch" onclick="generarPitch()" class="w-full bg-[#00C2A8] hover:bg-[#00ad95] text-[#00382f] font-extrabold py-2.5 rounded-xl transition-all">Generar Pitch IA</button>
+          <div id="pitch-result" class="hidden bg-black border border-dashed border-slate-700 rounded-xl p-4"><p id="pitch-output" class="text-slate-300 text-sm leading-relaxed whitespace-pre-line"></p></div>
+        </div>
+      </section>
+    </div>
+  </main>
+
+  <div id="toast" class="fixed bottom-6 left-1/2 -translate-x-1/2 z-50 hidden"><div class="bg-[#00C2A8] text-[#00382f] font-bold text-sm px-5 py-3 rounded-full shadow-2xl"><span id="toast-msg">Listo</span></div></div>
+
+  <script>
+    let allLeads = [];
+    const canalFiles = {};
+    let prospectorData = {};
+    const GEMINI_MODEL = "gemini-2.0-flash";
+    const GEMINI_API_BASE = String(window.CONFIG?.API_BASE_URL || "").replace(/\/+$/, "");
+
+    function openSidebar(){document.getElementById("sidebar").classList.add("open");document.getElementById("sidebar-overlay").classList.add("active");}
+    function closeSidebar(){document.getElementById("sidebar").classList.remove("open");document.getElementById("sidebar-overlay").classList.remove("active");}
+    function showToast(msg,isError=false){const t=document.getElementById("toast"),m=document.getElementById("toast-msg"),inner=t.firstElementChild;m.textContent=msg;inner.style.background=isError?"#ef4444":"#00C2A8";inner.style.color=isError?"#fff":"#00382f";t.classList.remove("hidden");setTimeout(()=>t.classList.add("hidden"),3000);}
+    function setLoading(btn,loading,text){if(loading){btn.disabled=true;btn.textContent=text||"Procesando...";btn.setAttribute("aria-busy","true");}else{btn.disabled=false;btn.removeAttribute("aria-busy");}}
+    function signOut(){window.supabaseClient.auth.signOut().then(()=>window.location.href="index.html");}
+
+    function obtenerValorCampo(...selectors){
+      for(const selector of selectors){
+        const el=document.querySelector(selector);
+        if(el && String(el.value||"").trim()) return String(el.value).trim();
+      }
+      for(const selector of selectors){
+        const el=document.querySelector(selector);
+        if(el) return String(el.value||"").trim();
+      }
+      return "";
+    }
+
+    function limpiarTextoIA(texto){
+      return String(texto || "")
+        .replace(/^```(?:json|text)?\s*/i, "")
+        .replace(/\s*```$/i, "")
+        .trim();
+    }
+
+    function separarAnalisisYMensaje(texto){
+      const limpio = limpiarTextoIA(texto);
+      try{
+        const json = JSON.parse(limpio);
+        if(json && typeof json === "object"){
+          return {
+            analisis: String(json.analisis || json.analysis || "").trim() || limpio,
+            mensaje: String(json.mensaje || json.message || "").trim() || limpio,
+          };
+        }
+      }catch(_){}
+      const analisisMatch = limpio.match(/ANALISIS\s*:\s*([\s\S]*?)(?:\n\s*MENSAJE\s*:|$)/i);
+      const mensajeMatch = limpio.match(/MENSAJE\s*:\s*([\s\S]*)$/i);
+      return {
+        analisis: (analisisMatch?.[1] || limpio).trim(),
+        mensaje: (mensajeMatch?.[1] || limpio).trim(),
+      };
+    }
+
+    async function generarContenidoIA(prompt){
+      const response = await fetch(`${GEMINI_API_BASE || ""}/gemini`, {
+        method:"POST",
+        headers:{"Content-Type":"application/json"},
+        body:JSON.stringify({
+          model: GEMINI_MODEL,
+          contents:[{parts:[{text:prompt}]}],
+          generationConfig:{temperature:0.7,maxOutputTokens:900}
+        })
+      });
+      if(!response.ok){
+        const errorText = await response.text().catch(()=>"");
+        throw new Error(`Error Gemini API (${response.status}): ${errorText || "respuesta no válida"}`);
+      }
+      const data = await response.json();
+      const texto = data?.candidates?.[0]?.content?.parts?.map(part => part?.text || "").join("").trim();
+      if(!texto) throw new Error("Gemini no devolvió contenido");
+      return limpiarTextoIA(texto);
+    }
+
+    async function crearLead(datos){
+      const nombreNegocio = String(datos.nombre_negocio || "").trim();
+      if(!nombreNegocio) throw new Error("Falta nombre del negocio");
+
+      const { data: existente, error: errorBusqueda } = await window.supabaseClient
+        .from("leads")
+        .select("id, nombre_negocio, giro, ciudad")
+        .eq("nombre_negocio", nombreNegocio)
+        .limit(1)
+        .maybeSingle();
+
+      if(errorBusqueda) throw errorBusqueda;
+      if(existente) return existente;
+
+      const payload = {
+        nombre_negocio: nombreNegocio,
+        giro: String(datos.giro || "").trim(),
+        ciudad: String(datos.ciudad || "").trim(),
+        etapa: datos.etapa || "nuevo",
+        notas: datos.notas || "",
+      };
+
+      const { data: nuevo, error: errorInsercion } = await window.supabaseClient
+        .from("leads")
+        .insert([payload])
+        .select("id, nombre_negocio, giro, ciudad")
+        .single();
+
+      if(errorInsercion) throw errorInsercion;
+      return nuevo;
+    }
+
+    async function guardarConIntentos(tabla, payloads){
+      let ultimoError = null;
+      for(const payload of payloads){
+        const { data, error } = await window.supabaseClient.from(tabla).insert([payload]).select("*").single();
+        if(!error) return data;
+        ultimoError = error;
+      }
+      throw ultimoError || new Error(`No se pudo guardar en ${tabla}`);
+    }
+
+    async function guardarAnalisis(leadId, analisis, prompt){
+      return guardarConIntentos("analisis_lead", [
+        { lead_id: leadId, contenido: analisis, prompt },
+        { lead_id: leadId, analisis, prompt },
+        { lead_id: leadId, texto: analisis, prompt },
+      ]);
+    }
+
+    async function guardarMensaje(leadId, mensaje, prompt){
+      return guardarConIntentos("mensajes_lead", [
+        { lead_id: leadId, contenido: mensaje, prompt },
+        { lead_id: leadId, mensaje, prompt },
+        { lead_id: leadId, texto: mensaje, prompt },
+      ]);
+    }
+
+    async function cargarLeadsParaPitch(){
+      const {data,error}=await window.supabaseClient.from("leads").select("*").order("created_at",{ascending:false});
+      if(error)return;
+      allLeads=data||[];
+      const sel=document.getElementById("pitch-select");
+      sel.innerHTML='<option value="">— Elige un prospecto —</option>';
+      allLeads.forEach(l=>{const o=document.createElement("option");o.value=l.id;o.textContent=`${l.nombre_negocio}${l.giro?" · "+l.giro:""}`;sel.appendChild(o);});
+    }
+
+    async function callGemini(prompt){
+      return generarContenidoIA(prompt);
+    }
+
+    function handleCanalFile(input){const canal=input.dataset.canal;const file=input.files[0];if(!file)return;const reader=new FileReader();reader.onload=(e)=>{canalFiles[canal]={base64:e.target.result.split(",")[1],mimeType:file.type,nombre:file.name};};reader.readAsDataURL(file);}
+    function extraerSeccion(texto,inicio,fin){const i=texto.indexOf(inicio);const f=texto.indexOf(fin);if(i===-1)return"";return f===-1?texto.slice(i+inicio.length):texto.slice(i+inicio.length,f);}
+    function extraerSeccionFinal(texto,inicio){const i=texto.indexOf(inicio);if(i===-1)return"";return texto.slice(i+inicio.length);}
+
+    async function analizarProspecto(){
+      const nombre=obtenerValorCampo("#nombre_negocio","#prosp-nombre",'[name="nombre_negocio"]');
+      const tipo=obtenerValorCampo("#giro","#prosp-tipo",'[name="giro"]');
+      const ciudad=obtenerValorCampo("#ciudad","#prosp-ciudad",'[name="ciudad"]');
+      if(!nombre)return showToast("Escribe el nombre del negocio",true);
+      const btn=document.getElementById("btn-analizar-prospecto");setLoading(btn,true,"Analizando...");
+      try{
+        const prompt = `Analiza este negocio: ${nombre}, del giro ${tipo || "no especificado"}, en ${ciudad || "no especificada"}.
+Genera oportunidades comerciales y un mensaje de primer contacto.
+Responde SOLO en JSON válido, sin markdown, con esta estructura exacta:
+{"analisis":"texto breve y útil","mensaje":"mensaje de primer contacto en español, natural y persuasivo"}`;
+
+        const lead = await crearLead({
+          nombre_negocio: nombre,
+          giro: tipo,
+          ciudad,
+          etapa: "nuevo",
+          notas: "Lead generado desde Prospector IA",
+        });
+
+        const res=await generarContenidoIA(prompt);
+        const separada = separarAnalisisYMensaje(res);
+        const analisis = separada.analisis.trim();
+        const mensaje = separada.mensaje.trim();
+
+        await guardarAnalisis(lead.id, analisis, prompt);
+        await guardarMensaje(lead.id, mensaje, prompt);
+
+        document.getElementById("prosp-diagnostico").textContent=analisis || res;
+        document.getElementById("prosp-msg-wa").textContent=mensaje || "(no generado)";
+        document.getElementById("prosp-msg-ig").textContent=mensaje || "(no generado)";
+        document.getElementById("prosp-result").classList.remove("hidden");
+        prospectorData={lead_id:lead.id,nombre_negocio:nombre,giro:tipo,ciudad:ciudad,diagnostico:analisis,mensaje};
+        await cargarLeadsParaPitch();
+        showToast("Lead analizado y guardado");
+      }catch(e){
+        console.error(e);
+        showToast("Error al analizar: "+e.message,true);
+      }finally{
+        btn.textContent="Analizar y Generar Mensajes";
+        btn.disabled=false;
+      }
+    }
+
+    async function guardarLeadDesdeProspector(){
+      if(!prospectorData.nombre_negocio)return;
+      try{
+        await crearLead({
+          nombre_negocio: prospectorData.nombre_negocio,
+          giro: prospectorData.giro || "",
+          ciudad: prospectorData.ciudad || "",
+          etapa: "nuevo",
+          notas: prospectorData.diagnostico ? `[AI Prospector]\n${prospectorData.diagnostico}` : "Generado desde AI Prospector"
+        });
+        showToast("Lead agregado al pipeline");
+        await cargarLeadsParaPitch();
+      }catch(e){
+        console.error(e);
+        showToast("Error al guardar lead",true);
+      }
+    }
+
+    async function auditarConversacion(){
+      const conv=document.getElementById("auditor-input").value.trim();
+      if(!conv)return showToast("Pega una conversación primero",true);
+      const btn=document.getElementById("btn-auditar");setLoading(btn,true,"Analizando...");
+      try{
+        const out=await generarContenidoIA(`Audita esta conversación comercial y sugiere mejoras de cierre, objeciones y siguiente paso. Devuelve un texto claro y accionable:\n\n${conv}`);
+        document.getElementById("auditor-output").textContent=out;
+        document.getElementById("auditor-result").classList.remove("hidden");
+      }catch(e){
+        console.error(e);
+        showToast("Error al auditar",true);
+      }finally{
+        btn.textContent="Analizar Conversación";
+        btn.disabled=false;
+      }
+    }
+
+    async function generarPitch(){
+      const leadId=document.getElementById("pitch-select").value;
+      const servicio=document.getElementById("pitch-servicio").value;
+      if(!leadId)return showToast("Selecciona un prospecto",true);
+      const lead=allLeads.find(l=>l.id===leadId);
+      const btn=document.getElementById("btn-pitch");setLoading(btn,true,"Generando...");
+      try{
+        const out=await generarContenidoIA(`Genera un pitch comercial de 5 a 7 minutos para ${lead?.nombre_negocio||"este prospecto"}, del giro ${lead?.giro||"local"}, ofreciendo ${servicio}. Devuelve un pitch claro, persuasivo y natural.`);
+        document.getElementById("pitch-output").textContent=out;
+        document.getElementById("pitch-result").classList.remove("hidden");
+      }catch(e){
+        console.error(e);
+        showToast("Error al generar pitch",true);
+      }finally{
+        btn.textContent="Generar Pitch IA";
+        btn.disabled=false;
+      }
+    }
+
+    document.addEventListener("DOMContentLoaded",function(){
+      cargarLeadsParaPitch();
+    });
+  </script>
+</body>
+</html>
