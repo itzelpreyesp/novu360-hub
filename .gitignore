@@ -1,6 +1,6 @@
 # NOVU 360 HUB - gitignore
 .env
-config.js
+# config.js
 *.env
 .env.local
 node_modules/

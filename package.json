@@ -1,7 +1,4 @@
 {
   "name": "novu360-hub",
-  "version": "1.0.0",
-  "scripts": {
-    "build": "node generate-config.js"
-  }
+  "version": "1.0.0"
 }
