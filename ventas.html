@@ -35,8 +35,6 @@
     #sidebar-overlay { display: none; }
     #sidebar-overlay.active { display: block; }
     @media (max-width: 1023px) {
-      #sidebar { transform: translateX(-100%); transition: transform .3s ease; }
-      #sidebar.open { transform: translateX(0); }
       #main-content { margin-left: 0 !important; }
     }
     .skeleton { background: linear-gradient(90deg, #1a211f 25%, #243330 50%, #1a211f 75%); background-size: 200% 100%; animation: shimmer 1.5s infinite; border-radius: 6px; }
@@ -54,7 +52,7 @@
 <body class="m-0 bg-black text-on-background font-body">
   <div id="sidebar-overlay" class="fixed inset-0 bg-black/60 z-30 lg:hidden" onclick="closeSidebar()"></div>
 
-  <aside id="sidebar" class="bg-black h-screen w-64 fixed left-0 top-0 flex flex-col py-6 z-40" style="box-shadow: 4px 0 24px rgba(0,0,0,.6)">
+  <aside id="sidebar" class="bg-black h-screen w-64 fixed left-0 top-0 flex flex-col py-6 z-40 transform -translate-x-full transition-transform duration-300 ease-out lg:translate-x-0" style="box-shadow: 4px 0 24px rgba(0,0,0,.6)">
     <div class="px-6 mb-8">
       <a href="dashboard.html" class="text-white font-black tracking-widest text-xl block font-headline" style="text-decoration:none">Novu 360</a>
       <div class="text-neutral-500 text-xs uppercase tracking-tighter mt-1 italic">INTELIGENCIA DE AGENCIA</div>
@@ -76,7 +74,7 @@
     </div>
   </aside>
 
-  <main id="main-content" class="lg:ml-64 min-h-screen flex flex-col bg-black">
+  <main id="main-content" class="md:ml-64 min-h-screen flex flex-col bg-black">
     <header class="flex justify-between items-center px-4 md:px-8 w-full h-16 bg-black/80 backdrop-blur-md border-b border-slate-800 sticky top-0 z-20">
       <div class="flex items-center gap-3">
         <button onclick="openSidebar()" class="lg:hidden p-2 text-slate-400 hover:text-white"><span class="material-symbols-outlined">menu</span></button>
@@ -93,7 +91,7 @@
       </div>
     </header>
 
-    <div class="flex flex-col flex-1 px-4 md:px-8 pt-4 md:pt-6 pb-6 md:pb-8 gap-4 md:gap-6 overflow-hidden bg-black">
+    <div class="flex flex-col flex-1 px-4 md:px-8 pt-4 md:pt-6 pb-24 md:pb-8 gap-4 md:gap-6 overflow-hidden bg-black">
       <section class="w-full flex flex-col bg-black rounded-xl border border-slate-800 overflow-hidden" style="min-height:400px;">
         <div class="flex justify-between items-center p-4 md:p-5 border-b border-slate-800">
           <div>
@@ -165,12 +163,47 @@
 
   <div id="toast" class="fixed bottom-24 lg:bottom-8 left-1/2 -translate-x-1/2 z-50 hidden"><div class="bg-[#00C2A8] text-[#00382f] font-bold text-sm px-5 py-3 rounded-full shadow-2xl"><span id="toast-msg">Guardado</span></div></div>
 
+  <nav class="fixed bottom-0 left-0 w-full z-30 border-t border-white/10 bg-black/95 backdrop-blur md:hidden" id="mobile-bottom-nav">
+    <div class="flex flex-row items-center justify-around">
+      <a href="dashboard.html" class="mobile-bottom-link flex flex-1 flex-col items-center justify-center gap-1 px-2 py-3 text-neutral-400">
+        <span class="material-symbols-outlined text-[20px]">dashboard</span>
+        <span class="text-[10px] font-bold uppercase tracking-wide">Home</span>
+      </a>
+      <a href="ventas.html" class="mobile-bottom-link flex flex-1 flex-col items-center justify-center gap-1 px-2 py-3 text-primary">
+        <span class="material-symbols-outlined text-[20px]">trending_up</span>
+        <span class="text-[10px] font-bold uppercase tracking-wide">Ventas</span>
+      </a>
+      <a href="community.html" class="mobile-bottom-link flex flex-1 flex-col items-center justify-center gap-1 px-2 py-3 text-neutral-400">
+        <span class="material-symbols-outlined text-[20px]">forum</span>
+        <span class="text-[10px] font-bold uppercase tracking-wide">Community</span>
+      </a>
+      <a href="seo.html" class="mobile-bottom-link flex flex-1 flex-col items-center justify-center gap-1 px-2 py-3 text-neutral-400">
+        <span class="material-symbols-outlined text-[20px]">search</span>
+        <span class="text-[10px] font-bold uppercase tracking-wide">SEO</span>
+      </a>
+      <a href="cerebros.html" class="mobile-bottom-link flex flex-1 flex-col items-center justify-center gap-1 px-2 py-3 text-neutral-400">
+        <span class="material-symbols-outlined text-[20px]">psychology</span>
+        <span class="text-[10px] font-bold uppercase tracking-wide">IA</span>
+      </a>
+    </div>
+  </nav>
+
   <script>
     let allLeads = [];
     let currentLeadId = null;
 
-    function openSidebar() { document.getElementById("sidebar").classList.add("open"); document.getElementById("sidebar-overlay").classList.add("active"); }
-    function closeSidebar() { document.getElementById("sidebar").classList.remove("open"); document.getElementById("sidebar-overlay").classList.remove("active"); }
+    function openSidebar() {
+      const sidebar = document.getElementById("sidebar");
+      sidebar.classList.remove("-translate-x-full");
+      sidebar.classList.add("translate-x-0");
+      document.getElementById("sidebar-overlay").classList.add("active");
+    }
+    function closeSidebar() {
+      const sidebar = document.getElementById("sidebar");
+      sidebar.classList.remove("translate-x-0");
+      sidebar.classList.add("-translate-x-full");
+      document.getElementById("sidebar-overlay").classList.remove("active");
+    }
     function openModal(id) { const el = document.getElementById(id); el.classList.remove("hidden"); el.classList.add("flex"); document.body.style.overflow = "hidden"; }
     function closeModal(id) { const el = document.getElementById(id); el.classList.add("hidden"); el.classList.remove("flex"); document.body.style.overflow = ""; }
     function showToast(msg, isError = false) { const t = document.getElementById("toast"); const tm = document.getElementById("toast-msg"); const inner = t.firstElementChild; tm.textContent = msg; inner.style.background = isError ? "#ef4444" : "#00C2A8"; inner.style.color = isError ? "#fff" : "#00382f"; t.classList.remove("hidden"); setTimeout(() => t.classList.add("hidden"), 3000); }
@@ -202,6 +235,16 @@
       if (search) filtered = filtered.filter(l => (l.nombre_negocio || "").toLowerCase().includes(search) || (l.contacto || "").toLowerCase().includes(search) || (l.giro || "").toLowerCase().includes(search));
       if (etapa) filtered = filtered.filter(l => (l.etapa || "nuevo") === etapa);
       renderLeads(filtered);
+    }
+
+    function setupBottomNavActiveState() {
+      const currentPage = window.location.pathname.split("/").pop() || "dashboard.html";
+      document.querySelectorAll("#mobile-bottom-nav .mobile-bottom-link").forEach(function (link) {
+        const href = link.getAttribute("href");
+        const isActive = href === currentPage;
+        link.classList.toggle("text-primary", isActive);
+        link.classList.toggle("text-neutral-400", !isActive);
+      });
     }
 
     function mostrarError(elId, msg) { const el = document.getElementById(elId); el.textContent = msg; el.classList.remove("hidden"); }
@@ -254,7 +297,10 @@
       catch (e) { showToast("Error al eliminar", true); }
     }
     function signOut() { window.supabaseClient.auth.signOut().then(() => window.location.href = "index.html"); }
-    document.addEventListener("DOMContentLoaded", cargarLeads);
+    document.addEventListener("DOMContentLoaded", function () {
+      cargarLeads();
+      setupBottomNavActiveState();
+    });
   </script>
 </body>
 </html>
