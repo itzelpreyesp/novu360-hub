@@ -5,6 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Novu 360 — Hub</title>
 <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,600;1,9..40,300&display=swap" rel="stylesheet">
+<script src="novu-client.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <style>
 :root{
@@ -1595,10 +1596,8 @@ async function generateWithAI(section) {
 }
 </script>
 // ============================================
-const SB_URL = process.env.SUPABASE_URL;
-const SB_KEY = process.env.SUPABASE_KEY;
-const { createClient } = supabase;
-const sb = createClient(SB_URL, SB_KEY);
+const SB_URL = process.env.API_BASE_URL || "/api";
+const sb = window.createNovuSupabaseClient ? window.createNovuSupabaseClient(SB_URL) : null;
 
 let CU = null; // current user
 let CUS = null; // current usuario record

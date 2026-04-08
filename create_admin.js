@@ -3,11 +3,11 @@ const { createClient } = require('@supabase/supabase-js');
 // This script attempts to sign up the user. 
 // If email confirmation is ON, the user will need to click a link.
 // If it's OFF, the user is created immediately.
-// Note: This uses the ANON key, so it can't set the role directly in auth.users.
+// Note: This uses the service role key so it can create auth users safely on the server.
 // My trigger handle_new_user() will set role='cliente' by default.
 
 const SUPABASE_URL = process.env.SUPABASE_URL;
-const SUPABASE_KEY = process.env.SUPABASE_KEY;
+const SUPABASE_KEY = process.env.SUPABASE_SERVICE_ROLE_KEY || process.env.SUPABASE_KEY;
 
 const supabase = createClient(SUPABASE_URL, SUPABASE_KEY);
 
