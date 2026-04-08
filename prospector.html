@@ -8,8 +8,7 @@
   <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;600;700;800&family=Inter:wght@400;500;600&display=swap" rel="stylesheet" />
   <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet" />
   <link rel="stylesheet" href="style.css" />
-<script src="novu-client.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
   <script src="config.js"></script>
   <script src="auth.js"></script>
   <script>checkAuth();</script>
@@ -107,249 +106,39 @@
     let allLeads = [];
     const canalFiles = {};
     let prospectorData = {};
-    const GEMINI_MODEL = "gemini-2.0-flash";
-    const GEMINI_API_BASE = String(window.CONFIG?.API_BASE_URL || "").replace(/\/+$/, "");
-
     function openSidebar(){document.getElementById("sidebar").classList.add("open");document.getElementById("sidebar-overlay").classList.add("active");}
     function closeSidebar(){document.getElementById("sidebar").classList.remove("open");document.getElementById("sidebar-overlay").classList.remove("active");}
     function showToast(msg,isError=false){const t=document.getElementById("toast"),m=document.getElementById("toast-msg"),inner=t.firstElementChild;m.textContent=msg;inner.style.background=isError?"#ef4444":"#00C2A8";inner.style.color=isError?"#fff":"#00382f";t.classList.remove("hidden");setTimeout(()=>t.classList.add("hidden"),3000);}
-    function setLoading(btn,loading,text){if(loading){btn.disabled=true;btn.textContent=text||"Procesando...";btn.setAttribute("aria-busy","true");}else{btn.disabled=false;btn.removeAttribute("aria-busy");}}
+    function setLoading(btn,loading,text){if(loading){btn.disabled=true;btn.textContent=text||"Procesando...";}else{btn.disabled=false;}}
     function signOut(){window.supabaseClient.auth.signOut().then(()=>window.location.href="index.html");}
 
-    function obtenerValorCampo(...selectors){
-      for(const selector of selectors){
-        const el=document.querySelector(selector);
-        if(el && String(el.value||"").trim()) return String(el.value).trim();
-      }
-      for(const selector of selectors){
-        const el=document.querySelector(selector);
-        if(el) return String(el.value||"").trim();
-      }
-      return "";
-    }
-
-    function limpiarTextoIA(texto){
-      return String(texto || "")
-        .replace(/^```(?:json|text)?\s*/i, "")
-        .replace(/\s*```$/i, "")
-        .trim();
-    }
-
-    function separarAnalisisYMensaje(texto){
-      const limpio = limpiarTextoIA(texto);
-      try{
-        const json = JSON.parse(limpio);
-        if(json && typeof json === "object"){
-          return {
-            analisis: String(json.analisis || json.analysis || "").trim() || limpio,
-            mensaje: String(json.mensaje || json.message || "").trim() || limpio,
-          };
-        }
-      }catch(_){}
-      const analisisMatch = limpio.match(/ANALISIS\s*:\s*([\s\S]*?)(?:\n\s*MENSAJE\s*:|$)/i);
-      const mensajeMatch = limpio.match(/MENSAJE\s*:\s*([\s\S]*)$/i);
-      return {
-        analisis: (analisisMatch?.[1] || limpio).trim(),
-        mensaje: (mensajeMatch?.[1] || limpio).trim(),
-      };
-    }
-
-    async function generarContenidoIA(prompt){
-      const response = await fetch(`${GEMINI_API_BASE || ""}/gemini`, {
-        method:"POST",
-        headers:{"Content-Type":"application/json"},
-        body:JSON.stringify({
-          model: GEMINI_MODEL,
-          contents:[{parts:[{text:prompt}]}],
-          generationConfig:{temperature:0.7,maxOutputTokens:900}
-        })
-      });
-      if(!response.ok){
-        const errorText = await response.text().catch(()=>"");
-        throw new Error(`Error Gemini API (${response.status}): ${errorText || "respuesta no válida"}`);
-      }
-      const data = await response.json();
-      const texto = data?.candidates?.[0]?.content?.parts?.map(part => part?.text || "").join("").trim();
-      if(!texto) throw new Error("Gemini no devolvió contenido");
-      return limpiarTextoIA(texto);
-    }
-
-    async function crearLead(datos){
-      const nombreNegocio = String(datos.nombre_negocio || "").trim();
-      if(!nombreNegocio) throw new Error("Falta nombre del negocio");
-
-      const { data: existente, error: errorBusqueda } = await window.supabaseClient
-        .from("leads")
-        .select("id, nombre_negocio, giro, ciudad")
-        .eq("nombre_negocio", nombreNegocio)
-        .limit(1)
-        .maybeSingle();
-
-      if(errorBusqueda) throw errorBusqueda;
-      if(existente) return existente;
-
-      const payload = {
-        nombre_negocio: nombreNegocio,
-        giro: String(datos.giro || "").trim(),
-        ciudad: String(datos.ciudad || "").trim(),
-        etapa: datos.etapa || "nuevo",
-        notas: datos.notas || "",
-      };
-
-      const { data: nuevo, error: errorInsercion } = await window.supabaseClient
-        .from("leads")
-        .insert([payload])
-        .select("id, nombre_negocio, giro, ciudad")
-        .single();
-
-      if(errorInsercion) throw errorInsercion;
-      return nuevo;
-    }
-
-    async function guardarConIntentos(tabla, payloads){
-      let ultimoError = null;
-      for(const payload of payloads){
-        const { data, error } = await window.supabaseClient.from(tabla).insert([payload]).select("*").single();
-        if(!error) return data;
-        ultimoError = error;
-      }
-      throw ultimoError || new Error(`No se pudo guardar en ${tabla}`);
-    }
-
-    async function guardarAnalisis(leadId, analisis, prompt){
-      return guardarConIntentos("analisis_lead", [
-        { lead_id: leadId, contenido: analisis, prompt },
-        { lead_id: leadId, analisis, prompt },
-        { lead_id: leadId, texto: analisis, prompt },
-      ]);
-    }
-
-    async function guardarMensaje(leadId, mensaje, prompt){
-      return guardarConIntentos("mensajes_lead", [
-        { lead_id: leadId, contenido: mensaje, prompt },
-        { lead_id: leadId, mensaje, prompt },
-        { lead_id: leadId, texto: mensaje, prompt },
-      ]);
-    }
-
-    async function cargarLeadsParaPitch(){
-      const {data,error}=await window.supabaseClient.from("leads").select("*").order("created_at",{ascending:false});
-      if(error)return;
-      allLeads=data||[];
-      const sel=document.getElementById("pitch-select");
-      sel.innerHTML='<option value="">— Elige un prospecto —</option>';
-      allLeads.forEach(l=>{const o=document.createElement("option");o.value=l.id;o.textContent=`${l.nombre_negocio}${l.giro?" · "+l.giro:""}`;sel.appendChild(o);});
-    }
-
-    async function callGemini(prompt){
-      return generarContenidoIA(prompt);
-    }
-
+    async function cargarLeadsParaPitch(){const {data,error}=await window.supabaseClient.from("leads").select("*").order("created_at",{ascending:false});if(error)return;allLeads=data||[];const sel=document.getElementById("pitch-select");sel.innerHTML='<option value="">â€” Elige un prospecto â€”</option>';allLeads.forEach(l=>{const o=document.createElement("option");o.value=l.id;o.textContent=`${l.nombre_negocio}${l.giro?" Â· "+l.giro:""}`;sel.appendChild(o);});}
+    async function callGemini(prompt){const apiKey=window.CONFIG?.GEMINI_KEY||GEMINI_KEY;const url=`https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=${apiKey}`;const res=await fetch(url,{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({contents:[{parts:[{text:prompt}]}],generationConfig:{temperature:.8,maxOutputTokens:900}})});if(!res.ok)throw new Error("Error Gemini API: "+res.status);const data=await res.json();return data.candidates?.[0]?.content?.parts?.[0]?.text||"Sin respuesta.";}
     function handleCanalFile(input){const canal=input.dataset.canal;const file=input.files[0];if(!file)return;const reader=new FileReader();reader.onload=(e)=>{canalFiles[canal]={base64:e.target.result.split(",")[1],mimeType:file.type,nombre:file.name};};reader.readAsDataURL(file);}
     function extraerSeccion(texto,inicio,fin){const i=texto.indexOf(inicio);const f=texto.indexOf(fin);if(i===-1)return"";return f===-1?texto.slice(i+inicio.length):texto.slice(i+inicio.length,f);}
     function extraerSeccionFinal(texto,inicio){const i=texto.indexOf(inicio);if(i===-1)return"";return texto.slice(i+inicio.length);}
 
     async function analizarProspecto(){
-      const nombre=obtenerValorCampo("#nombre_negocio","#prosp-nombre",'[name="nombre_negocio"]');
-      const tipo=obtenerValorCampo("#giro","#prosp-tipo",'[name="giro"]');
-      const ciudad=obtenerValorCampo("#ciudad","#prosp-ciudad",'[name="ciudad"]');
+      const nombre=document.getElementById("prosp-nombre").value.trim();const tipo=document.getElementById("prosp-tipo").value.trim();const ciudad=document.getElementById("prosp-ciudad").value.trim();
       if(!nombre)return showToast("Escribe el nombre del negocio",true);
       const btn=document.getElementById("btn-analizar-prospecto");setLoading(btn,true,"Analizando...");
       try{
-        const prompt = `Analiza este negocio: ${nombre}, del giro ${tipo || "no especificado"}, en ${ciudad || "no especificada"}.
-Genera oportunidades comerciales y un mensaje de primer contacto.
-Responde SOLO en JSON válido, sin markdown, con esta estructura exacta:
-{"analisis":"texto breve y útil","mensaje":"mensaje de primer contacto en español, natural y persuasivo"}`;
-
-        const lead = await crearLead({
-          nombre_negocio: nombre,
-          giro: tipo,
-          ciudad,
-          etapa: "nuevo",
-          notas: "Lead generado desde Prospector IA",
-        });
-
-        const res=await generarContenidoIA(prompt);
-        const separada = separarAnalisisYMensaje(res);
-        const analisis = separada.analisis.trim();
-        const mensaje = separada.mensaje.trim();
-
-        await guardarAnalisis(lead.id, analisis, prompt);
-        await guardarMensaje(lead.id, mensaje, prompt);
-
-        document.getElementById("prosp-diagnostico").textContent=analisis || res;
-        document.getElementById("prosp-msg-wa").textContent=mensaje || "(no generado)";
-        document.getElementById("prosp-msg-ig").textContent=mensaje || "(no generado)";
+        const canales=Object.keys(canalFiles);let texto=`Prospecto: ${nombre}. Giro: ${tipo||"negocio local"}. Ciudad: ${ciudad||"MÃ©xico"}.\nCanales con captura: ${canales.join(", ")||"ninguno"}.\nResponde con:\nDIAGNÃ“STICO:\n...\n---MENSAJES---\nWHATSAPP:\n...\nINSTAGRAM_DM:\n...`;
+        const res=await callGemini(texto);
+        const diagnostico=extraerSeccion(res,"DIAGNÃ“STICO:","---MENSAJES---");
+        const wa=extraerSeccion(res,"WHATSAPP:","INSTAGRAM_DM:");
+        const ig=extraerSeccionFinal(res,"INSTAGRAM_DM:");
+        document.getElementById("prosp-diagnostico").textContent=diagnostico.trim()||res;
+        document.getElementById("prosp-msg-wa").textContent=wa.trim()||"(no generado)";
+        document.getElementById("prosp-msg-ig").textContent=ig.trim()||"(no generado)";
         document.getElementById("prosp-result").classList.remove("hidden");
-        prospectorData={lead_id:lead.id,nombre_negocio:nombre,giro:tipo,ciudad:ciudad,diagnostico:analisis,mensaje};
-        await cargarLeadsParaPitch();
-        showToast("Lead analizado y guardado");
-      }catch(e){
-        console.error(e);
-        showToast("Error al analizar: "+e.message,true);
-      }finally{
-        btn.textContent="Analizar y Generar Mensajes";
-        btn.disabled=false;
-      }
+        prospectorData={nombre_negocio:nombre,giro:tipo,ciudad:ciudad,diagnostico:diagnostico.trim()};
+      }catch(e){showToast("Error al analizar: "+e.message,true);}finally{btn.textContent="Analizar y Generar Mensajes";btn.disabled=false;}
     }
-
-    async function guardarLeadDesdeProspector(){
-      if(!prospectorData.nombre_negocio)return;
-      try{
-        await crearLead({
-          nombre_negocio: prospectorData.nombre_negocio,
-          giro: prospectorData.giro || "",
-          ciudad: prospectorData.ciudad || "",
-          etapa: "nuevo",
-          notas: prospectorData.diagnostico ? `[AI Prospector]\n${prospectorData.diagnostico}` : "Generado desde AI Prospector"
-        });
-        showToast("Lead agregado al pipeline");
-        await cargarLeadsParaPitch();
-      }catch(e){
-        console.error(e);
-        showToast("Error al guardar lead",true);
-      }
-    }
-
-    async function auditarConversacion(){
-      const conv=document.getElementById("auditor-input").value.trim();
-      if(!conv)return showToast("Pega una conversación primero",true);
-      const btn=document.getElementById("btn-auditar");setLoading(btn,true,"Analizando...");
-      try{
-        const out=await generarContenidoIA(`Audita esta conversación comercial y sugiere mejoras de cierre, objeciones y siguiente paso. Devuelve un texto claro y accionable:\n\n${conv}`);
-        document.getElementById("auditor-output").textContent=out;
-        document.getElementById("auditor-result").classList.remove("hidden");
-      }catch(e){
-        console.error(e);
-        showToast("Error al auditar",true);
-      }finally{
-        btn.textContent="Analizar Conversación";
-        btn.disabled=false;
-      }
-    }
-
-    async function generarPitch(){
-      const leadId=document.getElementById("pitch-select").value;
-      const servicio=document.getElementById("pitch-servicio").value;
-      if(!leadId)return showToast("Selecciona un prospecto",true);
-      const lead=allLeads.find(l=>l.id===leadId);
-      const btn=document.getElementById("btn-pitch");setLoading(btn,true,"Generando...");
-      try{
-        const out=await generarContenidoIA(`Genera un pitch comercial de 5 a 7 minutos para ${lead?.nombre_negocio||"este prospecto"}, del giro ${lead?.giro||"local"}, ofreciendo ${servicio}. Devuelve un pitch claro, persuasivo y natural.`);
-        document.getElementById("pitch-output").textContent=out;
-        document.getElementById("pitch-result").classList.remove("hidden");
-      }catch(e){
-        console.error(e);
-        showToast("Error al generar pitch",true);
-      }finally{
-        btn.textContent="Generar Pitch IA";
-        btn.disabled=false;
-      }
-    }
-
-    document.addEventListener("DOMContentLoaded",function(){
-      cargarLeadsParaPitch();
-    });
+    async function guardarLeadDesdeProspector(){if(!prospectorData.nombre_negocio)return;try{const {error}=await window.supabaseClient.from("leads").insert([{nombre_negocio:prospectorData.nombre_negocio,giro:prospectorData.giro||"",ciudad:prospectorData.ciudad||"",etapa:"nuevo",notas:prospectorData.diagnostico?`[AI Prospector]\n${prospectorData.diagnostico}`:"Generado desde AI Prospector"}]);if(error)throw error;showToast("Lead agregado al pipeline");await cargarLeadsParaPitch();}catch(e){showToast("Error al guardar lead",true);}}
+    async function auditarConversacion(){const conv=document.getElementById("auditor-input").value.trim();if(!conv)return showToast("Pega una conversaciÃ³n primero",true);const btn=document.getElementById("btn-auditar");setLoading(btn,true,"Analizando...");try{const out=await callGemini(`Audita esta conversaciÃ³n y da mejora de cierre:\n${conv}`);document.getElementById("auditor-output").textContent=out;document.getElementById("auditor-result").classList.remove("hidden");}catch(e){showToast("Error al auditar",true);}finally{btn.textContent="Analizar ConversaciÃ³n";btn.disabled=false;}}
+    async function generarPitch(){const leadId=document.getElementById("pitch-select").value;const servicio=document.getElementById("pitch-servicio").value;if(!leadId)return showToast("Selecciona un prospecto",true);const lead=allLeads.find(l=>l.id===leadId);const btn=document.getElementById("btn-pitch");setLoading(btn,true,"Generando...");try{const out=await callGemini(`Genera un pitch de 5-7 minutos para ${lead?.nombre_negocio||"prospecto"} del giro ${lead?.giro||"local"} ofreciendo ${servicio}.`);document.getElementById("pitch-output").textContent=out;document.getElementById("pitch-result").classList.remove("hidden");}catch(e){showToast("Error al generar pitch",true);}finally{btn.textContent="Generar Pitch IA";btn.disabled=false;}}
+    document.addEventListener("DOMContentLoaded",cargarLeadsParaPitch);
   </script>
 </body>
 </html>

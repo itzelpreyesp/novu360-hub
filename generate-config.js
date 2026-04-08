@@ -1,19 +1,20 @@
-const fs = require("fs");
+const fs = require('fs');
 
-const apiBaseUrl = process.env.API_BASE_URL || "/api";
+const configContent = `const SUPABASE_URL = '${process.env.SUPABASE_URL || ""}';
+const SUPABASE_ANON_KEY = '${process.env.SUPABASE_ANON_KEY || ""}';
+const GEMINI_KEY = '${process.env.GEMINI_KEY || ""}';
 
-const configContent = `const API_BASE_URL = '${apiBaseUrl}';
+window.CONFIG = { SUPABASE_URL, SUPABASE_ANON_KEY, GEMINI_KEY };
 
-window.CONFIG = {
-  API_BASE_URL,
-};
-
-if (typeof window.createNovuSupabaseClient === 'function') {
-  window.supabaseClient = window.createNovuSupabaseClient(API_BASE_URL);
+if (window.supabase) {
+  window.supabaseClient = window.supabase.createClient(
+    SUPABASE_URL, 
+    SUPABASE_ANON_KEY
+  );
 } else {
-  console.error('novu-client.js must load before config.js');
+  console.error('Supabase CDN not loaded before config.js');
 }
 `;
 
-fs.writeFileSync("config.js", configContent);
-console.log("config.js generated from environment variables");
+fs.writeFileSync('config.js', configContent);
+console.log('config.js generated from environment variables');

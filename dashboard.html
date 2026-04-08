@@ -78,7 +78,6 @@
   </script>
   <title>Novu 360 Â· Panel de Control</title>
   <link rel="stylesheet" href="style.css" />
-  <script src="novu-client.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
   <script src="config.js"></script>
   <script src="auth.js"></script>
@@ -256,24 +255,24 @@
   </main>
 
   <nav class="fixed bottom-0 left-0 w-full z-30 border-t border-white/10 bg-black/95 backdrop-blur md:hidden" id="mobile-bottom-nav">
-    <div class="flex flex-row items-center justify-around">
-      <a href="dashboard.html" class="mobile-bottom-link flex flex-1 flex-col items-center justify-center gap-1 px-2 py-3 text-neutral-400">
+    <div class="grid grid-cols-5">
+      <a href="dashboard.html" class="mobile-bottom-link flex flex-col items-center justify-center gap-1 px-2 py-3 text-neutral-400">
         <span class="material-symbols-outlined text-[20px]">dashboard</span>
         <span class="text-[10px] font-bold uppercase tracking-wide">Home</span>
       </a>
-      <a href="ventas.html" class="mobile-bottom-link flex flex-1 flex-col items-center justify-center gap-1 px-2 py-3 text-neutral-400">
+      <a href="ventas.html" class="mobile-bottom-link flex flex-col items-center justify-center gap-1 px-2 py-3 text-neutral-400">
         <span class="material-symbols-outlined text-[20px]">trending_up</span>
         <span class="text-[10px] font-bold uppercase tracking-wide">Ventas</span>
       </a>
-      <a href="community.html" class="mobile-bottom-link flex flex-1 flex-col items-center justify-center gap-1 px-2 py-3 text-neutral-400">
+      <a href="community.html" class="mobile-bottom-link flex flex-col items-center justify-center gap-1 px-2 py-3 text-neutral-400">
         <span class="material-symbols-outlined text-[20px]">forum</span>
         <span class="text-[10px] font-bold uppercase tracking-wide">Community</span>
       </a>
-      <a href="seo.html" class="mobile-bottom-link flex flex-1 flex-col items-center justify-center gap-1 px-2 py-3 text-neutral-400">
+      <a href="seo.html" class="mobile-bottom-link flex flex-col items-center justify-center gap-1 px-2 py-3 text-neutral-400">
         <span class="material-symbols-outlined text-[20px]">search</span>
         <span class="text-[10px] font-bold uppercase tracking-wide">SEO</span>
       </a>
-      <a href="cerebros.html" class="mobile-bottom-link flex flex-1 flex-col items-center justify-center gap-1 px-2 py-3 text-neutral-400">
+      <a href="cerebros.html" class="mobile-bottom-link flex flex-col items-center justify-center gap-1 px-2 py-3 text-neutral-400">
         <span class="material-symbols-outlined text-[20px]">psychology</span>
         <span class="text-[10px] font-bold uppercase tracking-wide">IA</span>
       </a>

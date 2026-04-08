@@ -1,7 +1,5 @@
-const API_BASE_URL = "/api";
-
-window.CONFIG = {
-  API_BASE_URL,
-};
-
-window.supabaseClient = window.createNovuSupabaseClient(API_BASE_URL);
+const SUPABASE_URL = 'YOUR_SUPABASE_URL'
+const SUPABASE_ANON_KEY = 'YOUR_SUPABASE_ANON_KEY'  
+const GEMINI_KEY = 'YOUR_GEMINI_API_KEY'
+window.CONFIG = { SUPABASE_URL, SUPABASE_ANON_KEY, GEMINI_KEY }
+window.supabaseClient = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY)
