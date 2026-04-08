@@ -406,10 +406,11 @@ document.addEventListener('DOMContentLoaded', () => {
       Contexto de Novu 360: Eres parte de una plataforma de gestión de agencias. 
       Instrucciones: ${cerebro.desc}. Responde de forma concisa, profesional y usa markdown para resaltar puntos clave.`;
 
-      const response = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=${CONFIG.GEMINI_KEY}`, {
+      const response = await fetch((window.CONFIG?.GEMINI_API_URL || "/api/gemini"), {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({
+              model: 'gemini-1.5-flash',
               contents: [
                   { role: "user", parts: [{ text: systemPrompt }] },
                   { role: "user", parts: [{ text: msg }] }
@@ -417,8 +418,13 @@ document.addEventListener('DOMContentLoaded', () => {
           })
       });
 
+      if (!response.ok) {
+        const errorText = await response.text().catch(() => "");
+        throw new Error(errorText || `Gemini proxy error (${response.status})`);
+      }
+
       const data = await response.json();
-      const aiText = data.candidates?.[0]?.content?.parts?.[0]?.text || "No pude generar una respuesta. Revisa tu API Key.";
+      const aiText = data.candidates?.[0]?.content?.parts?.[0]?.text || "No pude generar una respuesta. Revisa la configuración del servicio Gemini.";
 
       removeTyping();
       addMessage(aiText, 'ai', false);
@@ -426,7 +432,7 @@ document.addEventListener('DOMContentLoaded', () => {
     } catch (error) {
       console.error('Gemini Error:', error);
       removeTyping();
-      addMessage(`Error técnico: ${error.message}. Asegúrate de que tu API Key sea válida.`, 'ai');
+      addMessage(`Error técnico: ${error.message}. Revisa la configuración del servicio Gemini.`, 'ai');
     } finally {
       isTyping = false;
       sendBtn.disabled = false;
@@ -505,21 +511,23 @@ document.addEventListener('DOMContentLoaded', () => {
    NOVU 360 · SHARED AI HELPERS (GEMINI)
    ============================================================ */
 async function callGemini(prompt, systemPrompt = "Eres un asistente experto en marketing digital.") {
-  if (!window.CONFIG || !window.CONFIG.GEMINI_KEY) {
-    throw new Error("API Key de Gemini no configurada");
-  }
-
   try {
-    const response = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=${window.CONFIG.GEMINI_KEY}`, {
+    const response = await fetch((window.CONFIG?.GEMINI_API_URL || "/api/gemini"), {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({
+        model: "gemini-1.5-flash",
         contents: [
           { role: "user", parts: [{ text: `SYSTEM: ${systemPrompt}` }] },
           { role: "user", parts: [{ text: prompt }] }
         ]
       })
     });
+
+    if (!response.ok) {
+      const errorText = await response.text().catch(() => "");
+      throw new Error(errorText || `Gemini proxy error (${response.status})`);
+    }
 
     const data = await response.json();
     return data.candidates?.[0]?.content?.parts?.[0]?.text || "No se pudo generar respuesta.";
@@ -763,5 +771,3 @@ async function analyzeAdsROI(investment, cpl, ticket) {
   console.log('✅ Mobile navigation module initialized');
 
 })();
-
-

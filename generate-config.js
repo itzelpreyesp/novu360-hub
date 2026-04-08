@@ -2,9 +2,9 @@ const fs = require('fs');
 
 const configContent = `const SUPABASE_URL = '${process.env.SUPABASE_URL || ""}';
 const SUPABASE_ANON_KEY = '${process.env.SUPABASE_ANON_KEY || ""}';
-const GEMINI_KEY = '${process.env.GEMINI_KEY || ""}';
+const GEMINI_API_URL = '${process.env.GEMINI_API_URL || ""}';
 
-window.CONFIG = { SUPABASE_URL, SUPABASE_ANON_KEY, GEMINI_KEY };
+window.CONFIG = { SUPABASE_URL, SUPABASE_ANON_KEY, GEMINI_API_URL };
 
 if (window.supabase) {
   window.supabaseClient = window.supabase.createClient(
