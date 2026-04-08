@@ -107,24 +107,13 @@
     const canalFiles = {};
     let prospectorData = {};
     const GEMINI_MODEL = "gemini-2.0-flash";
+    const GEMINI_API_URL = window.CONFIG?.GEMINI_API_URL || "/api/gemini";
 
     function openSidebar(){document.getElementById("sidebar").classList.add("open");document.getElementById("sidebar-overlay").classList.add("active");}
     function closeSidebar(){document.getElementById("sidebar").classList.remove("open");document.getElementById("sidebar-overlay").classList.remove("active");}
     function showToast(msg,isError=false){const t=document.getElementById("toast"),m=document.getElementById("toast-msg"),inner=t.firstElementChild;m.textContent=msg;inner.style.background=isError?"#ef4444":"#00C2A8";inner.style.color=isError?"#fff":"#00382f";t.classList.remove("hidden");setTimeout(()=>t.classList.add("hidden"),3000);}
     function setLoading(btn,loading,text){if(loading){btn.disabled=true;btn.textContent=text||"Procesando...";btn.setAttribute("aria-busy","true");}else{btn.disabled=false;btn.removeAttribute("aria-busy");}}
     function signOut(){window.supabaseClient.auth.signOut().then(()=>window.location.href="index.html");}
-
-    function verificarConfig(){
-      const apiKey = window.CONFIG?.GEMINI_API_KEY || window.GEMINI_API_KEY || window.CONFIG?.GEMINI_KEY;
-      if(!apiKey){
-        console.error("Falta configurar GEMINI_API_KEY");
-        return false;
-      }
-      window.GEMINI_API_KEY = apiKey;
-      window.CONFIG = window.CONFIG || {};
-      window.CONFIG.GEMINI_API_KEY = apiKey;
-      return true;
-    }
 
     function obtenerValorCampo(...selectors){
       for(const selector of selectors){
@@ -165,13 +154,11 @@
     }
 
     async function generarContenidoIA(prompt){
-      if(!verificarConfig()) throw new Error("Falta configurar GEMINI_API_KEY");
-      const apiKey = window.CONFIG?.GEMINI_API_KEY || window.GEMINI_API_KEY;
-      const url = `https://generativelanguage.googleapis.com/v1beta/models/${GEMINI_MODEL}:generateContent?key=${apiKey}`;
-      const response = await fetch(url, {
+      const response = await fetch(GEMINI_API_URL, {
         method:"POST",
         headers:{"Content-Type":"application/json"},
         body:JSON.stringify({
+          model: GEMINI_MODEL,
           contents:[{parts:[{text:prompt}]}],
           generationConfig:{temperature:0.7,maxOutputTokens:900}
         })
@@ -326,7 +313,6 @@ Responde SOLO en JSON válido, sin markdown, con esta estructura exacta:
     async function auditarConversacion(){
       const conv=document.getElementById("auditor-input").value.trim();
       if(!conv)return showToast("Pega una conversación primero",true);
-      if(!verificarConfig()) return;
       const btn=document.getElementById("btn-auditar");setLoading(btn,true,"Analizando...");
       try{
         const out=await generarContenidoIA(`Audita esta conversación comercial y sugiere mejoras de cierre, objeciones y siguiente paso. Devuelve un texto claro y accionable:\n\n${conv}`);
@@ -345,7 +331,6 @@ Responde SOLO en JSON válido, sin markdown, con esta estructura exacta:
       const leadId=document.getElementById("pitch-select").value;
       const servicio=document.getElementById("pitch-servicio").value;
       if(!leadId)return showToast("Selecciona un prospecto",true);
-      if(!verificarConfig()) return;
       const lead=allLeads.find(l=>l.id===leadId);
       const btn=document.getElementById("btn-pitch");setLoading(btn,true,"Generando...");
       try{
@@ -362,7 +347,6 @@ Responde SOLO en JSON válido, sin markdown, con esta estructura exacta:
     }
 
     document.addEventListener("DOMContentLoaded",function(){
-      verificarConfig();
       cargarLeadsParaPitch();
     });
   </script>
