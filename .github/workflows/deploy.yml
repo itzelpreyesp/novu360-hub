@@ -16,23 +16,16 @@ jobs:
       - name: Checkout 🛎️
         uses: actions/checkout@v4
 
-      - name: Create config.js from Secrets 🔑
+      - name: Create config.js from API base
         run: |
           cat <<EOF > config.js
-          const SUPABASE_URL = '${{ secrets.SUPABASE_URL }}';
-          const SUPABASE_ANON_KEY = '${{ secrets.SUPABASE_ANON_KEY }}';
-          const GEMINI_API_URL = '${{ secrets.GEMINI_API_URL }}';
+          const API_BASE_URL = '${{ secrets.API_BASE_URL }}';
 
-          window.CONFIG = { SUPABASE_URL, SUPABASE_ANON_KEY, GEMINI_API_URL };
+          window.CONFIG = { API_BASE_URL };
 
-          document.addEventListener('DOMContentLoaded', function() {
-            if (window.supabase) {
-              window.supabaseClient = window.supabase.createClient(
-                SUPABASE_URL, 
-                SUPABASE_ANON_KEY
-              );
-            }
-          });
+          if (typeof window.createNovuSupabaseClient === 'function') {
+            window.supabaseClient = window.createNovuSupabaseClient(API_BASE_URL || '/api');
+          }
           EOF
 
       - name: Deploy 🚀

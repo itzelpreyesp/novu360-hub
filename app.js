@@ -406,7 +406,8 @@ document.addEventListener('DOMContentLoaded', () => {
       Contexto de Novu 360: Eres parte de una plataforma de gestión de agencias. 
       Instrucciones: ${cerebro.desc}. Responde de forma concisa, profesional y usa markdown para resaltar puntos clave.`;
 
-      const response = await fetch((window.CONFIG?.GEMINI_API_URL || "/api/gemini"), {
+      const geminiApiBase = String(window.CONFIG?.API_BASE_URL || "").replace(/\/+$/, "");
+      const response = await fetch(`${geminiApiBase || ""}/gemini`, {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({
@@ -512,7 +513,8 @@ document.addEventListener('DOMContentLoaded', () => {
    ============================================================ */
 async function callGemini(prompt, systemPrompt = "Eres un asistente experto en marketing digital.") {
   try {
-    const response = await fetch((window.CONFIG?.GEMINI_API_URL || "/api/gemini"), {
+    const geminiApiBase = String(window.CONFIG?.API_BASE_URL || "").replace(/\/+$/, "");
+    const response = await fetch(`${geminiApiBase || ""}/gemini`, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({
