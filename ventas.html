@@ -271,24 +271,28 @@ tailwind.config = {
     <!-- ── RIGHT: Panel IA ── -->
     <section class="w-full lg:w-2/5 flex flex-col gap-4 overflow-y-auto no-scrollbar pb-20 lg:pb-6">
 
-      <!-- AI Prospector -->
+      <!-- AI Prospector Visual -->
       <div class="bg-[#0c0c0c] border border-slate-800 rounded-2xl p-5 shadow-2xl relative overflow-hidden">
         <div class="absolute top-0 right-0 p-4 opacity-5 pointer-events-none">
           <span class="material-symbols-outlined text-6xl">psychology</span>
         </div>
-        <div class="flex items-center gap-2 mb-5">
+
+        <!-- Header -->
+        <div class="flex items-center gap-2 mb-1">
           <span class="material-symbols-outlined text-[#00C2A8]">auto_awesome</span>
           <h2 class="text-lg font-bold font-headline text-white">AI Prospector</h2>
         </div>
+        <p class="text-slate-500 text-xs mb-4">Sube capturas del prospecto — la IA detecta oportunidades y redacta el primer mensaje</p>
 
-        <div class="space-y-3 mb-5">
+        <!-- Paso 1: Datos básicos -->
+        <div class="space-y-3 mb-4">
           <div class="grid grid-cols-2 gap-3">
-            <div class="space-y-1">
-              <label class="text-[10px] font-bold uppercase tracking-wider text-slate-500">Nombre del negocio</label>
+            <div>
+              <label class="text-[10px] font-bold uppercase tracking-wider text-slate-500 block mb-1">Nombre del negocio *</label>
               <input id="prosp-nombre" class="w-full bg-black border border-slate-800 rounded-lg text-sm py-2 px-3 focus:ring-1 focus:ring-[#00C2A8] text-slate-200" placeholder="Ej: Pizza Napoli" type="text"/>
             </div>
-            <div class="space-y-1">
-              <label class="text-[10px] font-bold uppercase tracking-wider text-slate-500">Tipo de negocio</label>
+            <div>
+              <label class="text-[10px] font-bold uppercase tracking-wider text-slate-500 block mb-1">Giro</label>
               <select id="prosp-tipo" class="w-full bg-black border border-slate-800 rounded-lg text-sm py-2 px-3 focus:ring-1 focus:ring-[#00C2A8] text-slate-200">
                 <option>Restaurante</option>
                 <option>Gimnasio</option>
@@ -301,35 +305,165 @@ tailwind.config = {
               </select>
             </div>
           </div>
-          <div class="grid grid-cols-2 gap-3">
-            <div class="space-y-1">
-              <label class="text-[10px] font-bold uppercase tracking-wider text-slate-500">Ciudad</label>
-              <input id="prosp-ciudad" class="w-full bg-black border border-slate-800 rounded-lg text-sm py-2 px-3 focus:ring-1 focus:ring-[#00C2A8] text-slate-200" placeholder="CDMX" type="text"/>
-            </div>
-            <div class="space-y-1">
-              <label class="text-[10px] font-bold uppercase tracking-wider text-slate-500">Instagram</label>
-              <input id="prosp-ig" class="w-full bg-black border border-slate-800 rounded-lg text-sm py-2 px-3 focus:ring-1 focus:ring-[#00C2A8] text-slate-200" placeholder="@usuario" type="text"/>
-            </div>
+          <div>
+            <label class="text-[10px] font-bold uppercase tracking-wider text-slate-500 block mb-1">Ciudad</label>
+            <input id="prosp-ciudad" class="w-full bg-black border border-slate-800 rounded-lg text-sm py-2 px-3 focus:ring-1 focus:ring-[#00C2A8] text-slate-200" placeholder="CDMX" type="text"/>
           </div>
-          <button id="btn-generar-msg" onclick="generarMensajeIA()" class="w-full bg-[#00C2A8] hover:bg-[#00ad95] text-[#00382f] font-extrabold py-3 rounded-xl transition-all flex items-center justify-center gap-2 shadow-lg shadow-[#00C2A8]/20">
-            <span class="material-symbols-outlined text-lg">bolt</span>
-            Generar Mensaje IA
-          </button>
         </div>
 
-        <!-- Resultado mensaje -->
-        <div id="prosp-result" class="hidden bg-slate-950 rounded-xl p-4 border-l-4 border-[#00C2A8] relative">
-          <div class="flex justify-between items-start mb-2">
-            <span class="text-[10px] font-extrabold text-[#00C2A8] uppercase tracking-tighter">Borrador Sugerido</span>
-            <button onclick="copiarTexto('prosp-output')" class="text-slate-400 hover:text-[#00C2A8] transition-colors p-1 bg-slate-900 rounded-md">
-              <span class="material-symbols-outlined text-sm">content_copy</span>
-            </button>
+        <!-- Paso 2: Capturas por canal -->
+        <div class="mb-4">
+          <div class="flex items-center gap-2 mb-3">
+            <span class="material-symbols-outlined text-slate-400 text-base">photo_library</span>
+            <span class="text-[10px] font-bold uppercase tracking-wider text-slate-500">Capturas por canal</span>
+            <span class="text-[10px] text-slate-600 italic">(sin captura = oportunidad detectada)</span>
           </div>
-          <p id="prosp-output" class="text-slate-300 text-sm italic leading-relaxed"></p>
-          <!-- Guardar como lead -->
-          <button id="btn-guardar-lead" onclick="guardarLeadDesdeProspector()" class="mt-3 w-full border border-[#00C2A8]/30 text-[#00C2A8] text-xs font-bold py-2 rounded-lg hover:bg-[#00C2A8]/10 transition-all flex items-center justify-center gap-1">
-            <span class="material-symbols-outlined text-sm">save</span>
-            Guardar como Lead
+
+          <div class="grid grid-cols-1 gap-2" id="canales-grid">
+
+            <!-- Instagram -->
+            <div class="canal-item flex items-center gap-3 bg-black border border-slate-800 rounded-xl px-3 py-2.5 hover:border-slate-700 transition-all">
+              <div class="w-7 h-7 rounded-lg flex items-center justify-center flex-shrink-0" style="background: linear-gradient(135deg,#f09433,#e6683c,#dc2743,#cc2366,#bc1888)">
+                <span class="material-symbols-outlined text-white text-sm">photo_camera</span>
+              </div>
+              <div class="flex-1 min-w-0">
+                <span class="text-xs font-bold text-slate-300">Instagram</span>
+                <p id="ig-preview-label" class="text-[10px] text-slate-600 truncate">Sin captura — se marcará como oportunidad</p>
+              </div>
+              <label class="cursor-pointer flex-shrink-0">
+                <input type="file" accept="image/*" class="hidden canal-input" data-canal="instagram" onchange="handleCanalFile(this)"/>
+                <span id="ig-btn" class="text-[10px] font-bold text-[#00C2A8] border border-[#00C2A8]/30 rounded-lg px-2 py-1 hover:bg-[#00C2A8]/10 transition-all">Subir</span>
+              </label>
+              <button id="ig-clear" onclick="clearCanalFile('instagram')" class="hidden text-slate-600 hover:text-red-400 transition-colors">
+                <span class="material-symbols-outlined text-sm">close</span>
+              </button>
+            </div>
+
+            <!-- Facebook -->
+            <div class="canal-item flex items-center gap-3 bg-black border border-slate-800 rounded-xl px-3 py-2.5 hover:border-slate-700 transition-all">
+              <div class="w-7 h-7 rounded-lg flex items-center justify-center flex-shrink-0 bg-[#1877F2]">
+                <span class="material-symbols-outlined text-white text-sm">thumb_up</span>
+              </div>
+              <div class="flex-1 min-w-0">
+                <span class="text-xs font-bold text-slate-300">Facebook</span>
+                <p id="fb-preview-label" class="text-[10px] text-slate-600 truncate">Sin captura — se marcará como oportunidad</p>
+              </div>
+              <label class="cursor-pointer flex-shrink-0">
+                <input type="file" accept="image/*" class="hidden canal-input" data-canal="facebook" onchange="handleCanalFile(this)"/>
+                <span id="fb-btn" class="text-[10px] font-bold text-[#00C2A8] border border-[#00C2A8]/30 rounded-lg px-2 py-1 hover:bg-[#00C2A8]/10 transition-all">Subir</span>
+              </label>
+              <button id="fb-clear" onclick="clearCanalFile('facebook')" class="hidden text-slate-600 hover:text-red-400 transition-colors">
+                <span class="material-symbols-outlined text-sm">close</span>
+              </button>
+            </div>
+
+            <!-- Google Maps -->
+            <div class="canal-item flex items-center gap-3 bg-black border border-slate-800 rounded-xl px-3 py-2.5 hover:border-slate-700 transition-all">
+              <div class="w-7 h-7 rounded-lg flex items-center justify-center flex-shrink-0 bg-white">
+                <span class="material-symbols-outlined text-[#4285F4] text-sm">map</span>
+              </div>
+              <div class="flex-1 min-w-0">
+                <span class="text-xs font-bold text-slate-300">Google Maps</span>
+                <p id="maps-preview-label" class="text-[10px] text-slate-600 truncate">Sin captura — se marcará como oportunidad</p>
+              </div>
+              <label class="cursor-pointer flex-shrink-0">
+                <input type="file" accept="image/*" class="hidden canal-input" data-canal="maps" onchange="handleCanalFile(this)"/>
+                <span id="maps-btn" class="text-[10px] font-bold text-[#00C2A8] border border-[#00C2A8]/30 rounded-lg px-2 py-1 hover:bg-[#00C2A8]/10 transition-all">Subir</span>
+              </label>
+              <button id="maps-clear" onclick="clearCanalFile('maps')" class="hidden text-slate-600 hover:text-red-400 transition-colors">
+                <span class="material-symbols-outlined text-sm">close</span>
+              </button>
+            </div>
+
+            <!-- TikTok -->
+            <div class="canal-item flex items-center gap-3 bg-black border border-slate-800 rounded-xl px-3 py-2.5 hover:border-slate-700 transition-all">
+              <div class="w-7 h-7 rounded-lg flex items-center justify-center flex-shrink-0 bg-black border border-slate-700">
+                <span class="material-symbols-outlined text-white text-sm">music_note</span>
+              </div>
+              <div class="flex-1 min-w-0">
+                <span class="text-xs font-bold text-slate-300">TikTok</span>
+                <p id="tiktok-preview-label" class="text-[10px] text-slate-600 truncate">Sin captura — se marcará como oportunidad</p>
+              </div>
+              <label class="cursor-pointer flex-shrink-0">
+                <input type="file" accept="image/*" class="hidden canal-input" data-canal="tiktok" onchange="handleCanalFile(this)"/>
+                <span id="tiktok-btn" class="text-[10px] font-bold text-[#00C2A8] border border-[#00C2A8]/30 rounded-lg px-2 py-1 hover:bg-[#00C2A8]/10 transition-all">Subir</span>
+              </label>
+              <button id="tiktok-clear" onclick="clearCanalFile('tiktok')" class="hidden text-slate-600 hover:text-red-400 transition-colors">
+                <span class="material-symbols-outlined text-sm">close</span>
+              </button>
+            </div>
+
+            <!-- Sitio Web -->
+            <div class="canal-item flex items-center gap-3 bg-black border border-slate-800 rounded-xl px-3 py-2.5 hover:border-slate-700 transition-all">
+              <div class="w-7 h-7 rounded-lg flex items-center justify-center flex-shrink-0 bg-slate-800">
+                <span class="material-symbols-outlined text-slate-300 text-sm">language</span>
+              </div>
+              <div class="flex-1 min-w-0">
+                <span class="text-xs font-bold text-slate-300">Sitio Web</span>
+                <p id="web-preview-label" class="text-[10px] text-slate-600 truncate">Sin captura — se marcará como oportunidad</p>
+              </div>
+              <label class="cursor-pointer flex-shrink-0">
+                <input type="file" accept="image/*" class="hidden canal-input" data-canal="web" onchange="handleCanalFile(this)"/>
+                <span id="web-btn" class="text-[10px] font-bold text-[#00C2A8] border border-[#00C2A8]/30 rounded-lg px-2 py-1 hover:bg-[#00C2A8]/10 transition-all">Subir</span>
+              </label>
+              <button id="web-clear" onclick="clearCanalFile('web')" class="hidden text-slate-600 hover:text-red-400 transition-colors">
+                <span class="material-symbols-outlined text-sm">close</span>
+              </button>
+            </div>
+
+          </div>
+        </div>
+
+        <!-- Botón analizar -->
+        <button id="btn-analizar-prospecto" onclick="analizarProspecto()" class="w-full bg-[#00C2A8] hover:bg-[#00ad95] text-[#00382f] font-extrabold py-3 rounded-xl transition-all flex items-center justify-center gap-2 shadow-lg shadow-[#00C2A8]/20">
+          <span class="material-symbols-outlined text-lg">bolt</span>
+          Analizar y Generar Mensajes
+        </button>
+
+        <!-- Resultados -->
+        <div id="prosp-result" class="hidden mt-4 space-y-3">
+
+          <!-- Diagnóstico -->
+          <div class="bg-slate-950 rounded-xl p-4 border border-slate-800">
+            <div class="flex items-center gap-2 mb-3">
+              <span class="material-symbols-outlined text-amber-400 text-base">lightbulb</span>
+              <span class="text-[10px] font-extrabold text-amber-400 uppercase tracking-wider">Diagnóstico del Prospecto</span>
+            </div>
+            <p id="prosp-diagnostico" class="text-slate-300 text-xs leading-relaxed whitespace-pre-line"></p>
+          </div>
+
+          <!-- Mensaje WhatsApp -->
+          <div class="bg-slate-950 rounded-xl p-4 border-l-4 border-green-500">
+            <div class="flex justify-between items-start mb-2">
+              <div class="flex items-center gap-1.5">
+                <span class="material-symbols-outlined text-green-400 text-sm">chat</span>
+                <span class="text-[10px] font-extrabold text-green-400 uppercase tracking-tighter">Mensaje WhatsApp</span>
+              </div>
+              <button onclick="copiarTexto('prosp-msg-wa')" class="text-slate-500 hover:text-green-400 transition-colors p-1 bg-slate-900 rounded-md">
+                <span class="material-symbols-outlined text-sm">content_copy</span>
+              </button>
+            </div>
+            <p id="prosp-msg-wa" class="text-slate-300 text-sm leading-relaxed"></p>
+          </div>
+
+          <!-- Mensaje Instagram DM -->
+          <div class="bg-slate-950 rounded-xl p-4 border-l-4 border-pink-500">
+            <div class="flex justify-between items-start mb-2">
+              <div class="flex items-center gap-1.5">
+                <span class="material-symbols-outlined text-pink-400 text-sm">photo_camera</span>
+                <span class="text-[10px] font-extrabold text-pink-400 uppercase tracking-tighter">DM Instagram</span>
+              </div>
+              <button onclick="copiarTexto('prosp-msg-ig')" class="text-slate-500 hover:text-pink-400 transition-colors p-1 bg-slate-900 rounded-md">
+                <span class="material-symbols-outlined text-sm">content_copy</span>
+              </button>
+            </div>
+            <p id="prosp-msg-ig" class="text-slate-300 text-sm leading-relaxed"></p>
+          </div>
+
+          <!-- Guardar como Lead -->
+          <button onclick="guardarLeadDesdeProspector()" class="w-full border border-[#00C2A8]/30 text-[#00C2A8] text-xs font-bold py-2.5 rounded-xl hover:bg-[#00C2A8]/10 transition-all flex items-center justify-center gap-1.5">
+            <span class="material-symbols-outlined text-sm">person_add</span>
+            Agregar al Pipeline como Lead
           </button>
         </div>
       </div>
@@ -850,63 +984,189 @@ async function callGemini(prompt) {
   return data.candidates?.[0]?.content?.parts?.[0]?.text || 'Sin respuesta.';
 }
 
-// ── AI Prospector ──
-async function generarMensajeIA() {
+// ══════════════════════════════════════
+// AI PROSPECTOR — imágenes + Gemini Vision
+// ══════════════════════════════════════
+
+// Almacén de imágenes por canal: { canal: { base64, mimeType, nombre } }
+const canalFiles = {};
+
+function handleCanalFile(input) {
+  const canal = input.dataset.canal;
+  const file = input.files[0];
+  if (!file) return;
+
+  const reader = new FileReader();
+  reader.onload = (e) => {
+    const base64 = e.target.result.split(',')[1];
+    canalFiles[canal] = { base64, mimeType: file.type, nombre: file.name };
+
+    // Actualizar UI
+    document.getElementById(`${canal}-preview-label`).textContent = '✓ ' + file.name;
+    document.getElementById(`${canal}-preview-label`).classList.add('text-[#00C2A8]');
+    document.getElementById(`${canal}-preview-label`).classList.remove('text-slate-600');
+    document.getElementById(`${canal}-clear`).classList.remove('hidden');
+    document.getElementById(`${canal}-btn`).textContent = 'Cambiar';
+  };
+  reader.readAsDataURL(file);
+}
+
+function clearCanalFile(canal) {
+  delete canalFiles[canal];
+  document.getElementById(`${canal}-preview-label`).textContent = 'Sin captura — se marcará como oportunidad';
+  document.getElementById(`${canal}-preview-label`).classList.remove('text-[#00C2A8]');
+  document.getElementById(`${canal}-preview-label`).classList.add('text-slate-600');
+  document.getElementById(`${canal}-clear`).classList.add('hidden');
+  document.getElementById(`${canal}-btn`).textContent = 'Subir';
+  // Limpiar el input file
+  const inputs = document.querySelectorAll(`.canal-input[data-canal="${canal}"]`);
+  inputs.forEach(i => i.value = '');
+}
+
+async function analizarProspecto() {
   const nombre = document.getElementById('prosp-nombre').value.trim();
   const tipo = document.getElementById('prosp-tipo').value;
   const ciudad = document.getElementById('prosp-ciudad').value.trim();
-  const ig = document.getElementById('prosp-ig').value.trim();
 
   if (!nombre) { showToast('Escribe el nombre del negocio', true); return; }
 
-  const btn = document.getElementById('btn-generar-msg');
-  setLoading(btn, true, 'Generando...');
+  const btn = document.getElementById('btn-analizar-prospecto');
+  setLoading(btn, true, 'Analizando capturas...');
 
-  const prompt = `Eres experta en ventas digitales para agencias de marketing en México. 
-Genera un mensaje de prospección informal y efectivo para WhatsApp o Instagram DM dirigido a un negocio local.
+  // Canales definidos
+  const todosLosCanales = ['instagram', 'facebook', 'maps', 'tiktok', 'web'];
+  const canalesLabels = {
+    instagram: 'Instagram',
+    facebook: 'Facebook',
+    maps: 'Google Maps / Google Business',
+    tiktok: 'TikTok',
+    web: 'Sitio Web'
+  };
 
-Datos del prospecto:
-- Nombre del negocio: ${nombre}
-- Tipo: ${tipo}
-- Ciudad: ${ciudad || 'México'}
-- Instagram: ${ig || 'no disponible'}
-
-El mensaje debe:
-- Sonar natural, cálido y directo (no robótico)
-- Mencionar algo específico del tipo de negocio
-- Proponer una auditoría gratuita como gancho
-- Ser corto (máximo 5 líneas)
-- Usar emojis con moderación
-- NO sonar como spam corporativo
-
-Responde SOLO con el mensaje, sin explicaciones ni comillas.`;
+  const conCaptura = todosLosCanales.filter(c => canalFiles[c]);
+  const sinCaptura = todosLosCanales.filter(c => !canalFiles[c]);
 
   try {
-    const resultado = await callGemini(prompt);
-    document.getElementById('prosp-output').textContent = resultado;
+    const apiKey = window.CONFIG?.GEMINI_KEY || GEMINI_KEY;
+    const url = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=${apiKey}`;
+
+    // Construir parts: texto + imágenes
+    const parts = [];
+
+    // Prompt texto principal
+    const sinCapturaTexto = sinCaptura.length > 0
+      ? `\n\nCANALES SIN CAPTURA (ausencia = oportunidad de venta):\n${sinCaptura.map(c => `- ${canalesLabels[c]}: NO tiene presencia o no se encontró`).join('\n')}`
+      : '\n\nEl negocio tiene presencia en todos los canales analizados.';
+
+    const conCapturaTexto = conCaptura.length > 0
+      ? `\n\nCANALES CON CAPTURA (analiza cada imagen a continuación):\n${conCaptura.map(c => `- ${canalesLabels[c]}`).join('\n')}`
+      : '\n\nNo se subieron capturas — analiza basándote solo en la ausencia de canales.';
+
+    parts.push({
+      text: `Eres experta en marketing digital para negocios locales en México, trabajando para Novu 360 agencia de marketing.
+
+PROSPECTO:
+- Nombre: ${nombre}
+- Giro: ${tipo}
+- Ciudad: ${ciudad || 'México'}
+${sinCapturaTexto}
+${conCapturaTexto}
+
+Analiza TODO y responde en este formato EXACTO:
+
+DIAGNÓSTICO:
+[Para cada canal CON captura: describe en 1 línea qué ves y qué problema tiene]
+[Para cada canal SIN captura: márcalo como "❌ Sin presencia — oportunidad de venta"]
+
+OPORTUNIDADES CLAVE:
+[Lista 2-3 puntos concretos que son los dolores más importantes de este negocio]
+
+---MENSAJES---
+
+WHATSAPP:
+[Mensaje para WhatsApp: cálido, directo, menciona algo específico visto en las capturas o la ausencia de canales, propone auditoría gratuita, máximo 5 líneas, emojis con moderación, lenguaje mexicano natural, NO sonar como spam]
+
+INSTAGRAM_DM:
+[Mensaje para DM de Instagram: más casual y breve que WhatsApp, máximo 3 líneas, menciona algo de su perfil o su ausencia en algún canal, tono más joven e informal]`
+    });
+
+    // Agregar imágenes
+    conCaptura.forEach(canal => {
+      const f = canalFiles[canal];
+      parts.push({
+        inline_data: { mime_type: f.mimeType, data: f.base64 }
+      });
+    });
+
+    const res = await fetch(url, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        contents: [{ parts }],
+        generationConfig: { temperature: 0.8, maxOutputTokens: 1000 }
+      })
+    });
+
+    if (!res.ok) throw new Error('Error Gemini: ' + res.status);
+    const data = await res.json();
+    const texto = data.candidates?.[0]?.content?.parts?.[0]?.text || '';
+
+    // Parsear respuesta
+    const diagnostico = extraerSeccion(texto, 'DIAGNÓSTICO:', '---MENSAJES---');
+    const msgWA = extraerSeccion(texto, 'WHATSAPP:', 'INSTAGRAM_DM:');
+    const msgIG = extraerSeccionFinal(texto, 'INSTAGRAM_DM:');
+
+    document.getElementById('prosp-diagnostico').textContent = diagnostico.trim() || texto;
+    document.getElementById('prosp-msg-wa').textContent = msgWA.trim() || '(no generado)';
+    document.getElementById('prosp-msg-ig').textContent = msgIG.trim() || '(no generado)';
     document.getElementById('prosp-result').classList.remove('hidden');
-    // Guardar datos para opción de crear lead
-    prospectorData = { nombre_negocio: nombre, giro: tipo, ciudad: ciudad };
+
+    // Guardar datos para crear lead
+    prospectorData = {
+      nombre_negocio: nombre,
+      giro: tipo,
+      ciudad: ciudad,
+      diagnostico: diagnostico.trim()
+    };
+
   } catch (e) {
-    showToast('Error al generar mensaje: ' + e.message, true);
+    showToast('Error al analizar: ' + e.message, true);
+    console.error(e);
   } finally {
-    setLoading(btn, false, 'Generar Mensaje IA');
+    setLoading(btn, false, 'Analizar y Generar Mensajes');
   }
+}
+
+function extraerSeccion(texto, inicio, fin) {
+  const i = texto.indexOf(inicio);
+  const f = texto.indexOf(fin);
+  if (i === -1) return '';
+  return f === -1 ? texto.slice(i + inicio.length) : texto.slice(i + inicio.length, f);
+}
+
+function extraerSeccionFinal(texto, inicio) {
+  const i = texto.indexOf(inicio);
+  if (i === -1) return '';
+  return texto.slice(i + inicio.length);
 }
 
 async function guardarLeadDesdeProspector() {
   if (!prospectorData.nombre_negocio) return;
 
   try {
+    const notasIA = prospectorData.diagnostico
+      ? `[AI Prospector]\n${prospectorData.diagnostico}`
+      : 'Generado desde AI Prospector';
+
     const { error } = await window.supabaseClient.from('leads').insert([{
       nombre_negocio: prospectorData.nombre_negocio,
       giro: prospectorData.giro || '',
       ciudad: prospectorData.ciudad || '',
       etapa: 'nuevo',
-      notas: 'Generado desde AI Prospector',
+      notas: notasIA,
     }]);
     if (error) throw error;
-    showToast('¡Lead guardado desde Prospector!');
+    showToast('¡Lead agregado al pipeline!');
     await cargarLeads();
   } catch (e) {
     showToast('Error al guardar lead', true);
