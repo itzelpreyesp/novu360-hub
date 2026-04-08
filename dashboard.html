@@ -1,663 +1,510 @@
-﻿<!DOCTYPE html>
-<html class="dark" lang="es">
-<head>
-  <meta charset="utf-8" />
-  <meta content="width=device-width, initial-scale=1.0" name="viewport" />
-  <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
-  <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;700;800&family=Inter:wght@400;500;600&display=swap" rel="stylesheet" />
-  <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet" />
-  <script id="tailwind-config">
-    tailwind.config = {
-      darkMode: "class",
-      theme: {
-        extend: {
-          colors: {
-            error: "#ffb4ab",
-            "primary-container": "#00c2a8",
-            "primary-fixed": "#65fade",
-            "on-tertiary-fixed": "#3a0b00",
-            "outline-variant": "#262626",
-            "primary-fixed-dim": "#41ddc2",
-            outline: "#525252",
-            "on-surface": "#f5f5f5",
-            "surface-container": "#171717",
-            "on-tertiary-fixed-variant": "#7e2c0f",
-            "surface-variant": "#262626",
-            "on-secondary-fixed": "#1b1b1b",
-            "on-secondary-container": "#b5b5b5",
-            background: "#000000",
-            "tertiary-fixed": "#ffdbd0",
-            "on-primary-fixed": "#00201b",
-            "on-error-container": "#ffdad6",
-            "surface-container-low": "#121212",
-            "on-primary-fixed-variant": "#005045",
-            "on-error": "#690005",
-            "error-container": "#93000a",
-            "secondary-fixed": "#e2e2e2",
-            "surface-tint": "#00C2A8",
-            "surface-container-lowest": "#0a0a0a",
-            "tertiary-fixed-dim": "#ffb59e",
-            "inverse-on-surface": "#171717",
-            "secondary-container": "#333333",
-            "on-tertiary-container": "#752509",
-            "surface-dim": "#000000",
-            "on-tertiary": "#5e1700",
-            "on-secondary": "#303030",
-            primary: "#00C2A8",
-            "inverse-surface": "#f5f5f5",
-            "surface-container-high": "#1f1f1f",
-            tertiary: "#ffb6a0",
-            "on-primary": "#00382f",
-            "on-background": "#f5f5f5",
-            "tertiary-container": "#ff8d69",
-            "surface-bright": "#262626",
-            "on-primary-container": "#00493e",
-            surface: "#000000",
-            "on-secondary-fixed-variant": "#474747",
-            "inverse-primary": "#006b5c",
-            "on-surface-variant": "#a3a3a3",
-            "secondary-fixed-dim": "#c6c6c6",
-            secondary: "#c6c6c6",
-            "surface-container-highest": "#262626"
-          },
-          fontFamily: {
-            headline: ["Arial", "sans-serif"],
-            body: ["Arial", "sans-serif"],
-            label: ["Arial", "sans-serif"],
-            display: ["Arial", "sans-serif"]
-          },
-          borderRadius: {
-            DEFAULT: "0.5rem",
-            lg: "0.5rem",
-            xl: "0.75rem",
-            full: "1rem"
-          }
-        }
+<!DOCTYPE html>
+
+<html class="dark" lang="es"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;700;800&amp;family=Inter:wght@400;500;600&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+tailwind.config = {
+  darkMode: "class", 
+  theme: {
+    extend: {
+      colors: {
+        error: "#ffb4ab", 
+        "primary-container": "#00c2a8", 
+        "primary-fixed": "#65fade", 
+        "on-tertiary-fixed": "#3a0b00", 
+        "outline-variant": "#262626", 
+        "primary-fixed-dim": "#41ddc2", 
+        outline: "#525252", 
+        "on-surface": "#f5f5f5", 
+        "surface-container": "#171717", 
+        "on-tertiary-fixed-variant": "#7e2c0f", 
+        "surface-variant": "#262626", 
+        "on-secondary-fixed": "#1b1b1b", 
+        "on-secondary-container": "#b5b5b5", 
+        background: "#000000", 
+        "tertiary-fixed": "#ffdbd0", 
+        "on-primary-fixed": "#00201b", 
+        "on-error-container": "#ffdad6", 
+        "surface-container-low": "#121212", 
+        "on-primary-fixed-variant": "#005045", 
+        "on-error": "#690005", 
+        "error-container": "#93000a", 
+        "secondary-fixed": "#e2e2e2", 
+        "surface-tint": "#00C2A8", 
+        "surface-container-lowest": "#0a0a0a", 
+        "tertiary-fixed-dim": "#ffb59e", 
+        "inverse-on-surface": "#171717", 
+        "secondary-container": "#333333", 
+        "on-tertiary-container": "#752509", 
+        "surface-dim": "#000000", 
+        "on-tertiary": "#5e1700", 
+        "on-secondary": "#303030", 
+        primary: "#00C2A8", 
+        "inverse-surface": "#f5f5f5", 
+        "surface-container-high": "#1f1f1f", 
+        tertiary: "#ffb6a0", 
+        "on-primary": "#00382f", 
+        "on-background": "#f5f5f5", 
+        "tertiary-container": "#ff8d69", 
+        "surface-bright": "#262626", 
+        "on-primary-container": "#00493e", 
+        surface: "#000000", 
+        "on-secondary-fixed-variant": "#474747", 
+        "inverse-primary": "#006b5c", 
+        "on-surface-variant": "#a3a3a3", 
+        "secondary-fixed-dim": "#c6c6c6", 
+        secondary: "#c6c6c6", 
+        "surface-container-highest": "#262626"
+      }, 
+      fontFamily: {
+        headline: ["Arial", "sans-serif"], 
+        body: ["Arial", "sans-serif"], 
+        label: ["Arial", "sans-serif"], 
+        display: ["Arial", "sans-serif"]
+      }, 
+      borderRadius: {
+        DEFAULT: "0.5rem", 
+        lg: "0.5rem", 
+        xl: "0.75rem", 
+        full: "1rem"
       }
-    };
-  </script>
-  <title>Novu 360 Â· Panel de Control</title>
-  <link rel="stylesheet" href="style.css" />
-  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-  <script src="config.js"></script>
-  <script src="auth.js"></script>
-  <script>checkAuth();</script>
-  <style>
-    html, body { background-color: #0D1117; margin: 0; }
-    body { overflow-x: hidden; }
-    .nav-item {
-      display: flex; align-items: center; gap: 0.75rem; padding: 0.85rem 1.25rem; margin: 0 1rem;
-      border-radius: 0.85rem; color: #a3a3a3; font-size: 0.92rem; font-weight: 700; text-decoration: none; transition: all 0.2s ease;
     }
-    .nav-item:hover, .nav-item:focus-visible { color: #f5f5f5; background: rgba(255,255,255,0.05); outline: none; }
-    .nav-active { background: linear-gradient(135deg, rgba(0,194,168,0.2), rgba(0,153,132,0.1)); color: #f5f5f5; border: 1px solid rgba(0,194,168,0.2); }
-    .summary-card-value { word-break: break-word; }
-    .metric-bar > span { transition: width 0.25s ease; }
-    .custom-scrollbar::-webkit-scrollbar { width: 8px; height: 8px; }
-    .custom-scrollbar::-webkit-scrollbar-thumb { background: rgba(255,255,255,0.12); border-radius: 999px; }
-    .custom-scrollbar::-webkit-scrollbar-track { background: transparent; }
-    .line-clamp-1 { overflow: hidden; display: -webkit-box; -webkit-line-clamp: 1; -webkit-box-orient: vertical; }
-    .line-clamp-2 { overflow: hidden; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; }
-  </style>
+  }
+};
+</script>
+
+<title>Novu 360 · Panel de Control</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;700;800&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css">
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script src="config.js"></script>
+<script src="auth.js"></script>
+<script>checkAuth();</script>
 </head>
-<body class="m-0 min-h-screen text-on-surface antialiased flex bg-[#0D1117]">
-  <aside id="sidebar" class="hidden md:flex bg-black antialiased h-screen w-64 fixed left-0 top-0 flex-col py-6 z-20 border-r border-white/5">
-    <div class="px-6 mb-8">
-      <a href="dashboard.html" class="text-white font-black tracking-widest text-xl block" style="text-decoration:none">Novu 360</a>
-      <div class="text-neutral-500 text-xs uppercase tracking-tighter mt-1 italic">INTELIGENCIA DE AGENCIA</div>
-    </div>
-    <button data-nav-target="onboarding.html" class="mx-6 mb-8 py-3 font-bold rounded-lg flex items-center justify-center gap-2 transition-transform active:scale-95 duration-150" style="background:linear-gradient(135deg,#00C2A8,#009984);color:#000">
-      <span class="material-symbols-outlined text-sm font-bold">add</span>
-      Nuevo Proyecto
-    </button>
-    <nav class="flex-1 space-y-1 overflow-y-auto custom-scrollbar">
-      <a class="nav-item nav-active" href="dashboard.html"><span class="material-symbols-outlined">dashboard</span><span>Dashboard</span></a>
-      <a class="nav-item" href="ventas.html"><span class="material-symbols-outlined">trending_up</span><span>Ventas</span></a>
-      <a class="nav-item" href="prospector.html"><span class="material-symbols-outlined">auto_awesome</span><span>Prospector IA</span></a>
-      <a class="nav-item" href="ads.html"><span class="material-symbols-outlined">ads_click</span><span>Ads</span></a>
-      <a class="nav-item" href="community.html"><span class="material-symbols-outlined">forum</span><span>Community</span></a>
-      <a class="nav-item" href="seo.html"><span class="material-symbols-outlined">search</span><span>SEO</span></a>
-      <a class="nav-item" href="web.html"><span class="material-symbols-outlined">language</span><span>Web</span></a>
-      <a class="nav-item" href="portal-cliente.html"><span class="material-symbols-outlined">group</span><span>Clientes</span></a>
-      <a class="nav-item" href="finanzas.html"><span class="material-symbols-outlined">payments</span><span>Finanzas</span></a>
-      <a class="nav-item" href="aprobaciones.html"><span class="material-symbols-outlined">fact_check</span><span>Aprobaciones</span></a>
-      <a class="nav-item" href="onboarding.html"><span class="material-symbols-outlined">rocket_launch</span><span>Onboarding</span></a>
-      <a class="nav-item" href="cerebros.html"><span class="material-symbols-outlined">psychology</span><span>Cerebros IA</span></a>
-    </nav>
-    <div class="mt-auto pt-4 space-y-1" style="border-top:1px solid rgba(255,255,255,0.05)">
-      <a class="nav-item" href="mailto:soporte@novu360.com"><span class="material-symbols-outlined">help</span><span>Soporte</span></a>
-      <a class="nav-item" href="portal-cliente.html"><span class="material-symbols-outlined">person</span><span>Cuenta</span></a>
-    </div>
-  </aside>
-
-  <div id="mobile-sidebar-overlay" class="fixed inset-0 bg-black/60 z-30 hidden md:hidden"></div>
-  <aside id="mobile-sidebar" class="fixed inset-y-0 left-0 z-40 w-72 max-w-[82vw] bg-black border-r border-white/5 transform -translate-x-full transition-transform duration-300 ease-out md:hidden flex flex-col py-6">
-    <div class="px-6 mb-8 flex items-start justify-between gap-4">
-      <div>
-        <a href="dashboard.html" class="text-white font-black tracking-widest text-xl block" style="text-decoration:none">Novu 360</a>
-        <div class="text-neutral-500 text-xs uppercase tracking-tighter mt-1 italic">INTELIGENCIA DE AGENCIA</div>
-      </div>
-      <button id="mobile-sidebar-close" class="p-2 rounded-full hover:bg-white/5 transition-colors" type="button" aria-label="Cerrar menu">
-        <span class="material-symbols-outlined text-white">close</span>
-      </button>
-    </div>
-    <button data-nav-target="onboarding.html" class="mx-6 mb-8 py-3 font-bold rounded-lg flex items-center justify-center gap-2 transition-transform active:scale-95 duration-150" style="background:linear-gradient(135deg,#00C2A8,#009984);color:#000">
-      <span class="material-symbols-outlined text-sm font-bold">add</span>
-      Nuevo Proyecto
-    </button>
-    <nav class="flex-1 space-y-1 overflow-y-auto custom-scrollbar">
-      <a class="nav-item nav-active" href="dashboard.html"><span class="material-symbols-outlined">dashboard</span><span>Dashboard</span></a>
-      <a class="nav-item" href="ventas.html"><span class="material-symbols-outlined">trending_up</span><span>Ventas</span></a>
-      <a class="nav-item" href="prospector.html"><span class="material-symbols-outlined">auto_awesome</span><span>Prospector IA</span></a>
-      <a class="nav-item" href="ads.html"><span class="material-symbols-outlined">ads_click</span><span>Ads</span></a>
-      <a class="nav-item" href="community.html"><span class="material-symbols-outlined">forum</span><span>Community</span></a>
-      <a class="nav-item" href="seo.html"><span class="material-symbols-outlined">search</span><span>SEO</span></a>
-      <a class="nav-item" href="web.html"><span class="material-symbols-outlined">language</span><span>Web</span></a>
-      <a class="nav-item" href="portal-cliente.html"><span class="material-symbols-outlined">group</span><span>Clientes</span></a>
-      <a class="nav-item" href="finanzas.html"><span class="material-symbols-outlined">payments</span><span>Finanzas</span></a>
-      <a class="nav-item" href="aprobaciones.html"><span class="material-symbols-outlined">fact_check</span><span>Aprobaciones</span></a>
-      <a class="nav-item" href="onboarding.html"><span class="material-symbols-outlined">rocket_launch</span><span>Onboarding</span></a>
-      <a class="nav-item" href="cerebros.html"><span class="material-symbols-outlined">psychology</span><span>Cerebros IA</span></a>
-    </nav>
-  </aside>
-
-  <main class="w-full md:ml-64 min-w-0 flex-1 min-h-screen md:h-screen overflow-y-auto overflow-x-hidden custom-scrollbar" style="background-color:#0D1117;">
-    <header class="sticky top-0 z-10 border-b border-white/5" style="background-color:#0D1117;">
-      <div class="flex items-center justify-between gap-3 px-4 py-4 md:h-16 md:px-8">
-        <div class="flex items-center gap-3 md:gap-6 min-w-0">
-          <button id="mobile-sidebar-toggle" class="md:hidden p-2 rounded-full hover:bg-white/5 transition-colors" type="button" aria-label="Abrir menu" aria-expanded="false">
-            <span class="material-symbols-outlined text-white">menu</span>
-          </button>
-          <div class="min-w-0">
-            <h1 class="text-lg md:text-xl font-extrabold text-white tracking-tight truncate">Panel de Control Ejecutivo</h1>
-            <div class="mt-2 md:hidden flex items-center text-[10px] font-bold text-primary px-3 py-1 bg-primary/10 rounded-full w-fit">
-              <span class="relative flex h-2 w-2 mr-2"><span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-primary opacity-75"></span><span class="relative inline-flex rounded-full h-2 w-2 bg-primary"></span></span>
-              Analitica en tiempo real activada
-            </div>
-          </div>
-          <div class="hidden md:flex items-center text-xs font-bold text-primary px-3 py-1 bg-primary/10 rounded-full">
-            <span class="relative flex h-2 w-2 mr-2"><span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-primary opacity-75"></span><span class="relative inline-flex rounded-full h-2 w-2 bg-primary"></span></span>
-            Analitica en tiempo real activada
-          </div>
-        </div>
-        <div class="flex items-center gap-2 md:gap-4 min-w-0">
-          <div class="hidden lg:flex items-center bg-white/5 rounded-full px-4 py-1.5 gap-2 border border-white/5">
-            <span class="material-symbols-outlined text-sm text-neutral-500">search</span>
-            <input id="dashboard-search" class="bg-transparent border-none focus:ring-0 text-sm text-on-surface w-48 placeholder-neutral-500" placeholder="Buscar..." type="text" />
-          </div>
-          <button id="notifications-button" class="p-2 rounded-full hover:bg-white/5 transition-colors relative" type="button" aria-label="Notificaciones">
-            <span class="material-symbols-outlined text-primary">notifications</span>
-          </button>
-          <button id="account-button" class="flex items-center gap-3 ml-1 md:ml-2 min-w-0 rounded-full px-1 py-1 hover:bg-white/5 transition-colors" type="button">
-            <div class="text-right hidden sm:block min-w-0">
-              <p class="text-xs font-bold text-on-surface truncate" id="profile-name">Usuario</p>
-              <p class="text-[10px] text-neutral-500 uppercase tracking-widest truncate" id="profile-role">Cuenta</p>
-            </div>
-            <div id="profile-avatar" class="w-10 h-10 rounded-full border-2 border-primary bg-primary/10 text-primary font-bold flex items-center justify-center">U</div>
-          </button>
-        </div>
-      </div>
-    </header>
-
-    <div class="px-4 pt-4 pb-24 md:p-8 space-y-6 md:space-y-8">
-      <section class="bg-surface-container-low text-white rounded-2xl p-5 md:p-8 shadow-2xl relative overflow-hidden border border-white/5">
-        <div class="absolute top-0 right-0 p-8 md:p-12 opacity-5 pointer-events-none"><span class="material-symbols-outlined text-[90px] md:text-[120px]">insights</span></div>
-        <div class="relative z-10 grid grid-cols-1 xl:grid-cols-12 gap-6 md:gap-8 items-start">
-          <div class="xl:col-span-8">
-            <h2 class="text-2xl font-black mb-6 tracking-tight flex items-center gap-3">Resumen Ejecutivo</h2>
-            <div class="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-4 gap-4 md:gap-6">
-              <article class="min-w-0"><p class="text-neutral-400 text-[10px] uppercase font-bold tracking-widest mb-1">Clientes Activos</p><div class="flex items-baseline gap-2 flex-wrap"><span class="text-3xl md:text-4xl font-black summary-card-value" id="stat-active-clients">--</span><span class="text-xs font-bold" id="stat-active-clients-trend">Sin datos</span></div><p class="text-neutral-500 text-[10px] mt-2" id="stat-active-clients-meta">Esperando sincronizacion</p></article>
-              <article class="min-w-0"><p class="text-neutral-400 text-[10px] uppercase font-bold tracking-widest mb-1">Ingresos del Mes</p><div class="flex items-baseline gap-2 flex-wrap"><span class="text-3xl md:text-4xl font-black summary-card-value" id="stat-month-revenue">--</span><span class="text-xs font-bold" id="stat-month-revenue-trend">Sin datos</span></div><p class="text-neutral-500 text-[10px] mt-2" id="stat-month-revenue-meta">Esperando sincronizacion</p></article>
-              <article class="min-w-0"><p class="text-neutral-400 text-[10px] uppercase font-bold tracking-widest mb-1">Leads en Pipeline</p><div class="flex items-baseline gap-2 flex-wrap"><span class="text-3xl md:text-4xl font-black summary-card-value" id="stat-pipeline-leads">--</span><span class="text-xs font-bold" id="stat-pipeline-leads-trend">Sin datos</span></div><p class="text-neutral-500 text-[10px] mt-2" id="stat-pipeline-leads-meta">Esperando sincronizacion</p></article>
-              <article class="min-w-0"><p class="text-neutral-400 text-[10px] uppercase font-bold tracking-widest mb-1">Tareas Vencidas</p><div class="flex items-baseline gap-2 flex-wrap"><span class="text-3xl md:text-4xl font-black text-error summary-card-value" id="stat-overdue-tasks">--</span><span class="text-xs font-bold text-error" id="stat-overdue-tasks-trend">Sin datos</span></div><p class="text-neutral-500 text-[10px] mt-2" id="stat-overdue-tasks-meta">Esperando sincronizacion</p></article>
-            </div>
-          </div>
-          <div class="xl:col-span-4 bg-white/5 rounded-xl p-5 border border-white/10 min-w-0">
-            <div class="flex items-center justify-between mb-4 gap-3"><h3 class="text-sm font-bold uppercase tracking-wider text-neutral-300">Feed de Prioridad Critica</h3><span class="text-[9px] text-primary font-black">ACTUALIZACIONES</span></div>
-            <div class="space-y-3" id="priority-feed"><div class="rounded-lg border border-white/5 bg-black/20 p-4 text-sm text-neutral-400">Cargando informacion...</div></div>
-          </div>
-        </div>
-      </section>
-
-      <div class="grid grid-cols-1 xl:grid-cols-12 gap-6 md:gap-8">
-        <div class="xl:col-span-8 space-y-6">
-          <section class="space-y-4 min-w-0">
-            <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3">
-              <h2 class="text-xl font-extrabold tracking-tight text-white">Clientes Activos</h2>
-              <button data-nav-target="portal-cliente.html" class="text-primary text-sm font-bold flex items-center gap-1 hover:underline w-fit" type="button">Ver todos los clientes <span class="material-symbols-outlined text-sm">arrow_forward</span></button>
-            </div>
-            <div class="grid grid-cols-1 gap-4 min-w-0" id="active-clients-list"><div class="bg-surface-container-lowest p-6 rounded-xl shadow-sm border border-white/5 text-sm text-neutral-400">Cargando clientes...</div></div>
-          </section>
-          <section class="space-y-4">
-            <h2 class="text-xl font-extrabold tracking-tight text-white">Salud Operativa de Areas</h2>
-            <div class="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-5 gap-4" id="areas-health-grid"><div class="bg-surface-container-lowest p-5 rounded-lg border border-white/5 text-sm text-neutral-400">Cargando indicadores...</div></div>
-          </section>
-        </div>
-
-        <div class="xl:col-span-4 space-y-6 min-w-0">
-          <section class="bg-surface-container-low rounded-2xl p-6 border border-white/5 shadow-xl">
-            <h2 class="text-sm font-extrabold tracking-tight uppercase mb-4 text-neutral-400">Acciones Rapidas</h2>
-            <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
-              <button data-nav-target="ventas.html" class="bg-surface-container-lowest p-4 rounded-xl flex flex-col items-center gap-2 border border-white/5 hover:border-primary transition-all text-center" type="button"><span class="material-symbols-outlined text-primary">person_add</span><span class="text-[10px] font-bold uppercase tracking-widest text-on-surface">Nuevo Lead</span></button>
-              <button data-nav-target="onboarding.html" class="bg-surface-container-lowest p-4 rounded-xl flex flex-col items-center gap-2 border border-white/5 hover:border-primary transition-all text-center" type="button"><span class="material-symbols-outlined text-primary">add_task</span><span class="text-[10px] font-bold uppercase tracking-widest text-on-surface">Nueva Tarea</span></button>
-              <button data-nav-target="aprobaciones.html" class="bg-surface-container-lowest p-4 rounded-xl flex flex-col items-center gap-2 border border-white/5 hover:border-primary transition-all text-center" type="button"><span class="material-symbols-outlined text-primary">fact_check</span><span class="text-[10px] font-bold uppercase tracking-widest text-on-surface">Ver Aprobaciones</span></button>
-              <button data-nav-target="cerebros.html" class="bg-surface-container-lowest p-4 rounded-xl flex flex-col items-center gap-2 border border-white/5 hover:border-primary transition-all text-center" type="button"><span class="material-symbols-outlined text-primary">psychology</span><span class="text-[10px] font-bold uppercase tracking-widest text-on-surface">Cerebros IA</span></button>
-            </div>
-            <div class="mt-8 rounded-xl overflow-hidden relative group">
-              <img alt="Data visualization" class="w-full h-48 object-cover opacity-80 group-hover:scale-110 transition-transform duration-700" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAeRMvcBxRvpMtT1PgAGngUaSQZWCnNl6ssPKro-gxeI1CPtDQ8XnDACHoCVaStTARgwZ-tZz9OG1LMn_ztGUhHm0Eq9b4kuZ2fUPkgZHqvVhf2lHz5HPAo4PEeZZHZClCrAHjOT_oGAeiGkgG3NujyIVTyuzURuxx27RAAo2Cjhs1ZeAqRQ4j_09fh_wDWhY8nffFAb6Hb-28XlPKHe6KKTh4aqIa25r0i-SyWouxRJhSIr4sc4cHJ9LBnBekHr0BNPf3WETSyTog" />
-              <div class="absolute inset-0 bg-gradient-to-t from-black to-transparent opacity-60"></div>
-              <div class="absolute bottom-4 left-4"><p class="text-white text-xs font-bold">Snapshot de Inteligencia</p><p class="text-white/60 text-[10px]" id="snapshot-caption">Datos actualizados desde Supabase</p></div>
-            </div>
-          </section>
-        </div>
-      </div>
-    </div>
-  </main>
-
-  <nav class="fixed bottom-0 left-0 w-full z-30 border-t border-white/10 bg-black/95 backdrop-blur md:hidden" id="mobile-bottom-nav">
-    <div class="grid grid-cols-5">
-      <a href="dashboard.html" class="mobile-bottom-link flex flex-col items-center justify-center gap-1 px-2 py-3 text-neutral-400">
-        <span class="material-symbols-outlined text-[20px]">dashboard</span>
-        <span class="text-[10px] font-bold uppercase tracking-wide">Home</span>
-      </a>
-      <a href="ventas.html" class="mobile-bottom-link flex flex-col items-center justify-center gap-1 px-2 py-3 text-neutral-400">
-        <span class="material-symbols-outlined text-[20px]">trending_up</span>
-        <span class="text-[10px] font-bold uppercase tracking-wide">Ventas</span>
-      </a>
-      <a href="community.html" class="mobile-bottom-link flex flex-col items-center justify-center gap-1 px-2 py-3 text-neutral-400">
-        <span class="material-symbols-outlined text-[20px]">forum</span>
-        <span class="text-[10px] font-bold uppercase tracking-wide">Community</span>
-      </a>
-      <a href="seo.html" class="mobile-bottom-link flex flex-col items-center justify-center gap-1 px-2 py-3 text-neutral-400">
-        <span class="material-symbols-outlined text-[20px]">search</span>
-        <span class="text-[10px] font-bold uppercase tracking-wide">SEO</span>
-      </a>
-      <a href="cerebros.html" class="mobile-bottom-link flex flex-col items-center justify-center gap-1 px-2 py-3 text-neutral-400">
-        <span class="material-symbols-outlined text-[20px]">psychology</span>
-        <span class="text-[10px] font-bold uppercase tracking-wide">IA</span>
-      </a>
-    </div>
+<body class="bg-black text-on-surface antialiased flex overflow-hidden h-screen">
+<!-- SideNavBar -->
+<!-- SideNavBar - Novu 360 -->
+<aside class="bg-black antialiased h-screen w-64 fixed left-0 top-0 flex flex-col py-6 z-20" style="box-shadow: 4px 0 24px rgba(0,0,0,0.6)">
+  <div class="px-6 mb-8">
+    <a href="dashboard.html" class="text-white font-black tracking-widest text-xl block" style="color:#fff;text-decoration:none">Novu 360</a>
+    <div class="text-neutral-500 text-xs uppercase tracking-tighter mt-1 italic">INTELIGENCIA DE AGENCIA</div>
+  </div>
+  <button onclick="window.location.href='dashboard.html'" class="mx-6 mb-8 py-3 font-bold rounded-lg flex items-center justify-center gap-2 transition-transform active:scale-95 duration-150" style="background:linear-gradient(135deg,#00C2A8,#009984);color:#000">
+    <span class="material-symbols-outlined text-sm font-bold">add</span>
+    Nuevo Proyecto
+  </button>
+  <nav class="flex-1 space-y-1 overflow-y-auto">
+    <a class="bg-primary text-black rounded-lg mx-3 flex items-center px-4 py-3 gap-3 transition-all font-bold nav-active" href="dashboard.html">
+      <span class="material-symbols-outlined">dashboard</span>
+      <span>Dashboard</span>
+    </a>
+<a class="text-neutral-400 hover:text-white px-4 py-3 flex items-center gap-3 transition-all hover:bg-white/5 rounded-lg mx-3" href="ventas.html">
+      <span class="material-symbols-outlined">trending_up</span>
+      <span>Ventas</span>
+    </a>
+<a class="text-neutral-400 hover:text-white px-4 py-3 flex items-center gap-3 transition-all hover:bg-white/5 rounded-lg mx-3" href="ads.html">
+      <span class="material-symbols-outlined">ads_click</span>
+      <span>Ads</span>
+    </a>
+<a class="text-neutral-400 hover:text-white px-4 py-3 flex items-center gap-3 transition-all hover:bg-white/5 rounded-lg mx-3" href="community.html">
+      <span class="material-symbols-outlined">forum</span>
+      <span>Community</span>
+    </a>
+<a class="text-neutral-400 hover:text-white px-4 py-3 flex items-center gap-3 transition-all hover:bg-white/5 rounded-lg mx-3" href="seo.html">
+      <span class="material-symbols-outlined">search</span>
+      <span>SEO</span>
+    </a>
+<a class="text-neutral-400 hover:text-white px-4 py-3 flex items-center gap-3 transition-all hover:bg-white/5 rounded-lg mx-3" href="web.html">
+      <span class="material-symbols-outlined">language</span>
+      <span>Web</span>
+    </a>
+<a class="text-neutral-400 hover:text-white px-4 py-3 flex items-center gap-3 transition-all hover:bg-white/5 rounded-lg mx-3" href="portal-cliente.html">
+      <span class="material-symbols-outlined">group</span>
+      <span>Clientes</span>
+    </a>
+<a class="text-neutral-400 hover:text-white px-4 py-3 flex items-center gap-3 transition-all hover:bg-white/5 rounded-lg mx-3" href="finanzas.html">
+      <span class="material-symbols-outlined">payments</span>
+      <span>Finanzas</span>
+    </a>
+<a class="text-neutral-400 hover:text-white px-4 py-3 flex items-center gap-3 transition-all hover:bg-white/5 rounded-lg mx-3" href="aprobaciones.html">
+      <span class="material-symbols-outlined">fact_check</span>
+      <span>Aprobaciones</span>
+    </a>
+<a class="text-neutral-400 hover:text-white px-4 py-3 flex items-center gap-3 transition-all hover:bg-white/5 rounded-lg mx-3" href="onboarding.html">
+      <span class="material-symbols-outlined">rocket_launch</span>
+      <span>Onboarding</span>
+    </a>
+<a class="text-neutral-400 hover:text-white px-4 py-3 flex items-center gap-3 transition-all hover:bg-white/5 rounded-lg mx-3" href="cerebros.html">
+      <span class="material-symbols-outlined">psychology</span>
+      <span>Cerebros IA</span>
+    </a>
   </nav>
-  <script>
-    const DASHBOARD_TABLES = { clients: ["clientes", "customers", "customer_accounts", "accounts"], projects: ["proyectos", "projects", "servicios", "campaigns"], leads: ["leads", "prospectos", "pipeline_leads", "contactos"], tasks: ["tareas", "tasks", "deliverables", "pending_tasks"], invoices: ["facturas", "invoices", "pagos", "payments"], approvals: ["aprobaciones", "approvals", "solicitudes_aprobacion"], ads: ["ads", "ad_campaigns", "campanas_ads"], seo: ["seo", "seo_projects", "seo_metrics"], community: ["community", "community_tasks", "social_content"], web: ["web", "web_projects", "web_metrics"] };
-    const AREA_CONFIG = { ventas: { label: "Ventas", icon: "trending_up" }, ads: { label: "Ads", icon: "ads_click" }, community: { label: "Community", icon: "forum" }, seo: { label: "SEO", icon: "search" }, web: { label: "Web", icon: "language" } };
-
-    document.addEventListener("DOMContentLoaded", function () {
-      setupMobileSidebar();
-      setupNavigation();
-      setupBottomNavActiveState();
-      setupSearch();
-      initDashboard().catch(function (error) {
-        console.error("Dashboard init error:", error);
-        showSoftError("No fue posible cargar el dashboard con datos reales.");
-      });
-    });
-
-    function setupMobileSidebar() {
-      const toggle = document.getElementById("mobile-sidebar-toggle");
-      const closeButton = document.getElementById("mobile-sidebar-close");
-      const sidebar = document.getElementById("mobile-sidebar");
-      const overlay = document.getElementById("mobile-sidebar-overlay");
-      if (!toggle || !closeButton || !sidebar || !overlay) return;
-      function isOpen() {
-        return sidebar.classList.contains("translate-x-0");
-      }
-      function openSidebar() {
-        sidebar.classList.remove("-translate-x-full");
-        sidebar.classList.add("translate-x-0");
-        overlay.classList.remove("hidden");
-        document.body.classList.add("overflow-hidden");
-        toggle.setAttribute("aria-expanded", "true");
-      }
-      function closeSidebar() {
-        sidebar.classList.remove("translate-x-0");
-        sidebar.classList.add("-translate-x-full");
-        overlay.classList.add("hidden");
-        document.body.classList.remove("overflow-hidden");
-        toggle.setAttribute("aria-expanded", "false");
-      }
-      toggle.addEventListener("click", function () {
-        if (isOpen()) closeSidebar();
-        else openSidebar();
-      });
-      closeButton.addEventListener("click", closeSidebar);
-      overlay.addEventListener("click", closeSidebar);
-      document.addEventListener("keydown", function (event) {
-        if (event.key === "Escape" && isOpen()) closeSidebar();
-      });
-      document.querySelectorAll("#mobile-sidebar a, #mobile-sidebar [data-nav-target]").forEach(function (element) {
-        element.addEventListener("click", closeSidebar);
-      });
-    }
-
-    function setupNavigation() {
-      document.querySelectorAll("[data-nav-target]").forEach(function (element) {
-        element.addEventListener("click", function () {
-          const target = element.getAttribute("data-nav-target");
-          if (target) window.location.href = target;
-        });
-      });
-      const notificationsButton = document.getElementById("notifications-button");
-      const accountButton = document.getElementById("account-button");
-      if (notificationsButton) notificationsButton.onclick = function () { window.location.href = "aprobaciones.html"; };
-      if (accountButton) accountButton.onclick = function () { window.location.href = "portal-cliente.html"; };
-    }
-
-    function setupBottomNavActiveState() {
-      const currentPage = window.location.pathname.split("/").pop() || "dashboard.html";
-      document.querySelectorAll("#mobile-bottom-nav .mobile-bottom-link").forEach(function (link) {
-        const href = link.getAttribute("href");
-        const isActive = href === currentPage;
-        link.classList.toggle("text-primary", isActive);
-        link.classList.toggle("text-neutral-400", !isActive);
-      });
-    }
-
-    function setupSearch() {
-      const search = document.getElementById("dashboard-search");
-      const container = document.getElementById("active-clients-list");
-      if (!search || !container) return;
-      search.addEventListener("input", function () {
-        const query = search.value.trim().toLowerCase();
-        container.querySelectorAll("[data-search]").forEach(function (item) {
-          const haystack = item.getAttribute("data-search") || "";
-          item.classList.toggle("hidden", query && !haystack.includes(query));
-        });
-      });
-    }
-
-    async function initDashboard() {
-      const session = await getCurrentSession();
-      hydrateProfile(session);
-      const dataset = await fetchDashboardDataset();
-      const model = buildDashboardModel(dataset, session);
-      renderSummary(model.summary);
-      renderFeed(model.feed);
-      renderClients(model.clients);
-      renderAreas(model.areas);
-      renderSnapshot(model.snapshotText);
-    }
-
-    async function getCurrentSession() {
-      if (!window.supabaseClient || !window.supabaseClient.auth) return null;
-      const result = await window.supabaseClient.auth.getSession();
-      return result && result.data ? result.data.session : null;
-    }
-
-    function hydrateProfile(session) {
-      const user = session && session.user ? session.user : null;
-      const profileName = pick(user && user.user_metadata ? user.user_metadata : {}, ["full_name", "name", "display_name"]) || (user && user.email ? user.email.split("@")[0] : "Usuario");
-      const profileRole = pick(user && user.user_metadata ? user.user_metadata : {}, ["role", "rol"]) || "Cuenta";
-      setText("profile-name", profileName);
-      setText("profile-role", String(profileRole).toUpperCase());
-      setText("profile-avatar", getInitials(profileName));
-    }
-
-    async function fetchDashboardDataset() {
-      const groups = Object.keys(DASHBOARD_TABLES);
-      const entries = await Promise.all(groups.map(async function (group) {
-        return [group, await tryTables(DASHBOARD_TABLES[group])];
-      }));
-      return Object.fromEntries(entries);
-    }
-
-    async function tryTables(tableNames) {
-      if (!window.supabaseClient) return { table: null, rows: [], error: "Supabase no esta disponible" };
-      for (const tableName of tableNames) {
-        try {
-          const response = await window.supabaseClient.from(tableName).select("*").limit(100);
-          if (!response.error) return { table: tableName, rows: response.data || [], error: null };
-        } catch (error) {
-          console.warn("Table lookup failed:", tableName, error);
-        }
-      }
-      return { table: null, rows: [], error: "No disponible" };
-    }
-
-    function buildDashboardModel(dataset, session) {
-      const clientRows = dataset.clients ? dataset.clients.rows : [];
-      const projectRows = dataset.projects ? dataset.projects.rows : [];
-      const leadRows = dataset.leads ? dataset.leads.rows : [];
-      const taskRows = dataset.tasks ? dataset.tasks.rows : [];
-      const invoiceRows = dataset.invoices ? dataset.invoices.rows : [];
-      const approvalRows = dataset.approvals ? dataset.approvals.rows : [];
-
-      const activeClients = buildClientCards(clientRows, projectRows);
-      const paidThisMonth = invoiceRows.filter(function (row) {
-        const paidStatus = normalizeStatus(pick(row, ["estado", "status", "payment_status"])) || "";
-        const paidDate = parseDate(pick(row, ["paid_at", "fecha_pago", "payment_date", "created_at", "fecha"]));
-        return (!paidStatus || ["paid", "pagado", "cobrado", "completed"].includes(paidStatus)) && isCurrentMonth(paidDate);
-      });
-      const pipelineLeads = leadRows.filter(function (row) {
-        const status = normalizeStatus(pick(row, ["estado", "status", "stage", "etapa"])) || "";
-        return !["won", "closed", "lost", "converted", "cancelled", "archived"].includes(status);
-      });
-      const overdueTasks = taskRows.filter(function (row) {
-        const status = normalizeStatus(pick(row, ["estado", "status"])) || "";
-        const dueDate = parseDate(pick(row, ["due_date", "fecha_vencimiento", "fecha_entrega", "deadline"]));
-        return dueDate && dueDate < startOfToday() && !["done", "completed", "complete", "finished", "pagado"].includes(status);
-      });
-
-      const summary = {
-        activeClients: { value: activeClients.length, trend: buildTrendLabel(activeClients.length, "clientes"), meta: activeClients.length ? "Sincronizado con la base activa" : "Sin registros activos detectados" },
-        monthRevenue: { value: formatCurrency(sumRows(paidThisMonth, ["monto", "amount", "total", "importe"])), trend: paidThisMonth.length ? paidThisMonth.length + " movimientos" : "Sin cobros", meta: dataset.invoices && dataset.invoices.table ? "Fuente: " + dataset.invoices.table : "Sin tabla de ingresos conectada" },
-        pipelineLeads: { value: pipelineLeads.length, trend: pipelineLeads.length ? "Pipeline activo" : "Sin leads", meta: dataset.leads && dataset.leads.table ? "Fuente: " + dataset.leads.table : "Sin tabla de leads conectada" },
-        overdueTasks: { value: overdueTasks.length, trend: overdueTasks.length ? "Requieren atencion" : "Sin atrasos", meta: dataset.tasks && dataset.tasks.table ? "Fuente: " + dataset.tasks.table : "Sin tabla de tareas conectada" }
-      };
-
-      return {
-        summary: summary,
-        feed: buildPriorityFeed(invoiceRows, overdueTasks, approvalRows, leadRows),
-        clients: activeClients,
-        areas: buildAreas(dataset, { leads: pipelineLeads.length, overdueTasks: overdueTasks.length }),
-        snapshotText: buildSnapshotText(dataset, session)
-      };
-    }
-
-    function buildClientCards(clientRows, projectRows) {
-      const clientsByName = new Map();
-      clientRows.forEach(function (row) {
-        const clientName = pick(row, ["nombre", "name", "cliente", "customer_name", "razon_social"]);
-        if (!clientName) return;
-        const status = normalizeStatus(pick(row, ["estado", "status"])) || "active";
-        if (["inactive", "cancelled", "archived", "deleted"].includes(status)) return;
-        clientsByName.set(String(clientName), {
-          title: pick(row, ["servicio_principal", "service", "tipo", "segmento"]) || "Cuenta activa",
-          clientName: String(clientName),
-          progress: toNumber(pick(row, ["progreso", "progress", "avance"])),
-          dueDate: parseDate(pick(row, ["proxima_entrega", "fecha_entrega", "deadline", "due_date"])),
-          teamSize: toNumber(pick(row, ["team_size", "equipo_total", "equipo"])),
-          area: pick(row, ["area", "canal", "service", "tipo"]) || "",
-          status: status
-        });
-      });
-
-      projectRows.forEach(function (row) {
-        const clientName = pick(row, ["cliente", "client_name", "customer_name", "account_name", "nombre_cliente"]) || "Cliente";
-        const current = clientsByName.get(String(clientName)) || { title: "Proyecto activo", clientName: String(clientName), progress: null, dueDate: null, teamSize: null, area: "", status: "active" };
-        current.title = pick(row, ["nombre", "name", "titulo", "project_name", "servicio"]) || current.title;
-        current.progress = toNumber(pick(row, ["progreso", "progress", "avance", "percent_complete"])) || current.progress;
-        current.dueDate = parseDate(pick(row, ["fecha_entrega", "due_date", "deadline"])) || current.dueDate;
-        current.teamSize = toNumber(pick(row, ["team_size", "equipo_total", "miembros"])) || current.teamSize;
-        current.area = pick(row, ["area", "canal", "service", "tipo"]) || current.area;
-        current.status = normalizeStatus(pick(row, ["estado", "status"])) || current.status;
-        if (!["inactive", "cancelled", "archived", "deleted"].includes(current.status)) clientsByName.set(String(clientName), current);
-      });
-
-      return Array.from(clientsByName.values()).slice(0, 8);
-    }
-
-    function buildPriorityFeed(invoiceRows, overdueTasks, approvalRows, leadRows) {
-      const feed = [];
-      invoiceRows.forEach(function (row) {
-        const status = normalizeStatus(pick(row, ["estado", "status", "payment_status"])) || "";
-        const dueDate = parseDate(pick(row, ["due_date", "fecha_vencimiento", "fecha"]));
-        if (dueDate && dueDate < startOfToday() && !["paid", "pagado", "cobrado", "completed"].includes(status)) {
-          feed.push({ icon: "payments", tone: "error", title: "Pago vencido", detail: buildFeedDetail(row, ["cliente", "client_name", "customer_name"], ["monto", "amount", "total"]), date: dueDate });
-        }
-      });
-      overdueTasks.forEach(function (row) {
-        feed.push({ icon: "assignment_late", tone: "tertiary", title: pick(row, ["titulo", "title", "nombre"]) || "Tarea pendiente", detail: pick(row, ["descripcion", "description", "cliente", "client_name"]) || "Requiere seguimiento", date: parseDate(pick(row, ["fecha_vencimiento", "due_date", "fecha_entrega"])) });
-      });
-      approvalRows.forEach(function (row) {
-        const status = normalizeStatus(pick(row, ["estado", "status"])) || "";
-        if (!["approved", "aprobado", "done", "completed"].includes(status)) feed.push({ icon: "schedule", tone: "primary", title: pick(row, ["titulo", "title", "nombre"]) || "Aprobacion pendiente", detail: pick(row, ["descripcion", "description", "cliente", "client_name"]) || "Esperando revision", date: parseDate(pick(row, ["created_at", "fecha"])) });
-      });
-      if (!feed.length && leadRows.length) {
-        leadRows.slice(0, 3).forEach(function (row) {
-          feed.push({ icon: "person_add", tone: "primary", title: pick(row, ["nombre", "name", "lead_name"]) || "Lead en seguimiento", detail: pick(row, ["empresa", "company", "origen", "source"]) || "Pipeline activo", date: parseDate(pick(row, ["created_at", "fecha"])) });
-        });
-      }
-      return feed.sort(function (a, b) { return (b.date ? b.date.getTime() : 0) - (a.date ? a.date.getTime() : 0); }).slice(0, 5);
-    }
-
-    function buildAreas(dataset, metrics) {
-      const rowsByArea = { ventas: dataset.leads ? dataset.leads.rows : [], ads: dataset.ads ? dataset.ads.rows : [], community: dataset.community ? dataset.community.rows : [], seo: dataset.seo ? dataset.seo.rows : [], web: dataset.web ? dataset.web.rows : [] };
-      return Object.keys(AREA_CONFIG).map(function (key) {
-        const config = AREA_CONFIG[key];
-        const rowCount = rowsByArea[key] ? rowsByArea[key].length : 0;
-        return { label: config.label, icon: config.icon, tone: determineAreaTone(key, rowCount, metrics), detail: buildAreaDetail(key, rowCount, metrics, dataset) };
-      });
-    }
-
-    function determineAreaTone(areaKey, rowCount, metrics) {
-      if (areaKey === "ventas") return metrics.leads > 0 ? "bg-primary" : "bg-yellow-500";
-      if (areaKey === "ads") return rowCount > 0 ? "bg-primary" : "bg-neutral-600";
-      if (areaKey === "community") return rowCount > 0 ? "bg-yellow-500" : "bg-neutral-600";
-      if (areaKey === "seo") return rowCount > 0 ? "bg-primary" : "bg-red-500";
-      if (areaKey === "web") return metrics.overdueTasks > 0 ? "bg-yellow-500" : "bg-primary";
-      return "bg-primary";
-    }
-
-    function buildAreaDetail(areaKey, rowCount, metrics, dataset) {
-      if (areaKey === "ventas") return metrics.leads ? metrics.leads + " leads activos" : "Sin leads conectados";
-      if (areaKey === "ads") return rowCount ? rowCount + " registros sincronizados" : "Sin campaÃ±as conectadas";
-      if (areaKey === "community") return rowCount ? rowCount + " items en seguimiento" : "Sin contenido conectado";
-      if (areaKey === "seo") return rowCount ? rowCount + " registros SEO disponibles" : "Sin metricas SEO";
-      if (areaKey === "web") return dataset.projects && dataset.projects.rows.length ? dataset.projects.rows.length + " proyectos detectados" : "Sin proyectos web";
-      return "Sin datos";
-    }
-
-    function buildSnapshotText(dataset, session) {
-      const syncedSources = Object.values(dataset).filter(function (entry) { return entry && entry.table; }).length;
-      const userLabel = session && session.user && session.user.email ? session.user.email : "sesion activa";
-      return syncedSources ? syncedSources + " fuentes conectadas Â· " + userLabel : "Sin fuentes detectadas en Supabase";
-    }
-
-    function renderSummary(summary) {
-      setText("stat-active-clients", summary.activeClients.value);
-      setText("stat-active-clients-trend", summary.activeClients.trend);
-      setText("stat-active-clients-meta", summary.activeClients.meta);
-      setText("stat-month-revenue", summary.monthRevenue.value);
-      setText("stat-month-revenue-trend", summary.monthRevenue.trend);
-      setText("stat-month-revenue-meta", summary.monthRevenue.meta);
-      setText("stat-pipeline-leads", summary.pipelineLeads.value);
-      setText("stat-pipeline-leads-trend", summary.pipelineLeads.trend);
-      setText("stat-pipeline-leads-meta", summary.pipelineLeads.meta);
-      setText("stat-overdue-tasks", summary.overdueTasks.value);
-      setText("stat-overdue-tasks-trend", summary.overdueTasks.trend);
-      setText("stat-overdue-tasks-meta", summary.overdueTasks.meta);
-    }
-
-    function renderFeed(items) {
-      const container = document.getElementById("priority-feed");
-      if (!container) return;
-      if (!items.length) {
-        container.innerHTML = '<div class="rounded-lg border border-white/5 bg-black/20 p-4 text-sm text-neutral-400">No hay alertas prioritarias con la informacion disponible.</div>';
-        return;
-      }
-      container.innerHTML = items.map(function (item) {
-        const toneClass = item.tone === "error" ? "bg-error/10 border-error text-error" : item.tone === "tertiary" ? "bg-tertiary/10 border-tertiary text-tertiary" : "bg-primary/10 border-primary text-primary";
-        return '<div class="flex gap-3 items-start p-3 rounded border-l-2 ' + toneClass + '"><span class="material-symbols-outlined text-sm shrink-0">' + item.icon + '</span><div class="flex-1 min-w-0"><p class="text-[11px] font-bold text-white line-clamp-1">' + escapeHtml(item.title) + '</p><p class="text-[10px] text-neutral-400 line-clamp-2">' + escapeHtml(item.detail) + "</p></div></div>";
-      }).join("");
-    }
-
-    function renderClients(items) {
-      const container = document.getElementById("active-clients-list");
-      if (!container) return;
-      if (!items.length) {
-        container.innerHTML = '<div class="bg-surface-container-lowest p-6 rounded-xl shadow-sm border border-white/5 text-sm text-neutral-400">No se encontraron clientes o proyectos activos en las tablas configuradas.</div>';
-        return;
-      }
-      container.innerHTML = items.map(function (item) {
-        const progress = clamp(item.progress || 0, 0, 100);
-        const progressLabel = item.progress != null ? progress + "%" : formatStatusLabel(item.status || "active");
-        const dueDate = item.dueDate ? formatDate(item.dueDate) : "Sin fecha";
-        const teamLabel = item.teamSize ? "+" + item.teamSize : "N/D";
-        const icon = resolveClientIcon(item.area || item.title || item.clientName);
-        return '<article class="bg-surface-container-lowest p-4 md:p-6 rounded-xl shadow-sm border border-white/5 flex flex-col md:flex-row md:items-center gap-4 md:gap-6 group hover:border-primary/40 transition-all min-w-0" data-search="' + escapeHtml((item.title + " " + item.clientName + " " + (item.area || "")).toLowerCase()) + '"><div class="w-14 h-14 bg-primary/10 rounded-xl flex items-center justify-center shrink-0"><span class="material-symbols-outlined text-primary text-3xl">' + icon + '</span></div><div class="flex-1 grid grid-cols-1 md:grid-cols-12 gap-4 min-w-0"><div class="md:col-span-3 min-w-0"><h3 class="font-bold text-on-surface line-clamp-1">' + escapeHtml(item.title) + '</h3><p class="text-xs text-neutral-500 mt-1 line-clamp-1">' + escapeHtml(item.clientName) + '</p></div><div class="md:col-span-3 min-w-0"><p class="text-[10px] uppercase font-bold tracking-widest text-neutral-500">Progreso</p><div class="flex items-center gap-2 mt-1 min-w-0"><div class="metric-bar flex-1 max-w-[9rem] h-2 bg-neutral-800 rounded-full overflow-hidden"><span class="bg-primary h-full block" style="width:' + progress + '%"></span></div><span class="text-xs font-bold whitespace-nowrap">' + escapeHtml(progressLabel) + '</span></div></div><div class="md:col-span-2 min-w-0"><p class="text-[10px] uppercase font-bold tracking-widest text-neutral-500">Entrega</p><p class="text-xs font-medium mt-1 line-clamp-1">' + escapeHtml(dueDate) + '</p></div><div class="md:col-span-2 min-w-0"><p class="text-[10px] uppercase font-bold tracking-widest text-neutral-500">Equipo</p><div class="flex items-center gap-2 mt-1"><div class="w-7 h-7 rounded-full bg-neutral-800 text-[10px] font-bold flex items-center justify-center border border-white/5">' + escapeHtml(teamLabel) + '</div><span class="text-xs text-neutral-500 line-clamp-1">' + escapeHtml(item.area || "Operacion") + '</span></div></div><div class="md:col-span-2 flex justify-start md:justify-end items-center"><button class="p-2 hover:bg-white/5 rounded-lg transition-colors" data-nav-target="portal-cliente.html" type="button" aria-label="Ver cliente"><span class="material-symbols-outlined text-neutral-500">open_in_new</span></button></div></div></article>';
-      }).join("");
-      setupNavigation();
-    }
-
-    function renderAreas(items) {
-      const container = document.getElementById("areas-health-grid");
-      if (!container) return;
-      container.innerHTML = items.map(function (item) {
-        const shadowColor = item.tone === "bg-yellow-500" ? "shadow-[0_0_8px_rgba(234,179,8,0.6)]" : item.tone === "bg-red-500" ? "shadow-[0_0_8px_rgba(239,68,68,0.6)]" : "shadow-[0_0_8px_rgba(0,194,168,0.6)]";
-        return '<article class="bg-surface-container-lowest p-5 rounded-lg border border-white/5 hover:border-primary/30 transition-all group"><div class="flex justify-between items-start mb-6 gap-3"><div class="w-3 h-3 rounded-full ' + item.tone + " " + shadowColor + '"></div><span class="material-symbols-outlined text-neutral-500 group-hover:text-primary transition-colors">' + item.icon + '</span></div><h3 class="font-bold text-on-surface">' + escapeHtml(item.label) + '</h3><p class="text-[10px] text-neutral-500 mt-1">' + escapeHtml(item.detail) + "</p></article>";
-      }).join("");
-    }
-
-    function renderSnapshot(text) { setText("snapshot-caption", text); }
-    function showSoftError(message) {
-      const feed = document.getElementById("priority-feed");
-      if (feed) feed.innerHTML = '<div class="rounded-lg border border-error/20 bg-error/10 p-4 text-sm text-error">' + escapeHtml(message) + "</div>";
-    }
-    function buildTrendLabel(value, label) { return value ? value + " " + label : "Sin registros"; }
-    function buildFeedDetail(row, clientKeys, amountKeys) {
-      const client = pick(row, clientKeys) || "Cliente sin nombre";
-      const amount = toNumber(pick(row, amountKeys));
-      return amount ? client + " | " + formatCurrency(amount) : client;
-    }
-    function sumRows(rows, keys) { return rows.reduce(function (total, row) { return total + (toNumber(pick(row, keys)) || 0); }, 0); }
-    function pick(object, keys) {
-      if (!object) return null;
-      for (const key of keys) if (object[key] !== undefined && object[key] !== null && object[key] !== "") return object[key];
-      return null;
-    }
-    function toNumber(value) {
-      if (typeof value === "number") return Number.isFinite(value) ? value : null;
-      if (typeof value === "string") {
-        const sanitized = value.replace(/[^0-9.-]/g, "");
-        const parsed = Number(sanitized);
-        return Number.isFinite(parsed) ? parsed : null;
-      }
-      return null;
-    }
-    function parseDate(value) {
-      if (!value) return null;
-      const date = value instanceof Date ? value : new Date(value);
-      return Number.isNaN(date.getTime()) ? null : date;
-    }
-    function isCurrentMonth(date) {
-      if (!date) return false;
-      const now = new Date();
-      return date.getMonth() === now.getMonth() && date.getFullYear() === now.getFullYear();
-    }
-    function startOfToday() { const today = new Date(); today.setHours(0, 0, 0, 0); return today; }
-    function normalizeStatus(value) { return value ? String(value).trim().toLowerCase() : ""; }
-    function formatCurrency(value) { return new Intl.NumberFormat("es-MX", { style: "currency", currency: "MXN", maximumFractionDigits: 0 }).format(typeof value === "number" ? value : 0); }
-    function formatDate(date) { return new Intl.DateTimeFormat("es-MX", { day: "2-digit", month: "short", year: "numeric" }).format(date); }
-    function formatStatusLabel(status) {
-      if (!status) return "Activo";
-      const normalized = normalizeStatus(status);
-      if (normalized === "in_progress" || normalized === "in-progress") return "En progreso";
-      if (normalized === "paused") return "En pausa";
-      return normalized.charAt(0).toUpperCase() + normalized.slice(1);
-    }
-    function resolveClientIcon(value) {
-      const text = String(value || "").toLowerCase();
-      if (text.includes("seo") || text.includes("google")) return "location_on";
-      if (text.includes("web") || text.includes("landing")) return "web";
-      if (text.includes("ads") || text.includes("meta")) return "ads_click";
-      if (text.includes("community") || text.includes("social") || text.includes("redes")) return "share";
-      return "folder";
-    }
-    function getInitials(value) { return String(value || "U").trim().split(/\s+/).slice(0, 2).map(function (part) { return part.charAt(0).toUpperCase(); }).join("") || "U"; }
-    function setText(id, value) { const element = document.getElementById(id); if (element) element.textContent = value; }
-    function clamp(value, min, max) { return Math.max(min, Math.min(max, value)); }
-    function escapeHtml(value) { return String(value == null ? "" : value).replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/\"/g, "&quot;").replace(/'/g, "&#39;"); }
-  </script>
-</body>
-</html>
+  <div class="mt-auto pt-4 space-y-1" style="border-top:1px solid rgba(255,255,255,0.05)">
+    <a class="text-neutral-400 hover:text-white px-7 py-3 flex items-center gap-3 transition-all hover:bg-white/5" href="#">
+      <span class="material-symbols-outlined">help</span>
+      <span>Soporte</span>
+    </a>
+    <a class="text-neutral-400 hover:text-white px-7 py-3 flex items-center gap-3 transition-all hover:bg-white/5" href="#">
+      <span class="material-symbols-outlined">person</span>
+      <span>Cuenta</span>
+    </a>
+  </div>
+</aside>
+<!-- Main Workspace -->
+<main class="ml-64 flex-1 flex flex-col h-full bg-black overflow-y-auto">
+<!-- Top Header -->
+<header class="bg-black flex justify-between items-center h-16 px-8 w-full sticky top-0 z-10 border-b border-white/5">
+<div class="flex items-center gap-6">
+<h1 class="text-xl font-extrabold text-white tracking-tight">Panel de Control Ejecutivo</h1>
+<div class="flex items-center text-xs font-bold text-primary px-3 py-1 bg-primary/10 rounded-full">
+<span class="relative flex h-2 w-2 mr-2">
+<span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-primary opacity-75"></span>
+<span class="relative inline-flex rounded-full h-2 w-2 bg-primary"></span>
+</span>
+          Analítica en tiempo real activada
+        </div>
+</div>
+<div class="flex items-center gap-4">
+<div class="hidden md:flex items-center bg-white/5 rounded-full px-4 py-1.5 gap-2 border border-white/5">
+<span class="material-symbols-outlined text-sm text-neutral-500">search</span>
+<input class="bg-transparent border-none focus:ring-0 text-sm text-on-surface w-48 placeholder-neutral-500" placeholder="Buscar..." type="text"/>
+</div>
+<button class="p-2 rounded-full hover:bg-white/5 transition-colors relative">
+<span class="material-symbols-outlined text-primary">notifications</span>
+</button>
+<div class="flex items-center gap-3 ml-2">
+<div class="text-right">
+<p class="text-xs font-bold text-on-surface">Itzel</p>
+<p class="text-[10px] text-neutral-500 uppercase tracking-widest">Admin</p>
+</div>
+<img alt="User avatar" class="w-10 h-10 rounded-full border-2 border-primary" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDM-vDXQoXtQjtxqJQroo15kDFtGhsQ14wU4kRLvcXCwloOzUX3aNredb2eA_U5TlSQgHAF3-5_jyibV8pdwHxMiohfgrbSYKWHR7gNgRmQlMgeGVioQUbC-ea2tyNZHi-UENZCsiv8yxWm4eg1kmx-Kn-FSN4P7emUF6kNSFozKxZ3FwFy_aiO2JWDZuvdrvpzy3dso6eLPMtfbsGocRSGRcSRfBKwlmTSI57iFtGOXr9Wj9P-cO80FDfBiB7AKguP-mPeUUzDdk4"/>
+</div>
+</div>
+</header>
+<div class="p-8 space-y-8">
+<!-- Executive Overview Section -->
+<section class="bg-surface-container-low text-white rounded-2xl p-8 shadow-2xl relative overflow-hidden border border-white/5">
+<div class="absolute top-0 right-0 p-12 opacity-5">
+<span class="material-symbols-outlined text-[120px]">insights</span>
+</div>
+<div class="relative z-10 grid grid-cols-12 gap-8 items-center">
+<div class="col-span-12 lg:col-span-8">
+<h2 class="text-2xl font-black mb-6 tracking-tight flex items-center gap-3">
+              Resumen Ejecutivo
+            </h2>
+<div class="grid grid-cols-2 md:grid-cols-4 gap-8">
+<div>
+<p class="text-neutral-400 text-[10px] uppercase font-bold tracking-widest mb-1">Clientes Activos</p>
+<div class="flex items-baseline gap-2">
+<span class="text-4xl font-black">6</span>
+<span class="text-primary text-xs font-bold">↑ 12%</span>
+</div>
+<p class="text-neutral-500 text-[10px] mt-2">Pronóstico: 8 (EOM)</p>
+</div>
+<div>
+<p class="text-neutral-400 text-[10px] uppercase font-bold tracking-widest mb-1">Ingresos del Mes</p>
+<div class="flex items-baseline gap-2">
+<span class="text-4xl font-black">$15,400</span>
+<span class="text-primary text-xs font-bold">↑ 2.4%</span>
+</div>
+<p class="text-neutral-500 text-[10px] mt-2">Proyección: $18k</p>
+</div>
+<div>
+<p class="text-neutral-400 text-[10px] uppercase font-bold tracking-widest mb-1">Leads en Pipeline</p>
+<div class="flex items-baseline gap-2">
+<span class="text-4xl font-black">12</span>
+<span class="text-neutral-400 text-xs font-bold">Estable</span>
+</div>
+<p class="text-neutral-500 text-[10px] mt-2">Promedio histórico: 10</p>
+</div>
+<div>
+<p class="text-neutral-400 text-[10px] uppercase font-bold tracking-widest mb-1">Tareas Vencidas</p>
+<div class="flex items-baseline gap-2">
+<span class="text-4xl font-black text-error">04</span>
+<span class="text-error text-xs font-bold">↓ 3%</span>
+</div>
+<p class="text-neutral-500 text-[10px] mt-2">Índice de Riesgo: 1.4</p>
+</div>
+</div>
+</div>
+<!-- Critical Priority Feed -->
+<div class="col-span-12 lg:col-span-4 bg-white/5 rounded-xl p-5 border border-white/10">
+<div class="flex items-center justify-between mb-4">
+<h3 class="text-sm font-bold uppercase tracking-wider text-neutral-300">Feed de Prioridad Crítica</h3>
+<span class="text-[9px] text-primary font-black">ÚLTIMAS ACTUALIZACIONES</span>
+</div>
+<div class="space-y-3">
+<div class="flex gap-3 items-center p-2 rounded bg-error/10 border-l-2 border-error">
+<span class="material-symbols-outlined text-error text-sm">payments</span>
+<div class="flex-1 min-w-0">
+<p class="text-[11px] font-bold text-white truncate">Pago vencido</p>
+<p class="text-[9px] text-neutral-400">Cliente: Aura Media | $12.4k</p>
+</div>
+</div>
+<div class="flex gap-3 items-center p-2 rounded bg-tertiary/10 border-l-2 border-tertiary">
+<span class="material-symbols-outlined text-tertiary text-sm">assignment_late</span>
+<div class="flex-1 min-w-0">
+<p class="text-[11px] font-bold text-white truncate">Entregable pendiente</p>
+<p class="text-[9px] text-neutral-400">Auditoría SEO - Global Log</p>
+</div>
+</div>
+<div class="flex gap-3 items-center p-2 rounded bg-primary/10 border-l-2 border-primary">
+<span class="material-symbols-outlined text-primary text-sm">schedule</span>
+<div class="flex-1 min-w-0">
+<p class="text-[11px] font-bold text-white truncate">Tarea atrasada</p>
+<p class="text-[9px] text-neutral-400">Cierre de mes contable</p>
+</div>
+</div>
+</div>
+</div>
+</div>
+</section>
+<!-- Main Layout Content -->
+<div class="grid grid-cols-12 gap-8">
+<!-- Projects Section -->
+<div class="col-span-12 lg:col-span-8 space-y-6">
+<section class="space-y-4">
+<div class="flex items-center justify-between">
+<h2 class="text-xl font-extrabold tracking-tight text-white">Clientes Activos</h2>
+<button class="text-primary text-sm font-bold flex items-center gap-1 hover:underline">
+                Ver todos los clientes <span class="material-symbols-outlined text-sm">arrow_forward</span>
+</button>
+</div>
+<div class="grid grid-cols-1 gap-4">
+<!-- Project Item 1 -->
+<div class="bg-surface-container-lowest p-6 rounded-xl shadow-sm border border-white/5 flex items-center gap-6 group hover:border-primary/40 transition-all">
+<div class="w-14 h-14 bg-primary/10 rounded-xl flex items-center justify-center">
+<span class="material-symbols-outlined text-primary text-3xl">location_on</span>
+</div>
+<div class="flex-1 grid grid-cols-12 gap-4">
+<div class="col-span-3">
+<h3 class="font-bold text-on-surface">Google Local</h3>
+<p class="text-xs text-neutral-500 mt-1">Aura Media Group</p>
+</div>
+<div class="col-span-3">
+<p class="text-[10px] uppercase font-bold tracking-widest text-neutral-500">Progreso</p>
+<div class="flex items-center gap-2 mt-1">
+<div class="w-24 h-2 bg-neutral-800 rounded-full overflow-hidden">
+<div class="bg-primary h-full" style="width: 75%"></div>
+</div>
+<span class="text-xs font-bold">75%</span>
+</div>
+</div>
+<div class="col-span-2">
+<p class="text-[10px] uppercase font-bold tracking-widest text-neutral-500">Entrega</p>
+<p class="text-xs font-medium mt-1">24 Oct, 2023</p>
+</div>
+<div class="col-span-2">
+<p class="text-[10px] uppercase font-bold tracking-widest text-neutral-500">Equipo</p>
+<div class="flex -space-x-2 mt-1">
+<img alt="Team member" class="w-6 h-6 rounded-full border-2 border-black" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCHXpGZ3a3g-z-uQk4J7S7W8Z8I0Q4M2Z1L9T6R5E4W3Q2A1S0D9F8G7H6J5K4L3M2N1B"/>
+<div class="w-6 h-6 rounded-full bg-neutral-800 text-[10px] font-bold flex items-center justify-center border-2 border-black">+2</div>
+</div>
+</div>
+<div class="col-span-2 flex justify-end items-center">
+<button class="p-2 hover:bg-white/5 rounded-lg transition-colors">
+<span class="material-symbols-outlined text-neutral-500">more_vert</span>
+</button>
+</div>
+</div>
+</div>
+<!-- Project Item 2 -->
+<div class="bg-surface-container-lowest p-6 rounded-xl shadow-sm border border-white/5 flex items-center gap-6 group hover:border-primary/40 transition-all">
+<div class="w-14 h-14 bg-tertiary/10 rounded-xl flex items-center justify-center">
+<span class="material-symbols-outlined text-tertiary text-3xl">web</span>
+</div>
+<div class="flex-1 grid grid-cols-12 gap-4">
+<div class="col-span-3">
+<h3 class="font-bold text-on-surface">Landing Web</h3>
+<p class="text-xs text-neutral-500 mt-1">Global Logistics Inc.</p>
+</div>
+<div class="col-span-3">
+<p class="text-[10px] uppercase font-bold tracking-widest text-neutral-500">Progreso</p>
+<div class="flex items-center gap-2 mt-1">
+<div class="w-24 h-2 bg-neutral-800 rounded-full overflow-hidden">
+<div class="bg-tertiary h-full" style="width: 30%"></div>
+</div>
+<span class="text-xs font-bold text-tertiary">En Pausa</span>
+</div>
+</div>
+<div class="col-span-2">
+<p class="text-[10px] uppercase font-bold tracking-widest text-neutral-500">Entrega</p>
+<p class="text-xs font-medium mt-1">12 Nov, 2023</p>
+</div>
+<div class="col-span-2">
+<p class="text-[10px] uppercase font-bold tracking-widest text-neutral-500">Equipo</p>
+<div class="flex -space-x-2 mt-1">
+<img alt="Team member" class="w-6 h-6 rounded-full border-2 border-black" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCHXpGZ3a3g-z-uQk4J7S7W8Z8I0Q4M2Z1L9T6R5E4W3Q2A1S0D9F8G7H6J5K4L3M2N1D"/>
+</div>
+</div>
+<div class="col-span-2 flex justify-end items-center">
+<button class="p-2 hover:bg-white/5 rounded-lg transition-colors">
+<span class="material-symbols-outlined text-neutral-500">more_vert</span>
+</button>
+</div>
+</div>
+</div>
+<!-- Project Item 3 -->
+<div class="bg-surface-container-lowest p-6 rounded-xl shadow-sm border border-white/5 flex items-center gap-6 group hover:border-primary/40 transition-all">
+<div class="w-14 h-14 bg-primary/10 rounded-xl flex items-center justify-center">
+<span class="material-symbols-outlined text-primary text-3xl">share</span>
+</div>
+<div class="flex-1 grid grid-cols-12 gap-4">
+<div class="col-span-3">
+<h3 class="font-bold text-on-surface">Contenido Redes</h3>
+<p class="text-xs text-neutral-500 mt-1">EcoStyle Fashion</p>
+</div>
+<div class="col-span-3">
+<p class="text-[10px] uppercase font-bold tracking-widest text-neutral-500">Progreso</p>
+<div class="flex items-center gap-2 mt-1">
+<div class="w-24 h-2 bg-neutral-800 rounded-full overflow-hidden">
+<div class="bg-primary h-full" style="width: 90%"></div>
+</div>
+<span class="text-xs font-bold">90%</span>
+</div>
+</div>
+<div class="col-span-2">
+<p class="text-[10px] uppercase font-bold tracking-widest text-neutral-500">Entrega</p>
+<p class="text-xs font-medium mt-1">20 Oct, 2023</p>
+</div>
+<div class="col-span-2">
+<p class="text-[10px] uppercase font-bold tracking-widest text-neutral-500">Equipo</p>
+<div class="flex -space-x-2 mt-1">
+<img alt="Team member" class="w-6 h-6 rounded-full border-2 border-black" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCHXpGZ3a3g-z-uQk4J7S7W8Z8I0Q4M2Z1L9T6R5E4W3Q2A1S0D9F8G7H6J5K4L3M2N1C"/>
+</div>
+</div>
+<div class="col-span-2 flex justify-end items-center">
+<button class="p-2 hover:bg-white/5 rounded-lg transition-colors">
+<span class="material-symbols-outlined text-neutral-500">more_vert</span>
+</button>
+</div>
+</div>
+</div>
+<!-- Project Item 4 -->
+<div class="bg-surface-container-lowest p-6 rounded-xl shadow-sm border border-white/5 flex items-center gap-6 group hover:border-primary/40 transition-all">
+<div class="w-14 h-14 bg-primary/10 rounded-xl flex items-center justify-center">
+<span class="material-symbols-outlined text-primary text-3xl">ads_click</span>
+</div>
+<div class="flex-1 grid grid-cols-12 gap-4">
+<div class="col-span-3">
+<h3 class="font-bold text-on-surface">Ads Meta</h3>
+<p class="text-xs text-neutral-500 mt-1">Nova Tech Solutions</p>
+</div>
+<div class="col-span-3">
+<p class="text-[10px] uppercase font-bold tracking-widest text-neutral-500">Progreso</p>
+<div class="flex items-center gap-2 mt-1">
+<div class="w-24 h-2 bg-neutral-800 rounded-full overflow-hidden">
+<div class="bg-primary h-full" style="width: 55%"></div>
+</div>
+<span class="text-xs font-bold">55%</span>
+</div>
+</div>
+<div class="col-span-2">
+<p class="text-[10px] uppercase font-bold tracking-widest text-neutral-500">Entrega</p>
+<p class="text-xs font-medium mt-1">30 Oct, 2023</p>
+</div>
+<div class="col-span-2">
+<p class="text-[10px] uppercase font-bold tracking-widest text-neutral-500">Equipo</p>
+<div class="flex -space-x-2 mt-1">
+<div class="w-6 h-6 rounded-full bg-neutral-800 text-[10px] font-bold flex items-center justify-center border-2 border-black">+1</div>
+</div>
+</div>
+<div class="col-span-2 flex justify-end items-center">
+<button class="p-2 hover:bg-white/5 rounded-lg transition-colors">
+<span class="material-symbols-outlined text-neutral-500">more_vert</span>
+</button>
+</div>
+</div>
+</div>
+</div>
+</section>
+<!-- Area Health -->
+<div class="space-y-4">
+<h2 class="text-xl font-extrabold tracking-tight text-white">Salud Operativa de Áreas</h2>
+<div class="grid grid-cols-2 md:grid-cols-5 gap-4">
+<div class="bg-surface-container-lowest p-5 rounded-lg border border-white/5 hover:border-primary/30 transition-all group">
+<div class="flex justify-between items-start mb-6">
+<div class="w-3 h-3 bg-primary rounded-full shadow-[0_0_8px_rgba(0,194,168,0.6)]"></div>
+<span class="material-symbols-outlined text-neutral-500 group-hover:text-primary transition-colors">trending_up</span>
+</div>
+<h3 class="font-bold text-on-surface">Ventas</h3>
+<p class="text-[10px] text-neutral-500 mt-1">Meta: 92% Logrado</p>
+</div>
+<div class="bg-surface-container-lowest p-5 rounded-lg border border-white/5 hover:border-primary/30 transition-all group">
+<div class="flex justify-between items-start mb-6">
+<div class="w-3 h-3 bg-primary rounded-full shadow-[0_0_8px_rgba(0,194,168,0.6)]"></div>
+<span class="material-symbols-outlined text-neutral-500 group-hover:text-primary transition-colors">ads_click</span>
+</div>
+<h3 class="font-bold text-on-surface">Ads</h3>
+<p class="text-[10px] text-neutral-500 mt-1">ROAS: 4.2x Prom</p>
+</div>
+<div class="bg-surface-container-lowest p-5 rounded-lg border border-white/5 hover:border-primary/30 transition-all group">
+<div class="flex justify-between items-start mb-6">
+<div class="w-3 h-3 bg-yellow-500 rounded-full shadow-[0_0_8px_rgba(234,179,8,0.6)]"></div>
+<span class="material-symbols-outlined text-neutral-500 group-hover:text-primary transition-colors">forum</span>
+</div>
+<h3 class="font-bold text-on-surface">Community</h3>
+<p class="text-[10px] text-neutral-500 mt-1">2 Tickets pendientes</p>
+</div>
+<div class="bg-surface-container-lowest p-5 rounded-lg border border-white/5 hover:border-primary/30 transition-all group">
+<div class="flex justify-between items-start mb-6">
+<div class="w-3 h-3 bg-red-500 rounded-full shadow-[0_0_8px_rgba(239,68,68,0.6)]"></div>
+<span class="material-symbols-outlined text-neutral-500 group-hover:text-primary transition-colors">search</span>
+</div>
+<h3 class="font-bold text-on-surface">SEO</h3>
+<p class="text-[10px] text-neutral-500 mt-1">Meta: 60% Logrado</p>
+</div>
+<div class="bg-surface-container-lowest p-5 rounded-lg border border-white/5 hover:border-primary/30 transition-all group">
+<div class="flex justify-between items-start mb-6">
+<div class="w-3 h-3 bg-primary rounded-full shadow-[0_0_8px_rgba(0,194,168,0.6)]"></div>
+<span class="material-symbols-outlined text-neutral-500 group-hover:text-primary transition-colors">language</span>
+</div>
+<h3 class="font-bold text-on-surface">Web</h3>
+<p class="text-[10px] text-neutral-500 mt-1">Uptime: 99.9%</p>
+</div>
+</div>
+</div>
+</div>
+<!-- Sidebar Right: Quick Shortcuts & Visuals -->
+<div class="col-span-12 lg:col-span-4 space-y-6">
+<div class="bg-surface-container-low rounded-2xl p-6 border border-white/5 shadow-xl">
+<h2 class="text-sm font-extrabold tracking-tight uppercase mb-4 text-neutral-400">Acciones Rápidas</h2>
+<div class="grid grid-cols-2 gap-3">
+<button class="bg-surface-container-lowest p-4 rounded-xl flex flex-col items-center gap-2 border border-white/5 hover:border-primary transition-all">
+<span class="material-symbols-outlined text-primary">person_add</span>
+<span class="text-[10px] font-bold uppercase tracking-widest text-on-surface">Nuevo Lead</span>
+</button>
+<button class="bg-surface-container-lowest p-4 rounded-xl flex flex-col items-center gap-2 border border-white/5 hover:border-primary transition-all">
+<span class="material-symbols-outlined text-primary">add_task</span>
+<span class="text-[10px] font-bold uppercase tracking-widest text-on-surface">Nueva Tarea</span>
+</button>
+<button class="bg-surface-container-lowest p-4 rounded-xl flex flex-col items-center gap-2 border border-white/5 hover:border-primary transition-all">
+<span class="material-symbols-outlined text-primary">fact_check</span>
+<span class="text-[10px] font-bold uppercase tracking-widest text-on-surface text-center">Ver Aprobaciones</span>
+</button>
+<button class="bg-surface-container-lowest p-4 rounded-xl flex flex-col items-center gap-2 border border-white/5 hover:border-primary transition-all">
+<span class="material-symbols-outlined text-primary">psychology</span>
+<span class="text-[10px] font-bold uppercase tracking-widest text-on-surface">Cerebros IA</span>
+</button>
+</div>
+<!-- Decorative Visual -->
+<div class="mt-8 rounded-xl overflow-hidden relative group">
+<img alt="Data visualization" class="w-full h-48 object-cover opacity-80 group-hover:scale-110 transition-transform duration-700" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAeRMvcBxRvpMtT1PgAGngUaSQZWCnNl6ssPKro-gxeI1CPtDQ8XnDACHoCVaStTARgwZ-tZz9OG1LMn_ztGUhHm0Eq9b4kuZ2fUPkgZHqvVhf2lHz5HPAo4PEeZZHZClCrAHjOT_oGAeiGkgG3NujyIVTyuzURuxx27RAAo2Cjhs1ZeAqRQ4j_09fh_wDWhY8nffFAb6Hb-28XlPKHe6KKTh4aqIa25r0i-SyWouxRJhSIr4sc4cHJ9LBnBekHr0BNPf3WETSyTog"/>
+<div class="absolute inset-0 bg-gradient-to-t from-black to-transparent opacity-60"></div>
+<div class="absolute bottom-4 left-4">
+<p class="text-white text-xs font-bold">Snapshot de Inteligencia</p>
+<p class="text-white/60 text-[10px]">Índice de eficiencia en vivo</p>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</main>
+<script src="app.js" defer></script>
+</body></html>

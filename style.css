@@ -2,87 +2,42 @@
    NOVU 360 · SHARED DESIGN SYSTEM
    Based on design.md + Stitch Novu Prime export
    Primary:   #00C2A8  (Teal)
-   Secondary: #000000  (Negro)
-   Tertiary:  #FF8D69  (Coral)
-   Neutral:   #717976  (Gris)
-   Background:#0D1117  (Deep Black)
-   Cards:     #1A1F26  (Slightly lighter dark)
+   Background:#000000  (Deep Black)
+   Roundness: Moderate (0.5rem default)
    Typography: Manrope (headlines) · Inter (body/labels)
+   Rule: No solid 1px borders — depth via shadows & tonal layers
    ============================================================ */
 
-:root {
-  --color-primary: #00C2A8; /* Teal */
-  --color-secondary: #000000; /* Black */
-  --color-tertiary: #FF8D69; /* Coral */
-  --color-neutral: #717976; /* Grey */
-  --color-background-dark: #0D1117;
-  --color-card-background: #1A1F26;
-  --text-color-light: #e0e0e0;
-  --text-color-medium: #a3a3a3;
-  --text-color-dark: #525252;
-}
-
+/* --- Fonts --- */
 body, html {
-  background-color: var(--color-background-dark);
-  color: var(--text-color-light);
   font-family: 'Inter', 'Arial', sans-serif;
-  margin: 0;
 }
-
 h1, h2, h3, h4, h5, h6,
 .font-headline, [class*="font-headline"] {
   font-family: 'Manrope', 'Arial', sans-serif !important;
 }
 
-.font-body {
-  font-family: 'Inter', sans-serif !important;
-}
-
-/* --- Navigation --- */
-.nav-item {
-  display: flex;
-  align-items: center;
-  gap: 0.75rem;
-  padding: 0.75rem 1rem;
-  margin: 0.125rem 0.75rem;
-  border-radius: 0.5rem;
-  color: var(--text-color-medium);
-  text-decoration: none;
-  transition: all 0.2s;
-  font-size: 0.875rem;
-  font-weight: 500;
-}
-
-.nav-item:hover {
-  background-color: rgba(255, 255, 255, 0.05);
-  color: white;
-}
-
-.nav-active {
-  background: linear-gradient(135deg, var(--color-primary), #009984) !important;
-  color: var(--color-secondary) !important;
-  font-weight: 700 !important;
-}
-
-.nav-active span {
-  color: var(--color-secondary) !important;
-}
-
-.nav-item span.material-symbols-outlined {
-  font-size: 20px;
-}
-
 /* --- Scrollbar (Teal accent) --- */
 ::-webkit-scrollbar { width: 6px; }
 ::-webkit-scrollbar-track { background: transparent; }
-::-webkit-scrollbar-thumb { background: var(--color-primary); border-radius: 10px; }
+::-webkit-scrollbar-thumb { background: #00c2a8; border-radius: 10px; }
+
+/* --- Sidebar Active State --- */
+.nav-active {
+  background: linear-gradient(135deg, #00C2A8, #009984) !important;
+  color: #000 !important;
+  font-weight: 700 !important;
+}
+.nav-active span {
+  color: #000 !important;
+}
 
 /* --- Teal gradient for primary action buttons --- */
 button[class*="bg-primary"]:not([class*="bg-primary/"]),
 button[class*="bg-primary-container"],
 .btn-primary {
-  background: linear-gradient(135deg, var(--color-primary), color-mix(in srgb, var(--color-primary) 80%, black)) !important;
-  color: var(--color-secondary) !important;
+  background: linear-gradient(135deg, #00C2A8, #009984) !important;
+  color: #000 !important;
   box-shadow: 0 4px 14px rgba(0, 194, 168, 0.3) !important;
   transition: all 0.2s ease !important;
 }
@@ -95,29 +50,19 @@ button[class*="bg-primary-container"]:hover {
 /* --- Card hover subtle lift (no border lines) --- */
 [class*="rounded-xl"][class*="bg-surface"],
 [class*="rounded-2xl"][class*="bg-surface"],
-[class*="rounded-lg"][class*="bg-surface"],
-.card {
-  background-color: var(--color-card-background) !important;
-  border: 1px solid rgba(255, 255, 255, 0.05) !important;
+[class*="rounded-lg"][class*="bg-surface"] {
   transition: transform 0.2s ease, box-shadow 0.2s ease;
 }
 [class*="rounded-xl"][class*="bg-surface"]:hover,
-[class*="rounded-2xl"][class*="bg-surface"]:hover,
-.card:hover {
+[class*="rounded-2xl"][class*="bg-surface"]:hover {
   transform: translateY(-3px);
-  box-shadow: 0 16px 40px color-mix(in srgb, var(--color-background-dark) 50%, black) !important;
-}
-
-/* --- Sidebar Style --- */
-aside {
-  background-color: var(--color-secondary) !important;
-  border-right: 1px solid rgba(255, 255, 255, 0.05);
+  box-shadow: 0 16px 40px rgba(0, 0, 0, 0.5) !important;
 }
 
 /* --- Teal glow on primary dots/status indicators --- */
 .bg-primary.rounded-full,
 [class*="bg-primary"][class*="rounded-full"] {
-  box-shadow: 0 0 8px color-mix(in srgb, var(--color-primary) 60%, black);
+  box-shadow: 0 0 8px rgba(0, 194, 168, 0.6);
 }
 
 /* --- Demo Mode: AI Response Toast --- */
@@ -126,11 +71,11 @@ aside {
   bottom: 24px;
   left: 50%;
   transform: translateX(-50%) translateY(80px);
-  background: var(--color-card-background);
-  color: var(--text-color-light);
+  background: #111;
+  color: #fff;
   padding: 16px 24px;
   border-radius: 12px;
-  box-shadow: 0 8px 30px color-mix(in srgb, var(--color-background-dark) 70%, black), 0 0 0 1px color-mix(in srgb, var(--color-primary) 30%, black);
+  box-shadow: 0 8px 30px rgba(0,0,0,0.7), 0 0 0 1px rgba(0,194,168,0.3);
   font-family: 'Inter', sans-serif;
   font-size: 0.875rem;
   max-width: 480px;
@@ -164,8 +109,8 @@ aside {
   width: 60px;
   height: 60px;
   border-radius: 50%;
-  background: linear-gradient(135deg, var(--color-primary), color-mix(in srgb, var(--color-primary) 80%, black));
-  box-shadow: 0 4px 20px color-mix(in srgb, var(--color-primary) 55%, black), 0 0 0 0 color-mix(in srgb, var(--color-primary) 40%, black);
+  background: linear-gradient(135deg, #00C2A8, #009984);
+  box-shadow: 0 4px 20px rgba(0, 194, 168, 0.55), 0 0 0 0 rgba(0, 194, 168, 0.4);
   border: none;
   cursor: pointer;
   z-index: 9990;
@@ -177,14 +122,14 @@ aside {
 }
 #cerebro-fab:hover {
   transform: scale(1.1) translateY(-2px);
-  box-shadow: 0 8px 30px color-mix(in srgb, var(--color-primary) 70%, black), 0 0 0 8px color-mix(in srgb, var(--color-primary) 12%, black);
+  box-shadow: 0 8px 30px rgba(0, 194, 168, 0.7), 0 0 0 8px rgba(0, 194, 168, 0.12);
 }
 #cerebro-fab:active {
   transform: scale(0.95);
 }
 #cerebro-fab .cerebro-fab-icon {
   font-size: 26px;
-  color: var(--color-secondary);
+  color: #000;
   font-variation-settings: 'FILL' 1, 'wght' 600, 'GRAD' 0, 'opsz' 24;
   transition: transform 0.3s ease;
 }
@@ -192,15 +137,15 @@ aside {
   transform: rotate(15deg) scale(0.85);
 }
 @keyframes cerebro-pulse {
-  0%, 100% { box-shadow: 0 4px 20px color-mix(in srgb, var(--color-primary) 55%, black), 0 0 0 0 color-mix(in srgb, var(--color-primary) 40%, black); }
-  50%       { box-shadow: 0 4px 28px color-mix(in srgb, var(--color-primary) 70%, black), 0 0 0 10px color-mix(in srgb, var(--color-primary) 0%, black); }
+  0%, 100% { box-shadow: 0 4px 20px rgba(0, 194, 168, 0.55), 0 0 0 0 rgba(0, 194, 168, 0.4); }
+  50%       { box-shadow: 0 4px 28px rgba(0, 194, 168, 0.7), 0 0 0 10px rgba(0, 194, 168, 0.0); }
 }
 
 /* --- Backdrop overlay --- */
 #cerebro-backdrop {
   position: fixed;
   inset: 0;
-  background: color-mix(in srgb, var(--color-background-dark) 50%, black);
+  background: rgba(0, 0, 0, 0.5);
   backdrop-filter: blur(2px);
   -webkit-backdrop-filter: blur(2px);
   z-index: 9991;
@@ -220,9 +165,9 @@ aside {
   right: -420px;
   width: 380px;
   height: 100dvh;
-  background: var(--color-background-dark);
-  border-left: 1px solid color-mix(in srgb, var(--color-primary) 20%, black);
-  box-shadow: -8px 0 40px color-mix(in srgb, var(--color-background-dark) 80%, black), -2px 0 0 color-mix(in srgb, var(--color-primary) 10%, black);
+  background: #0a0a0a;
+  border-left: 1px solid rgba(0, 194, 168, 0.2);
+  box-shadow: -8px 0 40px rgba(0, 0, 0, 0.8), -2px 0 0 rgba(0, 194, 168, 0.1);
   z-index: 9992;
   display: flex;
   flex-direction: column;
@@ -236,8 +181,8 @@ aside {
 /* --- Panel Header --- */
 #cerebro-panel-header {
   padding: 20px 20px 16px;
-  background: linear-gradient(180deg, var(--color-card-background) 0%, var(--color-background-dark) 100%);
-  border-bottom: 1px solid color-mix(in srgb, var(--color-primary) 12%, black);
+  background: linear-gradient(180deg, #111 0%, #0a0a0a 100%);
+  border-bottom: 1px solid rgba(0, 194, 168, 0.12);
   flex-shrink: 0;
 }
 .cerebro-header-top {
@@ -250,16 +195,16 @@ aside {
   width: 42px;
   height: 42px;
   border-radius: 50%;
-  background: linear-gradient(135deg, var(--color-primary), color-mix(in srgb, var(--color-primary) 80%, black));
+  background: linear-gradient(135deg, #00C2A8, #009984);
   display: flex;
   align-items: center;
   justify-content: center;
   flex-shrink: 0;
-  box-shadow: 0 0 16px color-mix(in srgb, var(--color-primary) 45%, black);
+  box-shadow: 0 0 16px rgba(0, 194, 168, 0.45);
 }
 .cerebro-avatar span {
   font-size: 20px;
-  color: var(--color-secondary);
+  color: #000;
   font-variation-settings: 'FILL' 1, 'wght' 600, 'GRAD' 0, 'opsz' 24;
 }
 .cerebro-title-block {
@@ -270,7 +215,7 @@ aside {
   font-family: 'Manrope', sans-serif;
   font-weight: 800;
   font-size: 1rem;
-  color: var(--text-color-light);
+  color: #fff;
   line-height: 1.2;
 }
 .cerebro-role-badge {
@@ -279,8 +224,8 @@ aside {
   gap: 4px;
   font-size: 0.65rem;
   font-weight: 700;
-  color: var(--color-primary);
-  background: color-mix(in srgb, var(--color-primary) 10%, black);
+  color: #00C2A8;
+  background: rgba(0, 194, 168, 0.1);
   padding: 2px 8px;
   border-radius: 99px;
   margin-top: 4px;
@@ -292,8 +237,8 @@ aside {
   width: 6px;
   height: 6px;
   border-radius: 50%;
-  background: var(--color-primary);
-  box-shadow: 0 0 6px color-mix(in srgb, var(--color-primary) 80%, black);
+  background: #00C2A8;
+  box-shadow: 0 0 6px rgba(0, 194, 168, 0.8);
   animation: dot-pulse 2s ease-in-out infinite;
 }
 @keyframes dot-pulse {
@@ -303,7 +248,7 @@ aside {
 .cerebro-desc {
   font-family: 'Inter', sans-serif;
   font-size: 0.75rem;
-  color: var(--text-color-dark);
+  color: #737373;
   line-height: 1.4;
   margin-top: 8px;
 }
@@ -311,9 +256,9 @@ aside {
   width: 32px;
   height: 32px;
   border-radius: 50%;
-  background: color-mix(in srgb, var(--text-color-light) 5%, black);
-  border: 1px solid color-mix(in srgb, var(--text-color-light) 8%, black);
-  color: var(--text-color-medium);
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  color: #a3a3a3;
   cursor: pointer;
   display: flex;
   align-items: center;
@@ -323,8 +268,8 @@ aside {
   align-self: flex-start;
 }
 #cerebro-close-btn:hover {
-  background: color-mix(in srgb, var(--text-color-light) 10%, black);
-  color: var(--text-color-light);
+  background: rgba(255, 255, 255, 0.1);
+  color: #fff;
   transform: rotate(90deg);
 }
 #cerebro-close-btn span {
@@ -342,7 +287,7 @@ aside {
   scroll-behavior: smooth;
 }
 #cerebro-messages::-webkit-scrollbar { width: 4px; }
-#cerebro-messages::-webkit-scrollbar-thumb { background: color-mix(in srgb, var(--color-primary) 30%, black); border-radius: 10px; }
+#cerebro-messages::-webkit-scrollbar-thumb { background: rgba(0,194,168,0.3); border-radius: 10px; }
 
 /* --- Message bubbles --- */
 .cerebro-msg {
@@ -370,13 +315,13 @@ aside {
   margin-top: 2px;
 }
 .cerebro-msg-avatar.ai-av {
-  background: linear-gradient(135deg, var(--color-primary), color-mix(in srgb, var(--color-primary) 80%, black));
-  color: var(--color-secondary);
+  background: linear-gradient(135deg, #00C2A8, #009984);
+  color: #000;
   font-variation-settings: 'FILL' 1, 'wght' 600, 'GRAD' 0, 'opsz' 24;
 }
 .cerebro-msg-avatar.user-av {
-  background: color-mix(in srgb, var(--color-background-dark) 80%, black);
-  color: var(--text-color-medium);
+  background: #1f1f1f;
+  color: #a3a3a3;
 }
 .cerebro-bubble {
   padding: 10px 14px;
@@ -388,20 +333,20 @@ aside {
   word-break: break-word;
 }
 .cerebro-msg.ai-msg .cerebro-bubble {
-  background: var(--color-card-background);
-  color: var(--text-color-light);
+  background: #1a1a1a;
+  color: #e5e5e5;
   border-radius: 4px 16px 16px 16px;
-  border: 1px solid color-mix(in srgb, var(--text-color-light) 5%, black);
+  border: 1px solid rgba(255,255,255,0.05);
 }
 .cerebro-msg.user-msg .cerebro-bubble {
-  background: linear-gradient(135deg, var(--color-primary), color-mix(in srgb, var(--color-primary) 80%, black));
-  color: var(--color-secondary);
+  background: linear-gradient(135deg, #00C2A8, #009984);
+  color: #000;
   font-weight: 600;
   border-radius: 16px 4px 16px 16px;
 }
 .cerebro-msg-time {
   font-size: 0.6rem;
-  color: var(--text-color-dark);
+  color: #525252;
   margin-top: 4px;
   text-align: right;
   font-family: 'Inter', sans-serif;
@@ -418,16 +363,16 @@ aside {
 .cerebro-typing-dots {
   display: flex;
   gap: 4px;
-  background: var(--color-card-background);
+  background: #1a1a1a;
   padding: 12px 16px;
   border-radius: 4px 16px 16px 16px;
-  border: 1px solid color-mix(in srgb, var(--text-color-light) 5%, black);
+  border: 1px solid rgba(255,255,255,0.05);
 }
 .cerebro-typing-dots span {
   width: 7px;
   height: 7px;
   border-radius: 50%;
-  background: var(--color-primary);
+  background: #00C2A8;
   animation: typing-bounce 1.2s ease-in-out infinite;
 }
 .cerebro-typing-dots span:nth-child(2) { animation-delay: 0.2s; }
@@ -445,9 +390,9 @@ aside {
   margin-top: 4px;
 }
 .cerebro-chip {
-  background: color-mix(in srgb, var(--color-primary) 8%, black);
-  border: 1px solid color-mix(in srgb, var(--color-primary) 25%, black);
-  color: var(--color-primary);
+  background: rgba(0, 194, 168, 0.08);
+  border: 1px solid rgba(0, 194, 168, 0.25);
+  color: #00C2A8;
   font-size: 0.7rem;
   font-weight: 600;
   font-family: 'Inter', sans-serif;
@@ -457,16 +402,16 @@ aside {
   transition: all 0.2s ease;
 }
 .cerebro-chip:hover {
-  background: color-mix(in srgb, var(--color-primary) 18%, black);
-  border-color: var(--color-primary);
+  background: rgba(0, 194, 168, 0.18);
+  border-color: #00C2A8;
   transform: translateY(-1px);
 }
 
 /* --- Input Area --- */
 #cerebro-input-area {
   padding: 14px 16px;
-  background: var(--color-background-dark);
-  border-top: 1px solid color-mix(in srgb, var(--text-color-light) 5%, black);
+  background: #0d0d0d;
+  border-top: 1px solid rgba(255,255,255,0.05);
   flex-shrink: 0;
 }
 .cerebro-input-row {
@@ -476,10 +421,10 @@ aside {
 }
 #cerebro-input {
   flex: 1;
-  background: var(--color-card-background);
-  border: 1px solid color-mix(in srgb, var(--text-color-light) 8%, black);
+  background: #1a1a1a;
+  border: 1px solid rgba(255,255,255,0.08);
   border-radius: 12px;
-  color: var(--text-color-light);
+  color: #f5f5f5;
   font-family: 'Inter', sans-serif;
   font-size: 0.8125rem;
   padding: 10px 14px;
@@ -491,17 +436,17 @@ aside {
   line-height: 1.5;
 }
 #cerebro-input:focus {
-  border-color: color-mix(in srgb, var(--color-primary) 45%, black);
-  box-shadow: 0 0 0 3px color-mix(in srgb, var(--color-primary) 8%, black);
+  border-color: rgba(0, 194, 168, 0.45);
+  box-shadow: 0 0 0 3px rgba(0, 194, 168, 0.08);
 }
 #cerebro-input::placeholder {
-  color: var(--text-color-dark);
+  color: #525252;
 }
 #cerebro-send-btn {
   width: 42px;
   height: 42px;
   border-radius: 12px;
-  background: linear-gradient(135deg, var(--color-primary), color-mix(in srgb, var(--color-primary) 80%, black));
+  background: linear-gradient(135deg, #00C2A8, #009984);
   border: none;
   cursor: pointer;
   display: flex;
@@ -512,14 +457,14 @@ aside {
 }
 #cerebro-send-btn:hover {
   transform: scale(1.08) translateY(-1px);
-  box-shadow: 0 4px 14px color-mix(in srgb, var(--color-primary) 45%, black);
+  box-shadow: 0 4px 14px rgba(0, 194, 168, 0.45);
 }
 #cerebro-send-btn:active {
   transform: scale(0.95);
 }
 #cerebro-send-btn span {
   font-size: 18px;
-  color: var(--color-secondary);
+  color: #000;
   font-variation-settings: 'FILL' 1, 'wght' 600, 'GRAD' 0, 'opsz' 24;
 }
 #cerebro-send-btn:disabled {
@@ -532,13 +477,13 @@ aside {
 .cerebro-powered {
   text-align: center;
   font-size: 0.6rem;
-  color: var(--text-color-dark);
+  color: #404040;
   font-family: 'Inter', sans-serif;
   margin-top: 8px;
   letter-spacing: 0.05em;
 }
 .cerebro-powered a {
-  color: var(--color-primary);
+  color: #00C2A8;
   text-decoration: none;
   opacity: 0.7;
 }
@@ -574,39 +519,39 @@ aside {
   left: 0;
   right: 0;
   height: 56px;
-  background: var(--color-background-dark);
+  background: #000;
   z-index: 9980;
   align-items: center;
   justify-content: space-between;
   padding: 0 16px;
-  box-shadow: 0 2px 16px color-mix(in srgb, var(--color-background-dark) 70%, black);
-  border-bottom: 1px solid color-mix(in srgb, var(--color-primary) 12%, black);
+  box-shadow: 0 2px 16px rgba(0,0,0,0.7);
+  border-bottom: 1px solid rgba(0,194,168,0.12);
 }
 #nav-hamburger-logo {
   font-family: 'Manrope', sans-serif;
   font-weight: 900;
   font-size: 1.1rem;
-  color: var(--text-color-light);
+  color: #fff;
   letter-spacing: 0.08em;
   text-decoration: none;
 }
 #nav-hamburger-logo span {
-  color: var(--color-primary);
+  color: #00C2A8;
 }
 #nav-menu-btn {
   width: 40px;
   height: 40px;
-  background: color-mix(in srgb, var(--text-color-light) 4%, black);
-  border: 1px solid color-mix(in srgb, var(--text-color-light) 8%, black);
+  background: rgba(255,255,255,0.04);
+  border: 1px solid rgba(255,255,255,0.08);
   border-radius: 10px;
   cursor: pointer;
   display: flex;
   align-items: center;
   justify-content: center;
-  color: var(--text-color-light);
+  color: #fff;
   transition: background 0.2s;
 }
-#nav-menu-btn:hover { background: color-mix(in srgb, var(--color-primary) 10%, black); color: var(--color-primary); }
+#nav-menu-btn:hover { background: rgba(0,194,168,0.1); color: #00C2A8; }
 #nav-menu-btn span { font-size: 22px; }
 
 /* ── Mobile Drawer ────────────────────────────────────────── */
@@ -630,30 +575,30 @@ aside {
   left: -280px;
   width: 260px;
   height: 100dvh;
-  background: var(--color-background-dark);
+  background: #000;
   z-index: 9982;
   flex-direction: column;
   padding: 24px 0;
-  box-shadow: 4px 0 32px color-mix(in srgb, var(--color-background-dark) 80%, black);
+  box-shadow: 4px 0 32px rgba(0,0,0,0.8);
   transition: left 0.35s cubic-bezier(0.34,1.10,0.64,1);
   overflow-y: auto;
 }
 #nav-drawer.open { left: 0; }
 #nav-drawer-header {
   padding: 0 20px 20px;
-  border-bottom: 1px solid color-mix(in srgb, var(--text-color-light) 5%, black);
+  border-bottom: 1px solid rgba(255,255,255,0.05);
   margin-bottom: 12px;
 }
 #nav-drawer-title {
   font-family: 'Manrope', sans-serif;
   font-weight: 900;
   font-size: 1.15rem;
-  color: var(--text-color-light);
+  color: #fff;
   letter-spacing: 0.06em;
 }
 #nav-drawer-sub {
   font-size: 0.6rem;
-  color: var(--text-color-dark);
+  color: #525252;
   text-transform: uppercase;
   letter-spacing: 0.1em;
   margin-top: 2px;
@@ -664,7 +609,7 @@ aside {
   align-items: center;
   gap: 12px;
   padding: 12px 20px;
-  color: var(--text-color-medium);
+  color: #a3a3a3;
   text-decoration: none;
   font-size: 0.875rem;
   font-weight: 500;
@@ -674,12 +619,12 @@ aside {
 }
 #nav-drawer nav a:hover,
 #nav-drawer nav a.nav-active {
-  background: color-mix(in srgb, var(--color-primary) 10%, black);
-  color: var(--color-primary);
+  background: rgba(0,194,168,0.1);
+  color: #00C2A8;
 }
 #nav-drawer nav a.nav-active {
-  background: linear-gradient(135deg, color-mix(in srgb, var(--color-primary) 20%, black), color-mix(in srgb, var(--color-primary) 15%, black));
-  color: var(--color-primary);
+  background: linear-gradient(135deg, rgba(0,194,168,0.2), rgba(0,153,132,0.15));
+  color: #00C2A8;
   font-weight: 700;
 }
 #nav-drawer nav a span.material-symbols-outlined {
