@@ -1,1283 +1,260 @@
 <!DOCTYPE html>
 <html class="dark" lang="es">
 <head>
-<meta charset="utf-8"/>
-<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
-<title>Novu 360 · Ventas & Prospector IA</title>
-<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
-<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;600;700;800&family=Inter:wght@400;500;600&display=swap" rel="stylesheet"/>
-<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet"/>
-<script id="tailwind-config">
-tailwind.config = {
-  darkMode: "class",
-  theme: {
-    extend: {
-      colors: {
-        "primary": "#00C2A8",
-        "on-primary": "#00382f",
-        "background": "#000000",
-        "surface": "#000000",
-        "on-background": "#dde4e1",
-        "surface-container": "#09100e",
-        "surface-container-high": "#161d1b",
-        "surface-container-highest": "#1a211f",
-        "outline-variant": "#3c4a46",
-        "on-surface": "#dde4e1",
-        "on-surface-variant": "#bbcac4",
-      },
-      fontFamily: {
-        "headline": ["Manrope"],
-        "body": ["Inter"],
-      },
-    },
-  },
-}
-</script>
-<link rel="stylesheet" href="style.css">
-<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-<script src="config.js"></script>
-<script src="auth.js"></script>
-<script>checkAuth();</script>
-
-<style>
-  /* ── Scrollbar ── */
-  .no-scrollbar::-webkit-scrollbar { display: none; }
-  .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
-
-  /* ── Sidebar overlay ── */
-  #sidebar-overlay { display: none; }
-  #sidebar-overlay.active { display: block; }
-
-  /* ── Mobile sidebar ── */
-  @media (max-width: 1023px) {
-    #sidebar {
-      transform: translateX(-100%);
-      transition: transform 0.3s ease;
-    }
-    #sidebar.open {
-      transform: translateX(0);
-    }
-    #main-content {
-      margin-left: 0 !important;
-      padding-left: 0 !important;
-    }
-  }
-
-  /* ── Skeleton loader ── */
-  .skeleton {
-    background: linear-gradient(90deg, #1a211f 25%, #243330 50%, #1a211f 75%);
-    background-size: 200% 100%;
-    animation: shimmer 1.5s infinite;
-    border-radius: 6px;
-  }
-  @keyframes shimmer {
-    0% { background-position: 200% 0; }
-    100% { background-position: -200% 0; }
-  }
-
-  /* ── Badge etapas ── */
-  .badge-nuevo       { background: rgba(96,165,250,0.1); color:#60a5fa; border-color: rgba(96,165,250,0.2); }
-  .badge-contactado  { background: rgba(251,191,36,0.1); color:#fbbf24; border-color: rgba(251,191,36,0.2); }
-  .badge-calificado  { background: rgba(168,85,247,0.1); color:#a855f7; border-color: rgba(168,85,247,0.2); }
-  .badge-propuesta   { background: rgba(236,72,153,0.1); color:#ec4899; border-color: rgba(236,72,153,0.2); }
-  .badge-cerrado     { background: rgba(16,185,129,0.1); color:#10b981; border-color: rgba(16,185,129,0.2); }
-  .badge-perdido     { background: rgba(239,68,68,0.1);  color:#ef4444; border-color: rgba(239,68,68,0.2); }
-  .dot-nuevo       { background: #60a5fa; }
-  .dot-contactado  { background: #fbbf24; }
-  .dot-calificado  { background: #a855f7; }
-  .dot-propuesta   { background: #ec4899; }
-  .dot-cerrado     { background: #10b981; }
-  .dot-perdido     { background: #ef4444; }
-
-  /* ── Modal backdrop ── */
-  .modal-backdrop {
-    background: rgba(0,0,0,0.8);
-    backdrop-filter: blur(4px);
-  }
-
-  /* ── AI output typing effect ── */
-  .ai-typing::after {
-    content: '|';
-    animation: blink 0.8s infinite;
-  }
-  @keyframes blink { 0%,100%{opacity:1} 50%{opacity:0} }
-
-  /* ── Pulse badge ── */
-  @keyframes pulse-dot {
-    0%, 100% { opacity: 1; transform: scale(1); }
-    50% { opacity: 0.5; transform: scale(0.8); }
-  }
-  .animate-pulse-dot { animation: pulse-dot 1.5s ease-in-out infinite; }
-</style>
-</head>
-<body class="bg-black text-on-background selection:bg-primary/20 font-body">
-
-<!-- ══════════════════════════════════════
-     SIDEBAR OVERLAY (mobile)
-══════════════════════════════════════ -->
-<div id="sidebar-overlay" class="fixed inset-0 bg-black/60 z-30 lg:hidden" onclick="closeSidebar()"></div>
-
-<!-- ══════════════════════════════════════
-     SIDEBAR
-══════════════════════════════════════ -->
-<aside id="sidebar" class="bg-black h-screen w-64 fixed left-0 top-0 flex flex-col py-6 z-40" style="box-shadow: 4px 0 24px rgba(0,0,0,0.6)">
-  <div class="px-6 mb-8">
-    <a href="dashboard.html" class="text-white font-black tracking-widest text-xl block font-headline" style="text-decoration:none">Novu 360</a>
-    <div class="text-neutral-500 text-xs uppercase tracking-tighter mt-1 italic">INTELIGENCIA DE AGENCIA</div>
-  </div>
-
-  <button onclick="window.location.href='dashboard.html'" class="mx-6 mb-8 py-3 font-bold rounded-lg flex items-center justify-center gap-2 transition-transform active:scale-95 duration-150" style="background:linear-gradient(135deg,#00C2A8,#009984);color:#000">
-    <span class="material-symbols-outlined text-sm font-bold">add</span>
-    Nuevo Proyecto
-  </button>
-
-  <nav class="flex-1 space-y-1 overflow-y-auto no-scrollbar">
-    <a class="text-neutral-400 hover:text-white px-4 py-3 flex items-center gap-3 transition-all hover:bg-white/5 rounded-lg mx-3" href="dashboard.html">
-      <span class="material-symbols-outlined">dashboard</span><span>Dashboard</span>
-    </a>
-    <a class="bg-primary text-black rounded-lg mx-3 flex items-center px-4 py-3 gap-3 font-bold" href="ventas.html">
-      <span class="material-symbols-outlined">trending_up</span><span>Ventas</span>
-    </a>
-    <a class="text-neutral-400 hover:text-white px-4 py-3 flex items-center gap-3 transition-all hover:bg-white/5 rounded-lg mx-3" href="ads.html">
-      <span class="material-symbols-outlined">ads_click</span><span>Ads</span>
-    </a>
-    <a class="text-neutral-400 hover:text-white px-4 py-3 flex items-center gap-3 transition-all hover:bg-white/5 rounded-lg mx-3" href="community.html">
-      <span class="material-symbols-outlined">forum</span><span>Community</span>
-    </a>
-    <a class="text-neutral-400 hover:text-white px-4 py-3 flex items-center gap-3 transition-all hover:bg-white/5 rounded-lg mx-3" href="seo.html">
-      <span class="material-symbols-outlined">search</span><span>SEO</span>
-    </a>
-    <a class="text-neutral-400 hover:text-white px-4 py-3 flex items-center gap-3 transition-all hover:bg-white/5 rounded-lg mx-3" href="web.html">
-      <span class="material-symbols-outlined">language</span><span>Web</span>
-    </a>
-    <a class="text-neutral-400 hover:text-white px-4 py-3 flex items-center gap-3 transition-all hover:bg-white/5 rounded-lg mx-3" href="portal-cliente.html">
-      <span class="material-symbols-outlined">group</span><span>Clientes</span>
-    </a>
-    <a class="text-neutral-400 hover:text-white px-4 py-3 flex items-center gap-3 transition-all hover:bg-white/5 rounded-lg mx-3" href="finanzas.html">
-      <span class="material-symbols-outlined">payments</span><span>Finanzas</span>
-    </a>
-    <a class="text-neutral-400 hover:text-white px-4 py-3 flex items-center gap-3 transition-all hover:bg-white/5 rounded-lg mx-3" href="aprobaciones.html">
-      <span class="material-symbols-outlined">fact_check</span><span>Aprobaciones</span>
-    </a>
-    <a class="text-neutral-400 hover:text-white px-4 py-3 flex items-center gap-3 transition-all hover:bg-white/5 rounded-lg mx-3" href="onboarding.html">
-      <span class="material-symbols-outlined">rocket_launch</span><span>Onboarding</span>
-    </a>
-    <a class="text-neutral-400 hover:text-white px-4 py-3 flex items-center gap-3 transition-all hover:bg-white/5 rounded-lg mx-3" href="cerebros.html">
-      <span class="material-symbols-outlined">psychology</span><span>Cerebros IA</span>
-    </a>
-  </nav>
-
-  <div class="mt-auto pt-4 space-y-1" style="border-top:1px solid rgba(255,255,255,0.05)">
-    <a class="text-neutral-400 hover:text-white px-7 py-3 flex items-center gap-3 transition-all hover:bg-white/5" href="#">
-      <span class="material-symbols-outlined">help</span><span>Soporte</span>
-    </a>
-    <button onclick="signOut()" class="w-full text-left text-neutral-400 hover:text-white px-7 py-3 flex items-center gap-3 transition-all hover:bg-white/5">
-      <span class="material-symbols-outlined">logout</span><span>Cerrar sesión</span>
-    </button>
-  </div>
-</aside>
-
-<!-- ══════════════════════════════════════
-     MAIN CONTENT
-══════════════════════════════════════ -->
-<main id="main-content" class="lg:pl-64 lg:ml-64 min-h-screen flex flex-col bg-black">
-
-  <!-- TOPBAR -->
-  <header class="flex justify-between items-center px-4 lg:px-6 w-full h-16 bg-black/80 backdrop-blur-md border-b border-slate-800 sticky top-0 z-20">
-    <div class="flex items-center gap-3">
-      <!-- Hamburger (mobile) -->
-      <button onclick="openSidebar()" class="lg:hidden p-2 text-slate-400 hover:text-white">
-        <span class="material-symbols-outlined">menu</span>
-      </button>
-      <span class="text-base lg:text-lg font-semibold text-slate-100 font-headline">Pipeline de Ventas</span>
-      <div class="hidden sm:flex gap-2 items-center text-xs text-[#00C2A8] font-bold bg-[#00C2A8]/10 px-2 py-1 rounded">
-        <span class="w-2 h-2 rounded-full bg-[#00C2A8] animate-pulse-dot"></span>
-        EN VIVO
-      </div>
-    </div>
-    <div class="flex items-center gap-2 lg:gap-4">
-      <div class="relative hidden md:flex items-center">
-        <span class="material-symbols-outlined absolute left-3 text-slate-400 text-sm">search</span>
-        <input id="search-input" class="bg-slate-900 border-none rounded-lg pl-9 pr-4 py-1.5 text-sm text-slate-200 focus:ring-1 focus:ring-[#00C2A8] w-48 lg:w-64" placeholder="Buscar prospectos..." type="text" oninput="filterLeads(this.value)"/>
-      </div>
-      <button onclick="openModal('modal-nuevo-lead')" class="flex items-center gap-1.5 px-3 py-1.5 bg-[#00C2A8] text-[#00382f] font-bold text-xs rounded-lg hover:brightness-110 transition-all lg:hidden">
-        <span class="material-symbols-outlined text-sm">add</span>
-        Nuevo
-      </button>
-    </div>
-  </header>
-
-  <!-- BODY: tabla + panel IA -->
-  <div class="flex flex-col lg:flex-row flex-1 p-3 lg:p-6 gap-4 lg:gap-6 overflow-hidden bg-black">
-
-    <!-- ── LEFT: Pipeline Table ── -->
-    <section class="w-full lg:w-3/5 flex flex-col bg-black rounded-xl border border-slate-800 overflow-hidden" style="min-height: 400px;">
-      <div class="flex justify-between items-center p-4 lg:p-5 border-b border-slate-800">
-        <div>
-          <h2 class="text-xl font-bold font-headline text-white">Prospectos</h2>
-          <p id="leads-count" class="text-slate-500 text-xs mt-0.5">Cargando...</p>
-        </div>
-        <div class="flex gap-2">
-          <!-- Filtro etapa -->
-          <select id="filter-etapa" onchange="filterLeads()" class="bg-slate-900 border border-slate-700 text-slate-300 text-xs rounded-lg px-2 py-1.5 focus:ring-1 focus:ring-[#00C2A8] hidden sm:block">
-            <option value="">Todas las etapas</option>
-            <option value="nuevo">Nuevo</option>
-            <option value="contactado">Contactado</option>
-            <option value="calificado">Calificado</option>
-            <option value="propuesta">Propuesta</option>
-            <option value="cerrado">Cerrado</option>
-            <option value="perdido">Perdido</option>
-          </select>
-          <button onclick="openModal('modal-nuevo-lead')" class="hidden lg:flex items-center gap-2 px-4 py-2 bg-[#00C2A8] text-[#00382f] font-bold text-sm rounded-lg hover:brightness-110 transition-all shadow-lg shadow-[#00C2A8]/20">
-            <span class="material-symbols-outlined text-sm">add</span>
-            Nuevo Lead
-          </button>
-        </div>
-      </div>
-
-      <!-- Tabla -->
-      <div class="flex-1 overflow-auto no-scrollbar">
-        <table class="w-full text-left">
-          <thead>
-            <tr class="text-[10px] font-bold text-slate-500 uppercase tracking-widest border-b border-slate-800 bg-black sticky top-0">
-              <th class="px-4 py-3">Negocio</th>
-              <th class="px-4 py-3 hidden md:table-cell">Giro</th>
-              <th class="px-4 py-3 hidden sm:table-cell text-center">Fecha</th>
-              <th class="px-4 py-3 text-center">Etapa</th>
-              <th class="px-4 py-3 text-center">Acciones</th>
-            </tr>
-          </thead>
-          <tbody id="leads-tbody" class="divide-y divide-slate-800/50">
-            <!-- Skeleton rows -->
-            <tr><td colspan="5" class="px-4 py-4">
-              <div class="space-y-3">
-                <div class="skeleton h-4 w-full"></div>
-                <div class="skeleton h-4 w-5/6"></div>
-                <div class="skeleton h-4 w-4/6"></div>
-              </div>
-            </td></tr>
-          </tbody>
-        </table>
-      </div>
-
-      <!-- Empty state -->
-      <div id="empty-state" class="hidden flex-1 flex flex-col items-center justify-center p-8 text-center">
-        <span class="material-symbols-outlined text-5xl text-slate-700 mb-3">inbox</span>
-        <p class="text-slate-500 text-sm font-medium">Sin prospectos todavía</p>
-        <p class="text-slate-600 text-xs mt-1">Agrega tu primer lead con el botón "Nuevo Lead"</p>
-      </div>
-    </section>
-
-    <!-- ── RIGHT: Panel IA ── -->
-    <section class="w-full lg:w-2/5 flex flex-col gap-4 overflow-y-auto no-scrollbar pb-20 lg:pb-6">
-
-      <!-- AI Prospector Visual -->
-      <div class="bg-[#0c0c0c] border border-slate-800 rounded-2xl p-5 shadow-2xl relative overflow-hidden">
-        <div class="absolute top-0 right-0 p-4 opacity-5 pointer-events-none">
-          <span class="material-symbols-outlined text-6xl">psychology</span>
-        </div>
-
-        <!-- Header -->
-        <div class="flex items-center gap-2 mb-1">
-          <span class="material-symbols-outlined text-[#00C2A8]">auto_awesome</span>
-          <h2 class="text-lg font-bold font-headline text-white">AI Prospector</h2>
-        </div>
-        <p class="text-slate-500 text-xs mb-4">Sube capturas del prospecto — la IA detecta oportunidades y redacta el primer mensaje</p>
-
-        <!-- Paso 1: Datos básicos -->
-        <div class="space-y-3 mb-4">
-          <div class="grid grid-cols-2 gap-3">
-            <div>
-              <label class="text-[10px] font-bold uppercase tracking-wider text-slate-500 block mb-1">Nombre del negocio *</label>
-              <input id="prosp-nombre" class="w-full bg-black border border-slate-800 rounded-lg text-sm py-2 px-3 focus:ring-1 focus:ring-[#00C2A8] text-slate-200" placeholder="Ej: Pizza Napoli" type="text"/>
-            </div>
-            <div>
-              <label class="text-[10px] font-bold uppercase tracking-wider text-slate-500 block mb-1">Giro</label>
-              <select id="prosp-tipo" class="w-full bg-black border border-slate-800 rounded-lg text-sm py-2 px-3 focus:ring-1 focus:ring-[#00C2A8] text-slate-200">
-                <option>Restaurante</option>
-                <option>Gimnasio</option>
-                <option>Estética / Spa</option>
-                <option>Dentista / Médico</option>
-                <option>Tienda / Boutique</option>
-                <option>E-commerce</option>
-                <option>Bar / Cantina</option>
-                <option>Otro</option>
-              </select>
-            </div>
-          </div>
-          <div>
-            <label class="text-[10px] font-bold uppercase tracking-wider text-slate-500 block mb-1">Ciudad</label>
-            <input id="prosp-ciudad" class="w-full bg-black border border-slate-800 rounded-lg text-sm py-2 px-3 focus:ring-1 focus:ring-[#00C2A8] text-slate-200" placeholder="CDMX" type="text"/>
-          </div>
-        </div>
-
-        <!-- Paso 2: Capturas por canal -->
-        <div class="mb-4">
-          <div class="flex items-center gap-2 mb-3">
-            <span class="material-symbols-outlined text-slate-400 text-base">photo_library</span>
-            <span class="text-[10px] font-bold uppercase tracking-wider text-slate-500">Capturas por canal</span>
-            <span class="text-[10px] text-slate-600 italic">(sin captura = oportunidad detectada)</span>
-          </div>
-
-          <div class="grid grid-cols-1 gap-2" id="canales-grid">
-
-            <!-- Instagram -->
-            <div class="canal-item flex items-center gap-3 bg-black border border-slate-800 rounded-xl px-3 py-2.5 hover:border-slate-700 transition-all">
-              <div class="w-7 h-7 rounded-lg flex items-center justify-center flex-shrink-0" style="background: linear-gradient(135deg,#f09433,#e6683c,#dc2743,#cc2366,#bc1888)">
-                <span class="material-symbols-outlined text-white text-sm">photo_camera</span>
-              </div>
-              <div class="flex-1 min-w-0">
-                <span class="text-xs font-bold text-slate-300">Instagram</span>
-                <p id="ig-preview-label" class="text-[10px] text-slate-600 truncate">Sin captura — se marcará como oportunidad</p>
-              </div>
-              <label class="cursor-pointer flex-shrink-0">
-                <input type="file" accept="image/*" class="hidden canal-input" data-canal="instagram" onchange="handleCanalFile(this)"/>
-                <span id="ig-btn" class="text-[10px] font-bold text-[#00C2A8] border border-[#00C2A8]/30 rounded-lg px-2 py-1 hover:bg-[#00C2A8]/10 transition-all">Subir</span>
-              </label>
-              <button id="ig-clear" onclick="clearCanalFile('instagram')" class="hidden text-slate-600 hover:text-red-400 transition-colors">
-                <span class="material-symbols-outlined text-sm">close</span>
-              </button>
-            </div>
-
-            <!-- Facebook -->
-            <div class="canal-item flex items-center gap-3 bg-black border border-slate-800 rounded-xl px-3 py-2.5 hover:border-slate-700 transition-all">
-              <div class="w-7 h-7 rounded-lg flex items-center justify-center flex-shrink-0 bg-[#1877F2]">
-                <span class="material-symbols-outlined text-white text-sm">thumb_up</span>
-              </div>
-              <div class="flex-1 min-w-0">
-                <span class="text-xs font-bold text-slate-300">Facebook</span>
-                <p id="fb-preview-label" class="text-[10px] text-slate-600 truncate">Sin captura — se marcará como oportunidad</p>
-              </div>
-              <label class="cursor-pointer flex-shrink-0">
-                <input type="file" accept="image/*" class="hidden canal-input" data-canal="facebook" onchange="handleCanalFile(this)"/>
-                <span id="fb-btn" class="text-[10px] font-bold text-[#00C2A8] border border-[#00C2A8]/30 rounded-lg px-2 py-1 hover:bg-[#00C2A8]/10 transition-all">Subir</span>
-              </label>
-              <button id="fb-clear" onclick="clearCanalFile('facebook')" class="hidden text-slate-600 hover:text-red-400 transition-colors">
-                <span class="material-symbols-outlined text-sm">close</span>
-              </button>
-            </div>
-
-            <!-- Google Maps -->
-            <div class="canal-item flex items-center gap-3 bg-black border border-slate-800 rounded-xl px-3 py-2.5 hover:border-slate-700 transition-all">
-              <div class="w-7 h-7 rounded-lg flex items-center justify-center flex-shrink-0 bg-white">
-                <span class="material-symbols-outlined text-[#4285F4] text-sm">map</span>
-              </div>
-              <div class="flex-1 min-w-0">
-                <span class="text-xs font-bold text-slate-300">Google Maps</span>
-                <p id="maps-preview-label" class="text-[10px] text-slate-600 truncate">Sin captura — se marcará como oportunidad</p>
-              </div>
-              <label class="cursor-pointer flex-shrink-0">
-                <input type="file" accept="image/*" class="hidden canal-input" data-canal="maps" onchange="handleCanalFile(this)"/>
-                <span id="maps-btn" class="text-[10px] font-bold text-[#00C2A8] border border-[#00C2A8]/30 rounded-lg px-2 py-1 hover:bg-[#00C2A8]/10 transition-all">Subir</span>
-              </label>
-              <button id="maps-clear" onclick="clearCanalFile('maps')" class="hidden text-slate-600 hover:text-red-400 transition-colors">
-                <span class="material-symbols-outlined text-sm">close</span>
-              </button>
-            </div>
-
-            <!-- TikTok -->
-            <div class="canal-item flex items-center gap-3 bg-black border border-slate-800 rounded-xl px-3 py-2.5 hover:border-slate-700 transition-all">
-              <div class="w-7 h-7 rounded-lg flex items-center justify-center flex-shrink-0 bg-black border border-slate-700">
-                <span class="material-symbols-outlined text-white text-sm">music_note</span>
-              </div>
-              <div class="flex-1 min-w-0">
-                <span class="text-xs font-bold text-slate-300">TikTok</span>
-                <p id="tiktok-preview-label" class="text-[10px] text-slate-600 truncate">Sin captura — se marcará como oportunidad</p>
-              </div>
-              <label class="cursor-pointer flex-shrink-0">
-                <input type="file" accept="image/*" class="hidden canal-input" data-canal="tiktok" onchange="handleCanalFile(this)"/>
-                <span id="tiktok-btn" class="text-[10px] font-bold text-[#00C2A8] border border-[#00C2A8]/30 rounded-lg px-2 py-1 hover:bg-[#00C2A8]/10 transition-all">Subir</span>
-              </label>
-              <button id="tiktok-clear" onclick="clearCanalFile('tiktok')" class="hidden text-slate-600 hover:text-red-400 transition-colors">
-                <span class="material-symbols-outlined text-sm">close</span>
-              </button>
-            </div>
-
-            <!-- Sitio Web -->
-            <div class="canal-item flex items-center gap-3 bg-black border border-slate-800 rounded-xl px-3 py-2.5 hover:border-slate-700 transition-all">
-              <div class="w-7 h-7 rounded-lg flex items-center justify-center flex-shrink-0 bg-slate-800">
-                <span class="material-symbols-outlined text-slate-300 text-sm">language</span>
-              </div>
-              <div class="flex-1 min-w-0">
-                <span class="text-xs font-bold text-slate-300">Sitio Web</span>
-                <p id="web-preview-label" class="text-[10px] text-slate-600 truncate">Sin captura — se marcará como oportunidad</p>
-              </div>
-              <label class="cursor-pointer flex-shrink-0">
-                <input type="file" accept="image/*" class="hidden canal-input" data-canal="web" onchange="handleCanalFile(this)"/>
-                <span id="web-btn" class="text-[10px] font-bold text-[#00C2A8] border border-[#00C2A8]/30 rounded-lg px-2 py-1 hover:bg-[#00C2A8]/10 transition-all">Subir</span>
-              </label>
-              <button id="web-clear" onclick="clearCanalFile('web')" class="hidden text-slate-600 hover:text-red-400 transition-colors">
-                <span class="material-symbols-outlined text-sm">close</span>
-              </button>
-            </div>
-
-          </div>
-        </div>
-
-        <!-- Botón analizar -->
-        <button id="btn-analizar-prospecto" onclick="analizarProspecto()" class="w-full bg-[#00C2A8] hover:bg-[#00ad95] text-[#00382f] font-extrabold py-3 rounded-xl transition-all flex items-center justify-center gap-2 shadow-lg shadow-[#00C2A8]/20">
-          <span class="material-symbols-outlined text-lg">bolt</span>
-          Analizar y Generar Mensajes
-        </button>
-
-        <!-- Resultados -->
-        <div id="prosp-result" class="hidden mt-4 space-y-3">
-
-          <!-- Diagnóstico -->
-          <div class="bg-slate-950 rounded-xl p-4 border border-slate-800">
-            <div class="flex items-center gap-2 mb-3">
-              <span class="material-symbols-outlined text-amber-400 text-base">lightbulb</span>
-              <span class="text-[10px] font-extrabold text-amber-400 uppercase tracking-wider">Diagnóstico del Prospecto</span>
-            </div>
-            <p id="prosp-diagnostico" class="text-slate-300 text-xs leading-relaxed whitespace-pre-line"></p>
-          </div>
-
-          <!-- Mensaje WhatsApp -->
-          <div class="bg-slate-950 rounded-xl p-4 border-l-4 border-green-500">
-            <div class="flex justify-between items-start mb-2">
-              <div class="flex items-center gap-1.5">
-                <span class="material-symbols-outlined text-green-400 text-sm">chat</span>
-                <span class="text-[10px] font-extrabold text-green-400 uppercase tracking-tighter">Mensaje WhatsApp</span>
-              </div>
-              <button onclick="copiarTexto('prosp-msg-wa')" class="text-slate-500 hover:text-green-400 transition-colors p-1 bg-slate-900 rounded-md">
-                <span class="material-symbols-outlined text-sm">content_copy</span>
-              </button>
-            </div>
-            <p id="prosp-msg-wa" class="text-slate-300 text-sm leading-relaxed"></p>
-          </div>
-
-          <!-- Mensaje Instagram DM -->
-          <div class="bg-slate-950 rounded-xl p-4 border-l-4 border-pink-500">
-            <div class="flex justify-between items-start mb-2">
-              <div class="flex items-center gap-1.5">
-                <span class="material-symbols-outlined text-pink-400 text-sm">photo_camera</span>
-                <span class="text-[10px] font-extrabold text-pink-400 uppercase tracking-tighter">DM Instagram</span>
-              </div>
-              <button onclick="copiarTexto('prosp-msg-ig')" class="text-slate-500 hover:text-pink-400 transition-colors p-1 bg-slate-900 rounded-md">
-                <span class="material-symbols-outlined text-sm">content_copy</span>
-              </button>
-            </div>
-            <p id="prosp-msg-ig" class="text-slate-300 text-sm leading-relaxed"></p>
-          </div>
-
-          <!-- Guardar como Lead -->
-          <button onclick="guardarLeadDesdeProspector()" class="w-full border border-[#00C2A8]/30 text-[#00C2A8] text-xs font-bold py-2.5 rounded-xl hover:bg-[#00C2A8]/10 transition-all flex items-center justify-center gap-1.5">
-            <span class="material-symbols-outlined text-sm">person_add</span>
-            Agregar al Pipeline como Lead
-          </button>
-        </div>
-      </div>
-
-      <!-- Auditor de Conversación -->
-      <div class="bg-[#0c0c0c] rounded-2xl p-5 border border-slate-800 shadow-xl">
-        <div class="flex items-center gap-3 mb-4">
-          <div class="w-9 h-9 rounded-full bg-slate-900 border border-slate-700 flex items-center justify-center flex-shrink-0">
-            <span class="material-symbols-outlined text-[#00C2A8] text-lg">analytics</span>
-          </div>
-          <div>
-            <h3 class="text-white font-bold text-sm font-headline leading-none">Auditor de Conversación</h3>
-            <p class="text-slate-500 text-[11px] mt-0.5">Analiza si tu prospecto está listo para cerrar</p>
-          </div>
-        </div>
-        <div class="space-y-3">
-          <textarea id="auditor-input" class="w-full bg-black border border-slate-800 rounded-xl text-sm py-3 px-4 focus:ring-1 focus:ring-[#00C2A8] text-slate-200 resize-none" placeholder="Pega aquí la conversación con el prospecto..." rows="4"></textarea>
-          <button id="btn-auditar" onclick="auditarConversacion()" class="w-full bg-slate-900 hover:bg-slate-800 border border-slate-700 text-[#00C2A8] font-bold py-2.5 rounded-xl transition-all flex items-center justify-center gap-2 text-sm">
-            <span class="material-symbols-outlined text-base" style="font-variation-settings:'FILL' 1;">analytics</span>
-            Analizar Conversación
-          </button>
-          <div id="auditor-result" class="hidden bg-black border border-slate-800 rounded-xl p-4 space-y-2">
-            <div class="flex items-center gap-2 mb-1">
-              <span class="text-[10px] font-bold uppercase tracking-wider text-slate-500">Análisis IA</span>
-              <button onclick="copiarTexto('auditor-output')" class="ml-auto text-slate-600 hover:text-[#00C2A8] transition-colors">
-                <span class="material-symbols-outlined text-sm">content_copy</span>
-              </button>
-            </div>
-            <p id="auditor-output" class="text-slate-300 text-sm leading-relaxed whitespace-pre-line"></p>
-          </div>
-        </div>
-      </div>
-
-      <!-- Generador de Pitch -->
-      <div class="bg-[#0c0c0c] rounded-2xl p-5 border border-slate-800 shadow-xl">
-        <div class="flex items-center gap-3 mb-4">
-          <div class="w-9 h-9 rounded-full bg-[#00C2A8]/10 border border-[#00C2A8]/20 flex items-center justify-center flex-shrink-0">
-            <span class="material-symbols-outlined text-[#00C2A8] text-lg">record_voice_over</span>
-          </div>
-          <div>
-            <h3 class="text-white font-bold text-sm font-headline leading-none">Generador de Pitch</h3>
-            <p class="text-slate-500 text-[11px] mt-0.5">Script de venta personalizado para tu llamada</p>
-          </div>
-        </div>
-        <div class="space-y-3">
-          <div class="space-y-1">
-            <label class="text-[10px] font-bold uppercase tracking-wider text-slate-500">Seleccionar Prospecto</label>
-            <select id="pitch-select" class="w-full bg-black border border-slate-800 rounded-lg text-sm py-2.5 px-3 focus:ring-1 focus:ring-[#00C2A8] text-slate-200">
-              <option value="">— Elige un prospecto —</option>
-            </select>
-          </div>
-          <div class="space-y-1">
-            <label class="text-[10px] font-bold uppercase tracking-wider text-slate-500">Servicio a vender</label>
-            <select id="pitch-servicio" class="w-full bg-black border border-slate-800 rounded-lg text-sm py-2.5 px-3 focus:ring-1 focus:ring-[#00C2A8] text-slate-200">
-              <option>Google Maps SEO Local</option>
-              <option>Meta Ads (Facebook/Instagram)</option>
-              <option>Redes Sociales</option>
-              <option>Landing Page</option>
-              <option>Paquete Completo</option>
-            </select>
-          </div>
-          <button id="btn-pitch" onclick="generarPitch()" class="w-full bg-[#00C2A8] hover:bg-[#00ad95] text-[#00382f] font-extrabold py-2.5 rounded-xl transition-all flex items-center justify-center gap-2 text-sm">
-            <span class="material-symbols-outlined text-base">auto_fix_high</span>
-            Generar Pitch IA
-          </button>
-          <div id="pitch-result" class="hidden bg-black border border-dashed border-slate-700 rounded-xl p-4">
-            <div class="flex items-center gap-2 mb-2">
-              <span class="text-[10px] font-bold uppercase tracking-wider text-slate-500">Script Generado</span>
-              <button onclick="copiarTexto('pitch-output')" class="ml-auto text-slate-600 hover:text-[#00C2A8] transition-colors">
-                <span class="material-symbols-outlined text-sm">content_copy</span>
-              </button>
-            </div>
-            <p id="pitch-output" class="text-slate-300 text-sm leading-relaxed whitespace-pre-line"></p>
-          </div>
-        </div>
-      </div>
-
-    </section>
-  </div>
-</main>
-
-<!-- FAB (mobile) -->
-<button onclick="openModal('modal-nuevo-lead')" class="fixed bottom-6 right-6 w-14 h-14 bg-[#00C2A8] text-[#00382f] rounded-full shadow-2xl shadow-[#00C2A8]/30 flex items-center justify-center hover:scale-110 active:scale-95 transition-all z-50 lg:hidden">
-  <span class="material-symbols-outlined text-2xl font-bold" style="font-variation-settings:'FILL' 1;">add</span>
-</button>
-
-<!-- ══════════════════════════════════════
-     MODAL: NUEVO LEAD
-══════════════════════════════════════ -->
-<div id="modal-nuevo-lead" class="fixed inset-0 z-50 hidden items-center justify-center p-4">
-  <div class="modal-backdrop absolute inset-0" onclick="closeModal('modal-nuevo-lead')"></div>
-  <div class="relative bg-[#0c0c0c] border border-slate-800 rounded-2xl p-6 w-full max-w-md shadow-2xl">
-    <div class="flex items-center justify-between mb-5">
-      <h3 class="text-lg font-bold font-headline text-white">Nuevo Lead</h3>
-      <button onclick="closeModal('modal-nuevo-lead')" class="text-slate-500 hover:text-white transition-colors">
-        <span class="material-symbols-outlined">close</span>
-      </button>
-    </div>
-    <div class="space-y-3">
-      <div class="grid grid-cols-2 gap-3">
-        <div>
-          <label class="text-[10px] font-bold uppercase tracking-wider text-slate-500 block mb-1">Nombre del negocio *</label>
-          <input id="nl-nombre" class="w-full bg-black border border-slate-800 rounded-lg text-sm py-2 px-3 focus:ring-1 focus:ring-[#00C2A8] text-slate-200" placeholder="Restaurante Roma" type="text"/>
-        </div>
-        <div>
-          <label class="text-[10px] font-bold uppercase tracking-wider text-slate-500 block mb-1">Giro</label>
-          <input id="nl-giro" class="w-full bg-black border border-slate-800 rounded-lg text-sm py-2 px-3 focus:ring-1 focus:ring-[#00C2A8] text-slate-200" placeholder="Restaurante" type="text"/>
-        </div>
-      </div>
-      <div class="grid grid-cols-2 gap-3">
-        <div>
-          <label class="text-[10px] font-bold uppercase tracking-wider text-slate-500 block mb-1">Contacto</label>
-          <input id="nl-contacto" class="w-full bg-black border border-slate-800 rounded-lg text-sm py-2 px-3 focus:ring-1 focus:ring-[#00C2A8] text-slate-200" placeholder="Nombre del dueño" type="text"/>
-        </div>
-        <div>
-          <label class="text-[10px] font-bold uppercase tracking-wider text-slate-500 block mb-1">Teléfono</label>
-          <input id="nl-telefono" class="w-full bg-black border border-slate-800 rounded-lg text-sm py-2 px-3 focus:ring-1 focus:ring-[#00C2A8] text-slate-200" placeholder="55 1234 5678" type="text"/>
-        </div>
-      </div>
-      <div class="grid grid-cols-2 gap-3">
-        <div>
-          <label class="text-[10px] font-bold uppercase tracking-wider text-slate-500 block mb-1">Ciudad</label>
-          <input id="nl-ciudad" class="w-full bg-black border border-slate-800 rounded-lg text-sm py-2 px-3 focus:ring-1 focus:ring-[#00C2A8] text-slate-200" placeholder="CDMX" type="text"/>
-        </div>
-        <div>
-          <label class="text-[10px] font-bold uppercase tracking-wider text-slate-500 block mb-1">Etapa</label>
-          <select id="nl-etapa" class="w-full bg-black border border-slate-800 rounded-lg text-sm py-2 px-3 focus:ring-1 focus:ring-[#00C2A8] text-slate-200">
-            <option value="nuevo">Nuevo</option>
-            <option value="contactado">Contactado</option>
-            <option value="calificado">Calificado</option>
-            <option value="propuesta">Propuesta</option>
-            <option value="cerrado">Cerrado</option>
-            <option value="perdido">Perdido</option>
-          </select>
-        </div>
-      </div>
-      <div>
-        <label class="text-[10px] font-bold uppercase tracking-wider text-slate-500 block mb-1">Notas</label>
-        <textarea id="nl-notas" class="w-full bg-black border border-slate-800 rounded-lg text-sm py-2 px-3 focus:ring-1 focus:ring-[#00C2A8] text-slate-200 resize-none" rows="3" placeholder="Observaciones, contexto, fuente del lead..."></textarea>
-      </div>
-      <div id="nl-error" class="hidden text-red-400 text-xs bg-red-400/10 border border-red-400/20 rounded-lg px-3 py-2"></div>
-      <button id="btn-nl-guardar" onclick="guardarNuevoLead()" class="w-full bg-[#00C2A8] hover:bg-[#00ad95] text-[#00382f] font-extrabold py-3 rounded-xl transition-all flex items-center justify-center gap-2">
-        <span class="material-symbols-outlined text-lg">save</span>
-        Guardar Lead
-      </button>
-    </div>
-  </div>
-</div>
-
-<!-- ══════════════════════════════════════
-     MODAL: EDITAR LEAD
-══════════════════════════════════════ -->
-<div id="modal-editar-lead" class="fixed inset-0 z-50 hidden items-center justify-center p-4">
-  <div class="modal-backdrop absolute inset-0" onclick="closeModal('modal-editar-lead')"></div>
-  <div class="relative bg-[#0c0c0c] border border-slate-800 rounded-2xl p-6 w-full max-w-md shadow-2xl">
-    <div class="flex items-center justify-between mb-5">
-      <h3 class="text-lg font-bold font-headline text-white">Editar Lead</h3>
-      <button onclick="closeModal('modal-editar-lead')" class="text-slate-500 hover:text-white transition-colors">
-        <span class="material-symbols-outlined">close</span>
-      </button>
-    </div>
-    <input type="hidden" id="el-id"/>
-    <div class="space-y-3">
-      <div class="grid grid-cols-2 gap-3">
-        <div>
-          <label class="text-[10px] font-bold uppercase tracking-wider text-slate-500 block mb-1">Nombre del negocio *</label>
-          <input id="el-nombre" class="w-full bg-black border border-slate-800 rounded-lg text-sm py-2 px-3 focus:ring-1 focus:ring-[#00C2A8] text-slate-200" type="text"/>
-        </div>
-        <div>
-          <label class="text-[10px] font-bold uppercase tracking-wider text-slate-500 block mb-1">Giro</label>
-          <input id="el-giro" class="w-full bg-black border border-slate-800 rounded-lg text-sm py-2 px-3 focus:ring-1 focus:ring-[#00C2A8] text-slate-200" type="text"/>
-        </div>
-      </div>
-      <div class="grid grid-cols-2 gap-3">
-        <div>
-          <label class="text-[10px] font-bold uppercase tracking-wider text-slate-500 block mb-1">Contacto</label>
-          <input id="el-contacto" class="w-full bg-black border border-slate-800 rounded-lg text-sm py-2 px-3 focus:ring-1 focus:ring-[#00C2A8] text-slate-200" type="text"/>
-        </div>
-        <div>
-          <label class="text-[10px] font-bold uppercase tracking-wider text-slate-500 block mb-1">Teléfono</label>
-          <input id="el-telefono" class="w-full bg-black border border-slate-800 rounded-lg text-sm py-2 px-3 focus:ring-1 focus:ring-[#00C2A8] text-slate-200" type="text"/>
-        </div>
-      </div>
-      <div class="grid grid-cols-2 gap-3">
-        <div>
-          <label class="text-[10px] font-bold uppercase tracking-wider text-slate-500 block mb-1">Ciudad</label>
-          <input id="el-ciudad" class="w-full bg-black border border-slate-800 rounded-lg text-sm py-2 px-3 focus:ring-1 focus:ring-[#00C2A8] text-slate-200" type="text"/>
-        </div>
-        <div>
-          <label class="text-[10px] font-bold uppercase tracking-wider text-slate-500 block mb-1">Etapa</label>
-          <select id="el-etapa" class="w-full bg-black border border-slate-800 rounded-lg text-sm py-2 px-3 focus:ring-1 focus:ring-[#00C2A8] text-slate-200">
-            <option value="nuevo">Nuevo</option>
-            <option value="contactado">Contactado</option>
-            <option value="calificado">Calificado</option>
-            <option value="propuesta">Propuesta</option>
-            <option value="cerrado">Cerrado</option>
-            <option value="perdido">Perdido</option>
-          </select>
-        </div>
-      </div>
-      <div>
-        <label class="text-[10px] font-bold uppercase tracking-wider text-slate-500 block mb-1">Notas</label>
-        <textarea id="el-notas" class="w-full bg-black border border-slate-800 rounded-lg text-sm py-2 px-3 focus:ring-1 focus:ring-[#00C2A8] text-slate-200 resize-none" rows="3"></textarea>
-      </div>
-      <div id="el-error" class="hidden text-red-400 text-xs bg-red-400/10 border border-red-400/20 rounded-lg px-3 py-2"></div>
-      <div class="flex gap-2">
-        <button id="btn-el-guardar" onclick="actualizarLead()" class="flex-1 bg-[#00C2A8] hover:bg-[#00ad95] text-[#00382f] font-extrabold py-3 rounded-xl transition-all flex items-center justify-center gap-2">
-          <span class="material-symbols-outlined text-lg">save</span>
-          Guardar Cambios
-        </button>
-        <button onclick="eliminarLead()" class="px-4 bg-red-500/10 hover:bg-red-500/20 border border-red-500/20 text-red-400 font-bold rounded-xl transition-all">
-          <span class="material-symbols-outlined text-lg">delete</span>
-        </button>
-      </div>
-    </div>
-  </div>
-</div>
-
-<!-- Toast notification -->
-<div id="toast" class="fixed bottom-24 lg:bottom-8 left-1/2 -translate-x-1/2 z-50 hidden">
-  <div class="bg-[#00C2A8] text-[#00382f] font-bold text-sm px-5 py-3 rounded-full shadow-2xl flex items-center gap-2">
-    <span class="material-symbols-outlined text-base" style="font-variation-settings:'FILL' 1;">check_circle</span>
-    <span id="toast-msg">¡Guardado!</span>
-  </div>
-</div>
-
-<!-- ══════════════════════════════════════
-     SCRIPTS
-══════════════════════════════════════ -->
-<script>
-// ── Estado global ──
-let allLeads = [];
-let currentLeadId = null;
-let prospectorData = {}; // datos del prospector para guardar como lead
-
-// ── Sidebar mobile ──
-function openSidebar() {
-  document.getElementById('sidebar').classList.add('open');
-  document.getElementById('sidebar-overlay').classList.add('active');
-}
-function closeSidebar() {
-  document.getElementById('sidebar').classList.remove('open');
-  document.getElementById('sidebar-overlay').classList.remove('active');
-}
-
-// ── Modales ──
-function openModal(id) {
-  const el = document.getElementById(id);
-  el.classList.remove('hidden');
-  el.classList.add('flex');
-  document.body.style.overflow = 'hidden';
-}
-function closeModal(id) {
-  const el = document.getElementById(id);
-  el.classList.add('hidden');
-  el.classList.remove('flex');
-  document.body.style.overflow = '';
-}
-
-// ── Toast ──
-function showToast(msg, isError = false) {
-  const t = document.getElementById('toast');
-  const tm = document.getElementById('toast-msg');
-  const inner = t.firstElementChild;
-  tm.textContent = msg;
-  if (isError) {
-    inner.style.background = '#ef4444';
-    inner.style.color = '#fff';
-  } else {
-    inner.style.background = '#00C2A8';
-    inner.style.color = '#00382f';
-  }
-  t.classList.remove('hidden');
-  setTimeout(() => t.classList.add('hidden'), 3000);
-}
-
-// ── Copiar texto ──
-function copiarTexto(elId) {
-  const text = document.getElementById(elId).textContent;
-  navigator.clipboard.writeText(text).then(() => showToast('¡Copiado al portapapeles!'));
-}
-
-// ── Badge etapa ──
-function badgeEtapa(etapa) {
-  const e = (etapa || 'nuevo').toLowerCase();
-  return `<span class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full badge-${e} text-[10px] font-bold uppercase tracking-wider border">
-    <span class="w-1.5 h-1.5 rounded-full dot-${e}"></span>${e}
-  </span>`;
-}
-
-// ── Fecha corta ──
-function fechaCorta(ts) {
-  if (!ts) return '—';
-  const d = new Date(ts);
-  return d.toLocaleDateString('es-MX', { day: '2-digit', month: 'short', year: '2-digit' });
-}
-
-// ══════════════════════════════════════
-// SUPABASE: cargar leads
-// ══════════════════════════════════════
-async function cargarLeads() {
-  try {
-    const { data, error } = await window.supabaseClient
-      .from('leads')
-      .select('*')
-      .order('created_at', { ascending: false });
-
-    if (error) throw error;
-
-    allLeads = data || [];
-    renderLeads(allLeads);
-    poblarSelectPitch(allLeads);
-  } catch (e) {
-    console.error('Error cargando leads:', e);
-    document.getElementById('leads-tbody').innerHTML = `
-      <tr><td colspan="5" class="px-4 py-8 text-center text-red-400 text-sm">
-        Error al cargar prospectos. Verifica tu conexión a Supabase.
-      </td></tr>`;
-  }
-}
-
-function renderLeads(leads) {
-  const tbody = document.getElementById('leads-tbody');
-  const empty = document.getElementById('empty-state');
-  const count = document.getElementById('leads-count');
-
-  count.textContent = `${leads.length} prospecto${leads.length !== 1 ? 's' : ''}`;
-
-  if (leads.length === 0) {
-    tbody.innerHTML = '';
-    empty.classList.remove('hidden');
-    return;
-  }
-  empty.classList.add('hidden');
-
-  tbody.innerHTML = leads.map(l => `
-    <tr class="hover:bg-slate-900/30 transition-colors cursor-pointer group" onclick="abrirEditar('${l.id}')">
-      <td class="px-4 py-4">
-        <span class="text-sm font-bold text-slate-100 block">${l.nombre_negocio}</span>
-        <span class="text-xs text-slate-500">${l.contacto || ''}</span>
-      </td>
-      <td class="px-4 py-4 hidden md:table-cell">
-        <span class="text-xs text-slate-400">${l.giro || '—'}</span>
-      </td>
-      <td class="px-4 py-4 hidden sm:table-cell text-center">
-        <span class="text-xs text-slate-400">${fechaCorta(l.created_at)}</span>
-      </td>
-      <td class="px-4 py-4 text-center">${badgeEtapa(l.etapa)}</td>
-      <td class="px-4 py-4 text-center">
-        <button onclick="event.stopPropagation(); abrirEditar('${l.id}')" class="text-slate-600 hover:text-[#00C2A8] transition-colors p-1">
-          <span class="material-symbols-outlined text-base">edit</span>
-        </button>
-      </td>
-    </tr>
-  `).join('');
-}
-
-function filterLeads(searchVal) {
-  const search = (searchVal !== undefined ? searchVal : document.getElementById('search-input')?.value || '').toLowerCase();
-  const etapa = document.getElementById('filter-etapa')?.value || '';
-
-  let filtered = allLeads;
-  if (search) {
-    filtered = filtered.filter(l =>
-      (l.nombre_negocio || '').toLowerCase().includes(search) ||
-      (l.contacto || '').toLowerCase().includes(search) ||
-      (l.giro || '').toLowerCase().includes(search)
-    );
-  }
-  if (etapa) {
-    filtered = filtered.filter(l => (l.etapa || 'nuevo') === etapa);
-  }
-  renderLeads(filtered);
-}
-
-function poblarSelectPitch(leads) {
-  const sel = document.getElementById('pitch-select');
-  sel.innerHTML = '<option value="">— Elige un prospecto —</option>';
-  leads.forEach(l => {
-    const opt = document.createElement('option');
-    opt.value = l.id;
-    opt.textContent = `${l.nombre_negocio}${l.giro ? ' · ' + l.giro : ''}`;
-    sel.appendChild(opt);
-  });
-}
-
-// ══════════════════════════════════════
-// GUARDAR NUEVO LEAD
-// ══════════════════════════════════════
-async function guardarNuevoLead() {
-  const nombre = document.getElementById('nl-nombre').value.trim();
-  if (!nombre) {
-    mostrarError('nl-error', 'El nombre del negocio es obligatorio.');
-    return;
-  }
-
-  const btn = document.getElementById('btn-nl-guardar');
-  setLoading(btn, true, 'Guardando...');
-
-  try {
-    const { error } = await window.supabaseClient.from('leads').insert([{
-      nombre_negocio: nombre,
-      giro: document.getElementById('nl-giro').value.trim(),
-      contacto: document.getElementById('nl-contacto').value.trim(),
-      telefono: document.getElementById('nl-telefono').value.trim(),
-      ciudad: document.getElementById('nl-ciudad').value.trim(),
-      etapa: document.getElementById('nl-etapa').value,
-      notas: document.getElementById('nl-notas').value.trim(),
-    }]);
-    if (error) throw error;
-
-    closeModal('modal-nuevo-lead');
-    limpiarFormNuevo();
-    showToast('¡Lead guardado!');
-    await cargarLeads();
-  } catch (e) {
-    mostrarError('nl-error', 'Error al guardar: ' + (e.message || e));
-  } finally {
-    setLoading(btn, false, 'Guardar Lead');
-  }
-}
-
-function limpiarFormNuevo() {
-  ['nl-nombre','nl-giro','nl-contacto','nl-telefono','nl-ciudad','nl-notas'].forEach(id => {
-    document.getElementById(id).value = '';
-  });
-  document.getElementById('nl-etapa').value = 'nuevo';
-  document.getElementById('nl-error').classList.add('hidden');
-}
-
-// ══════════════════════════════════════
-// EDITAR / ELIMINAR LEAD
-// ══════════════════════════════════════
-function abrirEditar(id) {
-  const lead = allLeads.find(l => l.id === id);
-  if (!lead) return;
-  currentLeadId = id;
-
-  document.getElementById('el-id').value = id;
-  document.getElementById('el-nombre').value = lead.nombre_negocio || '';
-  document.getElementById('el-giro').value = lead.giro || '';
-  document.getElementById('el-contacto').value = lead.contacto || '';
-  document.getElementById('el-telefono').value = lead.telefono || '';
-  document.getElementById('el-ciudad').value = lead.ciudad || '';
-  document.getElementById('el-etapa').value = lead.etapa || 'nuevo';
-  document.getElementById('el-notas').value = lead.notas || '';
-  document.getElementById('el-error').classList.add('hidden');
-
-  openModal('modal-editar-lead');
-}
-
-async function actualizarLead() {
-  const nombre = document.getElementById('el-nombre').value.trim();
-  if (!nombre) {
-    mostrarError('el-error', 'El nombre es obligatorio.');
-    return;
-  }
-
-  const btn = document.getElementById('btn-el-guardar');
-  setLoading(btn, true, 'Guardando...');
-
-  try {
-    const { error } = await window.supabaseClient.from('leads').update({
-      nombre_negocio: nombre,
-      giro: document.getElementById('el-giro').value.trim(),
-      contacto: document.getElementById('el-contacto').value.trim(),
-      telefono: document.getElementById('el-telefono').value.trim(),
-      ciudad: document.getElementById('el-ciudad').value.trim(),
-      etapa: document.getElementById('el-etapa').value,
-      notas: document.getElementById('el-notas').value.trim(),
-    }).eq('id', currentLeadId);
-
-    if (error) throw error;
-
-    closeModal('modal-editar-lead');
-    showToast('¡Lead actualizado!');
-    await cargarLeads();
-  } catch (e) {
-    mostrarError('el-error', 'Error: ' + (e.message || e));
-  } finally {
-    setLoading(btn, false, 'Guardar Cambios');
-  }
-}
-
-async function eliminarLead() {
-  if (!confirm('¿Eliminar este lead? Esta acción no se puede deshacer.')) return;
-
-  try {
-    const { error } = await window.supabaseClient.from('leads').delete().eq('id', currentLeadId);
-    if (error) throw error;
-
-    closeModal('modal-editar-lead');
-    showToast('Lead eliminado');
-    await cargarLeads();
-  } catch (e) {
-    showToast('Error al eliminar', true);
-  }
-}
-
-// ══════════════════════════════════════
-// GEMINI API
-// ══════════════════════════════════════
-async function callGemini(prompt) {
-  const apiKey = window.CONFIG?.GEMINI_KEY || GEMINI_KEY;
-  const url = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=${apiKey}`;
-
-  const res = await fetch(url, {
-    method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify({
-      contents: [{ parts: [{ text: prompt }] }],
-      generationConfig: { temperature: 0.8, maxOutputTokens: 600 }
-    })
-  });
-
-  if (!res.ok) throw new Error('Error Gemini API: ' + res.status);
-  const data = await res.json();
-  return data.candidates?.[0]?.content?.parts?.[0]?.text || 'Sin respuesta.';
-}
-
-// ══════════════════════════════════════
-// AI PROSPECTOR — imágenes + Gemini Vision
-// ══════════════════════════════════════
-
-// Almacén de imágenes por canal: { canal: { base64, mimeType, nombre } }
-const canalFiles = {};
-
-function handleCanalFile(input) {
-  const canal = input.dataset.canal;
-  const file = input.files[0];
-  if (!file) return;
-
-  const reader = new FileReader();
-  reader.onload = (e) => {
-    const base64 = e.target.result.split(',')[1];
-    canalFiles[canal] = { base64, mimeType: file.type, nombre: file.name };
-
-    // Actualizar UI
-    document.getElementById(`${canal}-preview-label`).textContent = '✓ ' + file.name;
-    document.getElementById(`${canal}-preview-label`).classList.add('text-[#00C2A8]');
-    document.getElementById(`${canal}-preview-label`).classList.remove('text-slate-600');
-    document.getElementById(`${canal}-clear`).classList.remove('hidden');
-    document.getElementById(`${canal}-btn`).textContent = 'Cambiar';
-  };
-  reader.readAsDataURL(file);
-}
-
-function clearCanalFile(canal) {
-  delete canalFiles[canal];
-  document.getElementById(`${canal}-preview-label`).textContent = 'Sin captura — se marcará como oportunidad';
-  document.getElementById(`${canal}-preview-label`).classList.remove('text-[#00C2A8]');
-  document.getElementById(`${canal}-preview-label`).classList.add('text-slate-600');
-  document.getElementById(`${canal}-clear`).classList.add('hidden');
-  document.getElementById(`${canal}-btn`).textContent = 'Subir';
-  // Limpiar el input file
-  const inputs = document.querySelectorAll(`.canal-input[data-canal="${canal}"]`);
-  inputs.forEach(i => i.value = '');
-}
-
-async function analizarProspecto() {
-  const nombre = document.getElementById('prosp-nombre').value.trim();
-  const tipo = document.getElementById('prosp-tipo').value;
-  const ciudad = document.getElementById('prosp-ciudad').value.trim();
-
-  if (!nombre) { showToast('Escribe el nombre del negocio', true); return; }
-
-  const btn = document.getElementById('btn-analizar-prospecto');
-  setLoading(btn, true, 'Analizando capturas...');
-
-  // Canales definidos
-  const todosLosCanales = ['instagram', 'facebook', 'maps', 'tiktok', 'web'];
-  const canalesLabels = {
-    instagram: 'Instagram',
-    facebook: 'Facebook',
-    maps: 'Google Maps / Google Business',
-    tiktok: 'TikTok',
-    web: 'Sitio Web'
-  };
-
-  const conCaptura = todosLosCanales.filter(c => canalFiles[c]);
-  const sinCaptura = todosLosCanales.filter(c => !canalFiles[c]);
-
-  try {
-    const apiKey = window.CONFIG?.GEMINI_KEY || GEMINI_KEY;
-    const url = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=${apiKey}`;
-
-    // Construir parts: texto + imágenes
-    const parts = [];
-
-    // Prompt texto principal
-    const sinCapturaTexto = sinCaptura.length > 0
-      ? `\n\nCANALES SIN CAPTURA (ausencia = oportunidad de venta):\n${sinCaptura.map(c => `- ${canalesLabels[c]}: NO tiene presencia o no se encontró`).join('\n')}`
-      : '\n\nEl negocio tiene presencia en todos los canales analizados.';
-
-    const conCapturaTexto = conCaptura.length > 0
-      ? `\n\nCANALES CON CAPTURA (analiza cada imagen a continuación):\n${conCaptura.map(c => `- ${canalesLabels[c]}`).join('\n')}`
-      : '\n\nNo se subieron capturas — analiza basándote solo en la ausencia de canales.';
-
-    parts.push({
-      text: `Eres experta en marketing digital para negocios locales en México, trabajando para Novu 360 agencia de marketing.
-
-PROSPECTO:
-- Nombre: ${nombre}
-- Giro: ${tipo}
-- Ciudad: ${ciudad || 'México'}
-${sinCapturaTexto}
-${conCapturaTexto}
-
-Analiza TODO y responde en este formato EXACTO:
-
-DIAGNÓSTICO:
-[Para cada canal CON captura: describe en 1 línea qué ves y qué problema tiene]
-[Para cada canal SIN captura: márcalo como "❌ Sin presencia — oportunidad de venta"]
-
-OPORTUNIDADES CLAVE:
-[Lista 2-3 puntos concretos que son los dolores más importantes de este negocio]
-
----MENSAJES---
-
-WHATSAPP:
-[Mensaje para WhatsApp: cálido, directo, menciona algo específico visto en las capturas o la ausencia de canales, propone auditoría gratuita, máximo 5 líneas, emojis con moderación, lenguaje mexicano natural, NO sonar como spam]
-
-INSTAGRAM_DM:
-[Mensaje para DM de Instagram: más casual y breve que WhatsApp, máximo 3 líneas, menciona algo de su perfil o su ausencia en algún canal, tono más joven e informal]`
-    });
-
-    // Agregar imágenes
-    conCaptura.forEach(canal => {
-      const f = canalFiles[canal];
-      parts.push({
-        inline_data: { mime_type: f.mimeType, data: f.base64 }
-      });
-    });
-
-    const res = await fetch(url, {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({
-        contents: [{ parts }],
-        generationConfig: { temperature: 0.8, maxOutputTokens: 1000 }
-      })
-    });
-
-    if (!res.ok) throw new Error('Error Gemini: ' + res.status);
-    const data = await res.json();
-    const texto = data.candidates?.[0]?.content?.parts?.[0]?.text || '';
-
-    // Parsear respuesta
-    const diagnostico = extraerSeccion(texto, 'DIAGNÓSTICO:', '---MENSAJES---');
-    const msgWA = extraerSeccion(texto, 'WHATSAPP:', 'INSTAGRAM_DM:');
-    const msgIG = extraerSeccionFinal(texto, 'INSTAGRAM_DM:');
-
-    document.getElementById('prosp-diagnostico').textContent = diagnostico.trim() || texto;
-    document.getElementById('prosp-msg-wa').textContent = msgWA.trim() || '(no generado)';
-    document.getElementById('prosp-msg-ig').textContent = msgIG.trim() || '(no generado)';
-    document.getElementById('prosp-result').classList.remove('hidden');
-
-    // Guardar datos para crear lead
-    prospectorData = {
-      nombre_negocio: nombre,
-      giro: tipo,
-      ciudad: ciudad,
-      diagnostico: diagnostico.trim()
+  <meta charset="utf-8" />
+  <meta content="width=device-width, initial-scale=1.0" name="viewport" />
+  <title>Novu 360 · Ventas</title>
+  <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;600;700;800&family=Inter:wght@400;500;600&display=swap" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet" />
+  <script id="tailwind-config">
+    tailwind.config = {
+      darkMode: "class",
+      theme: {
+        extend: {
+          colors: {
+            primary: "#00C2A8",
+            "on-primary": "#00382f",
+            background: "#000000",
+            "on-background": "#dde4e1"
+          },
+          fontFamily: { headline: ["Manrope"], body: ["Inter"] }
+        }
+      }
     };
+  </script>
+  <link rel="stylesheet" href="style.css" />
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script src="config.js"></script>
+  <script src="auth.js"></script>
+  <script>checkAuth();</script>
+  <style>
+    html, body { margin: 0; background: #000; }
+    .no-scrollbar::-webkit-scrollbar { display: none; }
+    .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+    #sidebar-overlay { display: none; }
+    #sidebar-overlay.active { display: block; }
+    @media (max-width: 1023px) {
+      #sidebar { transform: translateX(-100%); transition: transform .3s ease; }
+      #sidebar.open { transform: translateX(0); }
+      #main-content { margin-left: 0 !important; }
+    }
+    .skeleton { background: linear-gradient(90deg, #1a211f 25%, #243330 50%, #1a211f 75%); background-size: 200% 100%; animation: shimmer 1.5s infinite; border-radius: 6px; }
+    @keyframes shimmer { 0% { background-position: 200% 0; } 100% { background-position: -200% 0; } }
+    .badge-nuevo{background:rgba(96,165,250,.1);color:#60a5fa;border-color:rgba(96,165,250,.2)}
+    .badge-contactado{background:rgba(251,191,36,.1);color:#fbbf24;border-color:rgba(251,191,36,.2)}
+    .badge-calificado{background:rgba(168,85,247,.1);color:#a855f7;border-color:rgba(168,85,247,.2)}
+    .badge-propuesta{background:rgba(236,72,153,.1);color:#ec4899;border-color:rgba(236,72,153,.2)}
+    .badge-cerrado{background:rgba(16,185,129,.1);color:#10b981;border-color:rgba(16,185,129,.2)}
+    .badge-perdido{background:rgba(239,68,68,.1);color:#ef4444;border-color:rgba(239,68,68,.2)}
+    .dot-nuevo{background:#60a5fa}.dot-contactado{background:#fbbf24}.dot-calificado{background:#a855f7}.dot-propuesta{background:#ec4899}.dot-cerrado{background:#10b981}.dot-perdido{background:#ef4444}
+    .modal-backdrop { background: rgba(0,0,0,.8); backdrop-filter: blur(4px); }
+  </style>
+</head>
+<body class="m-0 bg-black text-on-background font-body">
+  <div id="sidebar-overlay" class="fixed inset-0 bg-black/60 z-30 lg:hidden" onclick="closeSidebar()"></div>
 
-  } catch (e) {
-    showToast('Error al analizar: ' + e.message, true);
-    console.error(e);
-  } finally {
-    setLoading(btn, false, 'Analizar y Generar Mensajes');
-  }
-}
+  <aside id="sidebar" class="bg-black h-screen w-64 fixed left-0 top-0 flex flex-col py-6 z-40" style="box-shadow: 4px 0 24px rgba(0,0,0,.6)">
+    <div class="px-6 mb-8">
+      <a href="dashboard.html" class="text-white font-black tracking-widest text-xl block font-headline" style="text-decoration:none">Novu 360</a>
+      <div class="text-neutral-500 text-xs uppercase tracking-tighter mt-1 italic">INTELIGENCIA DE AGENCIA</div>
+    </div>
+    <button onclick="window.location.href='dashboard.html'" class="mx-6 mb-8 py-3 font-bold rounded-lg flex items-center justify-center gap-2 transition-transform active:scale-95 duration-150" style="background:linear-gradient(135deg,#00C2A8,#009984);color:#000">
+      <span class="material-symbols-outlined text-sm font-bold">add</span>Nuevo Proyecto
+    </button>
+    <nav class="flex-1 space-y-1 overflow-y-auto no-scrollbar">
+      <a class="text-neutral-400 hover:text-white px-4 py-3 flex items-center gap-3 transition-all hover:bg-white/5 rounded-lg mx-3" href="dashboard.html"><span class="material-symbols-outlined">dashboard</span><span>Dashboard</span></a>
+      <a class="bg-primary text-black rounded-lg mx-3 flex items-center px-4 py-3 gap-3 font-bold" href="ventas.html"><span class="material-symbols-outlined">trending_up</span><span>Ventas</span></a>
+      <a class="text-neutral-400 hover:text-white px-4 py-3 flex items-center gap-3 transition-all hover:bg-white/5 rounded-lg mx-3" href="prospector.html"><span class="material-symbols-outlined">auto_awesome</span><span>Prospector IA</span></a>
+      <a class="text-neutral-400 hover:text-white px-4 py-3 flex items-center gap-3 transition-all hover:bg-white/5 rounded-lg mx-3" href="ads.html"><span class="material-symbols-outlined">ads_click</span><span>Ads</span></a>
+      <a class="text-neutral-400 hover:text-white px-4 py-3 flex items-center gap-3 transition-all hover:bg-white/5 rounded-lg mx-3" href="community.html"><span class="material-symbols-outlined">forum</span><span>Community</span></a>
+      <a class="text-neutral-400 hover:text-white px-4 py-3 flex items-center gap-3 transition-all hover:bg-white/5 rounded-lg mx-3" href="seo.html"><span class="material-symbols-outlined">search</span><span>SEO</span></a>
+      <a class="text-neutral-400 hover:text-white px-4 py-3 flex items-center gap-3 transition-all hover:bg-white/5 rounded-lg mx-3" href="web.html"><span class="material-symbols-outlined">language</span><span>Web</span></a>
+    </nav>
+    <div class="mt-auto pt-4 space-y-1" style="border-top:1px solid rgba(255,255,255,0.05)">
+      <button onclick="signOut()" class="w-full text-left text-neutral-400 hover:text-white px-7 py-3 flex items-center gap-3 transition-all hover:bg-white/5"><span class="material-symbols-outlined">logout</span><span>Cerrar sesión</span></button>
+    </div>
+  </aside>
 
-function extraerSeccion(texto, inicio, fin) {
-  const i = texto.indexOf(inicio);
-  const f = texto.indexOf(fin);
-  if (i === -1) return '';
-  return f === -1 ? texto.slice(i + inicio.length) : texto.slice(i + inicio.length, f);
-}
+  <main id="main-content" class="lg:ml-64 min-h-screen flex flex-col bg-black">
+    <header class="flex justify-between items-center px-4 md:px-8 w-full h-16 bg-black/80 backdrop-blur-md border-b border-slate-800 sticky top-0 z-20">
+      <div class="flex items-center gap-3">
+        <button onclick="openSidebar()" class="lg:hidden p-2 text-slate-400 hover:text-white"><span class="material-symbols-outlined">menu</span></button>
+        <span class="text-base md:text-lg font-semibold text-slate-100 font-headline">Pipeline de Ventas</span>
+      </div>
+      <div class="flex items-center gap-2 md:gap-4">
+        <div class="relative hidden md:flex items-center">
+          <span class="material-symbols-outlined absolute left-3 text-slate-400 text-sm">search</span>
+          <input id="search-input" class="bg-slate-900 border-none rounded-lg pl-9 pr-4 py-1.5 text-sm text-slate-200 focus:ring-1 focus:ring-[#00C2A8] w-64" placeholder="Buscar prospectos..." type="text" oninput="filterLeads(this.value)" />
+        </div>
+        <button onclick="openModal('modal-nuevo-lead')" class="flex items-center gap-1.5 px-3 py-1.5 bg-[#00C2A8] text-[#00382f] font-bold text-xs rounded-lg hover:brightness-110 transition-all">
+          <span class="material-symbols-outlined text-sm">add</span>Nuevo
+        </button>
+      </div>
+    </header>
 
-function extraerSeccionFinal(texto, inicio) {
-  const i = texto.indexOf(inicio);
-  if (i === -1) return '';
-  return texto.slice(i + inicio.length);
-}
+    <div class="flex flex-col flex-1 px-4 md:px-8 pt-4 md:pt-6 pb-6 md:pb-8 gap-4 md:gap-6 overflow-hidden bg-black">
+      <section class="w-full flex flex-col bg-black rounded-xl border border-slate-800 overflow-hidden" style="min-height:400px;">
+        <div class="flex justify-between items-center p-4 md:p-5 border-b border-slate-800">
+          <div>
+            <h2 class="text-xl font-bold font-headline text-white">Prospectos</h2>
+            <p id="leads-count" class="text-slate-500 text-xs mt-0.5">Cargando...</p>
+          </div>
+          <div class="flex gap-2">
+            <select id="filter-etapa" onchange="filterLeads()" class="bg-slate-900 border border-slate-700 text-slate-300 text-xs rounded-lg px-2 py-1.5 focus:ring-1 focus:ring-[#00C2A8] hidden sm:block">
+              <option value="">Todas las etapas</option><option value="nuevo">Nuevo</option><option value="contactado">Contactado</option><option value="calificado">Calificado</option><option value="propuesta">Propuesta</option><option value="cerrado">Cerrado</option><option value="perdido">Perdido</option>
+            </select>
+            <button onclick="openModal('modal-nuevo-lead')" class="hidden lg:flex items-center gap-2 px-4 py-2 bg-[#00C2A8] text-[#00382f] font-bold text-sm rounded-lg hover:brightness-110 transition-all">
+              <span class="material-symbols-outlined text-sm">add</span>Nuevo Lead
+            </button>
+          </div>
+        </div>
+        <div class="flex-1 overflow-x-auto overflow-y-auto no-scrollbar">
+          <table class="min-w-[700px] w-full text-left">
+            <thead>
+              <tr class="text-[10px] font-bold text-slate-500 uppercase tracking-widest border-b border-slate-800 bg-black sticky top-0">
+                <th class="px-4 py-3">Negocio</th><th class="px-4 py-3 hidden md:table-cell">Giro</th><th class="px-4 py-3 hidden sm:table-cell text-center">Fecha</th><th class="px-4 py-3 text-center">Etapa</th><th class="px-4 py-3 text-center">Acciones</th>
+              </tr>
+            </thead>
+            <tbody id="leads-tbody" class="divide-y divide-slate-800/50">
+              <tr><td colspan="5" class="px-4 py-4"><div class="space-y-3"><div class="skeleton h-4 w-full"></div><div class="skeleton h-4 w-5/6"></div><div class="skeleton h-4 w-4/6"></div></div></td></tr>
+            </tbody>
+          </table>
+        </div>
+        <div id="empty-state" class="hidden flex-1 flex flex-col items-center justify-center p-8 text-center">
+          <span class="material-symbols-outlined text-5xl text-slate-700 mb-3">inbox</span>
+          <p class="text-slate-500 text-sm font-medium">Sin prospectos todavía</p>
+          <p class="text-slate-600 text-xs mt-1">Agrega tu primer lead con el botón "Nuevo Lead"</p>
+        </div>
+      </section>
+    </div>
+  </main>
 
-async function guardarLeadDesdeProspector() {
-  if (!prospectorData.nombre_negocio) return;
+  <button onclick="openModal('modal-nuevo-lead')" class="fixed bottom-6 right-6 w-14 h-14 bg-[#00C2A8] text-[#00382f] rounded-full shadow-2xl flex items-center justify-center hover:scale-110 active:scale-95 transition-all z-50 lg:hidden"><span class="material-symbols-outlined text-2xl" style="font-variation-settings:'FILL' 1;">add</span></button>
 
-  try {
-    const notasIA = prospectorData.diagnostico
-      ? `[AI Prospector]\n${prospectorData.diagnostico}`
-      : 'Generado desde AI Prospector';
+  <div id="modal-nuevo-lead" class="fixed inset-0 z-50 hidden items-center justify-center p-4">
+    <div class="modal-backdrop absolute inset-0" onclick="closeModal('modal-nuevo-lead')"></div>
+    <div class="relative bg-[#0c0c0c] border border-slate-800 rounded-2xl p-6 w-full max-w-md shadow-2xl">
+      <div class="flex items-center justify-between mb-5"><h3 class="text-lg font-bold font-headline text-white">Nuevo Lead</h3><button onclick="closeModal('modal-nuevo-lead')" class="text-slate-500 hover:text-white"><span class="material-symbols-outlined">close</span></button></div>
+      <div class="space-y-3">
+        <div class="grid grid-cols-2 gap-3"><div><label class="text-[10px] font-bold uppercase tracking-wider text-slate-500 block mb-1">Nombre del negocio *</label><input id="nl-nombre" class="w-full bg-black border border-slate-800 rounded-lg text-sm py-2 px-3 focus:ring-1 focus:ring-[#00C2A8] text-slate-200" type="text" /></div><div><label class="text-[10px] font-bold uppercase tracking-wider text-slate-500 block mb-1">Giro</label><input id="nl-giro" class="w-full bg-black border border-slate-800 rounded-lg text-sm py-2 px-3 focus:ring-1 focus:ring-[#00C2A8] text-slate-200" type="text" /></div></div>
+        <div class="grid grid-cols-2 gap-3"><div><label class="text-[10px] font-bold uppercase tracking-wider text-slate-500 block mb-1">Contacto</label><input id="nl-contacto" class="w-full bg-black border border-slate-800 rounded-lg text-sm py-2 px-3 focus:ring-1 focus:ring-[#00C2A8] text-slate-200" type="text" /></div><div><label class="text-[10px] font-bold uppercase tracking-wider text-slate-500 block mb-1">Teléfono</label><input id="nl-telefono" class="w-full bg-black border border-slate-800 rounded-lg text-sm py-2 px-3 focus:ring-1 focus:ring-[#00C2A8] text-slate-200" type="text" /></div></div>
+        <div class="grid grid-cols-2 gap-3"><div><label class="text-[10px] font-bold uppercase tracking-wider text-slate-500 block mb-1">Ciudad</label><input id="nl-ciudad" class="w-full bg-black border border-slate-800 rounded-lg text-sm py-2 px-3 focus:ring-1 focus:ring-[#00C2A8] text-slate-200" type="text" /></div><div><label class="text-[10px] font-bold uppercase tracking-wider text-slate-500 block mb-1">Etapa</label><select id="nl-etapa" class="w-full bg-black border border-slate-800 rounded-lg text-sm py-2 px-3 focus:ring-1 focus:ring-[#00C2A8] text-slate-200"><option value="nuevo">Nuevo</option><option value="contactado">Contactado</option><option value="calificado">Calificado</option><option value="propuesta">Propuesta</option><option value="cerrado">Cerrado</option><option value="perdido">Perdido</option></select></div></div>
+        <div><label class="text-[10px] font-bold uppercase tracking-wider text-slate-500 block mb-1">Notas</label><textarea id="nl-notas" class="w-full bg-black border border-slate-800 rounded-lg text-sm py-2 px-3 focus:ring-1 focus:ring-[#00C2A8] text-slate-200 resize-none" rows="3"></textarea></div>
+        <div id="nl-error" class="hidden text-red-400 text-xs bg-red-400/10 border border-red-400/20 rounded-lg px-3 py-2"></div>
+        <button id="btn-nl-guardar" onclick="guardarNuevoLead()" class="w-full bg-[#00C2A8] hover:bg-[#00ad95] text-[#00382f] font-extrabold py-3 rounded-xl transition-all">Guardar Lead</button>
+      </div>
+    </div>
+  </div>
 
-    const { error } = await window.supabaseClient.from('leads').insert([{
-      nombre_negocio: prospectorData.nombre_negocio,
-      giro: prospectorData.giro || '',
-      ciudad: prospectorData.ciudad || '',
-      etapa: 'nuevo',
-      notas: notasIA,
-    }]);
-    if (error) throw error;
-    showToast('¡Lead agregado al pipeline!');
-    await cargarLeads();
-  } catch (e) {
-    showToast('Error al guardar lead', true);
-  }
-}
+  <div id="modal-editar-lead" class="fixed inset-0 z-50 hidden items-center justify-center p-4">
+    <div class="modal-backdrop absolute inset-0" onclick="closeModal('modal-editar-lead')"></div>
+    <div class="relative bg-[#0c0c0c] border border-slate-800 rounded-2xl p-6 w-full max-w-md shadow-2xl">
+      <div class="flex items-center justify-between mb-5"><h3 class="text-lg font-bold font-headline text-white">Editar Lead</h3><button onclick="closeModal('modal-editar-lead')" class="text-slate-500 hover:text-white"><span class="material-symbols-outlined">close</span></button></div>
+      <input type="hidden" id="el-id" />
+      <div class="space-y-3">
+        <div class="grid grid-cols-2 gap-3"><div><label class="text-[10px] font-bold uppercase tracking-wider text-slate-500 block mb-1">Nombre *</label><input id="el-nombre" class="w-full bg-black border border-slate-800 rounded-lg text-sm py-2 px-3 focus:ring-1 focus:ring-[#00C2A8] text-slate-200" type="text" /></div><div><label class="text-[10px] font-bold uppercase tracking-wider text-slate-500 block mb-1">Giro</label><input id="el-giro" class="w-full bg-black border border-slate-800 rounded-lg text-sm py-2 px-3 focus:ring-1 focus:ring-[#00C2A8] text-slate-200" type="text" /></div></div>
+        <div class="grid grid-cols-2 gap-3"><div><label class="text-[10px] font-bold uppercase tracking-wider text-slate-500 block mb-1">Contacto</label><input id="el-contacto" class="w-full bg-black border border-slate-800 rounded-lg text-sm py-2 px-3 focus:ring-1 focus:ring-[#00C2A8] text-slate-200" type="text" /></div><div><label class="text-[10px] font-bold uppercase tracking-wider text-slate-500 block mb-1">Teléfono</label><input id="el-telefono" class="w-full bg-black border border-slate-800 rounded-lg text-sm py-2 px-3 focus:ring-1 focus:ring-[#00C2A8] text-slate-200" type="text" /></div></div>
+        <div class="grid grid-cols-2 gap-3"><div><label class="text-[10px] font-bold uppercase tracking-wider text-slate-500 block mb-1">Ciudad</label><input id="el-ciudad" class="w-full bg-black border border-slate-800 rounded-lg text-sm py-2 px-3 focus:ring-1 focus:ring-[#00C2A8] text-slate-200" type="text" /></div><div><label class="text-[10px] font-bold uppercase tracking-wider text-slate-500 block mb-1">Etapa</label><select id="el-etapa" class="w-full bg-black border border-slate-800 rounded-lg text-sm py-2 px-3 focus:ring-1 focus:ring-[#00C2A8] text-slate-200"><option value="nuevo">Nuevo</option><option value="contactado">Contactado</option><option value="calificado">Calificado</option><option value="propuesta">Propuesta</option><option value="cerrado">Cerrado</option><option value="perdido">Perdido</option></select></div></div>
+        <div><label class="text-[10px] font-bold uppercase tracking-wider text-slate-500 block mb-1">Notas</label><textarea id="el-notas" class="w-full bg-black border border-slate-800 rounded-lg text-sm py-2 px-3 focus:ring-1 focus:ring-[#00C2A8] text-slate-200 resize-none" rows="3"></textarea></div>
+        <div id="el-error" class="hidden text-red-400 text-xs bg-red-400/10 border border-red-400/20 rounded-lg px-3 py-2"></div>
+        <div class="flex gap-2"><button id="btn-el-guardar" onclick="actualizarLead()" class="flex-1 bg-[#00C2A8] hover:bg-[#00ad95] text-[#00382f] font-extrabold py-3 rounded-xl transition-all">Guardar Cambios</button><button onclick="eliminarLead()" class="px-4 bg-red-500/10 hover:bg-red-500/20 border border-red-500/20 text-red-400 font-bold rounded-xl transition-all"><span class="material-symbols-outlined text-lg">delete</span></button></div>
+      </div>
+    </div>
+  </div>
 
-// ── Auditor de conversación ──
-async function auditarConversacion() {
-  const conv = document.getElementById('auditor-input').value.trim();
-  if (!conv) { showToast('Pega una conversación primero', true); return; }
+  <div id="toast" class="fixed bottom-24 lg:bottom-8 left-1/2 -translate-x-1/2 z-50 hidden"><div class="bg-[#00C2A8] text-[#00382f] font-bold text-sm px-5 py-3 rounded-full shadow-2xl"><span id="toast-msg">Guardado</span></div></div>
 
-  const btn = document.getElementById('btn-auditar');
-  setLoading(btn, true, 'Analizando...');
+  <script>
+    let allLeads = [];
+    let currentLeadId = null;
 
-  const prompt = `Eres una experta en ventas y cierre de negocios para agencias de marketing digital en México.
-Analiza la siguiente conversación de prospección y da retroalimentación concisa.
+    function openSidebar() { document.getElementById("sidebar").classList.add("open"); document.getElementById("sidebar-overlay").classList.add("active"); }
+    function closeSidebar() { document.getElementById("sidebar").classList.remove("open"); document.getElementById("sidebar-overlay").classList.remove("active"); }
+    function openModal(id) { const el = document.getElementById(id); el.classList.remove("hidden"); el.classList.add("flex"); document.body.style.overflow = "hidden"; }
+    function closeModal(id) { const el = document.getElementById(id); el.classList.add("hidden"); el.classList.remove("flex"); document.body.style.overflow = ""; }
+    function showToast(msg, isError = false) { const t = document.getElementById("toast"); const tm = document.getElementById("toast-msg"); const inner = t.firstElementChild; tm.textContent = msg; inner.style.background = isError ? "#ef4444" : "#00C2A8"; inner.style.color = isError ? "#fff" : "#00382f"; t.classList.remove("hidden"); setTimeout(() => t.classList.add("hidden"), 3000); }
+    function badgeEtapa(etapa) { const e = (etapa || "nuevo").toLowerCase(); return `<span class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full badge-${e} text-[10px] font-bold uppercase tracking-wider border"><span class="w-1.5 h-1.5 rounded-full dot-${e}"></span>${e}</span>`; }
+    function fechaCorta(ts) { if (!ts) return "—"; const d = new Date(ts); return d.toLocaleDateString("es-MX", { day: "2-digit", month: "short", year: "2-digit" }); }
 
-CONVERSACIÓN:
-${conv}
+    async function cargarLeads() {
+      try {
+        const { data, error } = await window.supabaseClient.from("leads").select("*").order("created_at", { ascending: false });
+        if (error) throw error;
+        allLeads = data || [];
+        renderLeads(allLeads);
+      } catch (e) {
+        document.getElementById("leads-tbody").innerHTML = '<tr><td colspan="5" class="px-4 py-8 text-center text-red-400 text-sm">Error al cargar prospectos.</td></tr>';
+      }
+    }
+    function renderLeads(leads) {
+      const tbody = document.getElementById("leads-tbody");
+      const empty = document.getElementById("empty-state");
+      document.getElementById("leads-count").textContent = `${leads.length} prospecto${leads.length !== 1 ? "s" : ""}`;
+      if (!leads.length) { tbody.innerHTML = ""; empty.classList.remove("hidden"); return; }
+      empty.classList.add("hidden");
+      tbody.innerHTML = leads.map(l => `<tr class="hover:bg-slate-900/30 transition-colors cursor-pointer group" onclick="abrirEditar('${l.id}')"><td class="px-4 py-4"><span class="text-sm font-bold text-slate-100 block">${l.nombre_negocio || ""}</span><span class="text-xs text-slate-500">${l.contacto || ""}</span></td><td class="px-4 py-4 hidden md:table-cell"><span class="text-xs text-slate-400">${l.giro || "—"}</span></td><td class="px-4 py-4 hidden sm:table-cell text-center"><span class="text-xs text-slate-400">${fechaCorta(l.created_at)}</span></td><td class="px-4 py-4 text-center">${badgeEtapa(l.etapa)}</td><td class="px-4 py-4 text-center"><button onclick="event.stopPropagation(); abrirEditar('${l.id}')" class="text-slate-600 hover:text-[#00C2A8] transition-colors p-1"><span class="material-symbols-outlined text-base">edit</span></button></td></tr>`).join("");
+    }
+    function filterLeads(searchVal) {
+      const search = (searchVal !== undefined ? searchVal : document.getElementById("search-input")?.value || "").toLowerCase();
+      const etapa = document.getElementById("filter-etapa")?.value || "";
+      let filtered = allLeads;
+      if (search) filtered = filtered.filter(l => (l.nombre_negocio || "").toLowerCase().includes(search) || (l.contacto || "").toLowerCase().includes(search) || (l.giro || "").toLowerCase().includes(search));
+      if (etapa) filtered = filtered.filter(l => (l.etapa || "nuevo") === etapa);
+      renderLeads(filtered);
+    }
 
-Responde con este formato exacto (usa los emojis):
-🎯 TEMPERATURA: [Fría / Tibia / Caliente] — [una línea de por qué]
-✅ LO QUE FUNCIONÓ: [1-2 puntos breves]
-⚠️ ÁREA DE MEJORA: [1-2 puntos breves]
-🚀 SIGUIENTE PASO SUGERIDO: [acción concreta a tomar]`;
+    function mostrarError(elId, msg) { const el = document.getElementById(elId); el.textContent = msg; el.classList.remove("hidden"); }
+    function setLoading(btn, loading, defaultText) { if (loading) { btn.disabled = true; btn.textContent = "Procesando..."; } else { btn.disabled = false; btn.textContent = defaultText; } }
 
-  try {
-    const resultado = await callGemini(prompt);
-    document.getElementById('auditor-output').textContent = resultado;
-    document.getElementById('auditor-result').classList.remove('hidden');
-  } catch (e) {
-    showToast('Error al analizar: ' + e.message, true);
-  } finally {
-    setLoading(btn, false, 'Analizar Conversación');
-  }
-}
+    async function guardarNuevoLead() {
+      const nombre = document.getElementById("nl-nombre").value.trim();
+      if (!nombre) return mostrarError("nl-error", "El nombre del negocio es obligatorio.");
+      const btn = document.getElementById("btn-nl-guardar"); setLoading(btn, true, "Guardar Lead");
+      try {
+        const { error } = await window.supabaseClient.from("leads").insert([{ nombre_negocio: nombre, giro: document.getElementById("nl-giro").value.trim(), contacto: document.getElementById("nl-contacto").value.trim(), telefono: document.getElementById("nl-telefono").value.trim(), ciudad: document.getElementById("nl-ciudad").value.trim(), etapa: document.getElementById("nl-etapa").value, notas: document.getElementById("nl-notas").value.trim() }]);
+        if (error) throw error;
+        closeModal("modal-nuevo-lead");
+        ["nl-nombre","nl-giro","nl-contacto","nl-telefono","nl-ciudad","nl-notas"].forEach(id => document.getElementById(id).value = "");
+        document.getElementById("nl-etapa").value = "nuevo";
+        document.getElementById("nl-error").classList.add("hidden");
+        showToast("Lead guardado");
+        await cargarLeads();
+      } catch (e) { mostrarError("nl-error", "Error al guardar: " + (e.message || e)); }
+      finally { setLoading(btn, false, "Guardar Lead"); }
+    }
 
-// ── Generador de Pitch ──
-async function generarPitch() {
-  const leadId = document.getElementById('pitch-select').value;
-  const servicio = document.getElementById('pitch-servicio').value;
-
-  if (!leadId) { showToast('Selecciona un prospecto', true); return; }
-
-  const lead = allLeads.find(l => l.id === leadId);
-  if (!lead) return;
-
-  const btn = document.getElementById('btn-pitch');
-  setLoading(btn, true, 'Generando...');
-
-  const prompt = `Eres una experta consultora de ventas para Novu 360, agencia de marketing digital en México especializada en negocios locales.
-
-Genera un script de pitch para llamada telefónica o reunión corta (5-7 minutos).
-
-Datos del prospecto:
-- Negocio: ${lead.nombre_negocio}
-- Giro: ${lead.giro || 'negocio local'}
-- Ciudad: ${lead.ciudad || 'México'}
-- Etapa actual: ${lead.etapa}
-- Notas: ${lead.notas || 'sin notas'}
-
-Servicio a vender: ${servicio}
-
-El script debe incluir:
-1. Apertura (10 seg): saludo + quién eres
-2. Gancho (20 seg): problema específico que tiene este tipo de negocio
-3. Propuesta de valor (30 seg): qué hace Novu 360 y cómo resuelve eso
-4. Prueba social (15 seg): resultado genérico creíble
-5. Cierre (15 seg): llamada a la acción para agendar reunión
-
-Usa lenguaje natural mexicano. Incluye [PAUSA] donde es importante esperar respuesta. Máximo 200 palabras.`;
-
-  try {
-    const resultado = await callGemini(prompt);
-    document.getElementById('pitch-output').textContent = resultado;
-    document.getElementById('pitch-result').classList.remove('hidden');
-  } catch (e) {
-    showToast('Error al generar pitch: ' + e.message, true);
-  } finally {
-    setLoading(btn, false, 'Generar Pitch IA');
-  }
-}
-
-// ── Helpers UI ──
-function setLoading(btn, loading, defaultText) {
-  if (loading) {
-    btn.disabled = true;
-    btn.innerHTML = `<svg class="animate-spin h-4 w-4 mr-2" viewBox="0 0 24 24" fill="none">
-      <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
-      <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8v8H4z"></path>
-    </svg>${loading === true ? 'Procesando...' : loading}`;
-  } else {
-    btn.disabled = false;
-    btn.textContent = defaultText;
-  }
-}
-
-function mostrarError(elId, msg) {
-  const el = document.getElementById(elId);
-  el.textContent = msg;
-  el.classList.remove('hidden');
-}
-
-function signOut() {
-  window.supabaseClient.auth.signOut().then(() => window.location.href = 'index.html');
-}
-
-// ── Init ──
-document.addEventListener('DOMContentLoaded', () => {
-  cargarLeads();
-});
-</script>
+    function abrirEditar(id) {
+      const lead = allLeads.find(l => l.id === id); if (!lead) return; currentLeadId = id;
+      document.getElementById("el-id").value = id;
+      document.getElementById("el-nombre").value = lead.nombre_negocio || "";
+      document.getElementById("el-giro").value = lead.giro || "";
+      document.getElementById("el-contacto").value = lead.contacto || "";
+      document.getElementById("el-telefono").value = lead.telefono || "";
+      document.getElementById("el-ciudad").value = lead.ciudad || "";
+      document.getElementById("el-etapa").value = lead.etapa || "nuevo";
+      document.getElementById("el-notas").value = lead.notas || "";
+      document.getElementById("el-error").classList.add("hidden");
+      openModal("modal-editar-lead");
+    }
+    async function actualizarLead() {
+      const nombre = document.getElementById("el-nombre").value.trim();
+      if (!nombre) return mostrarError("el-error", "El nombre es obligatorio.");
+      const btn = document.getElementById("btn-el-guardar"); setLoading(btn, true, "Guardar Cambios");
+      try {
+        const { error } = await window.supabaseClient.from("leads").update({ nombre_negocio: nombre, giro: document.getElementById("el-giro").value.trim(), contacto: document.getElementById("el-contacto").value.trim(), telefono: document.getElementById("el-telefono").value.trim(), ciudad: document.getElementById("el-ciudad").value.trim(), etapa: document.getElementById("el-etapa").value, notas: document.getElementById("el-notas").value.trim() }).eq("id", currentLeadId);
+        if (error) throw error;
+        closeModal("modal-editar-lead"); showToast("Lead actualizado"); await cargarLeads();
+      } catch (e) { mostrarError("el-error", "Error: " + (e.message || e)); }
+      finally { setLoading(btn, false, "Guardar Cambios"); }
+    }
+    async function eliminarLead() {
+      if (!confirm("¿Eliminar este lead?")) return;
+      try { const { error } = await window.supabaseClient.from("leads").delete().eq("id", currentLeadId); if (error) throw error; closeModal("modal-editar-lead"); showToast("Lead eliminado"); await cargarLeads(); }
+      catch (e) { showToast("Error al eliminar", true); }
+    }
+    function signOut() { window.supabaseClient.auth.signOut().then(() => window.location.href = "index.html"); }
+    document.addEventListener("DOMContentLoaded", cargarLeads);
+  </script>
 </body>
 </html>

@@ -1,9 +1,9 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html class="dark" lang="es">
 <head>
     <meta charset="utf-8"/>
     <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
-    <title>Novu 360 · Aprobaciones</title>
+    <title>Novu 360 Â· Aprobaciones</title>
     <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
     <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;700;800&display=swap" rel="stylesheet"/>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap" rel="stylesheet"/>
@@ -36,6 +36,9 @@
             <a class="text-neutral-400 hover:text-white px-4 py-3 flex items-center gap-3 transition-all hover:bg-white/5 rounded-lg mx-3" href="ventas.html">
                 <span class="material-symbols-outlined">trending_up</span>
                 <span>Ventas</span>
+            </a>
+            <a class="text-neutral-400 hover:text-white px-4 py-3 flex items-center gap-3 transition-all hover:bg-white/5 rounded-lg mx-3" href="prospector.html">
+              <span class="material-symbols-outlined">auto_awesome</span><span>Prospector IA</span>
             </a>
             <a class="text-neutral-400 hover:text-white px-4 py-3 flex items-center gap-3 transition-all hover:bg-white/5 rounded-lg mx-3" href="ads.html">
                 <span class="material-symbols-outlined">ads_click</span>
@@ -126,21 +129,21 @@
                 </div>
                 <div class="relative z-10">
                     <h2 class="text-2xl font-black mb-6 tracking-tight flex items-center gap-3">
-                        Métricas de Aprobación
+                        MÃ©tricas de AprobaciÃ³n
                     </h2>
                     <div class="grid grid-cols-2 md:grid-cols-4 gap-8">
                         <div>
                             <p class="text-neutral-400 text-[10px] uppercase font-bold tracking-widest mb-1">Pendientes</p>
                             <div class="flex items-baseline gap-2">
                                 <span class="text-4xl font-black">12</span>
-                                <span class="text-primary text-xs font-bold">↑ 2</span>
+                                <span class="text-primary text-xs font-bold">â†‘ 2</span>
                             </div>
                         </div>
                         <div>
-                            <p class="text-neutral-400 text-[10px] uppercase font-bold tracking-widest mb-1">Ratio Aprobación</p>
+                            <p class="text-neutral-400 text-[10px] uppercase font-bold tracking-widest mb-1">Ratio AprobaciÃ³n</p>
                             <div class="flex items-baseline gap-2">
                                 <span class="text-4xl font-black">84%</span>
-                                <span class="text-primary text-xs font-bold">↑ 5%</span>
+                                <span class="text-primary text-xs font-bold">â†‘ 5%</span>
                             </div>
                         </div>
                     </div>
@@ -157,7 +160,7 @@
                     </div>
                     <div class="p-5 flex flex-col flex-1">
                         <div class="flex justify-between items-start mb-2">
-                            <h3 class="font-manrope font-bold text-white">Campaña Verano 2024</h3>
+                            <h3 class="font-manrope font-bold text-white">CampaÃ±a Verano 2024</h3>
                             <span class="text-[10px] text-gray-500">hace 2 horas</span>
                         </div>
                         <p class="text-primary text-xs font-bold mb-3">TechFlow Solutions</p>
@@ -204,9 +207,9 @@
     <script src="app.js" defer></script>
     <script>
         async function handleAprobacion(id, status) {
-            console.log(`Actualizando aprobación ${id} a ${status}`);
+            console.log(`Actualizando aprobaciÃ³n ${id} a ${status}`);
             try {
-                // Aquí podrías actualizar la tabla de Supabase en el futuro
+                // AquÃ­ podrÃ­as actualizar la tabla de Supabase en el futuro
                 if (window.supabaseClient) {
                     const { error } = await window.supabaseClient
                         .from('aprobaciones')

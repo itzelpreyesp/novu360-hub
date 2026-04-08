@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html class="dark" lang="es">
 <head>
   <meta charset="utf-8" />
@@ -76,14 +76,14 @@
       }
     };
   </script>
-  <title>Novu 360 · Panel de Control</title>
+  <title>Novu 360 Â· Panel de Control</title>
   <link rel="stylesheet" href="style.css" />
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
   <script src="config.js"></script>
   <script src="auth.js"></script>
   <script>checkAuth();</script>
   <style>
-    html, body { background-color: #0D1117; }
+    html, body { background-color: #0D1117; margin: 0; }
     body { overflow-x: hidden; }
     .nav-item {
       display: flex; align-items: center; gap: 0.75rem; padding: 0.85rem 1.25rem; margin: 0 1rem;
@@ -100,7 +100,7 @@
     .line-clamp-2 { overflow: hidden; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; }
   </style>
 </head>
-<body class="min-h-screen text-on-surface antialiased flex bg-[#0D1117]">
+<body class="m-0 min-h-screen text-on-surface antialiased flex bg-[#0D1117]">
   <aside id="sidebar" class="hidden md:flex bg-black antialiased h-screen w-64 fixed left-0 top-0 flex-col py-6 z-20 border-r border-white/5">
     <div class="px-6 mb-8">
       <a href="dashboard.html" class="text-white font-black tracking-widest text-xl block" style="text-decoration:none">Novu 360</a>
@@ -113,6 +113,7 @@
     <nav class="flex-1 space-y-1 overflow-y-auto custom-scrollbar">
       <a class="nav-item nav-active" href="dashboard.html"><span class="material-symbols-outlined">dashboard</span><span>Dashboard</span></a>
       <a class="nav-item" href="ventas.html"><span class="material-symbols-outlined">trending_up</span><span>Ventas</span></a>
+      <a class="nav-item" href="prospector.html"><span class="material-symbols-outlined">auto_awesome</span><span>Prospector IA</span></a>
       <a class="nav-item" href="ads.html"><span class="material-symbols-outlined">ads_click</span><span>Ads</span></a>
       <a class="nav-item" href="community.html"><span class="material-symbols-outlined">forum</span><span>Community</span></a>
       <a class="nav-item" href="seo.html"><span class="material-symbols-outlined">search</span><span>SEO</span></a>
@@ -130,7 +131,7 @@
   </aside>
 
   <div id="mobile-sidebar-overlay" class="fixed inset-0 bg-black/60 z-30 hidden md:hidden"></div>
-  <aside id="mobile-sidebar" class="fixed inset-y-0 left-0 z-40 w-72 max-w-[82vw] bg-black border-r border-white/5 transform -translate-x-full transition-transform duration-300 md:hidden flex flex-col py-6">
+  <aside id="mobile-sidebar" class="fixed inset-y-0 left-0 z-40 w-72 max-w-[82vw] bg-black border-r border-white/5 transform -translate-x-full transition-transform duration-300 ease-out md:hidden flex flex-col py-6">
     <div class="px-6 mb-8 flex items-start justify-between gap-4">
       <div>
         <a href="dashboard.html" class="text-white font-black tracking-widest text-xl block" style="text-decoration:none">Novu 360</a>
@@ -147,6 +148,7 @@
     <nav class="flex-1 space-y-1 overflow-y-auto custom-scrollbar">
       <a class="nav-item nav-active" href="dashboard.html"><span class="material-symbols-outlined">dashboard</span><span>Dashboard</span></a>
       <a class="nav-item" href="ventas.html"><span class="material-symbols-outlined">trending_up</span><span>Ventas</span></a>
+      <a class="nav-item" href="prospector.html"><span class="material-symbols-outlined">auto_awesome</span><span>Prospector IA</span></a>
       <a class="nav-item" href="ads.html"><span class="material-symbols-outlined">ads_click</span><span>Ads</span></a>
       <a class="nav-item" href="community.html"><span class="material-symbols-outlined">forum</span><span>Community</span></a>
       <a class="nav-item" href="seo.html"><span class="material-symbols-outlined">search</span><span>SEO</span></a>
@@ -163,7 +165,7 @@
     <header class="sticky top-0 z-10 border-b border-white/5" style="background-color:#0D1117;">
       <div class="flex items-center justify-between gap-3 px-4 py-4 md:h-16 md:px-8">
         <div class="flex items-center gap-3 md:gap-6 min-w-0">
-          <button id="mobile-sidebar-toggle" class="md:hidden p-2 rounded-full hover:bg-white/5 transition-colors" type="button" aria-label="Abrir menu">
+          <button id="mobile-sidebar-toggle" class="md:hidden p-2 rounded-full hover:bg-white/5 transition-colors" type="button" aria-label="Abrir menu" aria-expanded="false">
             <span class="material-symbols-outlined text-white">menu</span>
           </button>
           <div class="min-w-0">
@@ -197,7 +199,7 @@
       </div>
     </header>
 
-    <div class="px-4 py-4 md:p-8 space-y-6 md:space-y-8">
+    <div class="px-4 pt-4 pb-24 md:p-8 space-y-6 md:space-y-8">
       <section class="bg-surface-container-low text-white rounded-2xl p-5 md:p-8 shadow-2xl relative overflow-hidden border border-white/5">
         <div class="absolute top-0 right-0 p-8 md:p-12 opacity-5 pointer-events-none"><span class="material-symbols-outlined text-[90px] md:text-[120px]">insights</span></div>
         <div class="relative z-10 grid grid-cols-1 xl:grid-cols-12 gap-6 md:gap-8 items-start">
@@ -251,6 +253,31 @@
       </div>
     </div>
   </main>
+
+  <nav class="fixed bottom-0 left-0 w-full z-30 border-t border-white/10 bg-black/95 backdrop-blur md:hidden" id="mobile-bottom-nav">
+    <div class="grid grid-cols-5">
+      <a href="dashboard.html" class="mobile-bottom-link flex flex-col items-center justify-center gap-1 px-2 py-3 text-neutral-400">
+        <span class="material-symbols-outlined text-[20px]">dashboard</span>
+        <span class="text-[10px] font-bold uppercase tracking-wide">Home</span>
+      </a>
+      <a href="ventas.html" class="mobile-bottom-link flex flex-col items-center justify-center gap-1 px-2 py-3 text-neutral-400">
+        <span class="material-symbols-outlined text-[20px]">trending_up</span>
+        <span class="text-[10px] font-bold uppercase tracking-wide">Ventas</span>
+      </a>
+      <a href="community.html" class="mobile-bottom-link flex flex-col items-center justify-center gap-1 px-2 py-3 text-neutral-400">
+        <span class="material-symbols-outlined text-[20px]">forum</span>
+        <span class="text-[10px] font-bold uppercase tracking-wide">Community</span>
+      </a>
+      <a href="seo.html" class="mobile-bottom-link flex flex-col items-center justify-center gap-1 px-2 py-3 text-neutral-400">
+        <span class="material-symbols-outlined text-[20px]">search</span>
+        <span class="text-[10px] font-bold uppercase tracking-wide">SEO</span>
+      </a>
+      <a href="cerebros.html" class="mobile-bottom-link flex flex-col items-center justify-center gap-1 px-2 py-3 text-neutral-400">
+        <span class="material-symbols-outlined text-[20px]">psychology</span>
+        <span class="text-[10px] font-bold uppercase tracking-wide">IA</span>
+      </a>
+    </div>
+  </nav>
   <script>
     const DASHBOARD_TABLES = { clients: ["clientes", "customers", "customer_accounts", "accounts"], projects: ["proyectos", "projects", "servicios", "campaigns"], leads: ["leads", "prospectos", "pipeline_leads", "contactos"], tasks: ["tareas", "tasks", "deliverables", "pending_tasks"], invoices: ["facturas", "invoices", "pagos", "payments"], approvals: ["aprobaciones", "approvals", "solicitudes_aprobacion"], ads: ["ads", "ad_campaigns", "campanas_ads"], seo: ["seo", "seo_projects", "seo_metrics"], community: ["community", "community_tasks", "social_content"], web: ["web", "web_projects", "web_metrics"] };
     const AREA_CONFIG = { ventas: { label: "Ventas", icon: "trending_up" }, ads: { label: "Ads", icon: "ads_click" }, community: { label: "Community", icon: "forum" }, seo: { label: "SEO", icon: "search" }, web: { label: "Web", icon: "language" } };
@@ -258,6 +285,7 @@
     document.addEventListener("DOMContentLoaded", function () {
       setupMobileSidebar();
       setupNavigation();
+      setupBottomNavActiveState();
       setupSearch();
       initDashboard().catch(function (error) {
         console.error("Dashboard init error:", error);
@@ -271,19 +299,32 @@
       const sidebar = document.getElementById("mobile-sidebar");
       const overlay = document.getElementById("mobile-sidebar-overlay");
       if (!toggle || !closeButton || !sidebar || !overlay) return;
+      function isOpen() {
+        return sidebar.classList.contains("translate-x-0");
+      }
       function openSidebar() {
         sidebar.classList.remove("-translate-x-full");
+        sidebar.classList.add("translate-x-0");
         overlay.classList.remove("hidden");
         document.body.classList.add("overflow-hidden");
+        toggle.setAttribute("aria-expanded", "true");
       }
       function closeSidebar() {
+        sidebar.classList.remove("translate-x-0");
         sidebar.classList.add("-translate-x-full");
         overlay.classList.add("hidden");
         document.body.classList.remove("overflow-hidden");
+        toggle.setAttribute("aria-expanded", "false");
       }
-      toggle.addEventListener("click", openSidebar);
+      toggle.addEventListener("click", function () {
+        if (isOpen()) closeSidebar();
+        else openSidebar();
+      });
       closeButton.addEventListener("click", closeSidebar);
       overlay.addEventListener("click", closeSidebar);
+      document.addEventListener("keydown", function (event) {
+        if (event.key === "Escape" && isOpen()) closeSidebar();
+      });
       document.querySelectorAll("#mobile-sidebar a, #mobile-sidebar [data-nav-target]").forEach(function (element) {
         element.addEventListener("click", closeSidebar);
       });
@@ -300,6 +341,16 @@
       const accountButton = document.getElementById("account-button");
       if (notificationsButton) notificationsButton.onclick = function () { window.location.href = "aprobaciones.html"; };
       if (accountButton) accountButton.onclick = function () { window.location.href = "portal-cliente.html"; };
+    }
+
+    function setupBottomNavActiveState() {
+      const currentPage = window.location.pathname.split("/").pop() || "dashboard.html";
+      document.querySelectorAll("#mobile-bottom-nav .mobile-bottom-link").forEach(function (link) {
+        const href = link.getAttribute("href");
+        const isActive = href === currentPage;
+        link.classList.toggle("text-primary", isActive);
+        link.classList.toggle("text-neutral-400", !isActive);
+      });
     }
 
     function setupSearch() {
@@ -480,7 +531,7 @@
 
     function buildAreaDetail(areaKey, rowCount, metrics, dataset) {
       if (areaKey === "ventas") return metrics.leads ? metrics.leads + " leads activos" : "Sin leads conectados";
-      if (areaKey === "ads") return rowCount ? rowCount + " registros sincronizados" : "Sin campañas conectadas";
+      if (areaKey === "ads") return rowCount ? rowCount + " registros sincronizados" : "Sin campaÃ±as conectadas";
       if (areaKey === "community") return rowCount ? rowCount + " items en seguimiento" : "Sin contenido conectado";
       if (areaKey === "seo") return rowCount ? rowCount + " registros SEO disponibles" : "Sin metricas SEO";
       if (areaKey === "web") return dataset.projects && dataset.projects.rows.length ? dataset.projects.rows.length + " proyectos detectados" : "Sin proyectos web";
@@ -490,7 +541,7 @@
     function buildSnapshotText(dataset, session) {
       const syncedSources = Object.values(dataset).filter(function (entry) { return entry && entry.table; }).length;
       const userLabel = session && session.user && session.user.email ? session.user.email : "sesion activa";
-      return syncedSources ? syncedSources + " fuentes conectadas · " + userLabel : "Sin fuentes detectadas en Supabase";
+      return syncedSources ? syncedSources + " fuentes conectadas Â· " + userLabel : "Sin fuentes detectadas en Supabase";
     }
 
     function renderSummary(summary) {
