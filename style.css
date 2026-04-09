@@ -688,9 +688,8 @@ button[class*="bg-primary-container"]:hover {
   }
 
   main {
-    margin-left: 0 !important;
-    padding-top: 56px;
-    padding-bottom: 75px;
+    padding-top: 56px !important;
+    padding-bottom: 80px !important;
   }
 
   aside#main-sidebar {
@@ -935,3 +934,4 @@ button[class*="bg-primary-container"]:hover {
     display: none; /* Hide labels on tiny screens */
   }
 }
+
