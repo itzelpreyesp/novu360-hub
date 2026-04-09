@@ -172,17 +172,18 @@ tailwind.config = {
 <div class="flex items-center gap-4">
 <div class="hidden md:flex items-center bg-white/5 rounded-full px-4 py-1.5 gap-2 border border-white/5">
 <span class="material-symbols-outlined text-sm text-neutral-500">search</span>
-<input class="bg-transparent border-none focus:ring-0 text-sm text-on-surface w-48 placeholder-neutral-500" placeholder="Buscar..." type="text"/>
+<input id="dashboard-search" class="bg-transparent border-none focus:ring-0 text-sm text-on-surface w-48 placeholder-neutral-500" placeholder="Buscar..." type="text"/>
 </div>
-<button class="p-2 rounded-full hover:bg-white/5 transition-colors relative">
+<button id="dashboard-notifications-btn" class="p-2 rounded-full hover:bg-white/5 transition-colors relative" type="button">
 <span class="material-symbols-outlined text-primary">notifications</span>
+<span id="dashboard-notifications-badge" class="hidden absolute -top-1 -right-1 w-4 h-4 rounded-full bg-error text-[10px] font-black text-black items-center justify-center">0</span>
 </button>
 <div class="flex items-center gap-3 ml-2">
 <div class="text-right">
-<p class="text-xs font-bold text-on-surface">Itzel</p>
-<p class="text-[10px] text-neutral-500 uppercase tracking-widest">Admin</p>
+<p id="dashboard-user-name" class="text-xs font-bold text-on-surface">Usuario</p>
+<p id="dashboard-user-role" class="text-[10px] text-neutral-500 uppercase tracking-widest">Cuenta</p>
 </div>
-<img alt="User avatar" class="w-10 h-10 rounded-full border-2 border-primary" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDM-vDXQoXtQjtxqJQroo15kDFtGhsQ14wU4kRLvcXCwloOzUX3aNredb2eA_U5TlSQgHAF3-5_jyibV8pdwHxMiohfgrbSYKWHR7gNgRmQlMgeGVioQUbC-ea2tyNZHi-UENZCsiv8yxWm4eg1kmx-Kn-FSN4P7emUF6kNSFozKxZ3FwFy_aiO2JWDZuvdrvpzy3dso6eLPMtfbsGocRSGRcSRfBKwlmTSI57iFtGOXr9Wj9P-cO80FDfBiB7AKguP-mPeUUzDdk4"/>
+<img id="dashboard-user-avatar" alt="User avatar" class="w-10 h-10 rounded-full border-2 border-primary bg-neutral-900 object-cover" src=""/>
 </div>
 </div>
 </header>
@@ -201,34 +202,34 @@ tailwind.config = {
 <div>
 <p class="text-neutral-400 text-[10px] uppercase font-bold tracking-widest mb-1">Clientes Activos</p>
 <div class="flex items-baseline gap-2">
-<span class="text-4xl font-black">6</span>
-<span class="text-primary text-xs font-bold">↑ 12%</span>
+<span id="metric-active-clients" class="text-4xl font-black">--</span>
+<span id="metric-active-clients-trend" class="text-primary text-xs font-bold">Sin datos</span>
 </div>
-<p class="text-neutral-500 text-[10px] mt-2">Pronóstico: 8 (EOM)</p>
+<p id="metric-active-clients-note" class="text-neutral-500 text-[10px] mt-2">Esperando datos de Supabase</p>
 </div>
 <div>
 <p class="text-neutral-400 text-[10px] uppercase font-bold tracking-widest mb-1">Ingresos del Mes</p>
 <div class="flex items-baseline gap-2">
-<span class="text-4xl font-black">$15,400</span>
-<span class="text-primary text-xs font-bold">↑ 2.4%</span>
+<span id="metric-month-revenue" class="text-4xl font-black">--</span>
+<span id="metric-month-revenue-trend" class="text-primary text-xs font-bold">Sin datos</span>
 </div>
-<p class="text-neutral-500 text-[10px] mt-2">Proyección: $18k</p>
+<p id="metric-month-revenue-note" class="text-neutral-500 text-[10px] mt-2">Esperando pagos registrados</p>
 </div>
 <div>
 <p class="text-neutral-400 text-[10px] uppercase font-bold tracking-widest mb-1">Leads en Pipeline</p>
 <div class="flex items-baseline gap-2">
-<span class="text-4xl font-black">12</span>
-<span class="text-neutral-400 text-xs font-bold">Estable</span>
+<span id="metric-pipeline-leads" class="text-4xl font-black">--</span>
+<span id="metric-pipeline-leads-trend" class="text-neutral-400 text-xs font-bold">Sin datos</span>
 </div>
-<p class="text-neutral-500 text-[10px] mt-2">Promedio histórico: 10</p>
+<p id="metric-pipeline-leads-note" class="text-neutral-500 text-[10px] mt-2">Esperando leads reales</p>
 </div>
 <div>
 <p class="text-neutral-400 text-[10px] uppercase font-bold tracking-widest mb-1">Tareas Vencidas</p>
 <div class="flex items-baseline gap-2">
-<span class="text-4xl font-black text-error">04</span>
-<span class="text-error text-xs font-bold">↓ 3%</span>
+<span id="metric-overdue-tasks" class="text-4xl font-black text-error">--</span>
+<span id="metric-overdue-tasks-trend" class="text-error text-xs font-bold">Sin datos</span>
 </div>
-<p class="text-neutral-500 text-[10px] mt-2">Índice de Riesgo: 1.4</p>
+<p id="metric-overdue-tasks-note" class="text-neutral-500 text-[10px] mt-2">Esperando tareas reales</p>
 </div>
 </div>
 </div>
@@ -238,7 +239,7 @@ tailwind.config = {
 <h3 class="text-sm font-bold uppercase tracking-wider text-neutral-300">Feed de Prioridad Crítica</h3>
 <span class="text-[9px] text-primary font-black">ÚLTIMAS ACTUALIZACIONES</span>
 </div>
-<div class="space-y-3">
+<div id="critical-feed" class="space-y-3">
 <div class="flex gap-3 items-center p-2 rounded bg-error/10 border-l-2 border-error">
 <span class="material-symbols-outlined text-error text-sm">payments</span>
 <div class="flex-1 min-w-0">
@@ -271,11 +272,11 @@ tailwind.config = {
 <section class="space-y-4">
 <div class="flex items-center justify-between">
 <h2 class="text-xl font-extrabold tracking-tight text-white">Clientes Activos</h2>
-<button class="text-primary text-sm font-bold flex items-center gap-1 hover:underline">
+<button id="dashboard-view-all-clients" class="text-primary text-sm font-bold flex items-center gap-1 hover:underline" type="button">
                 Ver todos los clientes <span class="material-symbols-outlined text-sm">arrow_forward</span>
 </button>
 </div>
-<div class="grid grid-cols-1 gap-4">
+<div id="clients-list" class="grid grid-cols-1 gap-4">
 <!-- Project Item 1 -->
 <div class="bg-surface-container-lowest p-6 rounded-xl shadow-sm border border-white/5 flex items-center gap-6 group hover:border-primary/40 transition-all">
 <div class="w-14 h-14 bg-primary/10 rounded-xl flex items-center justify-center">
@@ -433,7 +434,7 @@ tailwind.config = {
 <span class="material-symbols-outlined text-neutral-500 group-hover:text-primary transition-colors">trending_up</span>
 </div>
 <h3 class="font-bold text-on-surface">Ventas</h3>
-<p class="text-[10px] text-neutral-500 mt-1">Meta: 92% Logrado</p>
+<p id="health-ventas" class="text-[10px] text-neutral-500 mt-1">Sin datos</p>
 </div>
 <div class="bg-surface-container-lowest p-5 rounded-lg border border-white/5 hover:border-primary/30 transition-all group">
 <div class="flex justify-between items-start mb-6">
@@ -441,7 +442,7 @@ tailwind.config = {
 <span class="material-symbols-outlined text-neutral-500 group-hover:text-primary transition-colors">ads_click</span>
 </div>
 <h3 class="font-bold text-on-surface">Ads</h3>
-<p class="text-[10px] text-neutral-500 mt-1">ROAS: 4.2x Prom</p>
+<p id="health-ads" class="text-[10px] text-neutral-500 mt-1">Sin datos</p>
 </div>
 <div class="bg-surface-container-lowest p-5 rounded-lg border border-white/5 hover:border-primary/30 transition-all group">
 <div class="flex justify-between items-start mb-6">
@@ -449,7 +450,7 @@ tailwind.config = {
 <span class="material-symbols-outlined text-neutral-500 group-hover:text-primary transition-colors">forum</span>
 </div>
 <h3 class="font-bold text-on-surface">Community</h3>
-<p class="text-[10px] text-neutral-500 mt-1">2 Tickets pendientes</p>
+<p id="health-community" class="text-[10px] text-neutral-500 mt-1">Sin datos</p>
 </div>
 <div class="bg-surface-container-lowest p-5 rounded-lg border border-white/5 hover:border-primary/30 transition-all group">
 <div class="flex justify-between items-start mb-6">
@@ -457,7 +458,7 @@ tailwind.config = {
 <span class="material-symbols-outlined text-neutral-500 group-hover:text-primary transition-colors">search</span>
 </div>
 <h3 class="font-bold text-on-surface">SEO</h3>
-<p class="text-[10px] text-neutral-500 mt-1">Meta: 60% Logrado</p>
+<p id="health-seo" class="text-[10px] text-neutral-500 mt-1">Sin datos</p>
 </div>
 <div class="bg-surface-container-lowest p-5 rounded-lg border border-white/5 hover:border-primary/30 transition-all group">
 <div class="flex justify-between items-start mb-6">
@@ -465,7 +466,7 @@ tailwind.config = {
 <span class="material-symbols-outlined text-neutral-500 group-hover:text-primary transition-colors">language</span>
 </div>
 <h3 class="font-bold text-on-surface">Web</h3>
-<p class="text-[10px] text-neutral-500 mt-1">Uptime: 99.9%</p>
+<p id="health-web" class="text-[10px] text-neutral-500 mt-1">Sin datos</p>
 </div>
 </div>
 </div>
@@ -475,19 +476,19 @@ tailwind.config = {
 <div class="bg-surface-container-low rounded-2xl p-6 border border-white/5 shadow-xl">
 <h2 class="text-sm font-extrabold tracking-tight uppercase mb-4 text-neutral-400">Acciones Rápidas</h2>
 <div class="grid grid-cols-2 gap-3">
-<button class="bg-surface-container-lowest p-4 rounded-xl flex flex-col items-center gap-2 border border-white/5 hover:border-primary transition-all">
+<button id="quick-new-lead" class="bg-surface-container-lowest p-4 rounded-xl flex flex-col items-center gap-2 border border-white/5 hover:border-primary transition-all" type="button">
 <span class="material-symbols-outlined text-primary">person_add</span>
 <span class="text-[10px] font-bold uppercase tracking-widest text-on-surface">Nuevo Lead</span>
 </button>
-<button class="bg-surface-container-lowest p-4 rounded-xl flex flex-col items-center gap-2 border border-white/5 hover:border-primary transition-all">
+<button id="quick-new-task" class="bg-surface-container-lowest p-4 rounded-xl flex flex-col items-center gap-2 border border-white/5 hover:border-primary transition-all" type="button">
 <span class="material-symbols-outlined text-primary">add_task</span>
 <span class="text-[10px] font-bold uppercase tracking-widest text-on-surface">Nueva Tarea</span>
 </button>
-<button class="bg-surface-container-lowest p-4 rounded-xl flex flex-col items-center gap-2 border border-white/5 hover:border-primary transition-all">
+<button id="quick-approvals" class="bg-surface-container-lowest p-4 rounded-xl flex flex-col items-center gap-2 border border-white/5 hover:border-primary transition-all" type="button">
 <span class="material-symbols-outlined text-primary">fact_check</span>
 <span class="text-[10px] font-bold uppercase tracking-widest text-on-surface text-center">Ver Aprobaciones</span>
 </button>
-<button class="bg-surface-container-lowest p-4 rounded-xl flex flex-col items-center gap-2 border border-white/5 hover:border-primary transition-all">
+<button id="quick-cerebros" class="bg-surface-container-lowest p-4 rounded-xl flex flex-col items-center gap-2 border border-white/5 hover:border-primary transition-all" type="button">
 <span class="material-symbols-outlined text-primary">psychology</span>
 <span class="text-[10px] font-bold uppercase tracking-widest text-on-surface">Cerebros IA</span>
 </button>
@@ -506,5 +507,6 @@ tailwind.config = {
 </div>
 </div>
 </main>
+<script src="dashboard-data.js" defer></script>
 <script src="app.js" defer></script>
 </body></html>
