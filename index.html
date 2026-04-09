@@ -97,7 +97,7 @@
 <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none text-outline group-focus-within:text-primary-container transition-colors">
 <span class="material-symbols-outlined text-[20px]">mail</span>
 </div>
-<input class="block w-full pl-10 pr-3 py-3 bg-surface-container-high border border-outline-variant rounded-lg focus:ring-1 focus:ring-primary-container focus:border-primary-container text-on-surface placeholder:text-on-surface-variant/50 transition-all outline-none" id="email" name="email" placeholder="nombre@novu360.com" type="email"/>
+<input class="block w-full pl-10 pr-3 py-3 bg-surface-container-high border border-outline-variant rounded-md focus:ring-1 focus:ring-primary-container focus:border-primary-container text-on-surface placeholder:text-on-surface-variant/50 transition-all outline-none" id="email" name="email" placeholder="nombre@novu360.com" type="email"/>
 </div>
 </div>
 <!-- Password Field -->
@@ -110,9 +110,9 @@
 <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none text-outline group-focus-within:text-primary-container transition-colors">
 <span class="material-symbols-outlined text-[20px]">lock</span>
 </div>
-<input class="block w-full pl-10 pr-10 py-3 bg-surface-container-high border border-outline-variant rounded-lg focus:ring-1 focus:ring-primary-container focus:border-primary-container text-on-surface placeholder:text-on-surface-variant/50 transition-all outline-none" id="password" name="password" placeholder="••••••••" type="password"/>
-<button class="absolute inset-y-0 right-0 pr-3 flex items-center text-on-surface-variant hover:text-primary-container transition-colors" type="button">
-<span class="material-symbols-outlined text-[20px]">visibility</span>
+<input class="block w-full pl-10 pr-10 py-3 bg-surface-container-high border border-outline-variant rounded-md focus:ring-1 focus:ring-primary-container focus:border-primary-container text-on-surface placeholder:text-on-surface-variant/50 transition-all outline-none" id="password" name="password" placeholder="••••••••" type="password"/>
+<button id="password-toggle" class="absolute inset-y-0 right-0 pr-3 flex items-center text-on-surface-variant hover:text-primary-container transition-colors" type="button" aria-label="Mostrar contraseña" aria-pressed="false">
+<span id="password-toggle-icon" class="material-symbols-outlined text-[20px]">visibility</span>
 </button>
 </div>
 </div>
@@ -156,4 +156,30 @@
 <div class="fixed top-0 right-0 w-[500px] h-[500px] bg-primary/5 rounded-full blur-[120px] -mr-64 -mt-64 pointer-events-none"></div>
 <div class="fixed bottom-0 left-0 w-[400px] h-[400px] bg-primary/5 rounded-full blur-[100px] -ml-48 -mb-48 pointer-events-none"></div>
 <script src="auth.js" defer></script>
+<script>
+  document.addEventListener('DOMContentLoaded', () => {
+    const passwordInput = document.getElementById('password');
+    const toggleButton = document.getElementById('password-toggle');
+    const toggleIcon = document.getElementById('password-toggle-icon');
+
+    if (!passwordInput || !toggleButton || !toggleIcon) return;
+
+    let showPassword = false;
+
+    const syncPasswordToggle = () => {
+      passwordInput.type = showPassword ? 'text' : 'password';
+      toggleButton.setAttribute('aria-pressed', String(showPassword));
+      toggleButton.setAttribute('aria-label', showPassword ? 'Ocultar contraseña' : 'Mostrar contraseña');
+      toggleButton.classList.toggle('text-primary-container', showPassword);
+      toggleIcon.textContent = showPassword ? 'visibility_off' : 'visibility';
+    };
+
+    toggleButton.addEventListener('click', () => {
+      showPassword = !showPassword;
+      syncPasswordToggle();
+    });
+
+    syncPasswordToggle();
+  });
+</script>
 </body></html>
