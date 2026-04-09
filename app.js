@@ -742,7 +742,9 @@ async function analyzeAdsROI(investment, cpl, ticket) {
   }
 
   // ── Init ───────────────────────────────────────────────────────────
+  console.log('MobileNav path:', window.location.pathname, 'isLogin:', isLogin);
   const topBar = buildTopBar();
+  console.log('topBar created:', topBar);
   const { backdrop, drawer } = buildDrawer();
   buildBottomNav();
   injectTableLabels();
