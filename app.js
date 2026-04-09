@@ -753,13 +753,24 @@ async function analyzeAdsROI(investment, cpl, ticket) {
   addSwipeToClose(drawer, backdrop, menuBtn);
 
   // Toggle on hamburger click
-  menuBtn.addEventListener('click', () => {
+  function toggleMenu() {
     const isOpen = drawer.classList.contains('open');
-    isOpen ? closeDrawer(drawer, backdrop, menuBtn) : openDrawer(drawer, backdrop, menuBtn);
+    isOpen ? closeDrawer(drawer, backdrop, menuBtn) 
+            : openDrawer(drawer, backdrop, menuBtn);
+  }
+
+  menuBtn.addEventListener('click', toggleMenu);
+  menuBtn.addEventListener('touchend', (e) => {
+    e.preventDefault();
+    toggleMenu();
   });
 
   // Close on backdrop click
   backdrop.addEventListener('click', () => closeDrawer(drawer, backdrop, menuBtn));
+  backdrop.addEventListener('touchend', (e) => {
+    e.preventDefault();
+    closeDrawer(drawer, backdrop, menuBtn);
+  });
 
   // Close on Escape
   document.addEventListener('keydown', e => {
