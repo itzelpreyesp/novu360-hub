@@ -111,6 +111,8 @@
     if (!sidebar || !backdrop) return;
 
     if (open) {
+      // Forzar visibilidad
+      sidebar.style.display = 'flex';
       sidebar.classList.remove('-translate-x-full');
       sidebar.classList.add('translate-x-0');
       backdrop.classList.remove('hidden');
@@ -133,11 +135,16 @@
 
   function initSidebarDrawer() {
     sidebar = findSidebar();
+    console.log('Sidebar encontrado:', sidebar);
+
     if (sidebar) {
+      sidebar.style.display = 'flex'; // Forzar visible para JS
+      
       // Forzar estilos de drawer en móvil
       sidebar.classList.add('fixed', 'inset-y-0', 'left-0', 'z-[100]', 'w-72', 'transform', 'transition-transform', 'duration-300', 'ease-in-out', 'bg-black', 'border-r', 'border-white/10');
       
       if (isMobile()) {
+        sidebar.style.display = 'flex';
         sidebar.classList.add('-translate-x-full');
       } else {
         sidebar.classList.remove('-translate-x-full');
