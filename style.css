@@ -566,7 +566,9 @@ button[class*="bg-primary-container"]:hover {
   opacity: 0;
   transition: opacity 0.3s ease;
 }
-#nav-drawer-backdrop.open { opacity: 1; }
+#nav-drawer-backdrop.open {
+  display: block;
+}
 
 #nav-drawer {
   display: none;
@@ -674,7 +676,12 @@ button[class*="bg-primary-container"]:hover {
 
   /* Show hamburger bar + drawer + bottom nav */
   #nav-hamburger       { display: flex !important; }
-  #nav-drawer-backdrop { display: block !important; }
+  #nav-drawer-backdrop {
+    display: none;
+  }
+  #nav-drawer-backdrop.open {
+    display: block;
+  }
   #nav-drawer          { display: flex !important; }
   #mobile-bottom-nav   { display: flex !important; }
 
@@ -931,7 +938,9 @@ button[class*="bg-primary-container"]:hover {
   background: rgba(0,0,0,0.6);
   backdrop-filter: blur(2px);
 }
-#nav-drawer-backdrop.open { display: block; }
+#nav-drawer-backdrop.open {
+  display: block;
+}
 #nav-drawer {
   position: fixed;
   top: 0; left: 0;
@@ -1030,7 +1039,9 @@ button[class*="bg-primary-container"]:hover {
   background: rgba(0,0,0,0.6);
   backdrop-filter: blur(2px);
 }
-#nav-drawer-backdrop.open { display: block; }
+#nav-drawer-backdrop.open {
+  display: block;
+}
 
 #nav-drawer {
   position: fixed;
