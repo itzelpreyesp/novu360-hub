@@ -78,13 +78,15 @@
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <script src="config.js"></script>
 <script src="auth.js"></script>
-<script src="sidebar-drawer.js" defer></script>
 <script>checkAuth();</script>
 </head>
 <body class="bg-black text-on-surface min-h-screen">
 <!-- TopNavBar -->
-<nav class="fixed top-0 w-full z-50 border-b border-neutral-800 bg-black flex justify-between items-center px-6 h-16 w-full font-manrope tracking-tight">
+<nav class="fixed top-0 w-full z-50 border-b border-neutral-800 bg-black flex justify-between items-center px-6 h-16 font-manrope tracking-tight">
 <div class="flex items-center gap-8">
+    <button id="sidebar-toggle" class="lg:hidden p-2 text-neutral-400 hover:bg-neutral-900 rounded-lg">
+        <span class="material-symbols-outlined">menu</span>
+    </button>
 <span class="text-xl font-extrabold text-teal-500 dark:text-teal-400">Novu 360 Academy</span>
 <div class="hidden md:flex items-center gap-6">
 <span class="text-teal-400 font-bold border-b-2 border-teal-400 pb-1 cursor-pointer text-sm">Ruta de Aprendizaje</span>
@@ -93,26 +95,25 @@
 </div>
 <div class="flex items-center gap-4">
 <div class="hidden lg:flex flex-col items-end mr-4">
-<span class="text-xs text-neutral-400 font-medium">Sofia</span>
+<span class="text-xs text-neutral-400 font-medium" id="userNameDislay">Sofia</span>
 <div class="w-32 h-1.5 bg-neutral-800 rounded-full mt-1 overflow-hidden">
 <div class="bg-primary-container h-full w-[60%]"></div>
 </div>
 </div>
 <button class="text-teal-500 hover:text-teal-300 transition-all active:scale-95 duration-150">
-<span class="material-symbols-outlined" data-icon="emoji_events">emoji_events</span>
+<span class="material-symbols-outlined">emoji_events</span>
 </button>
 <button class="text-teal-500 hover:text-teal-300 transition-all active:scale-95 duration-150">
-<span class="material-symbols-outlined" data-icon="notifications">notifications</span>
+<span class="material-symbols-outlined">notifications</span>
 </button>
-<button class="text-teal-500 hover:text-teal-300 transition-all active:scale-95 duration-150">
-<span class="material-symbols-outlined" data-icon="account_circle">account_circle</span>
-</button>
+<div class="w-8 h-8 rounded-full border border-primary overflow-hidden">
+    <img id="userAvatarDisplay" alt="User" class="w-full h-full object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCM2lwpw_ckIAa0HBF4LDXJFDOq2hafw7SeQZZVQa16FlWIcoCa7oJL0LlQvsga5Mmz--l5QvP27ZjAtfhp1NsgNSi-z-G1e7Ewil4qFdR5uwRqsT_SY7n0E3AQuL0mvrow1Ufz5JMYxhoTPXtZk0OiG1ap2dxm5FL9LQWOaoJ9RaNoVzKAQc2LthlejAZLtUnN8HNI69yt4elxcAmW8HTyPSFipAmp5KKvYo4I4X8TjXq5YuR08TtQpIS77p90hRKvfkDMlrmj6CQ"/>
+</div>
 </div>
 </nav>
-<div class="flex pt-16">
-<!-- SideNavBar -->
+
 <!-- SideNavBar - Novu 360 -->
-<aside class="bg-black antialiased h-screen w-64 fixed left-0 top-0 flex flex-col py-6 z-20" style="box-shadow: 4px 0 24px rgba(0,0,0,0.6)">
+<aside class="bg-black antialiased h-screen w-64 fixed left-0 top-0 flex flex-col py-6 z-[60] -translate-x-full lg:translate-x-0 transition-transform duration-300" style="box-shadow: 4px 0 24px rgba(0,0,0,0.6)">
   <div class="px-6 mb-8">
     <a href="dashboard.html" class="text-white font-black tracking-widest text-xl block" style="color:#fff;text-decoration:none">Novu 360</a>
     <div class="text-neutral-500 text-xs uppercase tracking-tighter mt-1 italic">INTELIGENCIA DE AGENCIA</div>
@@ -178,9 +179,10 @@
     </a>
   </div>
 </aside>
+
 <!-- Main Content Area -->
-<main class="flex-1 ml-0 md:ml-72 p-6 md:p-10 bg-[#0e1513] ml-64">
-<div class="max-w-5xl mx-auto space-y-8">
+<main class="lg:pl-64 pt-16 min-h-screen">
+<div class="p-6 md:p-10 max-w-5xl mx-auto space-y-8">
 <!-- Header Card -->
 <header class="relative overflow-hidden rounded-xl bg-primary-container p-8 text-on-primary-container shadow-xl">
 <div class="relative z-10">
@@ -198,14 +200,14 @@
 <!-- Step-by-Step Section -->
 <section>
 <div class="flex items-center gap-3 mb-6">
-<span class="material-symbols-outlined text-primary" data-icon="format_list_numbered">format_list_numbered</span>
+<span class="material-symbols-outlined text-primary">format_list_numbered</span>
 <h2 class="text-xl font-bold tracking-tight">Flujo de Trabajo</h2>
 </div>
 <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
 <!-- Step 1 -->
 <div class="bg-surface-container-high p-6 rounded-xl border border-outline-variant hover:border-primary/50 transition-all group">
 <div class="w-12 h-12 bg-primary/10 rounded-lg flex items-center justify-center mb-4 text-primary group-hover:scale-110 transition-transform">
-<span class="material-symbols-outlined" data-icon="search">search</span>
+<span class="material-symbols-outlined">search</span>
 </div>
 <h3 class="font-bold text-lg mb-2">1. Buscar el negocio</h3>
 <p class="text-on-surface-variant text-sm leading-relaxed">Busca un negocio local en Instagram en tu ciudad. Toma nota de su nombre y usuario.</p>
@@ -213,7 +215,7 @@
 <!-- Step 2 -->
 <div class="bg-surface-container-high p-6 rounded-xl border border-outline-variant hover:border-primary/50 transition-all group">
 <div class="w-12 h-12 bg-primary/10 rounded-lg flex items-center justify-center mb-4 text-primary group-hover:scale-110 transition-transform">
-<span class="material-symbols-outlined" data-icon="smart_toy">smart_toy</span>
+<span class="material-symbols-outlined">smart_toy</span>
 </div>
 <h3 class="font-bold text-lg mb-2">2. Usar el Prospector IA</h3>
 <p class="text-on-surface-variant text-sm leading-relaxed">Entra a /ventas/prospector, ingresa los datos y genera el mensaje con 1 clic.</p>
@@ -221,7 +223,7 @@
 <!-- Step 3 -->
 <div class="bg-surface-container-high p-6 rounded-xl border border-outline-variant hover:border-primary/50 transition-all group">
 <div class="w-12 h-12 bg-primary/10 rounded-lg flex items-center justify-center mb-4 text-primary group-hover:scale-110 transition-transform">
-<span class="material-symbols-outlined" data-icon="assignment_turned_in">assignment_turned_in</span>
+<span class="material-symbols-outlined">assignment_turned_in</span>
 </div>
 <h3 class="font-bold text-lg mb-2">3. Registrar en Pipeline</h3>
 <p class="text-on-surface-variant text-sm leading-relaxed">Copia el mensaje, envialo por DM y registra el lead como Contactado en el pipeline.</p>
@@ -235,14 +237,14 @@
 <p class="text-on-surface-variant text-sm max-w-xl">Genera un mensaje DM real para un negocio local de tu ciudad. Copia el resultado y pegalo aqui para completar el modulo.</p>
 </div>
 <button class="whitespace-nowrap px-8 py-4 bg-primary-container text-on-primary font-bold rounded-lg hover:brightness-110 active:scale-95 transition-all flex items-center gap-2 shadow-lg shadow-primary/20">
-<span class="material-symbols-outlined" data-icon="upload_file">upload_file</span>
+<span class="material-symbols-outlined">upload_file</span>
                     Enviar Trabajo
                 </button>
 </section>
 <!-- Mini Exam Section -->
 <section class="space-y-6">
 <div class="flex items-center gap-3">
-<span class="material-symbols-outlined text-primary" data-icon="quiz">quiz</span>
+<span class="material-symbols-outlined text-primary">quiz</span>
 <h2 class="text-xl font-bold tracking-tight">Mini Examen</h2>
 </div>
 <!-- Question 1 -->
@@ -301,25 +303,6 @@
 </footer>
 </div>
 </main>
-</div>
-<!-- Mobile BottomNavBar (Hidden on desktop) -->
-<div class="md:hidden fixed bottom-0 left-0 right-0 bg-black border-t border-neutral-800 h-16 flex justify-around items-center px-4 z-50">
-<button class="flex flex-col items-center text-teal-400">
-<span class="material-symbols-outlined" data-icon="school">school</span>
-<span class="text-[10px] mt-1">Aprender</span>
-</button>
-<button class="flex flex-col items-center text-neutral-500">
-<span class="material-symbols-outlined" data-icon="library_books">library_books</span>
-<span class="text-[10px] mt-1">Progreso</span>
-</button>
-<button class="flex flex-col items-center text-neutral-500">
-<span class="material-symbols-outlined" data-icon="forum">forum</span>
-<span class="text-[10px] mt-1">Chat</span>
-</button>
-<button class="flex flex-col items-center text-neutral-500">
-<span class="material-symbols-outlined" data-icon="person">person</span>
-<span class="text-[10px] mt-1">Perfil</span>
-</button>
-</div>
 <script src="app.js" defer></script>
+<script src="sidebar-drawer.js"></script>
 </body></html>

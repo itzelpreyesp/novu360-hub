@@ -15,7 +15,7 @@
   let bottomBar = null;
 
   function isMobile() {
-    return window.innerWidth < 768;
+    return window.innerWidth < 1024; // Usando 1024 como breakpoint para mayor compatibilidad con tablets
   }
 
   function currentPath() {
@@ -24,12 +24,18 @@
   }
 
   function isActiveItem(item) {
+    if (!item.match) return false;
     const path = currentPath();
-    return item.match.some(match => path === match);
+    return item.match.some(match => path === match || (match === '' && path === 'index.html'));
   }
 
   function syncBodyPadding() {
-    document.body.style.paddingBottom = isMobile() ? '60px' : '';
+    // Aplicar padding al body para que el contenido no quede oculto por la tab bar
+    if (isMobile()) {
+      document.body.style.paddingBottom = '70px';
+    } else {
+      document.body.style.paddingBottom = '0px';
+    }
   }
 
   function findSidebar() {
@@ -47,7 +53,8 @@
 
     existing = document.createElement('div');
     existing.id = 'sidebar-backdrop';
-    existing.className = 'fixed inset-0 z-30 hidden bg-black/50 md:hidden';
+    // Estilos según PASO 2: fixed inset-0 z-30 bg-black/50
+    existing.className = 'fixed inset-0 z-[60] hidden bg-black/60 backdrop-blur-sm transition-opacity duration-300 opacity-0';
     document.body.appendChild(existing);
     return existing;
   }
@@ -60,94 +67,82 @@
     existing.id = 'sidebar-toggle';
     existing.type = 'button';
     existing.setAttribute('aria-label', 'Abrir menú');
-    existing.setAttribute('aria-expanded', 'false');
-    existing.className = 'fixed left-4 top-4 z-50 inline-flex h-10 w-10 items-center justify-center rounded-md border border-white/10 bg-black/80 text-white backdrop-blur transition hover:border-primary hover:text-primary md:hidden';
-    existing.innerHTML = '<span class="material-symbols-outlined text-[22px]">menu</span>';
+    existing.className = 'fixed left-4 top-3.5 z-[70] inline-flex h-10 w-10 items-center justify-center rounded-lg bg-black/50 border border-white/10 text-white backdrop-blur-md transition-all active:scale-95 lg:hidden';
+    existing.innerHTML = '<span class="material-symbols-outlined text-[24px]">menu</span>';
     document.body.appendChild(existing);
     return existing;
   }
 
   function ensureBottomBar() {
+    if (currentPath().includes('login')) return null;
+
     let existing = document.getElementById('bottom-tab-bar');
     if (existing) return existing;
 
     existing = document.createElement('nav');
     existing.id = 'bottom-tab-bar';
-    existing.className = 'fixed bottom-0 left-0 right-0 z-50 h-[60px] border-t border-white/10 bg-black/95 shadow-[0_-10px_30px_rgba(0,0,0,0.55)] md:hidden';
+    // Estilos según PASO 3: fixed bottom-0 left-0 right-0 z-50 alto 60px
+    existing.className = 'fixed bottom-0 left-0 right-0 z-50 h-[65px] border-t border-white/10 bg-black/90 backdrop-blur-xl lg:hidden flex items-center justify-around px-2';
     existing.style.paddingBottom = 'env(safe-area-inset-bottom, 0px)';
 
     const items = [...NAV_ITEMS, MENU_ITEM].map(item => {
       const active = isActiveItem(item);
-      const iconColor = active ? 'text-primary' : 'text-neutral-500';
-      const labelColor = active ? 'text-primary' : 'text-neutral-500';
-      const href = item.href;
+      const colorClass = active ? 'text-[#00C2A8]' : 'text-neutral-500';
       const isMenu = item.label === 'Menú';
       const tag = isMenu ? 'button' : 'a';
-      const hrefAttr = isMenu ? '' : `href="${href}"`;
-      const extra = isMenu ? 'type="button" data-sidebar-menu="true"' : '';
+      const hrefAttr = isMenu ? '' : `href="${item.href}"`;
+      const extra = isMenu ? 'type="button" id="mobile-menu-tab"' : '';
+      
       return `
-        <${tag} ${hrefAttr} ${extra} class="flex h-full flex-1 flex-col items-center justify-center gap-1 rounded-t-xl px-2 text-center transition active:bg-white/5">
-          <span class="material-symbols-outlined text-[22px] ${iconColor}" style="font-variation-settings: 'FILL' ${active ? '1' : '0'};">${item.icon}</span>
-          <span class="text-[10px] font-medium leading-none ${labelColor}" style="font-family: Inter, sans-serif;">${item.label}</span>
+        <${tag} ${hrefAttr} ${extra} class="flex flex-col items-center justify-center gap-1 flex-1 py-2 transition-colors active:bg-white/5">
+          <span class="material-symbols-outlined text-[24px] ${colorClass}" style="font-variation-settings: 'FILL' ${active ? '1' : '0'};">${item.icon}</span>
+          <span class="text-[10px] font-bold ${colorClass}">${item.label}</span>
         </${tag}>
       `;
     }).join('');
 
-    existing.innerHTML = `<div class="flex h-full items-stretch">${items}</div>`;
+    existing.innerHTML = items;
     document.body.appendChild(existing);
     return existing;
   }
 
   function setOpen(open) {
     sidebarOpen = open;
-    window.sidebarOpen = sidebarOpen;
+    if (!sidebar || !backdrop) return;
 
-    if (!sidebar || !backdrop || !toggleButton) return;
-
-    if (!isMobile()) {
+    if (open) {
       sidebar.classList.remove('-translate-x-full');
       sidebar.classList.add('translate-x-0');
-      backdrop.classList.add('hidden');
-      backdrop.classList.remove('block');
+      backdrop.classList.remove('hidden');
+      setTimeout(() => {
+        backdrop.classList.add('opacity-100');
+        backdrop.classList.remove('opacity-0');
+      }, 10);
+      document.body.classList.add('overflow-hidden');
+    } else {
+      sidebar.classList.remove('translate-x-0');
+      sidebar.classList.add('-translate-x-full');
+      backdrop.classList.add('opacity-0');
+      backdrop.classList.remove('opacity-100');
+      setTimeout(() => {
+        if (!sidebarOpen) backdrop.classList.add('hidden');
+      }, 300);
       document.body.classList.remove('overflow-hidden');
-      toggleButton.setAttribute('aria-expanded', 'false');
-      return;
     }
-
-    sidebar.classList.toggle('-translate-x-full', !open);
-    sidebar.classList.toggle('translate-x-0', open);
-    backdrop.classList.toggle('hidden', !open);
-    backdrop.classList.toggle('block', open);
-    document.body.classList.toggle('overflow-hidden', open);
-    toggleButton.setAttribute('aria-expanded', String(open));
-  }
-
-  function closeOnNavigation() {
-    if (isMobile()) setOpen(false);
   }
 
   function initSidebarDrawer() {
     sidebar = findSidebar();
     if (sidebar) {
-      sidebar.dataset.drawerReady = '1';
-      sidebar.classList.remove('hidden');
-      sidebar.classList.add(
-        'flex',
-        'flex-col',
-        'fixed',
-        'inset-y-0',
-        'left-0',
-        'z-40',
-        'w-64',
-        'transform',
-        'transition-transform',
-        'duration-300',
-        'ease-out',
-        '-translate-x-full',
-        'md:translate-x-0'
-      );
-      sidebar.style.willChange = 'transform';
-      sidebar = sidebar;
+      // Forzar estilos de drawer en móvil
+      sidebar.classList.add('fixed', 'inset-y-0', 'left-0', 'z-[100]', 'w-72', 'transform', 'transition-transform', 'duration-300', 'ease-in-out', 'bg-black', 'border-r', 'border-white/10');
+      
+      if (isMobile()) {
+        sidebar.classList.add('-translate-x-full');
+      } else {
+        sidebar.classList.remove('-translate-x-full');
+        sidebar.classList.add('translate-x-0');
+      }
     }
 
     backdrop = ensureBackdrop();
@@ -155,48 +150,47 @@
     bottomBar = ensureBottomBar();
 
     if (sidebar) {
-      toggleButton.addEventListener('click', () => setOpen(!sidebarOpen));
-      backdrop.addEventListener('click', () => setOpen(false));
+      toggleButton.onclick = () => setOpen(!sidebarOpen);
+      backdrop.onclick = () => setOpen(false);
+      
+      // Cerrar al seleccionar opción (excepto si es el mismo path)
       sidebar.querySelectorAll('a').forEach(link => {
-        link.addEventListener('click', closeOnNavigation);
-      });
-    } else {
-      toggleButton.addEventListener('click', () => {
-        window.location.href = 'dashboard.html';
+        link.addEventListener('click', (e) => {
+          const href = link.getAttribute('href');
+          if (href && href !== '#' && !href.startsWith('javascript:')) {
+            setOpen(false);
+          }
+        });
       });
     }
 
     if (bottomBar) {
-      bottomBar.querySelectorAll('a[href]').forEach(link => {
-        link.addEventListener('click', closeOnNavigation);
-      });
-      bottomBar.querySelector('[data-sidebar-menu="true"]')?.addEventListener('click', () => {
-        if (sidebar) {
-          setOpen(!sidebarOpen);
-        } else {
-          window.location.href = 'dashboard.html';
-        }
-      });
+      const menuTab = document.getElementById('mobile-menu-tab');
+      if (menuTab) {
+        menuTab.onclick = () => setOpen(!sidebarOpen);
+      }
     }
 
     window.addEventListener('resize', () => {
       syncBodyPadding();
-      if (!sidebar) return;
-      if (!isMobile()) {
+      if (!isMobile() && sidebarOpen) {
         setOpen(false);
-      } else {
-        setOpen(false);
+      }
+      if (!isMobile() && sidebar) {
+        sidebar.classList.remove('-translate-x-full');
+        sidebar.classList.add('translate-x-0');
+      } else if (isMobile() && sidebar && !sidebarOpen) {
+        sidebar.classList.add('-translate-x-full');
+        sidebar.classList.remove('translate-x-0');
       }
     });
 
     syncBodyPadding();
-    setOpen(false);
-
-    window.openSidebarDrawer = () => setOpen(true);
-    window.closeSidebarDrawer = () => setOpen(false);
-    window.toggleSidebarDrawer = () => setOpen(!sidebarOpen);
-    window.sidebarOpen = sidebarOpen;
   }
 
-  document.addEventListener('DOMContentLoaded', initSidebarDrawer);
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', initSidebarDrawer);
+  } else {
+    initSidebarDrawer();
+  }
 })();

@@ -7,7 +7,6 @@
 <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
 <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&amp;family=Inter:wght@400;500;600&amp;display=swap" rel="stylesheet"/>
 <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
-<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
 <script id="tailwind-config">
         tailwind.config = {
             darkMode: "class",
@@ -79,13 +78,33 @@
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <script src="config.js"></script>
 <script src="auth.js"></script>
-<script src="sidebar-drawer.js" defer></script>
 <script>checkAuth();</script>
 </head>
 <body class="text-on-surface">
-<!-- SideNavBar (Shared Component) -->
+<!-- TopNavBar (Shared Component) -->
+<header class="fixed top-0 right-0 w-full lg:w-[calc(100%-256px)] z-40 bg-zinc-950/80 backdrop-blur-md border-b border-zinc-800 flex justify-between items-center px-6 h-16 shadow-sm">
+<div class="flex items-center gap-4">
+    <button id="sidebar-toggle" class="lg:hidden p-2 text-zinc-400 hover:bg-zinc-900 rounded-lg">
+        <span class="material-symbols-outlined">menu</span>
+    </button>
+<div class="bg-zinc-900 border border-zinc-800 rounded-lg px-3 py-1.5 flex items-center gap-2 cursor-pointer hover:bg-zinc-800 transition-all">
+<div class="w-6 h-6 rounded-full bg-teal-400 flex items-center justify-center text-[10px] text-black font-bold">SM</div>
+<span class="text-sm font-medium text-on-surface">Soluciones Médicas Integrales</span>
+<span class="material-symbols-outlined text-zinc-500 text-sm">expand_more</span>
+</div>
+</div>
+<div class="flex items-center gap-6">
+<div class="flex items-center gap-4 text-zinc-400">
+<span class="material-symbols-outlined hover:text-teal-400 cursor-pointer transition-colors">notifications</span>
+<span class="material-symbols-outlined hover:text-teal-400 cursor-pointer transition-colors">settings</span>
+</div>
+<div class="w-8 h-8 rounded-full overflow-hidden border border-teal-400/30">
+<img id="userAvatarDisplay" class="w-full h-full object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDTjf_-d3x4_a22gIpEinTHSVgLhHyqZQARP1L2EbnH1EnfekHiee3V8zqK972vemPNS62rNRrvDl-kuLwIv-GF1Z2v1UK0Rq1azf06jS1D0k_cANk5J094c4bIHjF-NMyEjNQLqH4skd6m_cXVkXJ7Fqqet755TpQVyA-Kshhd00-65GFCZfvtz6_WzLo3fWg15xV1y_zJORAGMyO5dtAXSa-lKZehPW9nVmqgf-oWmXcn1MTRJZkMye0v_c5BULkeRUGZmo6ng38"/>
+</div>
+</div>
+</header>
 <!-- SideNavBar - Novu 360 -->
-<aside class="bg-black antialiased h-screen w-64 fixed left-0 top-0 flex flex-col py-6 z-20" style="box-shadow: 4px 0 24px rgba(0,0,0,0.6)">
+<aside class="bg-black antialiased h-screen w-64 fixed left-0 top-0 flex flex-col py-6 z-[60] -translate-x-full lg:translate-x-0 transition-transform duration-300" style="box-shadow: 4px 0 24px rgba(0,0,0,0.6)">
   <div class="px-6 mb-8">
     <a href="dashboard.html" class="text-white font-black tracking-widest text-xl block" style="color:#fff;text-decoration:none">Novu 360</a>
     <div class="text-neutral-500 text-xs uppercase tracking-tighter mt-1 italic">INTELIGENCIA DE AGENCIA</div>
@@ -151,27 +170,8 @@
     </a>
   </div>
 </aside>
-<!-- TopNavBar (Shared Component) -->
-<header class="fixed top-0 right-0 w-[calc(100%-280px)] z-40 bg-zinc-950/80 backdrop-blur-md border-b border-zinc-800 flex justify-between items-center px-6 h-16 shadow-sm">
-<div class="flex items-center gap-4">
-<div class="bg-zinc-900 border border-zinc-800 rounded-lg px-3 py-1.5 flex items-center gap-2 cursor-pointer hover:bg-zinc-800 transition-all">
-<div class="w-6 h-6 rounded-full bg-teal-400 flex items-center justify-center text-[10px] text-black font-bold">SM</div>
-<span class="text-sm font-medium text-on-surface">Soluciones Médicas Integrales</span>
-<span class="material-symbols-outlined text-zinc-500 text-sm" data-icon="expand_more">expand_more</span>
-</div>
-</div>
-<div class="flex items-center gap-6">
-<div class="flex items-center gap-4 text-zinc-400">
-<span class="material-symbols-outlined hover:text-teal-400 cursor-pointer transition-colors" data-icon="notifications">notifications</span>
-<span class="material-symbols-outlined hover:text-teal-400 cursor-pointer transition-colors" data-icon="settings">settings</span>
-</div>
-<div class="w-8 h-8 rounded-full overflow-hidden border border-teal-400/30">
-<img class="w-full h-full object-cover" data-alt="Corporate professional headshot of a executive manager in a modern office setting" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDTjf_-d3x4_a22gIpEinTHSVgLhHyqZQARP1L2EbnH1EnfekHiee3V8zqK972vemPNS62rNRrvDl-kuLwIv-GF1Z2v1UK0Rq1azf06jS1D0k_cANk5J094c4bIHjF-NMyEjNQLqH4skd6m_cXVkXJ7Fqqet755TpQVyA-Kshhd00-65GFCZfvtz6_WzLo3fWg15xV1y_zJORAGMyO5dtAXSa-lKZehPW9nVmqgf-oWmXcn1MTRJZkMye0v_c5BULkeRUGZmo6ng38"/>
-</div>
-</div>
-</header>
 <!-- Main Content -->
-<main class="ml-[280px] mt-16 p-8 min-h-screen bg-background ml-64">
+<main class="lg:ml-64 mt-16 p-8 min-h-screen bg-background">
 <!-- Header Section -->
 <div class="flex flex-col mb-8">
 <h1 class="text-4xl font-extrabold text-teal-400 font-headline mb-2">Google Local / SEO</h1>
@@ -181,36 +181,36 @@
 <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
 <div class="bg-surface-container-low border border-zinc-800 p-6 rounded-xl relative overflow-hidden group">
 <div class="absolute -right-4 -top-4 opacity-10 group-hover:opacity-20 transition-opacity">
-<span class="material-symbols-outlined text-8xl" data-icon="location_on">location_on</span>
+<span class="material-symbols-outlined text-8xl">location_on</span>
 </div>
 <p class="text-zinc-500 text-sm font-medium mb-1 uppercase tracking-wider">Posicion actual en Maps</p>
 <div class="flex items-end gap-3">
 <span class="text-4xl font-black text-on-surface font-headline">#2</span>
 <div class="flex items-center text-teal-400 pb-1">
-<span class="material-symbols-outlined text-lg" data-icon="arrow_upward">arrow_upward</span>
+<span class="material-symbols-outlined text-lg">arrow_upward</span>
 <span class="text-sm font-bold">1 pts</span>
 </div>
 </div>
 </div>
 <div class="bg-surface-container-low border border-zinc-800 p-6 rounded-xl relative overflow-hidden group">
 <div class="absolute -right-4 -top-4 opacity-10 group-hover:opacity-20 transition-opacity">
-<span class="material-symbols-outlined text-8xl" data-icon="star">star</span>
+<span class="material-symbols-outlined text-8xl">star</span>
 </div>
 <p class="text-zinc-500 text-sm font-medium mb-1 uppercase tracking-wider">Calificacion Google</p>
 <div class="flex items-center gap-3">
 <span class="text-4xl font-black text-on-surface font-headline">4.8</span>
 <div class="flex text-amber-400">
-<span class="material-symbols-outlined text-xl" data-icon="star" style="font-variation-settings: 'FILL' 1;">star</span>
-<span class="material-symbols-outlined text-xl" data-icon="star" style="font-variation-settings: 'FILL' 1;">star</span>
-<span class="material-symbols-outlined text-xl" data-icon="star" style="font-variation-settings: 'FILL' 1;">star</span>
-<span class="material-symbols-outlined text-xl" data-icon="star" style="font-variation-settings: 'FILL' 1;">star</span>
-<span class="material-symbols-outlined text-xl" data-icon="star_half" style="font-variation-settings: 'FILL' 1;">star_half</span>
+<span class="material-symbols-outlined text-xl" style="font-variation-settings: 'FILL' 1;">star</span>
+<span class="material-symbols-outlined text-xl" style="font-variation-settings: 'FILL' 1;">star</span>
+<span class="material-symbols-outlined text-xl" style="font-variation-settings: 'FILL' 1;">star</span>
+<span class="material-symbols-outlined text-xl" style="font-variation-settings: 'FILL' 1;">star</span>
+<span class="material-symbols-outlined text-xl" style="font-variation-settings: 'FILL' 1;">star_half</span>
 </div>
 </div>
 </div>
 <div class="bg-surface-container-low border border-zinc-800 p-6 rounded-xl relative overflow-hidden group">
 <div class="absolute -right-4 -top-4 opacity-10 group-hover:opacity-20 transition-opacity">
-<span class="material-symbols-outlined text-8xl" data-icon="reviews">reviews</span>
+<span class="material-symbols-outlined text-8xl">reviews</span>
 </div>
 <p class="text-zinc-500 text-sm font-medium mb-1 uppercase tracking-wider">Resenas este mes</p>
 <div class="flex items-end gap-3">
@@ -239,16 +239,16 @@
 </div>
 </div>
 <div class="flex text-amber-400 scale-75 origin-right">
-<span class="material-symbols-outlined" data-icon="star" style="font-variation-settings: 'FILL' 1;">star</span>
-<span class="material-symbols-outlined" data-icon="star" style="font-variation-settings: 'FILL' 1;">star</span>
-<span class="material-symbols-outlined" data-icon="star" style="font-variation-settings: 'FILL' 1;">star</span>
-<span class="material-symbols-outlined" data-icon="star" style="font-variation-settings: 'FILL' 1;">star</span>
-<span class="material-symbols-outlined" data-icon="star" style="font-variation-settings: 'FILL' 1;">star</span>
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">star</span>
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">star</span>
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">star</span>
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">star</span>
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">star</span>
 </div>
 </div>
 <p class="text-sm text-zinc-300 italic mb-4 leading-relaxed">"Excelente atención por parte del personal médico. Todo muy limpio y rápido."</p>
 <button class="w-full bg-teal-400/10 hover:bg-teal-400 hover:text-black text-teal-400 text-xs font-black py-2.5 rounded-lg flex items-center justify-center gap-2 transition-all">
-<span class="material-symbols-outlined text-sm" data-icon="auto_awesome">auto_awesome</span>
+<span class="material-symbols-outlined text-sm">auto_awesome</span>
                             RESPONDER CON IA
                         </button>
 </div>
@@ -263,17 +263,17 @@
 </div>
 </div>
 <div class="flex text-amber-400 scale-75 origin-right">
-<span class="material-symbols-outlined" data-icon="star" style="font-variation-settings: 'FILL' 1;">star</span>
-<span class="material-symbols-outlined" data-icon="star" style="font-variation-settings: 'FILL' 1;">star</span>
-<span class="material-symbols-outlined" data-icon="star" style="font-variation-settings: 'FILL' 1;">star</span>
-<span class="material-symbols-outlined" data-icon="star" style="font-variation-settings: 'FILL' 1;">star</span>
-<span class="material-symbols-outlined" data-icon="star_outline">star_outline</span>
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">star</span>
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">star</span>
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">star</span>
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">star</span>
+<span class="material-symbols-outlined">star_outline</span>
 </div>
 </div>
 <p class="text-sm text-zinc-300 italic mb-4 leading-relaxed">"Buen servicio pero tardaron un poco en darme la receta al final."</p>
 <div class="bg-black/40 rounded-lg p-4 border border-teal-400/20">
 <div class="flex items-center gap-2 mb-2 text-teal-400">
-<span class="material-symbols-outlined text-xs" data-icon="auto_awesome">auto_awesome</span>
+<span class="material-symbols-outlined text-xs">auto_awesome</span>
 <span class="text-[10px] font-black tracking-widest uppercase">Respuesta Sugerida</span>
 </div>
 <p class="text-xs text-on-surface mb-4 leading-relaxed">"Hola Laura, agradecemos mucho tus comentarios. Lamentamos la espera con tu receta; estamos trabajando para agilizar nuestra entrega. ¡Esperamos verte pronto!"</p>
@@ -282,30 +282,6 @@
 <button class="flex-[2] text-xs font-bold bg-primary text-on-primary py-2 rounded hover:opacity-90 transition-opacity">Enviar</button>
 </div>
 </div>
-</div>
-<!-- Review Item 3 -->
-<div class="bg-surface-container-highest/30 border border-zinc-800 rounded-xl p-5">
-<div class="flex justify-between items-start mb-3">
-<div class="flex items-center gap-3">
-<div class="w-10 h-10 rounded-full bg-zinc-800 flex items-center justify-center text-xs font-bold">JP</div>
-<div>
-<p class="text-sm font-bold text-on-surface">Juan Pérez</p>
-<p class="text-[10px] text-zinc-500 uppercase tracking-tighter">Hace 3 días</p>
-</div>
-</div>
-<div class="flex text-amber-400 scale-75 origin-right">
-<span class="material-symbols-outlined" data-icon="star" style="font-variation-settings: 'FILL' 1;">star</span>
-<span class="material-symbols-outlined" data-icon="star" style="font-variation-settings: 'FILL' 1;">star</span>
-<span class="material-symbols-outlined" data-icon="star" style="font-variation-settings: 'FILL' 1;">star</span>
-<span class="material-symbols-outlined" data-icon="star" style="font-variation-settings: 'FILL' 1;">star</span>
-<span class="material-symbols-outlined" data-icon="star" style="font-variation-settings: 'FILL' 1;">star</span>
-</div>
-</div>
-<p class="text-sm text-zinc-300 italic mb-4">"Altamente recomendados para urgencias, atención premium."</p>
-<button class="w-full bg-teal-400/10 hover:bg-teal-400 hover:text-black text-teal-400 text-xs font-black py-2.5 rounded-lg flex items-center justify-center gap-2 transition-all">
-<span class="material-symbols-outlined text-sm" data-icon="auto_awesome">auto_awesome</span>
-                            RESPONDER CON IA
-                        </button>
 </div>
 </div>
 </section>
@@ -330,13 +306,13 @@
 <div class="grid grid-cols-1 gap-4 flex-1">
 <div class="flex items-center gap-3 p-3 rounded-lg bg-zinc-900/50 border border-zinc-800/50 hover:border-teal-400/30 transition-all cursor-pointer">
 <div class="w-5 h-5 rounded bg-teal-400 flex items-center justify-center text-black">
-<span class="material-symbols-outlined text-[14px] font-bold" data-icon="check">check</span>
+<span class="material-symbols-outlined text-[14px] font-bold">check</span>
 </div>
 <span class="text-sm text-zinc-300">Fotos actualizadas</span>
 </div>
 <div class="flex items-center gap-3 p-3 rounded-lg bg-zinc-900/50 border border-zinc-800/50 hover:border-teal-400/30 transition-all cursor-pointer">
 <div class="w-5 h-5 rounded bg-teal-400 flex items-center justify-center text-black">
-<span class="material-symbols-outlined text-[14px] font-bold" data-icon="check">check</span>
+<span class="material-symbols-outlined text-[14px] font-bold">check</span>
 </div>
 <span class="text-sm text-zinc-300">Posts publicados</span>
 </div>
@@ -346,7 +322,7 @@
 </div>
 <div class="flex items-center gap-3 p-3 rounded-lg bg-zinc-900/50 border border-zinc-800/50 hover:border-teal-400/30 transition-all cursor-pointer">
 <div class="w-5 h-5 rounded bg-teal-400 flex items-center justify-center text-black">
-<span class="material-symbols-outlined text-[14px] font-bold" data-icon="check">check</span>
+<span class="material-symbols-outlined text-[14px] font-bold">check</span>
 </div>
 <span class="text-sm text-zinc-300">Servicios completos</span>
 </div>
@@ -356,19 +332,9 @@
 </div>
 <div class="flex items-center gap-3 p-3 rounded-lg bg-zinc-900/50 border border-zinc-800/50 hover:border-teal-400/30 transition-all cursor-pointer">
 <div class="w-5 h-5 rounded bg-teal-400 flex items-center justify-center text-black">
-<span class="material-symbols-outlined text-[14px] font-bold" data-icon="check">check</span>
+<span class="material-symbols-outlined text-[14px] font-bold">check</span>
 </div>
 <span class="text-sm text-zinc-300">Preguntas respondidas</span>
-</div>
-<div class="flex items-center gap-3 p-3 rounded-lg bg-zinc-900/50 border border-zinc-800/50 hover:border-teal-400/30 transition-all cursor-pointer">
-<div class="w-5 h-5 rounded border border-zinc-700"></div>
-<span class="text-sm text-zinc-400">Descripción actualizada</span>
-</div>
-<div class="flex items-center gap-3 p-3 rounded-lg bg-zinc-900/50 border border-zinc-800/50 hover:border-teal-400/30 transition-all cursor-pointer">
-<div class="w-5 h-5 rounded bg-teal-400 flex items-center justify-center text-black">
-<span class="material-symbols-outlined text-[14px] font-bold" data-icon="check">check</span>
-</div>
-<span class="text-sm text-zinc-300">Link al sitio web</span>
 </div>
 </div>
 </div>
@@ -381,7 +347,7 @@
 <div class="flex items-center gap-2">
 <span class="text-xs text-zinc-500">Actualizado: Hoy 09:41 AM</span>
 <button class="bg-zinc-800 p-1.5 rounded-lg text-zinc-400 hover:text-white transition-colors">
-<span class="material-symbols-outlined text-sm" data-icon="refresh">refresh</span>
+<span class="material-symbols-outlined text-sm">refresh</span>
 </button>
 </div>
 </div>
@@ -407,7 +373,7 @@
 <td class="px-6 py-4 text-sm text-zinc-400">#2</td>
 <td class="px-6 py-4">
 <div class="flex items-center text-teal-400 gap-1">
-<span class="material-symbols-outlined text-sm" data-icon="trending_up">trending_up</span>
+<span class="material-symbols-outlined text-sm">trending_up</span>
 <span class="text-xs font-bold">+1</span>
 </div>
 </td>
@@ -420,34 +386,8 @@
 <td class="px-6 py-4 text-sm text-zinc-400">#5</td>
 <td class="px-6 py-4">
 <div class="flex items-center text-teal-400 gap-1">
-<span class="material-symbols-outlined text-sm" data-icon="trending_up">trending_up</span>
+<span class="material-symbols-outlined text-sm">trending_up</span>
 <span class="text-xs font-bold">+2</span>
-</div>
-</td>
-</tr>
-<tr class="hover:bg-white/5 transition-colors group">
-<td class="px-6 py-4">
-<span class="text-sm font-semibold text-on-surface">Urgencias 24 horas</span>
-</td>
-<td class="px-6 py-4 text-sm font-bold text-on-surface">#5</td>
-<td class="px-6 py-4 text-sm text-zinc-400">#4</td>
-<td class="px-6 py-4">
-<div class="flex items-center text-error gap-1">
-<span class="material-symbols-outlined text-sm" data-icon="trending_down">trending_down</span>
-<span class="text-xs font-bold">-1</span>
-</div>
-</td>
-</tr>
-<tr class="hover:bg-white/5 transition-colors group">
-<td class="px-6 py-4">
-<span class="text-sm font-semibold text-on-surface">Mejor cardiólogo Benito Juárez</span>
-</td>
-<td class="px-6 py-4 text-sm font-bold text-on-surface">#2</td>
-<td class="px-6 py-4 text-sm text-zinc-400">#2</td>
-<td class="px-6 py-4">
-<div class="flex items-center text-zinc-500 gap-1">
-<span class="material-symbols-outlined text-sm" data-icon="horizontal_rule">horizontal_rule</span>
-<span class="text-xs font-bold">0</span>
 </div>
 </td>
 </tr>
@@ -457,4 +397,5 @@
 </section>
 </main>
 <script src="app.js" defer></script>
+<script src="sidebar-drawer.js"></script>
 </body></html>
