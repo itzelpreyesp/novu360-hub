@@ -149,7 +149,7 @@
     </a>
   </div>
 </aside>
-<main class="pl-64 min-h-screen flex flex-col bg-black ml-64">
+<main class="min-h-screen flex flex-col bg-black ml-64">
 <!-- TopNavBar Shell -->
 <header class="flex justify-between items-center pl-6 pr-6 w-full h-16 bg-black/80 backdrop-blur-md border-b border-slate-800 sticky top-0 z-30">
 <div class="flex items-center gap-4">
@@ -165,6 +165,10 @@
 <span class="material-symbols-outlined absolute left-3 text-slate-400 text-sm">search</span>
 <input class="bg-slate-900 border-none rounded-lg pl-9 pr-4 py-1.5 text-sm text-slate-200 focus:ring-1 focus:ring-[#00C2A8] w-64" placeholder="Buscar prospectos..." type="text"/>
 </div>
+<a href="prospector-ia.html" class="hidden md:inline-flex items-center gap-2 px-4 py-2 bg-[#00C2A8] text-[#00382f] font-bold text-sm rounded-lg hover:brightness-110 transition-all shadow-lg shadow-[#00C2A8]/20">
+<span class="material-symbols-outlined text-sm">auto_awesome</span>
+              Nueva prospección
+            </a>
 <div class="flex items-center gap-1">
 <button class="hover:bg-slate-900 rounded-lg p-2 text-slate-400 hover:text-white transition-colors">
 <span class="material-symbols-outlined" data-icon="notifications">notifications</span>
@@ -184,18 +188,18 @@
 <h2 class="text-2xl font-bold font-headline text-white">Prospectos</h2>
 <p class="text-slate-500 text-xs mt-1">Gestiona y rastrea los prospectos de tu agencia en detalle.</p>
 </div>
-<div class="flex gap-2">
-<button class="flex items-center gap-2 px-4 py-2 bg-slate-900/50 text-slate-300 text-sm rounded-lg hover:bg-slate-800 border border-slate-800 transition-all">
+<div class="flex flex-col md:flex-row gap-2 w-full md:w-auto">
+<button class="flex items-center justify-center gap-2 px-4 py-2 bg-slate-900/50 text-slate-300 text-sm rounded-lg hover:bg-slate-800 border border-slate-800 transition-all w-full md:w-auto">
 <span class="material-symbols-outlined text-sm">filter_list</span>
-              Filtrar
-            </button>
-<button class="flex items-center gap-2 px-4 py-2 bg-[#00C2A8] text-[#00382f] font-bold text-sm rounded-lg hover:brightness-110 transition-all shadow-lg shadow-[#00C2A8]/20">
+               Filtrar
+             </button>
+<button class="flex items-center justify-center gap-2 px-4 py-2 bg-[#00C2A8] text-[#00382f] font-bold text-sm rounded-lg hover:brightness-110 transition-all shadow-lg shadow-[#00C2A8]/20 w-full md:w-auto">
 <span class="material-symbols-outlined text-sm">add</span>
-              Nueva Etapa
-            </button>
+               Nueva Etapa
+             </button>
 </div>
 </div>
-<div class="flex-1 overflow-auto no-scrollbar">
+<div class="hidden md:block flex-1 overflow-auto no-scrollbar">
 <table class="w-full text-left border-separate border-spacing-y-0">
 <thead>
 <tr class="text-[10px] font-bold text-slate-500 uppercase tracking-widest border-b border-slate-800">
@@ -330,9 +334,81 @@
 </tbody>
 </table>
 </div>
+<div class="md:hidden space-y-3">
+<article class="rounded-md border border-slate-800 bg-[#0c0c0c] p-4 shadow-lg">
+<div class="flex items-start justify-between gap-3">
+<div>
+<h3 class="text-sm font-bold text-slate-100 font-headline">Restaurante Roma</h3>
+<p class="text-xs text-slate-500 mt-1">@romafoodies</p>
+</div>
+<span class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-blue-400/10 text-blue-400 text-[10px] font-bold uppercase tracking-wider border border-blue-400/20"><span class="w-1.5 h-1.5 rounded-full bg-blue-400"></span>Nuevo</span>
+</div>
+<div class="mt-4 grid grid-cols-2 gap-3 text-xs">
+<div><p class="text-[10px] uppercase tracking-widest text-slate-500">Fecha</p><p class="text-slate-300 mt-1">24 Oct, 2023</p></div>
+<div><p class="text-[10px] uppercase tracking-widest text-slate-500">Usuario</p><p class="text-slate-300 mt-1">@romafoodies</p></div>
+<div class="col-span-2"><p class="text-[10px] uppercase tracking-widest text-slate-500">Resumen IA</p><p class="text-slate-400 mt-1 line-clamp-2">Interesado en marketing...</p></div>
+</div>
+</article>
+<article class="rounded-md border border-slate-800 bg-[#0c0c0c] p-4 shadow-lg">
+<div class="flex items-start justify-between gap-3">
+<div>
+<h3 class="text-sm font-bold text-slate-100 font-headline">Studio Glow</h3>
+<p class="text-xs text-slate-500 mt-1">@studioglow.mx</p>
+</div>
+<span class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-[#A855F7]/10 text-[#A855F7] text-[10px] font-bold uppercase tracking-wider border border-[#A855F7]/20"><span class="w-1.5 h-1.5 rounded-full bg-[#A855F7]"></span>Propuesta</span>
+</div>
+<div class="mt-4 grid grid-cols-2 gap-3 text-xs">
+<div><p class="text-[10px] uppercase tracking-widest text-slate-500">Fecha</p><p class="text-slate-300 mt-1">23 Oct, 2023</p></div>
+<div><p class="text-[10px] uppercase tracking-widest text-slate-500">Usuario</p><p class="text-slate-300 mt-1">@studioglow.mx</p></div>
+<div class="col-span-2"><p class="text-[10px] uppercase tracking-widest text-slate-500">Resumen IA</p><p class="text-slate-400 mt-1 line-clamp-2">Esperando aprobación...</p></div>
+</div>
+</article>
+<article class="rounded-md border border-slate-800 bg-[#0c0c0c] p-4 shadow-lg">
+<div class="flex items-start justify-between gap-3">
+<div>
+<h3 class="text-sm font-bold text-slate-100 font-headline">Urban Fitness</h3>
+<p class="text-xs text-slate-500 mt-1">@urbanfit_oficial</p>
+</div>
+<span class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-amber-400/10 text-amber-400 text-[10px] font-bold uppercase tracking-wider border border-amber-400/20"><span class="w-1.5 h-1.5 rounded-full bg-amber-400"></span>Contactado</span>
+</div>
+<div class="mt-4 grid grid-cols-2 gap-3 text-xs">
+<div><p class="text-[10px] uppercase tracking-widest text-slate-500">Fecha</p><p class="text-slate-300 mt-1">22 Oct, 2023</p></div>
+<div><p class="text-[10px] uppercase tracking-widest text-slate-500">Usuario</p><p class="text-slate-300 mt-1">@urbanfit_oficial</p></div>
+<div class="col-span-2"><p class="text-[10px] uppercase tracking-widest text-slate-500">Resumen IA</p><p class="text-slate-400 mt-1 line-clamp-2">Presentación enviada...</p></div>
+</div>
+</article>
+<article class="rounded-md border border-slate-800 bg-[#0c0c0c] p-4 shadow-lg">
+<div class="flex items-start justify-between gap-3">
+<div>
+<h3 class="text-sm font-bold text-slate-100 font-headline">Dental Care</h3>
+<p class="text-xs text-slate-500 mt-1">@dentalcare_center</p>
+</div>
+<span class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-purple-400/10 text-purple-400 text-[10px] font-bold uppercase tracking-wider border border-purple-400/20"><span class="w-1.5 h-1.5 rounded-full bg-purple-400"></span>Calificado</span>
+</div>
+<div class="mt-4 grid grid-cols-2 gap-3 text-xs">
+<div><p class="text-[10px] uppercase tracking-widest text-slate-500">Fecha</p><p class="text-slate-300 mt-1">20 Oct, 2023</p></div>
+<div><p class="text-[10px] uppercase tracking-widest text-slate-500">Usuario</p><p class="text-slate-300 mt-1">@dentalcare_center</p></div>
+<div class="col-span-2"><p class="text-[10px] uppercase tracking-widest text-slate-500">Resumen IA</p><p class="text-slate-400 mt-1 line-clamp-2">Reunión agendada...</p></div>
+</div>
+</article>
+<article class="rounded-md border border-slate-800 bg-[#0c0c0c] p-4 shadow-lg">
+<div class="flex items-start justify-between gap-3">
+<div>
+<h3 class="text-sm font-bold text-slate-100 font-headline">Pizza Napoli</h3>
+<p class="text-xs text-slate-500 mt-1">@pizzanapoli</p>
+</div>
+<span class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-emerald-500/10 text-emerald-500 text-[10px] font-bold uppercase tracking-wider border border-emerald-500/20"><span class="w-1.5 h-1.5 rounded-full bg-emerald-500"></span>Cerrado</span>
+</div>
+<div class="mt-4 grid grid-cols-2 gap-3 text-xs">
+<div><p class="text-[10px] uppercase tracking-widest text-slate-500">Fecha</p><p class="text-slate-300 mt-1">15 Oct, 2023</p></div>
+<div><p class="text-[10px] uppercase tracking-widest text-slate-500">Usuario</p><p class="text-slate-300 mt-1">@pizzanapoli</p></div>
+<div class="col-span-2"><p class="text-[10px] uppercase tracking-widest text-slate-500">Resumen IA</p><p class="text-slate-400 mt-1 line-clamp-2">Contrato firmado...</p></div>
+</div>
+</article>
+</div>
 </section>
 <!-- RIGHT SECTION (40%): AI Prospector, Auditor & Pitch Generator -->
-<section class="w-2/5 flex flex-col gap-6 overflow-y-auto no-scrollbar">
+<section class="hidden md:flex w-2/5 flex-col gap-6 overflow-y-auto no-scrollbar" style="display:none">
 <!-- AI Prospector Card -->
 <div class="bg-[#0c0c0c] border border-slate-800 rounded-2xl p-6 shadow-2xl relative overflow-hidden">
 <div class="absolute top-0 right-0 p-4 opacity-5">
@@ -442,10 +518,197 @@
 </div>
 </div>
 </section>
+<section class="hidden md:flex w-2/5 flex-col gap-6 overflow-y-auto no-scrollbar">
+<div class="rounded-2xl border border-slate-800 bg-[#0c0c0c] p-6 shadow-2xl">
+<div class="flex items-center gap-3">
+<div class="flex h-11 w-11 items-center justify-center rounded-full border border-[#00C2A8]/20 bg-[#00C2A8]/10">
+<span class="material-symbols-outlined text-[#00C2A8]">auto_awesome</span>
+</div>
+<div>
+<h2 class="text-xl font-bold font-headline text-white">Prospector IA</h2>
+<p class="text-slate-500 text-sm mt-1">Flujo completo de prospección en una página separada.</p>
+</div>
+</div>
+<div class="mt-6 grid grid-cols-2 gap-3 text-xs text-slate-300">
+<div class="rounded-md border border-slate-800 bg-black/70 p-3">
+<p class="text-[10px] uppercase tracking-[0.25em] text-slate-500">Paso 1</p>
+<p class="mt-2">Datos del negocio</p>
+</div>
+<div class="rounded-md border border-slate-800 bg-black/70 p-3">
+<p class="text-[10px] uppercase tracking-[0.25em] text-slate-500">Paso 2</p>
+<p class="mt-2">Subir capturas</p>
+</div>
+<div class="rounded-md border border-slate-800 bg-black/70 p-3">
+<p class="text-[10px] uppercase tracking-[0.25em] text-slate-500">Paso 3</p>
+<p class="mt-2">Análisis + mensaje</p>
+</div>
+<div class="rounded-md border border-slate-800 bg-black/70 p-3">
+<p class="text-[10px] uppercase tracking-[0.25em] text-slate-500">Paso 4</p>
+<p class="mt-2">Expediente del lead</p>
+</div>
+</div>
+<a href="prospector-ia.html" class="mt-6 inline-flex w-full items-center justify-center gap-2 rounded-md bg-[#00C2A8] px-4 py-3 text-sm font-bold text-[#00382f] transition hover:brightness-110">
+<span class="material-symbols-outlined text-sm">open_in_new</span>
+Abrir Prospector IA
+</a>
+</div>
+<div class="rounded-2xl border border-slate-800 bg-[#0c0c0c] p-6 shadow-xl">
+<p class="text-[10px] font-bold uppercase tracking-[0.35em] text-slate-500">Acceso rápido</p>
+<p class="mt-3 text-sm leading-6 text-slate-300">Desde cada prospecto puedes abrir el expediente completo, revisar capturas y continuar el seguimiento sin salir del pipeline.</p>
+</div>
+</section>
 </div>
 </main>
-<button class="fixed bottom-8 right-8 w-14 h-14 bg-[#00C2A8] text-[#00382f] rounded-full shadow-2xl flex items-center justify-center hover:scale-110 active:scale-95 transition-all z-50">
-<span class="material-symbols-outlined text-2xl font-bold" style="font-variation-settings: 'FILL' 1;">add</span>
+<button id="mobile-ai-button" class="fixed bottom-6 right-6 z-50 inline-flex items-center gap-2 rounded-full bg-[#00C2A8] px-4 py-3 text-sm font-black text-[#00382f] shadow-2xl transition hover:scale-105 active:scale-95 md:hidden" type="button" aria-label="Abrir Prospector IA">
+<span class="material-symbols-outlined text-2xl font-bold" style="font-variation-settings: 'FILL' 1;">bolt</span>
+<span>AI</span>
 </button>
+<div id="mobile-ai-drawer" class="fixed inset-0 z-40 hidden md:hidden">
+<div class="absolute inset-0 bg-black/70 backdrop-blur-sm"></div>
+<div class="absolute right-0 top-0 h-full w-full max-w-sm overflow-y-auto bg-black border-l border-slate-800 p-4 space-y-4">
+<div class="flex items-center justify-between pt-2">
+<div>
+<p class="text-[10px] uppercase tracking-[0.35em] text-slate-500">AI Tools</p>
+<h2 class="text-xl font-bold font-headline text-white">Prospector y Auditor</h2>
+</div>
+<button id="mobile-ai-close" type="button" class="rounded-md border border-slate-800 bg-slate-900 px-3 py-2 text-slate-300">Cerrar</button>
+</div>
+<div class="bg-[#0c0c0c] border border-slate-800 rounded-2xl p-6 shadow-2xl relative overflow-hidden">
+<div class="flex items-center gap-2 mb-6">
+<span class="material-symbols-outlined text-[#00C2A8]">auto_awesome</span>
+<h2 class="text-xl font-bold font-headline text-white">AI Prospector</h2>
+</div>
+<form class="space-y-4 mb-6">
+<div class="grid grid-cols-2 gap-4">
+<div class="space-y-1.5">
+<label class="text-[10px] font-bold uppercase tracking-wider text-slate-500 ml-1">Nombre del negocio</label>
+<input class="w-full bg-black border-slate-800 rounded-lg text-sm py-2 px-3 focus:ring-[#00C2A8] focus:border-[#00C2A8] text-slate-200" placeholder="Ej: Pizza Napoli" type="text"/>
+</div>
+<div class="space-y-1.5">
+<label class="text-[10px] font-bold uppercase tracking-wider text-slate-500 ml-1">Tipo de negocio</label>
+<select class="w-full bg-black border-slate-800 rounded-lg text-sm py-2 px-3 focus:ring-[#00C2A8] focus:border-[#00C2A8] text-slate-200">
+<option>Restaurante</option>
+<option>Gimnasio</option>
+<option>Estetica</option>
+<option>E-commerce</option>
+</select>
+</div>
+</div>
+<div class="grid grid-cols-2 gap-4">
+<div class="space-y-1.5">
+<label class="text-[10px] font-bold uppercase tracking-wider text-slate-500 ml-1">Ciudad</label>
+<input class="w-full bg-black border-slate-800 rounded-lg text-sm py-2 px-3 focus:ring-[#00C2A8] focus:border-[#00C2A8] text-slate-200" placeholder="Ciudad de Mexico" type="text"/>
+</div>
+<div class="space-y-1.5">
+<label class="text-[10px] font-bold uppercase tracking-wider text-slate-500 ml-1">Instagram</label>
+<input class="w-full bg-black border-slate-800 rounded-lg text-sm py-2 px-3 focus:ring-[#00C2A8] focus:border-[#00C2A8] text-slate-200" placeholder="@usuario" type="text"/>
+</div>
+</div>
+<button class="w-full bg-[#00C2A8] hover:bg-[#00ad95] text-[#00382f] font-extrabold py-3.5 rounded-xl transition-all flex items-center justify-center gap-2 shadow-lg shadow-[#00C2A8]/20 group" type="button">
+<span class="material-symbols-outlined text-lg group-hover:animate-pulse">bolt</span>
+Generar Mensaje IA
+</button>
+</form>
+<div class="bg-white rounded-xl p-5 border-l-4 border-[#00C2A8] relative group">
+<div class="flex justify-between items-start mb-2">
+<span class="text-[10px] font-extrabold text-[#00C2A8] uppercase tracking-tighter">Borrador Sugerido</span>
+<button class="text-slate-400 hover:text-[#00C2A8] transition-colors p-1 bg-slate-100 rounded-md" type="button">
+<span class="material-symbols-outlined text-sm">content_copy</span>
+</button>
+</div>
+<p class="text-slate-800 text-sm italic leading-relaxed">
+"¡Hola <strong>Roma</strong>! Estuve viendo el perfil de <strong>Restaurante Roma</strong> y me encantó la estética de sus platillos. Noté que tienen un gran potencial para atraer más clientes locales con pauta digital. ¿Te interesaría ver una auditoría gratuita?"
+</p>
+</div>
+</div>
+<div class="bg-[#0c0c0c] rounded-2xl p-6 border border-slate-800 shadow-xl">
+<div class="flex items-center gap-3 mb-5">
+<div class="w-10 h-10 rounded-full bg-slate-900 border border-slate-800 flex items-center justify-center">
+<img alt="Diego AI Avatar" class="w-full h-full rounded-full" data-alt="friendly smart AI assistant avatar" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDVtXd7n4y2mJXZkTUO0boHR3d6yQ5YVZdS7Ig2MzkwUEAwRnYwzxMKLYAEZBsT3ooRtDQMUtiTzaeRGuGJPCuePEer1TGcWTOhP9E6JgHyorArjBQxKLHBQ_RAuoDevQSwQhULN6kKCbMrgN5Rv5VmSSRrwe_oN5mwnNo8esliy3XnMb8RMuIftUDDjfavtmUjjCcNaiaA-cRBgHYjbDkuQx9NqU81lpy6RN9aSxbYbLLASCJpfmhPwFDOTgVXe0fYkEqDW_Pi1F0"/>
+</div>
+<div>
+<h3 class="text-white font-bold text-base leading-none">Auditor de Conversacion</h3>
+<p class="text-slate-500 text-[11px] mt-1">Potenciado por Diego AI 4.0</p>
+</div>
+</div>
+<div class="space-y-4">
+<div class="space-y-1.5">
+<label class="text-[10px] font-bold uppercase tracking-wider text-slate-500 ml-1">Pega tu conversacion aqui</label>
+<textarea class="w-full bg-black border-slate-800 rounded-xl text-sm py-3 px-4 focus:ring-[#00C2A8] focus:border-[#00C2A8] text-slate-200 resize-none" placeholder="Copia y pega los mensajes para analizar el cierre..." rows="3"></textarea>
+</div>
+<button class="w-full bg-slate-900 hover:bg-slate-800 border border-slate-800 text-[#00C2A8] font-bold py-3 rounded-xl transition-all flex items-center justify-center gap-2" type="button">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">analytics</span>
+Analizar con Diego
+</button>
+</div>
+</div>
+<div class="bg-[#0c0c0c] rounded-2xl p-6 border border-slate-800 shadow-xl">
+<div class="flex items-center gap-3 mb-5">
+<div class="w-10 h-10 rounded-full bg-[#00C2A8]/10 border border-[#00C2A8]/20 flex items-center justify-center">
+<span class="material-symbols-outlined text-[#00C2A8] text-xl">record_voice_over</span>
+</div>
+<div>
+<h3 class="text-white font-bold text-base leading-none">Generador de Pitch</h3>
+<p class="text-slate-500 text-[11px] mt-1">Crea argumentos de venta personalizados</p>
+</div>
+</div>
+<div class="space-y-4">
+<div class="space-y-1.5">
+<label class="text-[10px] font-bold uppercase tracking-wider text-slate-500 ml-1">Seleccionar Prospecto</label>
+<select class="w-full bg-black border-slate-800 rounded-lg text-sm py-2.5 px-3 focus:ring-[#00C2A8] focus:border-[#00C2A8] text-slate-200">
+<option>Restaurante Roma</option>
+<option>Studio Glow</option>
+<option>Urban Fitness</option>
+<option>Dental Care</option>
+</select>
+</div>
+<button class="w-full bg-[#00C2A8] hover:bg-[#00ad95] text-[#00382f] font-extrabold py-3 rounded-xl transition-all flex items-center justify-center gap-2" type="button">
+<span class="material-symbols-outlined text-lg">auto_fix_high</span>
+Generar Pitch IA
+</button>
+<div class="space-y-1.5">
+<label class="text-[10px] font-bold uppercase tracking-wider text-slate-500 ml-1">Pitch Generado</label>
+<div class="w-full bg-black border border-dashed border-slate-800 rounded-xl p-4 min-h-[80px]">
+<p class="text-slate-500 text-xs italic">El pitch aparecerá aqui...</p>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
 <script src="app.js" defer></script>
+<script>
+document.addEventListener('DOMContentLoaded', () => {
+  const launchButton = document.getElementById('mobile-ai-button');
+  if (launchButton) {
+    launchButton.addEventListener('click', (event) => {
+      event.preventDefault();
+      event.stopImmediatePropagation();
+      window.location.href = 'prospector-ia.html';
+    }, true);
+  }
+
+  const addExpedienteLink = (row, mode) => {
+    if (!row || row.querySelector('[data-expediente-link]')) return;
+    const name = row.querySelector('h3, .text-sm.font-bold, .text-sm.font-bold.text-slate-100.block')?.textContent?.trim();
+    if (!name) return;
+    const user = row.querySelector('p.text-xs.text-slate-500, td:nth-child(2) span')?.textContent?.trim() || '';
+    const status = row.querySelector('.inline-flex.items-center.gap-1\\.5, .rounded-full')?.textContent?.trim() || 'Nuevo';
+    const href = `prospector-ia.html?lead=${encodeURIComponent(name)}&name=${encodeURIComponent(name)}&user=${encodeURIComponent(user)}&status=${encodeURIComponent(status)}`;
+    const link = `<a data-expediente-link href="${href}" class="mt-3 inline-flex w-full items-center justify-center gap-2 rounded-md border border-slate-800 bg-black px-3 py-2 text-xs font-bold text-[#00C2A8] transition hover:border-[#00C2A8] hover:bg-[#00C2A8]/10">Ver expediente</a>`;
+
+    if (mode === 'table') {
+      const summaryCell = row.querySelector('td:last-child');
+      if (summaryCell) summaryCell.insertAdjacentHTML('beforeend', `<div class="mt-2">${link}</div>`);
+      return;
+    }
+
+    const body = row.querySelector('.mt-4');
+    if (body) body.insertAdjacentHTML('beforeend', `<div class="col-span-2">${link}</div>`);
+  };
+
+  document.querySelectorAll('table tbody tr').forEach(row => addExpedienteLink(row, 'table'));
+  document.querySelectorAll('.md\\:hidden.space-y-3 article').forEach(row => addExpedienteLink(row, 'mobile'));
+});
+</script>
 </body></html>

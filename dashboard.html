@@ -86,10 +86,10 @@ tailwind.config = {
 <script src="auth.js"></script>
 <script>checkAuth();</script>
 </head>
-<body class="bg-black text-on-surface antialiased flex overflow-hidden h-screen">
+<body class="bg-black text-on-surface antialiased flex flex-col md:flex-row overflow-x-hidden h-screen">
 <!-- SideNavBar -->
 <!-- SideNavBar - Novu 360 -->
-<aside class="bg-black antialiased h-screen w-64 fixed left-0 top-0 flex flex-col py-6 z-20" style="box-shadow: 4px 0 24px rgba(0,0,0,0.6)">
+<aside class="hidden md:flex bg-black antialiased h-screen w-64 fixed left-0 top-0 flex-col py-6 z-20" style="box-shadow: 4px 0 24px rgba(0,0,0,0.6)">
   <div class="px-6 mb-8">
     <a href="dashboard.html" class="text-white font-black tracking-widest text-xl block" style="color:#fff;text-decoration:none">Novu 360</a>
     <div class="text-neutral-500 text-xs uppercase tracking-tighter mt-1 italic">INTELIGENCIA DE AGENCIA</div>
@@ -156,7 +156,7 @@ tailwind.config = {
   </div>
 </aside>
 <!-- Main Workspace -->
-<main class="ml-64 flex-1 flex flex-col h-full bg-black overflow-y-auto">
+<main class="ml-0 md:ml-64 flex-1 flex flex-col h-full bg-black overflow-y-auto">
 <!-- Top Header -->
 <header class="bg-black flex justify-between items-center h-16 px-8 w-full sticky top-0 z-10 border-b border-white/5">
 <div class="flex items-center gap-6">
@@ -266,9 +266,9 @@ tailwind.config = {
 </div>
 </section>
 <!-- Main Layout Content -->
-<div class="grid grid-cols-12 gap-8">
+<div class="flex flex-col gap-8">
 <!-- Projects Section -->
-<div class="col-span-12 lg:col-span-8 space-y-6">
+<div class="w-full space-y-6">
 <section class="space-y-4">
 <div class="flex items-center justify-between">
 <h2 class="text-xl font-extrabold tracking-tight text-white">Clientes Activos</h2>
@@ -427,8 +427,8 @@ tailwind.config = {
 <!-- Area Health -->
 <div class="space-y-4">
 <h2 class="text-xl font-extrabold tracking-tight text-white">Salud Operativa de Áreas</h2>
-<div class="grid grid-cols-2 md:grid-cols-5 gap-4">
-<div class="bg-surface-container-lowest p-5 rounded-lg border border-white/5 hover:border-primary/30 transition-all group">
+<div class="flex overflow-x-auto flex-nowrap gap-3 md:grid md:grid-cols-5 md:gap-4 md:overflow-visible">
+<div class="min-w-[160px] md:min-w-0 bg-surface-container-lowest p-5 rounded-lg border border-white/5 hover:border-primary/30 transition-all group">
 <div class="flex justify-between items-start mb-6">
 <div class="w-3 h-3 bg-primary rounded-full shadow-[0_0_8px_rgba(0,194,168,0.6)]"></div>
 <span class="material-symbols-outlined text-neutral-500 group-hover:text-primary transition-colors">trending_up</span>
@@ -436,7 +436,7 @@ tailwind.config = {
 <h3 class="font-bold text-on-surface">Ventas</h3>
 <p id="health-ventas" class="text-[10px] text-neutral-500 mt-1">Sin datos</p>
 </div>
-<div class="bg-surface-container-lowest p-5 rounded-lg border border-white/5 hover:border-primary/30 transition-all group">
+<div class="min-w-[160px] md:min-w-0 bg-surface-container-lowest p-5 rounded-lg border border-white/5 hover:border-primary/30 transition-all group">
 <div class="flex justify-between items-start mb-6">
 <div class="w-3 h-3 bg-primary rounded-full shadow-[0_0_8px_rgba(0,194,168,0.6)]"></div>
 <span class="material-symbols-outlined text-neutral-500 group-hover:text-primary transition-colors">ads_click</span>
@@ -444,7 +444,7 @@ tailwind.config = {
 <h3 class="font-bold text-on-surface">Ads</h3>
 <p id="health-ads" class="text-[10px] text-neutral-500 mt-1">Sin datos</p>
 </div>
-<div class="bg-surface-container-lowest p-5 rounded-lg border border-white/5 hover:border-primary/30 transition-all group">
+<div class="min-w-[160px] md:min-w-0 bg-surface-container-lowest p-5 rounded-lg border border-white/5 hover:border-primary/30 transition-all group">
 <div class="flex justify-between items-start mb-6">
 <div class="w-3 h-3 bg-yellow-500 rounded-full shadow-[0_0_8px_rgba(234,179,8,0.6)]"></div>
 <span class="material-symbols-outlined text-neutral-500 group-hover:text-primary transition-colors">forum</span>
@@ -452,7 +452,7 @@ tailwind.config = {
 <h3 class="font-bold text-on-surface">Community</h3>
 <p id="health-community" class="text-[10px] text-neutral-500 mt-1">Sin datos</p>
 </div>
-<div class="bg-surface-container-lowest p-5 rounded-lg border border-white/5 hover:border-primary/30 transition-all group">
+<div class="min-w-[160px] md:min-w-0 bg-surface-container-lowest p-5 rounded-lg border border-white/5 hover:border-primary/30 transition-all group">
 <div class="flex justify-between items-start mb-6">
 <div class="w-3 h-3 bg-red-500 rounded-full shadow-[0_0_8px_rgba(239,68,68,0.6)]"></div>
 <span class="material-symbols-outlined text-neutral-500 group-hover:text-primary transition-colors">search</span>
@@ -460,7 +460,7 @@ tailwind.config = {
 <h3 class="font-bold text-on-surface">SEO</h3>
 <p id="health-seo" class="text-[10px] text-neutral-500 mt-1">Sin datos</p>
 </div>
-<div class="bg-surface-container-lowest p-5 rounded-lg border border-white/5 hover:border-primary/30 transition-all group">
+<div class="min-w-[160px] md:min-w-0 bg-surface-container-lowest p-5 rounded-lg border border-white/5 hover:border-primary/30 transition-all group">
 <div class="flex justify-between items-start mb-6">
 <div class="w-3 h-3 bg-primary rounded-full shadow-[0_0_8px_rgba(0,194,168,0.6)]"></div>
 <span class="material-symbols-outlined text-neutral-500 group-hover:text-primary transition-colors">language</span>
@@ -472,7 +472,7 @@ tailwind.config = {
 </div>
 </div>
 <!-- Sidebar Right: Quick Shortcuts & Visuals -->
-<div class="col-span-12 lg:col-span-4 space-y-6">
+<div class="w-full space-y-6">
 <div class="bg-surface-container-low rounded-2xl p-6 border border-white/5 shadow-xl">
 <h2 class="text-sm font-extrabold tracking-tight uppercase mb-4 text-neutral-400">Acciones Rápidas</h2>
 <div class="grid grid-cols-2 gap-3">
@@ -494,7 +494,7 @@ tailwind.config = {
 </button>
 </div>
 <!-- Decorative Visual -->
-<div class="mt-8 rounded-xl overflow-hidden relative group">
+<div class="mt-8 rounded-xl overflow-hidden relative group w-full">
 <img alt="Data visualization" class="w-full h-48 object-cover opacity-80 group-hover:scale-110 transition-transform duration-700" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAeRMvcBxRvpMtT1PgAGngUaSQZWCnNl6ssPKro-gxeI1CPtDQ8XnDACHoCVaStTARgwZ-tZz9OG1LMn_ztGUhHm0Eq9b4kuZ2fUPkgZHqvVhf2lHz5HPAo4PEeZZHZClCrAHjOT_oGAeiGkgG3NujyIVTyuzURuxx27RAAo2Cjhs1ZeAqRQ4j_09fh_wDWhY8nffFAb6Hb-28XlPKHe6KKTh4aqIa25r0i-SyWouxRJhSIr4sc4cHJ9LBnBekHr0BNPf3WETSyTog"/>
 <div class="absolute inset-0 bg-gradient-to-t from-black to-transparent opacity-60"></div>
 <div class="absolute bottom-4 left-4">
