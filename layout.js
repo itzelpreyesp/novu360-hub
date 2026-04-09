@@ -1,215 +1,317 @@
 /**
- * Layout.js - Centralizado para NOVU360 HUB
- * Maneja la inyección dinámica del Sidebar, Tab Bar inferior y Backdrop.
+ * layout.js - NOVU360 HUB
+ * CSS puro, sin dependencia de Tailwind CDN para elementos dinámicos.
  */
 (() => {
+  const PRIMARY = '#00C2A8';
+ 
   const SIDEBAR_ITEMS = [
-    { label: 'Dashboard', href: 'dashboard.html', icon: 'dashboard' },
-    { label: 'Ventas', href: 'ventas.html', icon: 'trending_up' },
-    { label: 'Ads', href: 'ads.html', icon: 'ads_click' },
-    { label: 'Community', href: 'community.html', icon: 'forum' },
-    { label: 'SEO', href: 'seo.html', icon: 'search' },
-    { label: 'Web', href: 'web.html', icon: 'language' },
-    { label: 'Clientes', href: 'portal-cliente.html', icon: 'group' },
-    { label: 'Finanzas', href: 'finanzas.html', icon: 'payments' },
-    { label: 'Aprobaciones', href: 'aprobaciones.html', icon: 'fact_check' },
-    { label: 'Onboarding', href: 'onboarding.html', icon: 'rocket_launch' },
-    { label: 'Cerebros IA', href: 'cerebros.html', icon: 'psychology' },
+    { label: 'Dashboard',    href: 'dashboard.html',     icon: 'dashboard' },
+    { label: 'Ventas',       href: 'ventas.html',        icon: 'trending_up' },
+    { label: 'Ads',          href: 'ads.html',           icon: 'ads_click' },
+    { label: 'Community',    href: 'community.html',     icon: 'forum' },
+    { label: 'SEO',          href: 'seo.html',           icon: 'search' },
+    { label: 'Web',          href: 'web.html',           icon: 'language' },
+    { label: 'Clientes',     href: 'portal-cliente.html',icon: 'group' },
+    { label: 'Finanzas',     href: 'finanzas.html',      icon: 'payments' },
+    { label: 'Aprobaciones', href: 'aprobaciones.html',  icon: 'fact_check' },
+    { label: 'Onboarding',   href: 'onboarding.html',    icon: 'rocket_launch' },
+    { label: 'Cerebros IA',  href: 'cerebros.html',      icon: 'psychology' },
   ];
-
+ 
   const FOOTER_ITEMS = [
     { label: 'Soporte', href: '#', icon: 'help' },
-    { label: 'Cuenta', href: '#', icon: 'person' },
+    { label: 'Cuenta',  href: '#', icon: 'person' },
   ];
-
+ 
   const TAB_ITEMS = [
-    { label: 'Dashboard', href: 'dashboard.html', icon: 'dashboard' },
-    { label: 'Ventas', href: 'ventas.html', icon: 'trending_up' },
-    { label: 'Prospector', href: 'prospector-ia.html', icon: 'auto_awesome' },
-    { label: 'Clientes', href: 'portal-cliente.html', icon: 'group' },
-    { label: 'Menú', href: '#menu', icon: 'menu', isMenu: true },
+    { label: 'Dashboard',  href: 'dashboard.html',      icon: 'dashboard' },
+    { label: 'Ventas',     href: 'ventas.html',         icon: 'trending_up' },
+    { label: 'Prospector', href: 'prospector-ia.html',  icon: 'auto_awesome' },
+    { label: 'Clientes',   href: 'portal-cliente.html', icon: 'group' },
+    { label: 'Menú',       href: '#menu',               icon: 'menu', isMenu: true },
   ];
-
+ 
   let sidebarOpen = false;
-  let sidebar = null;
-  let backdrop = null;
-  let toggleButton = null;
-  let bottomBar = null;
-
-  function currentPath() {
-    const path = window.location.pathname.split('/').pop() || 'index.html';
-    return path.toLowerCase();
+  let sidebar, backdrop, toggleBtn, bottomBar, mainEl;
+ 
+  /* ─── helpers ─── */
+  function currentPage() {
+    return (window.location.pathname.split('/').pop() || 'index.html').toLowerCase();
   }
-
+ 
   function isActive(href) {
-    const path = currentPath();
-    if (href === 'dashboard.html' && (path === 'index.html' || path === '')) return true;
-    return path === href.toLowerCase();
+    const p = currentPage();
+    if (href === 'dashboard.html' && (p === '' || p === 'index.html')) return true;
+    return p === href.toLowerCase();
   }
-
+ 
+  function isMobile() { return window.innerWidth < 1024; }
+ 
+  /* ─── sidebar ─── */
   function createSidebar() {
-    if (document.getElementById('main-sidebar')) return;
-
+    if (document.getElementById('main-sidebar')) {
+      sidebar = document.getElementById('main-sidebar');
+      // Resetear clases para que JS tenga control total
+      sidebar.removeAttribute('class');
+      applySidebarBaseStyles();
+      return;
+    }
+ 
     sidebar = document.createElement('aside');
     sidebar.id = 'main-sidebar';
-    sidebar.style.cssText = 'display:flex; flex-direction:column; background:#000; height:100vh; width:256px; position:fixed; left:0; top:0; z-index:100; padding:1.5rem 0; border-right:1px solid rgba(255,255,255,0.05); transition:transform 0.3s ease;';
-    sidebar.className = '';
-    
-    // Initial mobile state
-    if (window.innerWidth < 1024) {
-      sidebar.style.transform = 'translateX(-100%)';
-    } else {
-      sidebar.style.transform = 'translateX(0)';
-    }
-
-    const navItemsHtml = SIDEBAR_ITEMS.map(item => {
+    applySidebarBaseStyles();
+ 
+    const navHtml = SIDEBAR_ITEMS.map(item => {
       const active = isActive(item.href);
-      const baseClass = "mx-3 flex items-center px-4 py-3 gap-3 transition-all rounded-lg";
-      const activeClass = "bg-[#00C2A8]/10 text-[#00C2A8] font-bold";
-      const inactiveClass = "text-neutral-400 hover:text-white hover:bg-white/5";
-      
       return `
-        <a class="${baseClass} ${active ? activeClass : inactiveClass}" href="${item.href}">
-          <span class="material-symbols-outlined" style="font-variation-settings: 'FILL' ${active ? '1' : '0'}">${item.icon}</span>
-          <span>${item.label}</span>
-        </a>
-      `;
+        <a href="${item.href}" style="
+          display:flex; align-items:center; gap:12px;
+          padding:10px 16px; margin:2px 12px;
+          border-radius:10px; text-decoration:none;
+          font-size:14px; font-family:Inter,sans-serif;
+          transition:background 0.15s, color 0.15s;
+          background:${active ? 'rgba(0,194,168,0.12)' : 'transparent'};
+          color:${active ? PRIMARY : '#a3a3a3'};
+          font-weight:${active ? '700' : '400'};
+        ">
+          <span class="material-symbols-outlined" style="font-size:20px;font-variation-settings:'FILL' ${active ? 1 : 0}">${item.icon}</span>
+          ${item.label}
+        </a>`;
     }).join('');
-
-    const footerItemsHtml = FOOTER_ITEMS.map(item => `
-      <a class="text-neutral-400 hover:text-white px-7 py-3 flex items-center gap-3 transition-all hover:bg-white/5" href="${item.href}">
-        <span class="material-symbols-outlined">${item.icon}</span>
-        <span>${item.label}</span>
-      </a>
-    `).join('');
-
+ 
+    const footerHtml = FOOTER_ITEMS.map(item => `
+      <a href="${item.href}" style="
+        display:flex; align-items:center; gap:12px;
+        padding:10px 20px; text-decoration:none;
+        font-size:14px; font-family:Inter,sans-serif;
+        color:#737373; transition:color 0.15s;
+      ">
+        <span class="material-symbols-outlined" style="font-size:20px">${item.icon}</span>
+        ${item.label}
+      </a>`).join('');
+ 
     sidebar.innerHTML = `
-      <div class="px-6 mb-8">
-        <a href="dashboard.html" class="text-white font-black tracking-widest text-xl block" style="color:#fff;text-decoration:none">Novu 360</a>
-        <div class="text-neutral-500 text-xs uppercase tracking-tighter mt-1 italic">INTELIGENCIA DE AGENCIA</div>
+      <div style="padding:0 24px 32px">
+        <a href="dashboard.html" style="
+          display:block; color:#fff; text-decoration:none;
+          font-size:20px; font-weight:900; letter-spacing:0.1em;
+          font-family:Manrope,sans-serif;
+        ">Novu 360</a>
+        <div style="color:#525252;font-size:11px;text-transform:uppercase;letter-spacing:0.1em;margin-top:4px;font-style:italic">
+          INTELIGENCIA DE AGENCIA
+        </div>
       </div>
-      
-      <button onclick="window.location.href='dashboard.html'" class="mx-6 mb-8 py-3 font-bold rounded-lg flex items-center justify-center gap-2 transition-transform active:scale-95 duration-150" style="background:linear-gradient(135deg,#00C2A8,#009984);color:#000">
-        <span class="material-symbols-outlined text-sm font-bold">add</span>
+ 
+      <a href="dashboard.html" style="
+        display:flex; align-items:center; justify-content:center; gap:8px;
+        margin:0 24px 32px; padding:12px;
+        background:linear-gradient(135deg,${PRIMARY},#009984);
+        color:#000; font-weight:700; font-size:14px;
+        border-radius:10px; text-decoration:none;
+        font-family:Inter,sans-serif;
+      ">
+        <span class="material-symbols-outlined" style="font-size:18px">add</span>
         Nuevo Proyecto
-      </button>
-
-      <nav class="flex-1 space-y-1 overflow-y-auto no-scrollbar">
-        ${navItemsHtml}
-      </nav>
-
-      <div class="mt-auto pt-4 space-y-1" style="border-top:1px solid rgba(255,255,255,0.05)">
-        ${footerItemsHtml}
-      </div>
+      </a>
+ 
+      <nav style="flex:1;overflow-y:auto">${navHtml}</nav>
+ 
+      <div style="padding-top:16px;border-top:1px solid rgba(255,255,255,0.05)">${footerHtml}</div>
     `;
-
+ 
     document.body.prepend(sidebar);
   }
-
+ 
+  function applySidebarBaseStyles() {
+    Object.assign(sidebar.style, {
+      position: 'fixed',
+      top: '0',
+      left: '0',
+      height: '100vh',
+      width: '256px',
+      background: '#000',
+      display: 'flex',
+      flexDirection: 'column',
+      padding: '24px 0',
+      zIndex: '100',
+      borderRight: '1px solid rgba(255,255,255,0.05)',
+      boxShadow: '4px 0 24px rgba(0,0,0,0.6)',
+      transition: 'transform 0.3s ease',
+      transform: isMobile() ? 'translateX(-100%)' : 'translateX(0)',
+    });
+  }
+ 
+  /* ─── backdrop ─── */
   function createBackdrop() {
-    if (document.getElementById('sidebar-backdrop')) return;
-    backdrop = document.createElement('div');
-    backdrop.id = 'sidebar-backdrop';
-    backdrop.className = 'fixed inset-0 z-[60] hidden bg-black/60 backdrop-blur-sm transition-opacity duration-300 opacity-0';
-    document.body.appendChild(backdrop);
-
+    backdrop = document.getElementById('sidebar-backdrop');
+    if (!backdrop) {
+      backdrop = document.createElement('div');
+      backdrop.id = 'sidebar-backdrop';
+      document.body.appendChild(backdrop);
+    }
+    Object.assign(backdrop.style, {
+      position: 'fixed', inset: '0',
+      zIndex: '90',
+      background: 'rgba(0,0,0,0.6)',
+      backdropFilter: 'blur(2px)',
+      display: 'none',
+      opacity: '0',
+      transition: 'opacity 0.3s ease',
+    });
     backdrop.onclick = () => setOpen(false);
   }
-
-  function createToggleButton() {
-    if (document.getElementById('sidebar-toggle')) return;
-    toggleButton = document.createElement('button');
-    toggleButton.id = 'sidebar-toggle';
-    toggleButton.className = 'fixed left-4 top-3.5 z-[70] inline-flex h-10 w-10 items-center justify-center rounded-lg bg-black/50 border border-white/10 text-white backdrop-blur-md lg:hidden';
-    toggleButton.innerHTML = '<span class="material-symbols-outlined">menu</span>';
-    document.body.appendChild(toggleButton);
-
-    toggleButton.onclick = () => setOpen(!sidebarOpen);
+ 
+  /* ─── toggle button ─── */
+  function createToggleBtn() {
+    toggleBtn = document.getElementById('sidebar-toggle');
+    if (!toggleBtn) {
+      toggleBtn = document.createElement('button');
+      toggleBtn.id = 'sidebar-toggle';
+      toggleBtn.type = 'button';
+      toggleBtn.setAttribute('aria-label', 'Abrir menú');
+      toggleBtn.innerHTML = '<span class="material-symbols-outlined" style="font-size:24px">menu</span>';
+      document.body.appendChild(toggleBtn);
+    }
+    Object.assign(toggleBtn.style, {
+      position: 'fixed',
+      top: '12px',
+      left: '12px',
+      zIndex: '110',
+      width: '40px',
+      height: '40px',
+      display: isMobile() ? 'flex' : 'none',
+      alignItems: 'center',
+      justifyContent: 'center',
+      background: 'rgba(0,0,0,0.7)',
+      border: '1px solid rgba(255,255,255,0.1)',
+      borderRadius: '10px',
+      color: '#fff',
+      cursor: 'pointer',
+      backdropFilter: 'blur(8px)',
+    });
+    toggleBtn.onclick = () => setOpen(!sidebarOpen);
   }
-
+ 
+  /* ─── bottom tab bar ─── */
   function createBottomBar() {
-    if (currentPath().includes('login')) return;
-    if (document.getElementById('bottom-tab-bar')) return;
-
-    bottomBar = document.createElement('nav');
-    bottomBar.id = 'bottom-tab-bar';
-    bottomBar.style.cssText = 'position:fixed; bottom:0; left:0; right:0; z-index:50; height:65px; background:rgba(0,0,0,0.9); border-top:1px solid rgba(255,255,255,0.1); display:flex; align-items:center; justify-content:space-around; padding:0 8px;';
-    bottomBar.className = '';
-    bottomBar.style.paddingBottom = 'env(safe-area-inset-bottom, 0px)';
-
+    if (currentPage().includes('login')) return;
+ 
+    bottomBar = document.getElementById('bottom-tab-bar');
+    if (!bottomBar) {
+      bottomBar = document.createElement('nav');
+      bottomBar.id = 'bottom-tab-bar';
+      document.body.appendChild(bottomBar);
+    }
+ 
+    Object.assign(bottomBar.style, {
+      position: 'fixed',
+      bottom: '0', left: '0', right: '0',
+      zIndex: '50',
+      height: '65px',
+      background: 'rgba(0,0,0,0.95)',
+      borderTop: '1px solid rgba(255,255,255,0.08)',
+      display: isMobile() ? 'flex' : 'none',
+      alignItems: 'center',
+      justifyContent: 'space-around',
+      padding: '0 8px',
+      paddingBottom: 'env(safe-area-inset-bottom,0px)',
+      backdropFilter: 'blur(16px)',
+    });
+ 
     bottomBar.innerHTML = TAB_ITEMS.map(item => {
       const active = !item.isMenu && isActive(item.href);
-      const colorClass = active ? 'text-[#00C2A8]' : 'text-neutral-500';
+      const color = active ? PRIMARY : '#737373';
       const tag = item.isMenu ? 'button' : 'a';
-      const attr = item.isMenu ? 'id="mobile-menu-tab" type="button"' : `href="${item.href}"`;
-      
+      const attr = item.isMenu
+        ? 'id="mobile-menu-tab" type="button"'
+        : `href="${item.href}"`;
+ 
       return `
-        <${tag} ${attr} class="flex flex-col items-center justify-center gap-1 flex-1 py-2">
-          <span class="material-symbols-outlined text-[24px] ${colorClass}" style="font-variation-settings: 'FILL' ${active ? '1' : '0'}">${item.icon}</span>
-          <span class="text-[10px] font-bold ${colorClass}">${item.label}</span>
-        </${tag}>
-      `;
+        <${tag} ${attr} style="
+          display:flex; flex-direction:column; align-items:center;
+          justify-content:center; gap:3px; flex:1; padding:8px 4px;
+          background:none; border:none; cursor:pointer;
+          text-decoration:none; color:${color};
+          font-family:Inter,sans-serif;
+        ">
+          <span class="material-symbols-outlined" style="
+            font-size:22px; color:${color};
+            font-variation-settings:'FILL' ${active ? 1 : 0}
+          ">${item.icon}</span>
+          <span style="font-size:10px; font-weight:700; color:${color}">${item.label}</span>
+        </${tag}>`;
     }).join('');
-
-    document.body.appendChild(bottomBar);
-    
+ 
     const menuTab = document.getElementById('mobile-menu-tab');
     if (menuTab) menuTab.onclick = () => setOpen(!sidebarOpen);
   }
-
+ 
+  /* ─── main content margin ─── */
+  function adjustMain() {
+    mainEl = mainEl || document.querySelector('main');
+    if (!mainEl) return;
+    Object.assign(mainEl.style, {
+      marginLeft: isMobile() ? '0' : '256px',
+      minHeight: '100vh',
+      paddingBottom: isMobile() ? '75px' : '0',
+    });
+  }
+ 
+  /* ─── open / close ─── */
   function setOpen(open) {
     sidebarOpen = open;
     if (!sidebar || !backdrop) return;
-
+ 
     if (open) {
       sidebar.style.transform = 'translateX(0)';
-      backdrop.classList.remove('hidden');
-      setTimeout(() => backdrop.classList.add('opacity-100'), 10);
-      document.body.classList.add('overflow-hidden');
+      backdrop.style.display = 'block';
+      setTimeout(() => { backdrop.style.opacity = '1'; }, 10);
+      document.body.style.overflow = 'hidden';
     } else {
       sidebar.style.transform = 'translateX(-100%)';
-      backdrop.classList.remove('opacity-100');
-      setTimeout(() => backdrop.classList.add('hidden'), 300);
-      document.body.classList.remove('overflow-hidden');
+      backdrop.style.opacity = '0';
+      setTimeout(() => { backdrop.style.display = 'none'; }, 300);
+      document.body.style.overflow = '';
     }
   }
-
-  function syncLayout() {
-    const isLarge = window.innerWidth >= 1024;
-    const main = document.querySelector('main');
-    
-    if (main) {
-      main.style.marginLeft = isLarge ? '256px' : '0';
-    }
-
-    if (isLarge) {
-      if (sidebar) sidebar.style.transform = 'translateX(0)';
-      if (backdrop) backdrop.classList.add('hidden');
-      document.body.style.paddingBottom = '0';
+ 
+  /* ─── resize ─── */
+  function onResize() {
+    const mobile = isMobile();
+ 
+    if (toggleBtn) toggleBtn.style.display = mobile ? 'flex' : 'none';
+    if (bottomBar) bottomBar.style.display = mobile ? 'flex' : 'none';
+ 
+    if (!mobile) {
+      sidebar.style.transform = 'translateX(0)';
+      backdrop.style.display = 'none';
+      document.body.style.overflow = '';
       sidebarOpen = false;
-    } else {
-      if (sidebar && !sidebarOpen) sidebar.style.transform = 'translateX(-100%)';
-      document.body.style.paddingBottom = '70px';
+    } else if (!sidebarOpen) {
+      sidebar.style.transform = 'translateX(-100%)';
     }
+ 
+    adjustMain();
   }
-
+ 
+  /* ─── init ─── */
   function init() {
     createSidebar();
     createBackdrop();
-    createToggleButton();
+    createToggleBtn();
     createBottomBar();
-    syncLayout();
-
-    window.addEventListener('resize', syncLayout);
-
-    // Auto-close on link click (mobile)
+    adjustMain();
+ 
     sidebar.querySelectorAll('a').forEach(link => {
       link.addEventListener('click', () => {
-        if (window.innerWidth < 1024) setOpen(false);
+        if (isMobile()) setOpen(false);
       });
     });
+ 
+    window.addEventListener('resize', onResize);
   }
-
+ 
   if (document.readyState === 'loading') {
     document.addEventListener('DOMContentLoaded', init);
   } else {
