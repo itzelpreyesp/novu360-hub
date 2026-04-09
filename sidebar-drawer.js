@@ -111,84 +111,52 @@
     if (!sidebar || !backdrop) return;
 
     if (open) {
-      // Forzar visibilidad
-      sidebar.style.display = 'flex';
-      sidebar.classList.remove('-translate-x-full');
-      sidebar.classList.add('translate-x-0');
+      sidebar.style.transform = 'translateX(0)';
       backdrop.classList.remove('hidden');
-      setTimeout(() => {
-        backdrop.classList.add('opacity-100');
-        backdrop.classList.remove('opacity-0');
-      }, 10);
+      setTimeout(() => backdrop.classList.add('opacity-100'), 10);
       document.body.classList.add('overflow-hidden');
     } else {
-      sidebar.classList.remove('translate-x-0');
-      sidebar.classList.add('-translate-x-full');
-      backdrop.classList.add('opacity-0');
+      sidebar.style.transform = 'translateX(-100%)';
       backdrop.classList.remove('opacity-100');
-      setTimeout(() => {
-        if (!sidebarOpen) backdrop.classList.add('hidden');
-      }, 300);
+      setTimeout(() => backdrop.classList.add('hidden'), 300);
       document.body.classList.remove('overflow-hidden');
     }
   }
 
   function initSidebarDrawer() {
-    sidebar = findSidebar();
-    console.log('Sidebar encontrado:', sidebar);
+    sidebar = document.getElementById('main-sidebar');
+    
+    if (!sidebar) return;
 
-    if (sidebar) {
-      sidebar.style.display = 'flex'; // Forzar visible para JS
-      
-      // Forzar estilos de drawer en móvil
-      sidebar.classList.add('fixed', 'inset-y-0', 'left-0', 'z-[100]', 'w-72', 'transform', 'transition-transform', 'duration-300', 'ease-in-out', 'bg-black', 'border-r', 'border-white/10');
-      
-      if (isMobile()) {
-        sidebar.style.display = 'flex';
-        sidebar.classList.add('-translate-x-full');
-      } else {
-        sidebar.classList.remove('-translate-x-full');
-        sidebar.classList.add('translate-x-0');
-      }
+    if (window.innerWidth < 1024) {
+      sidebar.style.cssText += ';display:flex!important;transform:translateX(-100%);transition:transform 0.3s ease;';
+    } else {
+      sidebar.style.cssText += ';display:flex!important;transform:translateX(0);';
     }
 
     backdrop = ensureBackdrop();
     toggleButton = ensureToggleButton();
     bottomBar = ensureBottomBar();
 
-    if (sidebar) {
-      toggleButton.onclick = () => setOpen(!sidebarOpen);
-      backdrop.onclick = () => setOpen(false);
-      
-      // Cerrar al seleccionar opción (excepto si es el mismo path)
-      sidebar.querySelectorAll('a').forEach(link => {
-        link.addEventListener('click', (e) => {
-          const href = link.getAttribute('href');
-          if (href && href !== '#' && !href.startsWith('javascript:')) {
-            setOpen(false);
-          }
-        });
-      });
-    }
+    toggleButton.onclick = () => setOpen(!sidebarOpen);
+    backdrop.onclick = () => setOpen(false);
 
-    if (bottomBar) {
-      const menuTab = document.getElementById('mobile-menu-tab');
-      if (menuTab) {
-        menuTab.onclick = () => setOpen(!sidebarOpen);
-      }
-    }
+    sidebar.querySelectorAll('a').forEach(link => {
+      link.addEventListener('click', () => {
+        if (window.innerWidth < 1024) setOpen(false);
+      });
+    });
+
+    const menuTab = document.getElementById('mobile-menu-tab');
+    if (menuTab) menuTab.onclick = () => setOpen(!sidebarOpen);
 
     window.addEventListener('resize', () => {
       syncBodyPadding();
-      if (!isMobile() && sidebarOpen) {
-        setOpen(false);
-      }
-      if (!isMobile() && sidebar) {
-        sidebar.classList.remove('-translate-x-full');
-        sidebar.classList.add('translate-x-0');
-      } else if (isMobile() && sidebar && !sidebarOpen) {
-        sidebar.classList.add('-translate-x-full');
-        sidebar.classList.remove('translate-x-0');
+      if (window.innerWidth >= 1024) {
+        sidebar.style.cssText += ';display:flex!important;transform:translateX(0);';
+        sidebarOpen = false;
+      } else if (!sidebarOpen) {
+        sidebar.style.cssText += ';display:flex!important;transform:translateX(-100%);';
       }
     });
 
