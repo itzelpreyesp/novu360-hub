@@ -244,9 +244,12 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 
   // ── Don't inject on login page ───────────────────────────────────────
-  const isLogin = window.location.pathname.endsWith('index.html') ||
-                  window.location.pathname === '/' ||
-                  window.location.pathname.endsWith('/');
+  const path = window.location.pathname.toLowerCase();
+  const isLogin = path.endsWith('index.html') ||
+                  path === '/' ||
+                  path.endsWith('/') ||
+                  path.includes('login') ||
+                  path.includes('index');
   if (isLogin) return;
 
   // ── State ──────────────────────────────────────────────────────────
@@ -563,9 +566,12 @@ async function analyzeAdsROI(investment, cpl, ticket) {
 (function MobileNav() {
 
   // ── Skip login page ────────────────────────────────────────────────
-  const isLogin = window.location.pathname.endsWith('index.html') ||
-                  window.location.pathname === '/' ||
-                  window.location.pathname.endsWith('/');
+  const path = window.location.pathname.toLowerCase();
+  const isLogin = path.endsWith('index.html') ||
+                  path === '/' ||
+                  path.endsWith('/') ||
+                  path.includes('login') ||
+                  path.includes('index');
   if (isLogin) return;
 
   // ── Nav items (mirrors sidebar) ────────────────────────────────────
@@ -594,8 +600,15 @@ async function analyzeAdsROI(investment, cpl, ticket) {
 
   // ── Detect active page ─────────────────────────────────────────────
   function isActivePage(href) {
-    const current = window.location.pathname.split('/').pop() || 'dashboard.html';
-    return current === href || (href === 'dashboard.html' && current === '');
+    const path = window.location.pathname.toLowerCase();
+    const current = path.split('/').pop() || '';
+    const hrefClean = href.replace('.html', '').toLowerCase();
+    const pathClean = path.replace('.html', '').toLowerCase();
+    if (href === 'dashboard.html' && 
+       (current === '' || current === 'dashboard' || 
+        current === 'index' || path === '/')) return true;
+    return current === href.toLowerCase() || 
+           pathClean.endsWith(hrefClean);
   }
 
   // ── Build Hamburger Top Bar ────────────────────────────────────────
