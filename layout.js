@@ -52,12 +52,14 @@
 
     sidebar = document.createElement('aside');
     sidebar.id = 'main-sidebar';
-    sidebar.className = 'md:flex bg-black antialiased h-screen w-64 fixed left-0 top-0 flex-col py-6 z-[100] border-r border-white/5';
+    sidebar.style.cssText = 'display:flex; flex-direction:column; background:#000; height:100vh; width:256px; position:fixed; left:0; top:0; z-index:100; padding:1.5rem 0; border-right:1px solid rgba(255,255,255,0.05); transition:transform 0.3s ease;';
+    sidebar.className = '';
     
     // Initial mobile state
     if (window.innerWidth < 1024) {
       sidebar.style.transform = 'translateX(-100%)';
-      sidebar.style.transition = 'transform 0.3s ease';
+    } else {
+      sidebar.style.transform = 'translateX(0)';
     }
 
     const navItemsHtml = SIDEBAR_ITEMS.map(item => {
@@ -131,7 +133,8 @@
 
     bottomBar = document.createElement('nav');
     bottomBar.id = 'bottom-tab-bar';
-    bottomBar.className = 'fixed bottom-0 left-0 right-0 z-50 h-[65px] border-t border-white/10 bg-black/90 backdrop-blur-xl lg:hidden flex items-center justify-around px-2';
+    bottomBar.style.cssText = 'position:fixed; bottom:0; left:0; right:0; z-index:50; height:65px; background:rgba(0,0,0,0.9); border-top:1px solid rgba(255,255,255,0.1); display:flex; align-items:center; justify-content:space-around; padding:0 8px;';
+    bottomBar.className = '';
     bottomBar.style.paddingBottom = 'env(safe-area-inset-bottom, 0px)';
 
     bottomBar.innerHTML = TAB_ITEMS.map(item => {
