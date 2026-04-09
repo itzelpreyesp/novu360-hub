@@ -9,8 +9,8 @@ document.addEventListener('DOMContentLoaded', () => {
 
   // ── 1. DEMO AUTH: Login page bypass ──────────────────────────────────
   const isLogin = window.location.pathname.endsWith('index.html') ||
-                  window.location.pathname === '/' ||
-                  window.location.pathname.endsWith('/');
+    window.location.pathname === '/' ||
+    window.location.pathname.endsWith('/');
 
   if (isLogin) {
     document.querySelectorAll('form').forEach(form => {
@@ -225,20 +225,20 @@ document.addEventListener('DOMContentLoaded', () => {
   // ── Detect current role from URL or active nav ──────────────────────
   function detectRole() {
     const path = window.location.pathname.toLowerCase();
-    if (path.includes('ventas'))    return 'ventas';
-    if (path.includes('ads'))       return 'ads';
+    if (path.includes('ventas')) return 'ventas';
+    if (path.includes('ads')) return 'ads';
     if (path.includes('community')) return 'community';
-    if (path.includes('seo'))       return 'seo';
-    if (path.includes('web'))       return 'web';
+    if (path.includes('seo')) return 'seo';
+    if (path.includes('web')) return 'web';
     // fallback: check nav-active link text
     const activeNav = document.querySelector('.nav-active span:last-child');
     if (activeNav) {
       const t = activeNav.innerText.toLowerCase();
-      if (t.includes('ventas'))    return 'ventas';
-      if (t.includes('ads'))       return 'ads';
+      if (t.includes('ventas')) return 'ventas';
+      if (t.includes('ads')) return 'ads';
       if (t.includes('community')) return 'community';
-      if (t.includes('seo'))       return 'seo';
-      if (t.includes('web'))       return 'web';
+      if (t.includes('seo')) return 'seo';
+      if (t.includes('web')) return 'web';
     }
     return 'admin'; // default
   }
@@ -246,10 +246,10 @@ document.addEventListener('DOMContentLoaded', () => {
   // ── Don't inject on login page ───────────────────────────────────────
   const path = window.location.pathname.toLowerCase();
   const isLogin = path.endsWith('index.html') ||
-                  path === '/' ||
-                  path.endsWith('/') ||
-                  path.includes('login') ||
-                  path.includes('index');
+    path === '/' ||
+    path.endsWith('/') ||
+    path.includes('login') ||
+    path.includes('index');
   if (isLogin) return;
 
   // ── State ──────────────────────────────────────────────────────────
@@ -319,10 +319,10 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 
   const { fab, panel, backdrop } = buildUI();
-  const messagesEl   = document.getElementById('cerebro-messages');
-  const inputEl      = document.getElementById('cerebro-input');
-  const sendBtn      = document.getElementById('cerebro-send-btn');
-  const closeBtn     = document.getElementById('cerebro-close-btn');
+  const messagesEl = document.getElementById('cerebro-messages');
+  const inputEl = document.getElementById('cerebro-input');
+  const sendBtn = document.getElementById('cerebro-send-btn');
+  const closeBtn = document.getElementById('cerebro-close-btn');
 
   // ── Helpers ────────────────────────────────────────────────────────
   function getTime() {
@@ -410,14 +410,14 @@ document.addEventListener('DOMContentLoaded', () => {
       Instrucciones: ${cerebro.desc}. Responde de forma concisa, profesional y usa markdown para resaltar puntos clave.`;
 
       const response = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=${CONFIG.GEMINI_KEY}`, {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({
-              contents: [
-                  { role: "user", parts: [{ text: systemPrompt }] },
-                  { role: "user", parts: [{ text: msg }] }
-              ]
-          })
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          contents: [
+            { role: "user", parts: [{ text: systemPrompt }] },
+            { role: "user", parts: [{ text: msg }] }
+          ]
+        })
       });
 
       const data = await response.json();
@@ -425,7 +425,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
       removeTyping();
       addMessage(aiText, 'ai', false);
-      
+
     } catch (error) {
       console.error('Gemini Error:', error);
       removeTyping();
@@ -549,7 +549,7 @@ async function analyzeAdsROI(investment, cpl, ticket) {
   Dame un diagnóstico de 2-3 líneas máximo con consejos accionables para mejorar estos números. Sé directo y profesional.`;
 
   const advice = await callGemini(prompt, "Experto en Meta Ads y Rentabilidad de Agencias.");
-  
+
   return {
     roi: roi.toFixed(0),
     advice: advice
@@ -568,34 +568,34 @@ async function analyzeAdsROI(investment, cpl, ticket) {
   // ── Skip login page ────────────────────────────────────────────────
   const path = window.location.pathname.toLowerCase();
   const isLogin = path.endsWith('index.html') ||
-                  path === '/' ||
-                  path.endsWith('/') ||
-                  path.includes('login') ||
-                  path.includes('index');
+    path === '/' ||
+    path.endsWith('/') ||
+    path.includes('login') ||
+    path.includes('index');
   if (isLogin) return;
 
   // ── Nav items (mirrors sidebar) ────────────────────────────────────
   const NAV_ITEMS = [
-    { label: 'Dashboard',    icon: 'dashboard',     href: 'dashboard.html'       },
-    { label: 'Ventas',       icon: 'trending_up',   href: 'ventas.html'          },
-    { label: 'Ads',          icon: 'ads_click',     href: 'ads.html'             },
-    { label: 'Community',    icon: 'forum',         href: 'community.html'       },
-    { label: 'SEO',          icon: 'search',        href: 'seo.html'             },
-    { label: 'Web',          icon: 'language',      href: 'web.html'             },
-    { label: 'Clientes',     icon: 'group',         href: 'portal-cliente.html'  },
-    { label: 'Finanzas',     icon: 'payments',      href: 'finanzas.html'        },
-    { label: 'Aprobaciones', icon: 'fact_check',    href: 'aprobaciones.html'    },
-    { label: 'Onboarding',   icon: 'rocket_launch', href: 'onboarding.html'      },
-    { label: 'Cerebros IA',  icon: 'psychology',    href: 'cerebros.html'        },
+    { label: 'Dashboard', icon: 'dashboard', href: 'dashboard.html' },
+    { label: 'Ventas', icon: 'trending_up', href: 'ventas.html' },
+    { label: 'Ads', icon: 'ads_click', href: 'ads.html' },
+    { label: 'Community', icon: 'forum', href: 'community.html' },
+    { label: 'SEO', icon: 'search', href: 'seo.html' },
+    { label: 'Web', icon: 'language', href: 'web.html' },
+    { label: 'Clientes', icon: 'group', href: 'portal-cliente.html' },
+    { label: 'Finanzas', icon: 'payments', href: 'finanzas.html' },
+    { label: 'Aprobaciones', icon: 'fact_check', href: 'aprobaciones.html' },
+    { label: 'Onboarding', icon: 'rocket_launch', href: 'onboarding.html' },
+    { label: 'Cerebros IA', icon: 'psychology', href: 'cerebros.html' },
   ];
 
   // Bottom bar shows only the 5 most-used sections
   const BOTTOM_ITEMS = [
-    { label: 'Home',      icon: 'dashboard',    href: 'dashboard.html'      },
-    { label: 'Ventas',    icon: 'trending_up',  href: 'ventas.html'         },
-    { label: 'Community', icon: 'forum',        href: 'community.html'      },
-    { label: 'SEO',       icon: 'search',       href: 'seo.html'            },
-    { label: 'Cerebros',  icon: 'psychology',   href: 'cerebros.html'       },
+    { label: 'Home', icon: 'dashboard', href: 'dashboard.html' },
+    { label: 'Ventas', icon: 'trending_up', href: 'ventas.html' },
+    { label: 'Community', icon: 'forum', href: 'community.html' },
+    { label: 'SEO', icon: 'search', href: 'seo.html' },
+    { label: 'Cerebros', icon: 'psychology', href: 'cerebros.html' },
   ];
 
   // ── Detect active page ─────────────────────────────────────────────
@@ -604,11 +604,11 @@ async function analyzeAdsROI(investment, cpl, ticket) {
     const current = path.split('/').pop() || '';
     const hrefClean = href.replace('.html', '').toLowerCase();
     const pathClean = path.replace('.html', '').toLowerCase();
-    if (href === 'dashboard.html' && 
-       (current === '' || current === 'dashboard' || 
+    if (href === 'dashboard.html' &&
+      (current === '' || current === 'dashboard' ||
         current === 'index' || path === '/')) return true;
-    return current === href.toLowerCase() || 
-           pathClean.endsWith(hrefClean);
+    return current === href.toLowerCase() ||
+      pathClean.endsWith(hrefClean);
   }
 
   // ── Build Hamburger Top Bar ────────────────────────────────────────
@@ -625,6 +625,9 @@ async function analyzeAdsROI(investment, cpl, ticket) {
       </button>
     `;
     document.body.insertBefore(bar, document.body.firstChild);
+    setTimeout(() => {
+      console.log('¿nav-hamburger sigue en DOM?', document.getElementById('nav-hamburger'));
+    }, 500);
     return bar;
   }
 
@@ -755,8 +758,8 @@ async function analyzeAdsROI(investment, cpl, ticket) {
   // Toggle on hamburger click
   function toggleMenu() {
     const isOpen = drawer.classList.contains('open');
-    isOpen ? closeDrawer(drawer, backdrop, menuBtn) 
-            : openDrawer(drawer, backdrop, menuBtn);
+    isOpen ? closeDrawer(drawer, backdrop, menuBtn)
+      : openDrawer(drawer, backdrop, menuBtn);
   }
 
   menuBtn.addEventListener('click', toggleMenu);
