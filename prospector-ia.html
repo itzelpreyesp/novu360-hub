@@ -961,6 +961,8 @@
         btn.disabled = true;
         btn.textContent = 'Guardando...';
 
+        const db = getDB();
+
         try {
           const leadData = {
             nombre_negocio: nombre,
@@ -1358,7 +1360,7 @@ Sé directo, sin endulzar. Es para aprender, no para sentirse bien.`;
       }
 
       // ── Init ──────────────────────────────────────────────────
-      loadLeadsList();
+      setTimeout(() => loadLeadsList(), 800);
 
     })();
   </script>
