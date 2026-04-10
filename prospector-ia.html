@@ -897,210 +897,210 @@
     // PROSPECTOR IA — Lógica principal
     // ══════════════════════════════════════════════════════════
     document.addEventListener('DOMContentLoaded', function () {
-    (async function ProspectorIA() {
+      (async function ProspectorIA() {
 
-      // ── Supabase (inicialización segura, siempre lazy) ──
-      function getDB() {
-        if (!window.supabaseClient) throw new Error('Supabase no inicializado. Verifica config.js.');
-        return window.supabaseClient;
-      }
+        // ── Supabase (inicialización segura, siempre lazy) ──
+        function getDB() {
+          if (!window.supabaseClient) throw new Error('Supabase no inicializado. Verifica config.js.');
+          return window.supabaseClient;
+        }
 
-      // ── Esperar sesión activa antes de continuar ──────────────
-      let currentUser = null;
-      let vendedorNombre = 'Vendedor';
-      try {
-        const db0 = getDB();
-        const { data: { session } } = await db0.auth.getSession();
-        if (!session) {
+        // ── Esperar sesión activa antes de continuar ──────────────
+        let currentUser = null;
+        let vendedorNombre = 'Vendedor';
+        try {
+          const db0 = getDB();
+          const { data: { session } } = await db0.auth.getSession();
+          if (!session) {
+            window.location.href = 'index.html';
+            return;
+          }
+          currentUser = session.user;
+
+          // Jalar nombre del usuario logueado
+          const { data: perfil } = await db0.from('usuarios').select('nombre').eq('id', currentUser.id).single();
+          if (perfil?.nombre) vendedorNombre = perfil.nombre;
+
+          // Mostrar nombre en header si existe el elemento
+          const elVendedor = document.getElementById('vendedor-nombre');
+          if (elVendedor) elVendedor.textContent = vendedorNombre;
+        } catch (e) {
+          console.warn('Auth check error:', e.message);
           window.location.href = 'index.html';
           return;
         }
-        currentUser = session.user;
 
-        // Jalar nombre del usuario logueado
-        const { data: perfil } = await db0.from('usuarios').select('nombre').eq('id', currentUser.id).single();
-        if (perfil?.nombre) vendedorNombre = perfil.nombre;
+        // ── Estado ────────────────────────────────────────────────
+        let currentStep = 1;
+        let currentLeadId = null;
+        let uploadedFiles = [];
+        let currentSource = 'Instagram';
+        let results = { investigador: '', setter: '', diego: '' };
 
-        // Mostrar nombre en header si existe el elemento
-        const elVendedor = document.getElementById('vendedor-nombre');
-        if (elVendedor) elVendedor.textContent = vendedorNombre;
-      } catch (e) {
-        console.warn('Auth check error:', e.message);
-        window.location.href = 'index.html';
-        return;
-      }
-
-      // ── Estado ────────────────────────────────────────────────
-      let currentStep = 1;
-      let currentLeadId = null;
-      let uploadedFiles = [];
-      let currentSource = 'Instagram';
-      let results = { investigador: '', setter: '', diego: '' };
-
-      // ── Supabase (referencia lazy) ────────────────────────────
-      const db = getDB();
-
-      // ── Gemini API ────────────────────────────────────────────
-      const GEMINI_KEY = window.GEMINI_KEY || '';
-      const GEMINI_URL = `https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=${GEMINI_KEY}`;
-
-      async function callGemini(prompt) {
-        if (!GEMINI_KEY) throw new Error('GEMINI_KEY no configurada en config.js');
-        const res = await fetch(GEMINI_URL, {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({
-            contents: [{ parts: [{ text: prompt }] }],
-            generationConfig: { temperature: 0.8, maxOutputTokens: 1024 }
-          })
-        });
-        const data = await res.json();
-        if (data.error) throw new Error(data.error.message);
-        return data.candidates?.[0]?.content?.parts?.[0]?.text || '';
-      }
-
-      // ── Navegación entre pasos ────────────────────────────────
-      function goToStep(n) {
-        document.querySelectorAll('.step-section').forEach(s => s.classList.remove('active'));
-        document.getElementById(`section-${n}`).classList.add('active');
-
-        document.querySelectorAll('.step-chip').forEach(c => {
-          const sn = parseInt(c.dataset.step);
-          c.classList.remove('active', 'done');
-          if (sn === n) c.classList.add('active');
-          if (sn < n) c.classList.add('done');
-        });
-
-        const pcts = { 1: '25%', 2: '50%', 3: '75%', 4: '100%' };
-        document.getElementById('step-progress').style.width = pcts[n];
-        document.getElementById('step-label').textContent = `Paso ${n} de 4`;
-        currentStep = n;
-        window.scrollTo({ top: 0, behavior: 'smooth' });
-      }
-
-      // ── Step 1: Guardar lead ──────────────────────────────────
-      document.getElementById('btn-step1-next').addEventListener('click', async () => {
-        const nombre = document.getElementById('f-nombre').value.trim();
-        const giro = document.getElementById('f-giro').value;
-        const ciudad = document.getElementById('f-ciudad').value.trim();
-
-        if (!nombre || !giro || !ciudad) {
-          showStatus('Completa nombre, tipo de negocio y ciudad', 'error');
-          return;
-        }
-
-        const btn = document.getElementById('btn-step1-next');
-        btn.disabled = true;
-        btn.textContent = 'Guardando...';
-
+        // ── Supabase (referencia lazy) ────────────────────────────
         const db = getDB();
 
-        try {
-          const leadData = {
-            nombre_negocio: nombre,
-            giro,
-            ciudad,
-            instagram: document.getElementById('f-instagram').value.trim(),
-            telefono: document.getElementById('f-telefono').value.trim(),
-            contacto: document.getElementById('f-contacto').value.trim(),
-            notas: document.getElementById('f-notas').value.trim(),
-            etapa: 'nuevo',
-            estado: 'activo',
-            vendedor_id: currentUser?.id || null
-          };
+        // ── Gemini API ────────────────────────────────────────────
+        const GEMINI_KEY = window.GEMINI_KEY || '';
+        const GEMINI_URL = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=${GEMINI_KEY}`;
 
-          if (currentLeadId) {
-            // Actualizar existente
-            await db.from('leads').update(leadData).eq('id', currentLeadId);
-          } else {
-            // Crear nuevo
-            const { data, error } = await db.from('leads').insert([leadData]).select().single();
-            if (error) throw error;
-            currentLeadId = data.id;
+        async function callGemini(prompt) {
+          if (!GEMINI_KEY) throw new Error('GEMINI_KEY no configurada en config.js');
+          const res = await fetch(GEMINI_URL, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({
+              contents: [{ parts: [{ text: prompt }] }],
+              generationConfig: { temperature: 0.8, maxOutputTokens: 1024 }
+            })
+          });
+          const data = await res.json();
+          if (data.error) throw new Error(data.error.message);
+          return data.candidates?.[0]?.content?.parts?.[0]?.text || '';
+        }
+
+        // ── Navegación entre pasos ────────────────────────────────
+        function goToStep(n) {
+          document.querySelectorAll('.step-section').forEach(s => s.classList.remove('active'));
+          document.getElementById(`section-${n}`).classList.add('active');
+
+          document.querySelectorAll('.step-chip').forEach(c => {
+            const sn = parseInt(c.dataset.step);
+            c.classList.remove('active', 'done');
+            if (sn === n) c.classList.add('active');
+            if (sn < n) c.classList.add('done');
+          });
+
+          const pcts = { 1: '25%', 2: '50%', 3: '75%', 4: '100%' };
+          document.getElementById('step-progress').style.width = pcts[n];
+          document.getElementById('step-label').textContent = `Paso ${n} de 4`;
+          currentStep = n;
+          window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
+        // ── Step 1: Guardar lead ──────────────────────────────────
+        document.getElementById('btn-step1-next').addEventListener('click', async () => {
+          const nombre = document.getElementById('f-nombre').value.trim();
+          const giro = document.getElementById('f-giro').value;
+          const ciudad = document.getElementById('f-ciudad').value.trim();
+
+          if (!nombre || !giro || !ciudad) {
+            showStatus('Completa nombre, tipo de negocio y ciudad', 'error');
+            return;
           }
 
-          updateSidebarLead(leadData);
-          await loadLeadsList();
-          goToStep(2);
-        } catch (err) {
-          showStatus('Error al guardar: ' + err.message, 'error');
-        } finally {
-          btn.disabled = false;
-          btn.innerHTML = 'Guardar y continuar <span class="material-symbols-outlined text-base">arrow_forward</span>';
+          const btn = document.getElementById('btn-step1-next');
+          btn.disabled = true;
+          btn.textContent = 'Guardando...';
+
+          const db = getDB();
+
+          try {
+            const leadData = {
+              nombre_negocio: nombre,
+              giro,
+              ciudad,
+              instagram: document.getElementById('f-instagram').value.trim(),
+              telefono: document.getElementById('f-telefono').value.trim(),
+              contacto: document.getElementById('f-contacto').value.trim(),
+              notas: document.getElementById('f-notas').value.trim(),
+              etapa: 'nuevo',
+              estado: 'activo',
+              vendedor_id: currentUser?.id || null
+            };
+
+            if (currentLeadId) {
+              // Actualizar existente
+              await db.from('leads').update(leadData).eq('id', currentLeadId);
+            } else {
+              // Crear nuevo
+              const { data, error } = await db.from('leads').insert([leadData]).select().single();
+              if (error) throw error;
+              currentLeadId = data.id;
+            }
+
+            updateSidebarLead(leadData);
+            await loadLeadsList();
+            goToStep(2);
+          } catch (err) {
+            showStatus('Error al guardar: ' + err.message, 'error');
+          } finally {
+            btn.disabled = false;
+            btn.innerHTML = 'Guardar y continuar <span class="material-symbols-outlined text-base">arrow_forward</span>';
+          }
+        });
+
+        // ── Step 2: Upload de archivos ────────────────────────────
+        const uploadZone = document.getElementById('upload-zone');
+        const fileInput = document.getElementById('file-input');
+        const previewGrid = document.getElementById('preview-grid');
+
+        // Source selector
+        document.querySelectorAll('.source-btn').forEach(btn => {
+          btn.addEventListener('click', () => {
+            document.querySelectorAll('.source-btn').forEach(b => b.classList.remove('active'));
+            btn.classList.add('active');
+            currentSource = btn.dataset.source;
+          });
+        });
+
+        uploadZone.addEventListener('dragover', e => { e.preventDefault(); uploadZone.classList.add('drag-over'); });
+        uploadZone.addEventListener('dragleave', () => uploadZone.classList.remove('drag-over'));
+        uploadZone.addEventListener('drop', e => {
+          e.preventDefault();
+          uploadZone.classList.remove('drag-over');
+          handleFiles(e.dataTransfer.files);
+        });
+        fileInput.addEventListener('change', e => handleFiles(e.target.files));
+
+        function handleFiles(files) {
+          previewGrid.classList.remove('hidden');
+          [...files].forEach(file => {
+            if (!file.type.startsWith('image/')) return;
+            const reader = new FileReader();
+            reader.onload = (e) => {
+              const item = { file, dataUrl: e.target.result, source: currentSource };
+              uploadedFiles.push(item);
+              renderPreview(item, uploadedFiles.length - 1);
+            };
+            reader.readAsDataURL(file);
+          });
         }
-      });
 
-      // ── Step 2: Upload de archivos ────────────────────────────
-      const uploadZone = document.getElementById('upload-zone');
-      const fileInput = document.getElementById('file-input');
-      const previewGrid = document.getElementById('preview-grid');
-
-      // Source selector
-      document.querySelectorAll('.source-btn').forEach(btn => {
-        btn.addEventListener('click', () => {
-          document.querySelectorAll('.source-btn').forEach(b => b.classList.remove('active'));
-          btn.classList.add('active');
-          currentSource = btn.dataset.source;
-        });
-      });
-
-      uploadZone.addEventListener('dragover', e => { e.preventDefault(); uploadZone.classList.add('drag-over'); });
-      uploadZone.addEventListener('dragleave', () => uploadZone.classList.remove('drag-over'));
-      uploadZone.addEventListener('drop', e => {
-        e.preventDefault();
-        uploadZone.classList.remove('drag-over');
-        handleFiles(e.dataTransfer.files);
-      });
-      fileInput.addEventListener('change', e => handleFiles(e.target.files));
-
-      function handleFiles(files) {
-        previewGrid.classList.remove('hidden');
-        [...files].forEach(file => {
-          if (!file.type.startsWith('image/')) return;
-          const reader = new FileReader();
-          reader.onload = (e) => {
-            const item = { file, dataUrl: e.target.result, source: currentSource };
-            uploadedFiles.push(item);
-            renderPreview(item, uploadedFiles.length - 1);
-          };
-          reader.readAsDataURL(file);
-        });
-      }
-
-      function renderPreview(item, idx) {
-        const div = document.createElement('div');
-        div.className = 'preview-item';
-        div.innerHTML = `
+        function renderPreview(item, idx) {
+          const div = document.createElement('div');
+          div.className = 'preview-item';
+          div.innerHTML = `
       <img src="${item.dataUrl}" alt="Captura ${item.source}" />
       <div class="source-label">${item.source}</div>
       <button class="remove-btn" onclick="removeFile(${idx})">×</button>
     `;
-        previewGrid.appendChild(div);
-      }
+          previewGrid.appendChild(div);
+        }
 
-      window.removeFile = function (idx) {
-        uploadedFiles.splice(idx, 1);
-        previewGrid.innerHTML = '';
-        uploadedFiles.forEach((item, i) => renderPreview(item, i));
-        if (!uploadedFiles.length) previewGrid.classList.add('hidden');
-      };
+        window.removeFile = function (idx) {
+          uploadedFiles.splice(idx, 1);
+          previewGrid.innerHTML = '';
+          uploadedFiles.forEach((item, i) => renderPreview(item, i));
+          if (!uploadedFiles.length) previewGrid.classList.add('hidden');
+        };
 
-      document.getElementById('btn-step2-next').addEventListener('click', () => goToStep(3));
-      document.getElementById('btn-step2-back').addEventListener('click', () => goToStep(1));
+        document.getElementById('btn-step2-next').addEventListener('click', () => goToStep(3));
+        document.getElementById('btn-step2-back').addEventListener('click', () => goToStep(1));
 
-      // ── Step 3: Cerebros IA ───────────────────────────────────
-      document.getElementById('btn-investigador').addEventListener('click', async () => {
-        if (!currentLeadId) { alert('Primero guarda los datos del negocio (Paso 1)'); return; }
-        const btn = document.getElementById('btn-investigador');
-        btn.disabled = true;
-        btn.innerHTML = '<span class="ai-loader"><div class="dot"></div><div class="dot"></div><div class="dot"></div></span>';
+        // ── Step 3: Cerebros IA ───────────────────────────────────
+        document.getElementById('btn-investigador').addEventListener('click', async () => {
+          if (!currentLeadId) { alert('Primero guarda los datos del negocio (Paso 1)'); return; }
+          const btn = document.getElementById('btn-investigador');
+          btn.disabled = true;
+          btn.innerHTML = '<span class="ai-loader"><div class="dot"></div><div class="dot"></div><div class="dot"></div></span>';
 
-        const nombre = document.getElementById('f-nombre').value;
-        const giro = document.getElementById('f-giro').value;
-        const ciudad = document.getElementById('f-ciudad').value;
-        const notas = document.getElementById('f-notas').value;
+          const nombre = document.getElementById('f-nombre').value;
+          const giro = document.getElementById('f-giro').value;
+          const ciudad = document.getElementById('f-ciudad').value;
+          const notas = document.getElementById('f-notas').value;
 
-        const prompt = `Eres el Investigador Emocional, experto en psicología de negocios locales en México.
+          const prompt = `Eres el Investigador Emocional, experto en psicología de negocios locales en México.
 
 Negocio: ${nombre}
 Giro: ${giro}
@@ -1116,36 +1116,36 @@ Analiza este negocio e identifica:
 
 Sé específico al giro y ciudad. Máximo 200 palabras. Formato claro con etiquetas.`;
 
-        try {
-          const resultado = await callGemini(prompt);
-          results.investigador = resultado;
-          document.getElementById('text-investigador').textContent = resultado;
-          document.getElementById('result-investigador').classList.remove('hidden');
+          try {
+            const resultado = await callGemini(prompt);
+            results.investigador = resultado;
+            document.getElementById('text-investigador').textContent = resultado;
+            document.getElementById('result-investigador').classList.remove('hidden');
 
-          await db.from('analisis_lead').upsert([{
-            lead_id: currentLeadId,
-            tipo: 'investigador_emocional',
-            resultado
-          }]);
-        } catch (err) {
-          alert('Error Gemini: ' + err.message);
-        } finally {
-          btn.disabled = false;
-          btn.innerHTML = '<span class="material-symbols-outlined text-sm">auto_awesome</span> Analizar';
-        }
-      });
+            await db.from('analisis_lead').upsert([{
+              lead_id: currentLeadId,
+              tipo: 'investigador_emocional',
+              resultado
+            }]);
+          } catch (err) {
+            alert('Error Gemini: ' + err.message);
+          } finally {
+            btn.disabled = false;
+            btn.innerHTML = '<span class="material-symbols-outlined text-sm">auto_awesome</span> Analizar';
+          }
+        });
 
-      document.getElementById('btn-setter').addEventListener('click', async () => {
-        if (!currentLeadId) { alert('Primero guarda los datos del negocio (Paso 1)'); return; }
-        const btn = document.getElementById('btn-setter');
-        btn.disabled = true;
-        btn.innerHTML = '<span class="ai-loader"><div class="dot"></div><div class="dot"></div><div class="dot"></div></span>';
+        document.getElementById('btn-setter').addEventListener('click', async () => {
+          if (!currentLeadId) { alert('Primero guarda los datos del negocio (Paso 1)'); return; }
+          const btn = document.getElementById('btn-setter');
+          btn.disabled = true;
+          btn.innerHTML = '<span class="ai-loader"><div class="dot"></div><div class="dot"></div><div class="dot"></div></span>';
 
-        const nombre = document.getElementById('f-nombre').value;
-        const giro = document.getElementById('f-giro').value;
-        const perfil = results.investigador || 'Sin análisis previo disponible';
+          const nombre = document.getElementById('f-nombre').value;
+          const giro = document.getElementById('f-giro').value;
+          const perfil = results.investigador || 'Sin análisis previo disponible';
 
-        const prompt = `Eres el Appointment Setter de Novu 360, agencia de marketing para negocios locales en México.
+          const prompt = `Eres el Appointment Setter de Novu 360, agencia de marketing para negocios locales en México.
 
 Negocio: ${nombre} (${giro})
 Perfil emocional del dueño: ${perfil}
@@ -1160,35 +1160,35 @@ Genera UN solo mensaje para Instagram DM con estas reglas ESTRICTAS:
 
 El mensaje debe sonar como alguien interesado, no como publicidad.`;
 
-        try {
-          const resultado = await callGemini(prompt);
-          results.setter = resultado;
-          document.getElementById('text-setter').textContent = resultado;
-          document.getElementById('result-setter').classList.remove('hidden');
+          try {
+            const resultado = await callGemini(prompt);
+            results.setter = resultado;
+            document.getElementById('text-setter').textContent = resultado;
+            document.getElementById('result-setter').classList.remove('hidden');
 
-          await db.from('mensajes_lead').insert([{
-            lead_id: currentLeadId,
-            tipo: 'primer_contacto',
-            contenido: resultado,
-            canal: 'instagram',
-            estado: 'generado'
-          }]);
-        } catch (err) {
-          alert('Error Gemini: ' + err.message);
-        } finally {
-          btn.disabled = false;
-          btn.innerHTML = '<span class="material-symbols-outlined text-sm">send</span> Generar DM';
-        }
-      });
+            await db.from('mensajes_lead').insert([{
+              lead_id: currentLeadId,
+              tipo: 'primer_contacto',
+              contenido: resultado,
+              canal: 'instagram',
+              estado: 'generado'
+            }]);
+          } catch (err) {
+            alert('Error Gemini: ' + err.message);
+          } finally {
+            btn.disabled = false;
+            btn.innerHTML = '<span class="material-symbols-outlined text-sm">send</span> Generar DM';
+          }
+        });
 
-      document.getElementById('btn-diego').addEventListener('click', async () => {
-        const conversacion = document.getElementById('input-diego').value.trim();
-        if (!conversacion) { alert('Pega una conversación para analizar'); return; }
-        const btn = document.getElementById('btn-diego');
-        btn.disabled = true;
-        btn.innerHTML = '<span class="ai-loader"><div class="dot"></div><div class="dot"></div><div class="dot"></div></span>';
+        document.getElementById('btn-diego').addEventListener('click', async () => {
+          const conversacion = document.getElementById('input-diego').value.trim();
+          if (!conversacion) { alert('Pega una conversación para analizar'); return; }
+          const btn = document.getElementById('btn-diego');
+          btn.disabled = true;
+          btn.innerHTML = '<span class="ai-loader"><div class="dot"></div><div class="dot"></div><div class="dot"></div></span>';
 
-        const prompt = `Eres Diego, experto en ventas con el Sistema de Recalificación Inversa (SRI).
+          const prompt = `Eres Diego, experto en ventas con el Sistema de Recalificación Inversa (SRI).
 
 Analiza esta conversación de DM:
 ---
@@ -1204,43 +1204,43 @@ FASE 4 - CIERRE/SIGUIENTE PASO: ¿Se propuso un siguiente paso claro? ¿Qué cam
 Para cada fase: qué estuvo mal, impacto del error, qué decir diferente.
 Sé directo, sin endulzar. Es para aprender, no para sentirse bien.`;
 
-        try {
-          const resultado = await callGemini(prompt);
-          results.diego = resultado;
-          document.getElementById('text-diego').textContent = resultado;
-          document.getElementById('result-diego').classList.remove('hidden');
+          try {
+            const resultado = await callGemini(prompt);
+            results.diego = resultado;
+            document.getElementById('text-diego').textContent = resultado;
+            document.getElementById('result-diego').classList.remove('hidden');
 
-          if (currentLeadId) {
-            await db.from('analisis_lead').insert([{
-              lead_id: currentLeadId,
-              tipo: 'diego_sri',
-              resultado
-            }]);
+            if (currentLeadId) {
+              await db.from('analisis_lead').insert([{
+                lead_id: currentLeadId,
+                tipo: 'diego_sri',
+                resultado
+              }]);
+            }
+          } catch (err) {
+            alert('Error Gemini: ' + err.message);
+          } finally {
+            btn.disabled = false;
+            btn.innerHTML = '<span class="material-symbols-outlined text-sm">analytics</span> Analizar';
           }
-        } catch (err) {
-          alert('Error Gemini: ' + err.message);
-        } finally {
-          btn.disabled = false;
-          btn.innerHTML = '<span class="material-symbols-outlined text-sm">analytics</span> Analizar';
-        }
-      });
+        });
 
-      document.getElementById('btn-step3-next').addEventListener('click', async () => {
-        await buildExpedienteView();
-        await loadMensajes();
-        goToStep(4);
-      });
-      document.getElementById('btn-step3-back').addEventListener('click', () => goToStep(2));
-      document.getElementById('btn-step4-back').addEventListener('click', () => goToStep(3));
+        document.getElementById('btn-step3-next').addEventListener('click', async () => {
+          await buildExpedienteView();
+          await loadMensajes();
+          goToStep(4);
+        });
+        document.getElementById('btn-step3-back').addEventListener('click', () => goToStep(2));
+        document.getElementById('btn-step4-back').addEventListener('click', () => goToStep(3));
 
-      // ── Step 4: Expediente ────────────────────────────────────
-      async function buildExpedienteView() {
-        const nombre = document.getElementById('f-nombre').value;
-        const giro = document.getElementById('f-giro').value;
-        const ciudad = document.getElementById('f-ciudad').value;
-        const instagram = document.getElementById('f-instagram').value;
+        // ── Step 4: Expediente ────────────────────────────────────
+        async function buildExpedienteView() {
+          const nombre = document.getElementById('f-nombre').value;
+          const giro = document.getElementById('f-giro').value;
+          const ciudad = document.getElementById('f-ciudad').value;
+          const instagram = document.getElementById('f-instagram').value;
 
-        document.getElementById('expediente-summary').innerHTML = `
+          document.getElementById('expediente-summary').innerHTML = `
       <div class="ai-result">
         <div class="ai-result-label">📋 Datos del lead</div>
         <p><strong style="color:#fff">${nombre}</strong> · ${giro} · ${ciudad}</p>
@@ -1270,18 +1270,18 @@ Sé directo, sin endulzar. Es para aprender, no para sentirse bien.`;
           <div class="preview-grid">${uploadedFiles.map(f => `<div class="preview-item"><img src="${f.dataUrl}" /><div class="source-label">${f.source}</div></div>`).join('')}</div>
         </div>` : ''}
     `;
-      }
-
-      // ── Mensajes de seguimiento ───────────────────────────────
-      async function loadMensajes() {
-        if (!currentLeadId) return;
-        const { data } = await db.from('mensajes_lead').select('*').eq('lead_id', currentLeadId).order('created_at', { ascending: true });
-        const container = document.getElementById('mensajes-historial');
-        if (!data || !data.length) {
-          container.innerHTML = '<p class="text-xs text-muted">Sin mensajes aún.</p>';
-          return;
         }
-        container.innerHTML = data.map(m => `
+
+        // ── Mensajes de seguimiento ───────────────────────────────
+        async function loadMensajes() {
+          if (!currentLeadId) return;
+          const { data } = await db.from('mensajes_lead').select('*').eq('lead_id', currentLeadId).order('created_at', { ascending: true });
+          const container = document.getElementById('mensajes-historial');
+          if (!data || !data.length) {
+            container.innerHTML = '<p class="text-xs text-muted">Sin mensajes aún.</p>';
+            return;
+          }
+          container.innerHTML = data.map(m => `
       <div class="rounded-lg border border-border-soft bg-surface-2 p-3">
         <div class="flex justify-between items-center mb-1">
           <span class="text-[10px] uppercase tracking-widest text-primary">${m.tipo || 'seguimiento'}</span>
@@ -1290,51 +1290,51 @@ Sé directo, sin endulzar. Es para aprender, no para sentirse bien.`;
         <p class="text-sm text-on-surface-2">${m.contenido}</p>
       </div>
     `).join('');
-      }
+        }
 
-      document.getElementById('btn-guardar-mensaje').addEventListener('click', async () => {
-        if (!currentLeadId) { alert('Selecciona o crea un lead primero'); return; }
-        const contenido = document.getElementById('input-seguimiento').value.trim();
-        if (!contenido) return;
+        document.getElementById('btn-guardar-mensaje').addEventListener('click', async () => {
+          if (!currentLeadId) { alert('Selecciona o crea un lead primero'); return; }
+          const contenido = document.getElementById('input-seguimiento').value.trim();
+          if (!contenido) return;
 
-        await db.from('mensajes_lead').insert([{
-          lead_id: currentLeadId,
-          tipo: 'seguimiento',
-          contenido,
-          canal: 'instagram',
-          estado: 'enviado'
-        }]);
+          await db.from('mensajes_lead').insert([{
+            lead_id: currentLeadId,
+            tipo: 'seguimiento',
+            contenido,
+            canal: 'instagram',
+            estado: 'enviado'
+          }]);
 
-        document.getElementById('input-seguimiento').value = '';
-        await loadMensajes();
-      });
+          document.getElementById('input-seguimiento').value = '';
+          await loadMensajes();
+        });
 
-      // ── Sidebar helpers ───────────────────────────────────────
-      function updateSidebarLead(lead) {
-        document.getElementById('sidebar-lead-info').innerHTML = `
+        // ── Sidebar helpers ───────────────────────────────────────
+        function updateSidebarLead(lead) {
+          document.getElementById('sidebar-lead-info').innerHTML = `
       <p class="text-white font-bold text-sm">${lead.nombre_negocio}</p>
       <p class="text-xs text-muted mt-1">${lead.giro} · ${lead.ciudad}</p>
       ${lead.instagram ? `<p class="text-xs text-primary mt-1">${lead.instagram}</p>` : ''}
       <span class="etapa-badge etapa-${lead.etapa || 'nuevo'} mt-2 inline-block">${lead.etapa || 'nuevo'}</span>
     `;
-      }
-
-      async function loadLeadsList() {
-        const { data } = await db.from('leads').select('*').order('created_at', { ascending: false }).limit(10);
-        const container = document.getElementById('leads-list');
-        if (!data || !data.length) {
-          container.innerHTML = '<p class="text-xs text-muted">Sin leads aún.</p>';
-          return;
         }
 
-        // Stats
-        const hoy = new Date();
-        const semanaAtras = new Date(hoy - 7 * 24 * 60 * 60 * 1000);
-        const estaSemana = data.filter(l => new Date(l.created_at) >= semanaAtras).length;
-        document.getElementById('stat-total').textContent = data.length;
-        document.getElementById('stat-semana').textContent = estaSemana;
+        async function loadLeadsList() {
+          const { data } = await db.from('leads').select('*').order('created_at', { ascending: false }).limit(10);
+          const container = document.getElementById('leads-list');
+          if (!data || !data.length) {
+            container.innerHTML = '<p class="text-xs text-muted">Sin leads aún.</p>';
+            return;
+          }
 
-        container.innerHTML = data.map(lead => `
+          // Stats
+          const hoy = new Date();
+          const semanaAtras = new Date(hoy - 7 * 24 * 60 * 60 * 1000);
+          const estaSemana = data.filter(l => new Date(l.created_at) >= semanaAtras).length;
+          document.getElementById('stat-total').textContent = data.length;
+          document.getElementById('stat-semana').textContent = estaSemana;
+
+          container.innerHTML = data.map(lead => `
       <div class="historial-item ${lead.id === currentLeadId ? 'selected' : ''}" onclick="selectLead('${lead.id}', ${JSON.stringify(lead).replace(/"/g, '&quot;')})">
         <div class="flex justify-between items-start">
           <p class="text-sm font-semibold text-white truncate max-w-[150px]">${lead.nombre_negocio}</p>
@@ -1344,58 +1344,58 @@ Sé directo, sin endulzar. Es para aprender, no para sentirse bien.`;
       </div>
     `).join('');
 
-        // Mensajes count
-        const { count } = await db.from('mensajes_lead').select('*', { count: 'exact', head: true });
-        document.getElementById('stat-mensajes').textContent = count || 0;
-      }
+          // Mensajes count
+          const { count } = await db.from('mensajes_lead').select('*', { count: 'exact', head: true });
+          document.getElementById('stat-mensajes').textContent = count || 0;
+        }
 
-      window.selectLead = function (id, lead) {
-        currentLeadId = id;
-        document.getElementById('f-nombre').value = lead.nombre_negocio || '';
-        document.getElementById('f-giro').value = lead.giro || '';
-        document.getElementById('f-ciudad').value = lead.ciudad || '';
-        document.getElementById('f-instagram').value = lead.instagram || '';
-        document.getElementById('f-telefono').value = lead.telefono || '';
-        document.getElementById('f-contacto').value = lead.contacto || '';
-        document.getElementById('f-notas').value = lead.notas || '';
-        updateSidebarLead(lead);
-        loadLeadsList();
-        goToStep(1);
-      };
+        window.selectLead = function (id, lead) {
+          currentLeadId = id;
+          document.getElementById('f-nombre').value = lead.nombre_negocio || '';
+          document.getElementById('f-giro').value = lead.giro || '';
+          document.getElementById('f-ciudad').value = lead.ciudad || '';
+          document.getElementById('f-instagram').value = lead.instagram || '';
+          document.getElementById('f-telefono').value = lead.telefono || '';
+          document.getElementById('f-contacto').value = lead.contacto || '';
+          document.getElementById('f-notas').value = lead.notas || '';
+          updateSidebarLead(lead);
+          loadLeadsList();
+          goToStep(1);
+        };
 
-      document.getElementById('btn-nuevo-lead').addEventListener('click', () => {
-        currentLeadId = null;
-        uploadedFiles = [];
-        results = { investigador: '', setter: '', diego: '' };
-        ['f-nombre', 'f-giro', 'f-ciudad', 'f-instagram', 'f-telefono', 'f-contacto', 'f-notas'].forEach(id => {
-          document.getElementById(id).value = '';
+        document.getElementById('btn-nuevo-lead').addEventListener('click', () => {
+          currentLeadId = null;
+          uploadedFiles = [];
+          results = { investigador: '', setter: '', diego: '' };
+          ['f-nombre', 'f-giro', 'f-ciudad', 'f-instagram', 'f-telefono', 'f-contacto', 'f-notas'].forEach(id => {
+            document.getElementById(id).value = '';
+          });
+          document.getElementById('sidebar-lead-info').innerHTML = '<p class="text-muted text-sm">Sin lead seleccionado</p>';
+          previewGrid.innerHTML = '';
+          previewGrid.classList.add('hidden');
+          ['result-investigador', 'result-setter', 'result-diego'].forEach(id => document.getElementById(id).classList.add('hidden'));
+          goToStep(1);
         });
-        document.getElementById('sidebar-lead-info').innerHTML = '<p class="text-muted text-sm">Sin lead seleccionado</p>';
-        previewGrid.innerHTML = '';
-        previewGrid.classList.add('hidden');
-        ['result-investigador', 'result-setter', 'result-diego'].forEach(id => document.getElementById(id).classList.add('hidden'));
-        goToStep(1);
-      });
 
-      // ── Copy helper ───────────────────────────────────────────
-      window.copyResult = function (key) {
-        navigator.clipboard.writeText(results[key] || '').then(() => {
-          showStatus('¡Copiado al portapapeles!', 'ok');
-        });
-      };
+        // ── Copy helper ───────────────────────────────────────────
+        window.copyResult = function (key) {
+          navigator.clipboard.writeText(results[key] || '').then(() => {
+            showStatus('¡Copiado al portapapeles!', 'ok');
+          });
+        };
 
-      // ── Status msg ────────────────────────────────────────────
-      function showStatus(msg, type) {
-        const el = document.getElementById('save-status');
-        el.textContent = msg;
-        el.style.color = type === 'error' ? '#ffb4ab' : '#00C2A8';
-        setTimeout(() => { el.textContent = ''; }, 3000);
-      }
+        // ── Status msg ────────────────────────────────────────────
+        function showStatus(msg, type) {
+          const el = document.getElementById('save-status');
+          el.textContent = msg;
+          el.style.color = type === 'error' ? '#ffb4ab' : '#00C2A8';
+          setTimeout(() => { el.textContent = ''; }, 3000);
+        }
 
-      // ── Init ──────────────────────────────────────────────────
-      setTimeout(() => loadLeadsList(), 800);
+        // ── Init ──────────────────────────────────────────────────
+        setTimeout(() => loadLeadsList(), 800);
 
-    })(); // end ProspectorIA
+      })(); // end ProspectorIA
     }); // end DOMContentLoaded
   </script>
 
