@@ -469,6 +469,10 @@
             <span class="material-symbols-outlined text-base">arrow_back</span> Ventas
           </a>
           <div class="hidden sm:flex items-center gap-2 rounded-md border border-border-soft bg-surface-2 px-3 py-2">
+            <span class="material-symbols-outlined text-sm text-muted">person</span>
+            <span id="vendedor-nombre" class="text-xs font-semibold text-on-surface-2">—</span>
+          </div>
+          <div class="hidden sm:flex items-center gap-2 rounded-md border border-border-soft bg-surface-2 px-3 py-2">
             <span class="h-2 w-2 rounded-full bg-primary animate-pulse"></span>
             <span id="step-label" class="text-xs font-bold uppercase tracking-[0.3em] text-primary">Paso 1 de 4</span>
           </div>
@@ -892,10 +896,38 @@
     // ══════════════════════════════════════════════════════════
     // PROSPECTOR IA — Lógica principal
     // ══════════════════════════════════════════════════════════
-    (function ProspectorIA() {
-      // ── Supabase (inicialización segura) ──
+    document.addEventListener('DOMContentLoaded', function () {
+    (async function ProspectorIA() {
+
+      // ── Supabase (inicialización segura, siempre lazy) ──
       function getDB() {
+        if (!window.supabaseClient) throw new Error('Supabase no inicializado. Verifica config.js.');
         return window.supabaseClient;
+      }
+
+      // ── Esperar sesión activa antes de continuar ──────────────
+      let currentUser = null;
+      let vendedorNombre = 'Vendedor';
+      try {
+        const db0 = getDB();
+        const { data: { session } } = await db0.auth.getSession();
+        if (!session) {
+          window.location.href = 'index.html';
+          return;
+        }
+        currentUser = session.user;
+
+        // Jalar nombre del usuario logueado
+        const { data: perfil } = await db0.from('usuarios').select('nombre').eq('id', currentUser.id).single();
+        if (perfil?.nombre) vendedorNombre = perfil.nombre;
+
+        // Mostrar nombre en header si existe el elemento
+        const elVendedor = document.getElementById('vendedor-nombre');
+        if (elVendedor) elVendedor.textContent = vendedorNombre;
+      } catch (e) {
+        console.warn('Auth check error:', e.message);
+        window.location.href = 'index.html';
+        return;
       }
 
       // ── Estado ────────────────────────────────────────────────
@@ -905,7 +937,7 @@
       let currentSource = 'Instagram';
       let results = { investigador: '', setter: '', diego: '' };
 
-      // ── Supabase ──────────────────────────────────────────────
+      // ── Supabase (referencia lazy) ────────────────────────────
       const db = getDB();
 
       // ── Gemini API ────────────────────────────────────────────
@@ -973,7 +1005,8 @@
             contacto: document.getElementById('f-contacto').value.trim(),
             notas: document.getElementById('f-notas').value.trim(),
             etapa: 'nuevo',
-            estado: 'activo'
+            estado: 'activo',
+            vendedor_id: currentUser?.id || null
           };
 
           if (currentLeadId) {
@@ -1362,7 +1395,8 @@ Sé directo, sin endulzar. Es para aprender, no para sentirse bien.`;
       // ── Init ──────────────────────────────────────────────────
       setTimeout(() => loadLeadsList(), 800);
 
-    })();
+    })(); // end ProspectorIA
+    }); // end DOMContentLoaded
   </script>
 
 </body>
