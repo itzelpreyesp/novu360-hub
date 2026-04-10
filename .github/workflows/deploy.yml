@@ -1,4 +1,4 @@
-name: Deploy to GitHub Pages
+name: Deploy to Vercel
 
 on:
   push:
@@ -6,11 +6,10 @@ on:
       - main
 
 permissions:
-  contents: write
+  contents: read
 
 jobs:
   build-and-deploy:
-    concurrency: ci-${{ github.ref }}
     runs-on: ubuntu-latest
     steps:
       - name: Checkout 🛎️
@@ -19,24 +18,33 @@ jobs:
       - name: Create config.js from Secrets 🔑
         run: |
           cat <<EOF > config.js
-          const SUPABASE_URL = '${{ secrets.SUPABASE_URL }}';
-          const SUPABASE_ANON_KEY = '${{ secrets.SUPABASE_ANON_KEY }}';
-          const GEMINI_KEY = '${{ secrets.GEMINI_KEY }}';
+          window.SUPABASE_URL = '${{ secrets.SUPABASE_URL }}';
+          window.SUPABASE_ANON_KEY = '${{ secrets.SUPABASE_ANON_KEY }}';
+          window.GEMINI_KEY = '${{ secrets.GEMINI_KEY }}';
 
-          window.CONFIG = { SUPABASE_URL, SUPABASE_ANON_KEY, GEMINI_KEY };
+          window.CONFIG = {
+            SUPABASE_URL: window.SUPABASE_URL,
+            SUPABASE_ANON_KEY: window.SUPABASE_ANON_KEY,
+            GEMINI_KEY: window.GEMINI_KEY
+          };
 
-          document.addEventListener('DOMContentLoaded', function() {
+          window.supabaseClient = null;
+
+          document.addEventListener('DOMContentLoaded', function () {
             if (window.supabase) {
               window.supabaseClient = window.supabase.createClient(
-                SUPABASE_URL, 
-                SUPABASE_ANON_KEY
+                window.SUPABASE_URL,
+                window.SUPABASE_ANON_KEY
               );
+              console.log('✅ Supabase Client initialized');
+            } else {
+              console.error('❌ Supabase library missing');
             }
           });
           EOF
 
-      - name: Deploy 🚀
-        uses: JamesIves/github-pages-deploy-action@v4
-        with:
-          folder: .
-          branch: gh-pages
+      - name: Install Vercel CLI 🔧
+        run: npm install -g vercel
+
+      - name: Deploy to Vercel 🚀
+        run: vercel --prod --token=${{ secrets.VERCEL_TOKEN }} --yes
