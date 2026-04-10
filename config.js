@@ -3,6 +3,11 @@ const SUPABASE_ANON_KEY = 'sb_publishable_jY3aG232zXsij1o2zDAWig_bbhfLIjO';
 const GEMINI_KEY = 'AIzaSyCmkUoSEGxz9UafGtTfd0idhXSnpabL9_M';
 window.CONFIG = { SUPABASE_URL, SUPABASE_ANON_KEY, GEMINI_KEY };
 
+// Exponer variables globales sueltas para compatibilidad
+window.GEMINI_KEY = GEMINI_KEY;
+window.SUPABASE_URL = SUPABASE_URL;
+window.SUPABASE_ANON_KEY = SUPABASE_ANON_KEY;
+
 // Variable global para el cliente de Supabase
 window.supabaseClient = null;
 
@@ -13,4 +18,7 @@ document.addEventListener('DOMContentLoaded', () => {
     } else {
         console.error('❌ Supabase library missing. Check index.html imports.');
     }
-});
+
+}
+
+);
