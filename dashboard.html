@@ -86,10 +86,26 @@ tailwind.config = {
 <script src="auth.js"></script>
 <script>checkAuth();</script>
 </head>
-<body class="bg-black text-on-surface antialiased overflow-x-hidden">
-
+<body class="bg-[#0A0F1E] text-on-surface antialiased overflow-x-hidden">
+<div class="min-h-screen lg:flex bg-[#0A0F1E]">
+<aside id="main-sidebar" class="hidden lg:flex lg:flex-col w-64 bg-[#1A2235] border-r border-white/10 px-4 py-6">
+<a class="font-headline text-2xl font-extrabold text-white tracking-tight mb-8" href="/dashboard.html">Novu 360</a>
+<nav class="flex flex-col gap-2 text-sm font-semibold">
+<a class="px-3 py-2 rounded-lg text-white/85 hover:bg-[#00C2A8]/15 hover:text-[#00C2A8] nav-active" href="/dashboard.html">Dashboard</a>
+<a class="px-3 py-2 rounded-lg text-white/85 hover:bg-[#00C2A8]/15 hover:text-[#00C2A8]" href="/ventas.html">Ventas</a>
+<a class="px-3 py-2 rounded-lg text-white/85 hover:bg-[#00C2A8]/15 hover:text-[#00C2A8]" href="/prospector-ia.html">Prospector IA</a>
+<a class="px-3 py-2 rounded-lg text-white/85 hover:bg-[#00C2A8]/15 hover:text-[#00C2A8]" href="/ads.html">Ads / Meta</a>
+<a class="px-3 py-2 rounded-lg text-white/85 hover:bg-[#00C2A8]/15 hover:text-[#00C2A8]" href="/community.html">Community</a>
+<a class="px-3 py-2 rounded-lg text-white/85 hover:bg-[#00C2A8]/15 hover:text-[#00C2A8]" href="/seo.html">SEO</a>
+<a class="px-3 py-2 rounded-lg text-white/85 hover:bg-[#00C2A8]/15 hover:text-[#00C2A8]" href="/web.html">Web</a>
+<a class="px-3 py-2 rounded-lg text-white/85 hover:bg-[#00C2A8]/15 hover:text-[#00C2A8]" href="/finanzas.html">Finanzas</a>
+<a class="px-3 py-2 rounded-lg text-white/85 hover:bg-[#00C2A8]/15 hover:text-[#00C2A8]" href="/cerebros.html">Cerebros IA</a>
+<a class="px-3 py-2 rounded-lg text-white/85 hover:bg-[#00C2A8]/15 hover:text-[#00C2A8]" href="/aprobaciones.html">Aprobaciones</a>
+<a class="px-3 py-2 rounded-lg text-white/85 hover:bg-[#00C2A8]/15 hover:text-[#00C2A8]" href="/onboarding.html">Onboarding</a>
+</nav>
+</aside>
 <!-- Main Workspace -->
-<main class="bg-black">
+<main class="bg-[#0A0F1E] flex-1">
 <!-- Top Header -->
 <header class="bg-black hidden md:flex justify-between items-center h-16 px-8 w-full sticky top-0 z-10 border-b border-white/5">
 <div class="flex items-center gap-6">
@@ -136,6 +152,7 @@ tailwind.config = {
 <p class="text-neutral-400 text-[10px] uppercase font-bold tracking-widest mb-1">Clientes Activos</p>
 <div class="flex items-baseline gap-2">
 <span id="metric-active-clients" class="text-4xl font-black">--</span>
+<span id="kpi-clientes" class="hidden">0</span>
 <span id="metric-active-clients-trend" class="text-primary text-xs font-bold">Sin datos</span>
 </div>
 <p id="metric-active-clients-note" class="text-neutral-500 text-[10px] mt-2">Esperando datos de Supabase</p>
@@ -144,6 +161,7 @@ tailwind.config = {
 <p class="text-neutral-400 text-[10px] uppercase font-bold tracking-widest mb-1">Ingresos del Mes</p>
 <div class="flex items-baseline gap-2">
 <span id="metric-month-revenue" class="text-4xl font-black">--</span>
+<span id="kpi-ingresos" class="hidden">$0</span>
 <span id="metric-month-revenue-trend" class="text-primary text-xs font-bold">Sin datos</span>
 </div>
 <p id="metric-month-revenue-note" class="text-neutral-500 text-[10px] mt-2">Esperando pagos registrados</p>
@@ -152,6 +170,7 @@ tailwind.config = {
 <p class="text-neutral-400 text-[10px] uppercase font-bold tracking-widest mb-1">Leads en Pipeline</p>
 <div class="flex items-baseline gap-2">
 <span id="metric-pipeline-leads" class="text-4xl font-black">--</span>
+<span id="kpi-leads" class="hidden">0</span>
 <span id="metric-pipeline-leads-trend" class="text-neutral-400 text-xs font-bold">Sin datos</span>
 </div>
 <p id="metric-pipeline-leads-note" class="text-neutral-500 text-[10px] mt-2">Esperando leads reales</p>
@@ -160,6 +179,7 @@ tailwind.config = {
 <p class="text-neutral-400 text-[10px] uppercase font-bold tracking-widest mb-1">Tareas Vencidas</p>
 <div class="flex items-baseline gap-2">
 <span id="metric-overdue-tasks" class="text-4xl font-black text-error">--</span>
+<span id="kpi-tareas-vencidas" class="hidden">0</span>
 <span id="metric-overdue-tasks-trend" class="text-error text-xs font-bold">Sin datos</span>
 </div>
 <p id="metric-overdue-tasks-note" class="text-neutral-500 text-[10px] mt-2">Esperando tareas reales</p>
@@ -360,46 +380,54 @@ tailwind.config = {
 <!-- Area Health -->
 <div class="space-y-4">
 <h2 class="text-xl font-extrabold tracking-tight text-white">Salud Operativa de Áreas</h2>
-<div class="flex overflow-x-auto flex-nowrap gap-3 md:grid md:grid-cols-5 md:gap-4 md:overflow-visible">
+<div id="salud-operativa-grid" class="grid grid-cols-2 lg:grid-cols-6 gap-3 lg:gap-4 overflow-x-visible">
 <div class="min-w-[160px] md:min-w-0 bg-surface-container-lowest p-5 rounded-lg border border-white/5 hover:border-primary/30 transition-all group">
 <div class="flex justify-between items-start mb-6">
-<div class="w-3 h-3 bg-primary rounded-full shadow-[0_0_8px_rgba(0,194,168,0.6)]"></div>
+<div id="salud-ventas" class="semaforo verde"></div>
 <span class="material-symbols-outlined text-neutral-500 group-hover:text-primary transition-colors">trending_up</span>
 </div>
-<h3 class="font-bold text-on-surface">Ventas</h3>
+<h3 class="font-bold text-on-surface salud-nombre">Ventas</h3>
 <p id="health-ventas" class="text-[10px] text-neutral-500 mt-1">Sin datos</p>
 </div>
 <div class="min-w-[160px] md:min-w-0 bg-surface-container-lowest p-5 rounded-lg border border-white/5 hover:border-primary/30 transition-all group">
 <div class="flex justify-between items-start mb-6">
-<div class="w-3 h-3 bg-primary rounded-full shadow-[0_0_8px_rgba(0,194,168,0.6)]"></div>
+<div id="salud-ads" class="semaforo verde"></div>
 <span class="material-symbols-outlined text-neutral-500 group-hover:text-primary transition-colors">ads_click</span>
 </div>
-<h3 class="font-bold text-on-surface">Ads</h3>
+<h3 class="font-bold text-on-surface salud-nombre">Ads</h3>
 <p id="health-ads" class="text-[10px] text-neutral-500 mt-1">Sin datos</p>
 </div>
 <div class="min-w-[160px] md:min-w-0 bg-surface-container-lowest p-5 rounded-lg border border-white/5 hover:border-primary/30 transition-all group">
 <div class="flex justify-between items-start mb-6">
-<div class="w-3 h-3 bg-yellow-500 rounded-full shadow-[0_0_8px_rgba(234,179,8,0.6)]"></div>
+<div id="salud-community" class="semaforo amarillo"></div>
 <span class="material-symbols-outlined text-neutral-500 group-hover:text-primary transition-colors">forum</span>
 </div>
-<h3 class="font-bold text-on-surface">Community</h3>
+<h3 class="font-bold text-on-surface salud-nombre">Community</h3>
 <p id="health-community" class="text-[10px] text-neutral-500 mt-1">Sin datos</p>
 </div>
 <div class="min-w-[160px] md:min-w-0 bg-surface-container-lowest p-5 rounded-lg border border-white/5 hover:border-primary/30 transition-all group">
 <div class="flex justify-between items-start mb-6">
-<div class="w-3 h-3 bg-red-500 rounded-full shadow-[0_0_8px_rgba(239,68,68,0.6)]"></div>
+<div id="salud-seo" class="semaforo rojo"></div>
 <span class="material-symbols-outlined text-neutral-500 group-hover:text-primary transition-colors">search</span>
 </div>
-<h3 class="font-bold text-on-surface">SEO</h3>
+<h3 class="font-bold text-on-surface salud-nombre">SEO</h3>
 <p id="health-seo" class="text-[10px] text-neutral-500 mt-1">Sin datos</p>
 </div>
 <div class="min-w-[160px] md:min-w-0 bg-surface-container-lowest p-5 rounded-lg border border-white/5 hover:border-primary/30 transition-all group">
 <div class="flex justify-between items-start mb-6">
-<div class="w-3 h-3 bg-primary rounded-full shadow-[0_0_8px_rgba(0,194,168,0.6)]"></div>
+<div id="salud-web" class="semaforo verde"></div>
 <span class="material-symbols-outlined text-neutral-500 group-hover:text-primary transition-colors">language</span>
 </div>
-<h3 class="font-bold text-on-surface">Web</h3>
+<h3 class="font-bold text-on-surface salud-nombre">Web</h3>
 <p id="health-web" class="text-[10px] text-neutral-500 mt-1">Sin datos</p>
+</div>
+<div class="min-w-[160px] md:min-w-0 bg-surface-container-lowest p-5 rounded-lg border border-white/5 hover:border-primary/30 transition-all group">
+<div class="flex justify-between items-start mb-6">
+<div id="salud-finanzas" class="semaforo verde"></div>
+<span class="material-symbols-outlined text-neutral-500 group-hover:text-primary transition-colors">account_balance_wallet</span>
+</div>
+<h3 class="font-bold text-on-surface salud-nombre">Finanzas</h3>
+<p id="health-finanzas" class="text-[10px] text-neutral-500 mt-1">Sin datos</p>
 </div>
 </div>
 </div>
@@ -409,11 +437,11 @@ tailwind.config = {
 <div class="bg-surface-container-low rounded-2xl p-6 border border-white/5 shadow-xl">
 <h2 class="text-sm font-extrabold tracking-tight uppercase mb-4 text-neutral-400">Acciones Rápidas</h2>
 <div class="grid grid-cols-2 gap-3">
-<button id="quick-new-lead" class="bg-surface-container-lowest p-4 rounded-xl flex flex-col items-center gap-2 border border-white/5 hover:border-primary transition-all" type="button">
+<button class="bg-surface-container-lowest p-4 rounded-xl flex flex-col items-center gap-2 border border-white/5 hover:border-primary transition-all" data-action="nuevo-lead" type="button">
 <span class="material-symbols-outlined text-primary">person_add</span>
 <span class="text-[10px] font-bold uppercase tracking-widest text-on-surface">Nuevo Lead</span>
 </button>
-<button id="quick-new-task" class="bg-surface-container-lowest p-4 rounded-xl flex flex-col items-center gap-2 border border-white/5 hover:border-primary transition-all" type="button">
+<button class="bg-surface-container-lowest p-4 rounded-xl flex flex-col items-center gap-2 border border-white/5 hover:border-primary transition-all" data-action="nueva-tarea" type="button">
 <span class="material-symbols-outlined text-primary">add_task</span>
 <span class="text-[10px] font-bold uppercase tracking-widest text-on-surface">Nueva Tarea</span>
 </button>
@@ -440,10 +468,198 @@ tailwind.config = {
 </div>
 </div>
 </main>
+</div>
 
 <script src="dashboard-data.js" defer></script>
 <script src="rateUs.js" defer></script>
 <script src="app.js" defer></script>
+<button id="marketerito-btn" class="fixed bottom-6 right-6 z-[9995] bg-[#00C2A8] text-black font-headline font-bold px-5 py-3 rounded-xl shadow-[0_8px_24px_rgba(0,194,168,0.35)] hover:bg-[#00A896] transition-colors" type="button">Consultar a Marketerito</button>
+<div id="marketerito-modal" class="hidden fixed inset-0 z-[9998] bg-black/65 items-center justify-center p-4">
+<div class="w-full max-w-2xl bg-[#1A2235] text-white rounded-2xl border border-[#00C2A8] shadow-2xl">
+<div class="flex items-center justify-between px-5 py-4 border-b border-white/10">
+<h3 class="font-headline font-extrabold text-lg">Marketerito / Consultor</h3>
+<button id="marketerito-close" class="text-white/70 hover:text-white text-2xl leading-none" type="button">&times;</button>
+</div>
+<div id="marketerito-content" class="px-5 py-4 text-sm leading-6 font-body text-white/90">Cargando diagnóstico...</div>
+</div>
+</div>
+<script>
+let marketeritoState = {
+  clientesActivos: 0,
+  ingresosMes: 0,
+  leadsActivos: 0,
+  tareasVencidas: 0,
+  saludAreas: {
+    ventas: 'sin-datos',
+    ads: 'sin-datos',
+    community: 'sin-datos',
+    seo: 'sin-datos',
+    web: 'sin-datos',
+    finanzas: 'sin-datos'
+  }
+};
+
+function setText(id, value) {
+  const el = document.getElementById(id);
+  if (el) el.textContent = value;
+}
+
+function setSemaforo(area, color) {
+  const dot = document.getElementById('salud-' + area);
+  if (!dot) return;
+  dot.className = 'semaforo ' + color;
+}
+
+async function cargarKPIs() {
+  const client = window.supabaseClient;
+  if (!client) return;
+
+  const { count: clientesActivos } = await client
+    .from('clientes')
+    .select('*', { count: 'exact', head: true })
+    .eq('estado', 'activo');
+
+  const mesActual = new Date().toISOString().slice(0, 7);
+  const { data: pagos } = await client
+    .from('pagos')
+    .select('monto')
+    .gte('fecha_pago', mesActual + '-01')
+    .eq('estado', 'pagado');
+  const ingresosMes = pagos?.reduce((sum, p) => sum + Number(p.monto || 0), 0) || 0;
+
+  const { count: leadsActivos } = await client
+    .from('leads')
+    .select('*', { count: 'exact', head: true })
+    .not('estado', 'eq', 'cerrado');
+
+  const hoy = new Date().toISOString().slice(0, 10);
+  const { count: tareasVencidas } = await client
+    .from('tareas')
+    .select('*', { count: 'exact', head: true })
+    .lt('fecha_limite', hoy)
+    .eq('estado', 'pendiente');
+
+  marketeritoState.clientesActivos = clientesActivos || 0;
+  marketeritoState.ingresosMes = ingresosMes || 0;
+  marketeritoState.leadsActivos = leadsActivos || 0;
+  marketeritoState.tareasVencidas = tareasVencidas || 0;
+
+  setText('kpi-clientes', marketeritoState.clientesActivos);
+  setText('kpi-ingresos', '$' + marketeritoState.ingresosMes.toLocaleString('es-MX'));
+  setText('kpi-leads', marketeritoState.leadsActivos);
+  setText('kpi-tareas-vencidas', marketeritoState.tareasVencidas);
+
+  setText('metric-active-clients', marketeritoState.clientesActivos);
+  setText('metric-month-revenue', '$' + marketeritoState.ingresosMes.toLocaleString('es-MX'));
+  setText('metric-pipeline-leads', marketeritoState.leadsActivos);
+  setText('metric-overdue-tasks', marketeritoState.tareasVencidas);
+}
+
+async function cargarSaludOperativa() {
+  const client = window.supabaseClient;
+  if (!client) return;
+  const areas = ['ventas', 'ads', 'community', 'seo', 'web', 'finanzas'];
+  const hoy = new Date().toISOString().slice(0, 10);
+
+  for (const area of areas) {
+    const { count: vencidas } = await client
+      .from('tareas')
+      .select('*', { count: 'exact', head: true })
+      .eq('area', area)
+      .lt('fecha_limite', hoy)
+      .eq('estado', 'pendiente');
+
+    const color = vencidas === 0 ? 'verde' : vencidas <= 2 ? 'amarillo' : 'rojo';
+    marketeritoState.saludAreas[area] = color;
+    setSemaforo(area, color);
+    setText('health-' + area, vencidas === 0 ? 'Sin tareas vencidas' : `${vencidas} tareas vencidas`);
+  }
+}
+
+async function consultarMarketerito() {
+  const content = document.getElementById('marketerito-content');
+  const modal = document.getElementById('marketerito-modal');
+  if (!content || !modal) return;
+  modal.classList.remove('hidden');
+  modal.classList.add('flex');
+  content.textContent = 'Analizando KPIs y salud operativa...';
+
+  const { clientesActivos, ingresosMes, leadsActivos, tareasVencidas, saludAreas } = marketeritoState;
+  const prompt = `
+Eres Marketerito, consultor estratégico de Novu 360, agencia de marketing
+digital para negocios locales en México.
+
+Datos actuales de la agencia:
+- Clientes activos: ${clientesActivos}
+- Ingresos del mes: $${ingresosMes}
+- Leads en pipeline: ${leadsActivos}
+- Tareas vencidas: ${tareasVencidas}
+- Salud operativa por área: ${JSON.stringify(saludAreas)}
+
+Analiza estos números, detecta los 2-3 cuellos de botella más urgentes
+y da dirección clara y accionable. Sé directo. Máximo 150 palabras.
+Usa formato: PROBLEMA → ACCIÓN INMEDIATA.
+`;
+
+  try {
+    if (!window.GEMINI_KEY) {
+      content.textContent = 'No se encontró GEMINI_KEY en ventana global.';
+      return;
+    }
+    const response = await fetch('https://generativelanguage.googleapis.com/v1beta/models/gemini-pro:generateContent?key=' + window.GEMINI_KEY, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        contents: [{ parts: [{ text: prompt }] }]
+      })
+    });
+    const data = await response.json();
+    const aiText = data?.candidates?.[0]?.content?.parts?.[0]?.text || 'No se pudo generar respuesta de Marketerito.';
+    content.textContent = aiText;
+  } catch (error) {
+    content.textContent = 'Error consultando a Marketerito: ' + (error.message || 'desconocido');
+  }
+}
+
+window.addEventListener('load', () => {
+  if (window.supabaseClient) {
+    cargarKPIs();
+    cargarSaludOperativa();
+  } else {
+    console.error('supabaseClient no disponible');
+  }
+
+  const nuevoLeadBtn = document.querySelector('[data-action="nuevo-lead"]');
+  if (nuevoLeadBtn) {
+    nuevoLeadBtn.addEventListener('click', () => {
+      window.location.href = '/prospector-ia.html';
+    });
+  }
+
+  const nuevaTareaBtn = document.querySelector('[data-action="nueva-tarea"]');
+  if (nuevaTareaBtn) {
+    nuevaTareaBtn.addEventListener('click', () => {
+      console.log('pendiente: módulo tareas');
+      window.location.href = '/tareas.html';
+    });
+  }
+
+  const marketeritoBtn = document.getElementById('marketerito-btn');
+  const marketeritoClose = document.getElementById('marketerito-close');
+  const marketeritoModal = document.getElementById('marketerito-modal');
+  marketeritoBtn?.addEventListener('click', consultarMarketerito);
+  marketeritoClose?.addEventListener('click', () => {
+    marketeritoModal?.classList.add('hidden');
+    marketeritoModal?.classList.remove('flex');
+  });
+  marketeritoModal?.addEventListener('click', (event) => {
+    if (event.target === marketeritoModal) {
+      marketeritoModal.classList.add('hidden');
+      marketeritoModal.classList.remove('flex');
+    }
+  });
+});
+</script>
 </body></html>
 
 

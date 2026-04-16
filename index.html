@@ -5,7 +5,7 @@
 <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
 <title>Novu 360 Â· Login</title>
 <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
-<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;700;800&amp;family=Inter:wght@400;500;600&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@700;800&amp;family=Inter:wght@400;500;600&amp;display=swap" rel="stylesheet"/>
 <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
 <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
 <script id="tailwind-config">
@@ -74,21 +74,21 @@
     </script>
 
 <link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;700;800&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@700;800&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="style.css">
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <script src="config.js"></script>
 </head>
-<body class="font-body text-on-background min-h-screen flex items-center justify-center p-4">
+<body class="font-body min-h-screen flex items-center justify-center p-4 bg-[#0A0F1E] text-white" style="font-family: 'Inter', sans-serif;">
 <!-- Login Container -->
 <main class="w-full max-w-md">
 <!-- Brand Identity Section -->
 <div class="text-center mb-8">
-<h1 class="font-headline font-black text-4xl tracking-tight text-primary-container mb-2">Novu 360</h1>
-<p class="font-body text-on-surface-variant font-medium tracking-wide uppercase text-xs">Sistema Operativo de Agencia</p>
+<h1 class="font-headline text-4xl tracking-tight text-white mb-2" style="font-family: 'Manrope', sans-serif; font-weight: 800;">Novu 360</h1>
+<p class="font-body font-medium tracking-wide uppercase text-xs text-[#717976]">Sistema Operativo de Agencia</p>
 </div>
 <!-- Auth Card -->
-<div class="bg-surface-container border border-outline-variant rounded-xl p-8 shadow-2xl">
+<div class="rounded-[16px] p-10 shadow-[0_8px_32px_rgba(0,0,0,0.4)]" style="background: #1A2235; border: 1px solid rgba(255,255,255,0.08);">
 <form  class="space-y-6" id="login-form" >
 <!-- Email Field -->
 <div class="space-y-2">
@@ -97,7 +97,7 @@
 <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none text-outline group-focus-within:text-primary-container transition-colors">
 <span class="material-symbols-outlined text-[20px]">mail</span>
 </div>
-<input class="block w-full pl-10 pr-3 py-3 bg-surface-container-high border border-outline-variant rounded-md focus:ring-1 focus:ring-primary-container focus:border-primary-container text-on-surface placeholder:text-on-surface-variant/50 transition-all outline-none" id="email" name="email" placeholder="nombre@novu360.com" type="email"/>
+<input class="block w-full pl-10 pr-4 py-3 rounded-[8px] text-white placeholder:text-white/50 transition-all outline-none focus:ring-0 focus:border-[#00C2A8]" id="email" name="email" placeholder="nombre@novu360.com" type="email" style="background: #0D1424; border: 1px solid rgba(255,255,255,0.12); color: #FFFFFF; font-family: 'Inter', sans-serif;"/>
 </div>
 </div>
 <!-- Password Field -->
@@ -110,14 +110,14 @@
 <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none text-outline group-focus-within:text-primary-container transition-colors">
 <span class="material-symbols-outlined text-[20px]">lock</span>
 </div>
-<input class="block w-full pl-10 pr-10 py-3 bg-surface-container-high border border-outline-variant rounded-md focus:ring-1 focus:ring-primary-container focus:border-primary-container text-on-surface placeholder:text-on-surface-variant/50 transition-all outline-none" id="password" name="password" placeholder="â€¢â€¢â€¢â€¢â€¢â€¢â€¢â€¢" type="password"/>
+<input class="block w-full pl-10 pr-10 py-3 rounded-[8px] text-white placeholder:text-white/50 transition-all outline-none focus:ring-0 focus:border-[#00C2A8]" id="password" name="password" placeholder="••••••••" type="password" style="background: #0D1424; border: 1px solid rgba(255,255,255,0.12); color: #FFFFFF; font-family: 'Inter', sans-serif;"/>
 <button id="password-toggle" class="absolute inset-y-0 right-0 pr-3 flex items-center text-on-surface-variant hover:text-primary-container transition-colors" type="button" aria-label="Mostrar contraseÃ±a" aria-pressed="false">
 <span id="password-toggle-icon" class="material-symbols-outlined text-[20px]">visibility</span>
 </button>
 </div>
 </div>
 <!-- Submit Button -->
-<button class="w-full bg-primary-container text-on-primary-container font-headline font-bold py-3.5 px-4 rounded-lg hover:brightness-110 active:scale-[0.98] transition-all flex justify-center items-center gap-2 group" type="submit">
+<button class="w-full py-[14px] px-4 rounded-[8px] transition-all flex justify-center items-center gap-2 group active:scale-[0.98] bg-[#00C2A8] hover:bg-[#00A896] text-black border-none" type="submit" style="font-family: 'Manrope', sans-serif; font-weight: 700;">
                     Iniciar SesiÃ³n
                     <span class="material-symbols-outlined text-[20px] group-hover:translate-x-1 transition-transform">arrow_forward</span>
 </button>
@@ -183,3 +183,4 @@
   });
 </script>
 </body></html>
+

@@ -935,3 +935,54 @@ button[class*="bg-primary-container"]:hover {
   }
 }
 
+/* ============================================================
+   NOVU 360 · DASHBOARD FIXES
+   ============================================================ */
+#main-sidebar {
+  background: #1A2235;
+}
+
+#salud-operativa-grid {
+  overflow-x: visible !important;
+}
+
+.semaforo {
+  width: 12px;
+  height: 12px;
+  border-radius: 999px;
+}
+
+.semaforo.verde {
+  background: #00C2A8;
+  box-shadow: 0 0 8px rgba(0, 194, 168, 0.6);
+}
+
+.semaforo.amarillo {
+  background: #facc15;
+  box-shadow: 0 0 8px rgba(250, 204, 21, 0.6);
+}
+
+.semaforo.rojo {
+  background: #ef4444;
+  box-shadow: 0 0 8px rgba(239, 68, 68, 0.6);
+}
+
+@media (max-width: 1023px) {
+  #salud-operativa-grid {
+    display: grid !important;
+    grid-template-columns: repeat(2, 1fr) !important;
+    gap: 12px !important;
+    overflow-x: visible !important;
+  }
+
+  #salud-operativa-grid > div {
+    min-width: 0 !important;
+  }
+
+  #salud-operativa-grid .salud-nombre {
+    font-size: 13px !important;
+    white-space: normal !important;
+    word-break: break-word;
+  }
+}
+
