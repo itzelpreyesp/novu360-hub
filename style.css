@@ -986,3 +986,45 @@ button[class*="bg-primary-container"]:hover {
   }
 }
 
+/* ============================================================
+   NOVU 360 · GLOBAL NAV (DESKTOP + MOBILE)
+   ============================================================ */
+@media (min-width: 1024px) {
+  body.novu-has-global-sidebar {
+    padding-left: 16rem;
+    background: #0A0F1E;
+  }
+
+  body.novu-has-global-sidebar #main-sidebar {
+    position: fixed;
+    inset: 0 auto 0 0;
+    width: 16rem;
+    z-index: 9975;
+    display: flex !important;
+    background: #1A2235;
+  }
+
+  body.novu-has-global-sidebar #main-sidebar nav {
+    overflow-y: auto;
+    padding-bottom: 1rem;
+  }
+}
+
+@media (max-width: 1023px) {
+  body.novu-has-global-sidebar {
+    padding-left: 0 !important;
+    padding-top: 56px !important;
+    padding-bottom: 74px !important;
+  }
+
+  #nav-drawer {
+    display: flex !important;
+  }
+}
+
+@media (min-width: 1024px) {
+  #mobile-bottom-nav {
+    display: none !important;
+  }
+}
+

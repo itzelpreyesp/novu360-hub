@@ -1,10 +1,10 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html class="dark" lang="es">
 
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Novu 360 · Prospector IA</title>
+  <title>Novu 360 Â· Prospector IA</title>
   <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
   <link
     href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&family=Inter:wght@400;500;600&display=swap"
@@ -42,7 +42,7 @@
   <script src="auth.js"></script>
   <script>checkAuth();</script>
   <style>
-    /* ── Layout base ── */
+    /* â”€â”€ Layout base â”€â”€ */
     body {
       font-family: 'Inter', sans-serif;
     }
@@ -53,7 +53,7 @@
       background: #0a0a0a;
     }
 
-    /* ── Sidebar desktop ── */
+    /* â”€â”€ Sidebar desktop â”€â”€ */
     #desktop-sidebar {
       width: 220px;
       min-height: 100vh;
@@ -106,7 +106,7 @@
       font-size: 18px;
     }
 
-    /* ── Main content ── */
+    /* â”€â”€ Main content â”€â”€ */
     #main-content {
       margin-left: 220px;
       flex: 1;
@@ -114,7 +114,7 @@
       max-width: calc(100vw - 220px);
     }
 
-    /* ── Step chips ── */
+    /* â”€â”€ Step chips â”€â”€ */
     .step-chip {
       display: flex;
       align-items: center;
@@ -164,7 +164,7 @@
       color: #000;
     }
 
-    /* ── Step cards ── */
+    /* â”€â”€ Step cards â”€â”€ */
     .step-section {
       display: none;
     }
@@ -173,7 +173,7 @@
       display: block;
     }
 
-    /* ── File upload zone ── */
+    /* â”€â”€ File upload zone â”€â”€ */
     .upload-zone {
       border: 2px dashed #242424;
       border-radius: 12px;
@@ -194,7 +194,7 @@
       display: none;
     }
 
-    /* ── Preview grid ── */
+    /* â”€â”€ Preview grid â”€â”€ */
     .preview-grid {
       display: grid;
       grid-template-columns: repeat(auto-fill, minmax(100px, 1fr));
@@ -245,7 +245,7 @@
       font-weight: 600;
     }
 
-    /* ── AI result cards ── */
+    /* â”€â”€ AI result cards â”€â”€ */
     .ai-result {
       background: #141414;
       border: 1px solid #00C2A8/30;
@@ -271,7 +271,7 @@
       white-space: pre-wrap;
     }
 
-    /* ── Copy button ── */
+    /* â”€â”€ Copy button â”€â”€ */
     .copy-btn {
       position: absolute;
       top: 12px;
@@ -294,7 +294,7 @@
       color: #00C2A8;
     }
 
-    /* ── Historial ── */
+    /* â”€â”€ Historial â”€â”€ */
     .historial-item {
       border: 1px solid #242424;
       border-radius: 10px;
@@ -313,7 +313,7 @@
       background: rgba(0, 194, 168, 0.05);
     }
 
-    /* ── Loader ── */
+    /* â”€â”€ Loader â”€â”€ */
     .ai-loader {
       display: flex;
       align-items: center;
@@ -352,7 +352,7 @@
       }
     }
 
-    /* ── Tags ── */
+    /* â”€â”€ Tags â”€â”€ */
     .etapa-badge {
       font-size: 0.65rem;
       font-weight: 700;
@@ -387,7 +387,7 @@
       color: #F6AD55;
     }
 
-    /* ── Tabs ── */
+    /* â”€â”€ Tabs â”€â”€ */
     .tab-btn {
       padding: 8px 16px;
       border-radius: 8px;
@@ -406,7 +406,7 @@
       border-color: #00C2A8;
     }
 
-    /* ── Mobile ── */
+    /* â”€â”€ Mobile â”€â”€ */
     @media (max-width: 1023px) {
       #desktop-sidebar {
         display: none;
@@ -419,12 +419,12 @@
       }
     }
 
-    /* ── Textarea ── */
+    /* â”€â”€ Textarea â”€â”€ */
     textarea {
       resize: vertical;
     }
 
-    /* ── Divider ── */
+    /* â”€â”€ Divider â”€â”€ */
     .section-divider {
       border: none;
       border-top: 1px solid #242424;
@@ -435,7 +435,7 @@
 
 <body class="bg-black text-on-surface antialiased overflow-x-hidden">
 
-  <!-- ── DESKTOP SIDEBAR ─────────────────────────────────────── -->
+  <!-- â”€â”€ DESKTOP SIDEBAR â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ -->
   <aside id="desktop-sidebar" class="hidden lg:flex flex-col">
     <div class="logo">Novu <span style="color:#fff;opacity:0.4">360</span></div>
     <nav>
@@ -453,14 +453,14 @@
     </nav>
   </aside>
 
-  <!-- ── MAIN ─────────────────────────────────────────────────── -->
+  <!-- â”€â”€ MAIN â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ -->
   <div class="page-wrapper">
     <main id="main-content">
 
       <!-- Header -->
       <header class="flex items-center justify-between gap-4 border-b border-white/5 pb-5 mb-6">
         <div>
-          <p class="text-[10px] uppercase tracking-[0.35em] text-on-surface-2">Ventas · Prospección</p>
+          <p class="text-[10px] uppercase tracking-[0.35em] text-on-surface-2">Ventas Â· ProspecciÃ³n</p>
           <h1 class="font-headline text-2xl font-extrabold text-white sm:text-3xl">Prospector IA</h1>
         </div>
         <div class="flex items-center gap-3">
@@ -470,7 +470,7 @@
           </a>
           <div class="hidden sm:flex items-center gap-2 rounded-md border border-border-soft bg-surface-2 px-3 py-2">
             <span class="material-symbols-outlined text-sm text-muted">person</span>
-            <span id="vendedor-nombre" class="text-xs font-semibold text-on-surface-2">—</span>
+            <span id="vendedor-nombre" class="text-xs font-semibold text-on-surface-2">â€”</span>
           </div>
           <div class="hidden sm:flex items-center gap-2 rounded-md border border-border-soft bg-surface-2 px-3 py-2">
             <span class="h-2 w-2 rounded-full bg-primary animate-pulse"></span>
@@ -481,13 +481,13 @@
 
       <div class="grid grid-cols-1 xl:grid-cols-[1fr_320px] gap-6">
 
-        <!-- ── LEFT PANEL ── -->
+        <!-- â”€â”€ LEFT PANEL â”€â”€ -->
         <div class="space-y-6">
 
           <!-- Progress chips -->
           <div class="rounded-xl border border-border-soft bg-surface p-4">
             <div class="flex items-center justify-between mb-3">
-              <p class="text-xs font-semibold uppercase tracking-widest text-muted">Flujo de prospección</p>
+              <p class="text-xs font-semibold uppercase tracking-widest text-muted">Flujo de prospecciÃ³n</p>
               <div class="w-28 rounded-full bg-white/5 p-1">
                 <div id="step-progress" class="h-1.5 rounded-full bg-primary transition-all duration-500"
                   style="width:25%"></div>
@@ -496,17 +496,17 @@
             <div class="grid grid-cols-4 gap-2">
               <div class="step-chip active" data-step="1"><span>1</span><small>Datos</small></div>
               <div class="step-chip" data-step="2"><span>2</span><small>Capturas</small></div>
-              <div class="step-chip" data-step="3"><span>3</span><small>Análisis IA</small></div>
+              <div class="step-chip" data-step="3"><span>3</span><small>AnÃ¡lisis IA</small></div>
               <div class="step-chip" data-step="4"><span>4</span><small>Expediente</small></div>
             </div>
           </div>
 
-          <!-- ══ STEP 1: DATOS ══ -->
+          <!-- â•â• STEP 1: DATOS â•â• -->
           <section id="section-1" class="step-section active rounded-xl border border-border-soft bg-surface p-5">
             <div class="mb-5">
               <p class="text-[10px] uppercase tracking-[0.3em] text-primary">Paso 01</p>
               <h2 class="font-headline text-xl font-bold text-white">Datos del negocio</h2>
-              <p class="mt-1 text-sm text-muted">Captura la información base del prospecto antes del análisis.</p>
+              <p class="mt-1 text-sm text-muted">Captura la informaciÃ³n base del prospecto antes del anÃ¡lisis.</p>
             </div>
             <div class="grid gap-4 sm:grid-cols-2">
               <div class="sm:col-span-2">
@@ -519,36 +519,36 @@
                   <option value="">Selecciona...</option>
                   <option>Restaurante</option>
                   <option>Gimnasio</option>
-                  <option>Consultorio / Clínica</option>
-                  <option>Estética / Spa</option>
+                  <option>Consultorio / ClÃ­nica</option>
+                  <option>EstÃ©tica / Spa</option>
                   <option>Tienda / Retail</option>
                   <option>Servicios Profesionales</option>
                   <option>E-commerce</option>
-                  <option>Educación</option>
+                  <option>EducaciÃ³n</option>
                   <option>Inmobiliaria</option>
                   <option>Otro</option>
                 </select>
               </div>
               <div>
                 <label class="form-label">Ciudad *</label>
-                <input id="f-ciudad" class="form-input" placeholder="Ciudad de México" type="text" />
+                <input id="f-ciudad" class="form-input" placeholder="Ciudad de MÃ©xico" type="text" />
               </div>
               <div>
                 <label class="form-label">Instagram / Red social</label>
                 <input id="f-instagram" class="form-input" placeholder="@nombre_negocio" type="text" />
               </div>
               <div>
-                <label class="form-label">Teléfono de contacto</label>
+                <label class="form-label">TelÃ©fono de contacto</label>
                 <input id="f-telefono" class="form-input" placeholder="55 1234 5678" type="tel" />
               </div>
               <div>
                 <label class="form-label">Nombre del contacto</label>
-                <input id="f-contacto" class="form-input" placeholder="Nombre del dueño / encargado" type="text" />
+                <input id="f-contacto" class="form-input" placeholder="Nombre del dueÃ±o / encargado" type="text" />
               </div>
               <div class="sm:col-span-2">
                 <label class="form-label">Notas iniciales</label>
                 <textarea id="f-notas" class="form-input" rows="2"
-                  placeholder="¿Cómo llegó el lead? ¿Qué sabe ya de nosotros?"></textarea>
+                  placeholder="Â¿CÃ³mo llegÃ³ el lead? Â¿QuÃ© sabe ya de nosotros?"></textarea>
               </div>
             </div>
             <div class="mt-5 flex justify-between items-center">
@@ -559,29 +559,29 @@
             </div>
           </section>
 
-          <!-- ══ STEP 2: CAPTURAS ══ -->
+          <!-- â•â• STEP 2: CAPTURAS â•â• -->
           <section id="section-2" class="step-section rounded-xl border border-border-soft bg-surface p-5">
             <div class="mb-5">
               <p class="text-[10px] uppercase tracking-[0.3em] text-primary">Paso 02</p>
               <h2 class="font-headline text-xl font-bold text-white">Evidencia visual</h2>
               <p class="mt-1 text-sm text-muted">Sube capturas de IG, FB, TikTok, Maps o su web. Gemini Vision las
-                analizará.</p>
+                analizarÃ¡.</p>
             </div>
 
             <!-- Source selector -->
             <div class="flex flex-wrap gap-2 mb-4">
-              <button class="source-btn active" data-source="Instagram">📸 Instagram</button>
-              <button class="source-btn" data-source="Facebook">👥 Facebook</button>
-              <button class="source-btn" data-source="TikTok">🎵 TikTok</button>
-              <button class="source-btn" data-source="Google Maps">📍 Maps</button>
-              <button class="source-btn" data-source="Web">🌐 Web</button>
+              <button class="source-btn active" data-source="Instagram">ðŸ“¸ Instagram</button>
+              <button class="source-btn" data-source="Facebook">ðŸ‘¥ Facebook</button>
+              <button class="source-btn" data-source="TikTok">ðŸŽµ TikTok</button>
+              <button class="source-btn" data-source="Google Maps">ðŸ“ Maps</button>
+              <button class="source-btn" data-source="Web">ðŸŒ Web</button>
             </div>
 
             <div class="upload-zone" id="upload-zone">
               <input type="file" id="file-input" accept="image/*" multiple />
               <span class="material-symbols-outlined text-4xl text-muted mb-3">cloud_upload</span>
-              <p class="text-sm text-on-surface-2 font-semibold">Arrastra imágenes aquí o haz clic para seleccionar</p>
-              <p class="text-xs text-muted mt-1">PNG, JPG, WEBP — múltiples archivos permitidos</p>
+              <p class="text-sm text-on-surface-2 font-semibold">Arrastra imÃ¡genes aquÃ­ o haz clic para seleccionar</p>
+              <p class="text-xs text-muted mt-1">PNG, JPG, WEBP â€” mÃºltiples archivos permitidos</p>
               <button type="button" onclick="document.getElementById('file-input').click()"
                 class="mt-4 px-4 py-2 rounded-md border border-border-soft text-sm text-on-surface-2 hover:border-primary hover:text-primary transition">
                 Seleccionar archivos
@@ -592,17 +592,17 @@
 
             <div class="mt-5 flex justify-between">
               <button id="btn-step2-back" class="btn-ghost"><span
-                  class="material-symbols-outlined text-base">arrow_back</span> Atrás</button>
+                  class="material-symbols-outlined text-base">arrow_back</span> AtrÃ¡s</button>
               <button id="btn-step2-next" class="btn-primary">Siguiente <span
                   class="material-symbols-outlined text-base">arrow_forward</span></button>
             </div>
           </section>
 
-          <!-- ══ STEP 3: ANÁLISIS IA ══ -->
+          <!-- â•â• STEP 3: ANÃLISIS IA â•â• -->
           <section id="section-3" class="step-section rounded-xl border border-border-soft bg-surface p-5">
             <div class="mb-5">
               <p class="text-[10px] uppercase tracking-[0.3em] text-primary">Paso 03</p>
-              <h2 class="font-headline text-xl font-bold text-white">Análisis con Cerebros IA</h2>
+              <h2 class="font-headline text-xl font-bold text-white">AnÃ¡lisis con Cerebros IA</h2>
               <p class="mt-1 text-sm text-muted">Los 3 cerebros trabajan en secuencia para generar el perfil completo.
               </p>
             </div>
@@ -622,7 +622,7 @@
                 </button>
               </div>
               <div id="result-investigador" class="hidden ai-result">
-                <div class="ai-result-label">🧠 Perfil Emocional</div>
+                <div class="ai-result-label">ðŸ§  Perfil Emocional</div>
                 <button class="copy-btn" onclick="copyResult('investigador')">
                   <span class="material-symbols-outlined text-xs">content_copy</span> Copiar
                 </button>
@@ -645,7 +645,7 @@
                 </button>
               </div>
               <div id="result-setter" class="hidden ai-result">
-                <div class="ai-result-label">💬 Mensaje DM listo para copiar</div>
+                <div class="ai-result-label">ðŸ’¬ Mensaje DM listo para copiar</div>
                 <button class="copy-btn" onclick="copyResult('setter')">
                   <span class="material-symbols-outlined text-xs">content_copy</span> Copiar
                 </button>
@@ -659,8 +659,8 @@
                 <div class="flex items-center gap-2">
                   <span class="material-symbols-outlined text-primary">manage_search</span>
                   <div>
-                    <p class="text-sm font-bold text-white">Diego SRI — Auditor de conversación</p>
-                    <p class="text-xs text-muted">Analiza una conversación existente por 4 fases</p>
+                    <p class="text-sm font-bold text-white">Diego SRI â€” Auditor de conversaciÃ³n</p>
+                    <p class="text-xs text-muted">Analiza una conversaciÃ³n existente por 4 fases</p>
                   </div>
                 </div>
                 <button id="btn-diego" class="btn-primary-sm">
@@ -668,9 +668,9 @@
                 </button>
               </div>
               <textarea id="input-diego" class="form-input mb-3" rows="3"
-                placeholder="Pega aquí la conversación de DM para auditar..."></textarea>
+                placeholder="Pega aquÃ­ la conversaciÃ³n de DM para auditar..."></textarea>
               <div id="result-diego" class="hidden ai-result">
-                <div class="ai-result-label">🎯 Análisis SRI por fases</div>
+                <div class="ai-result-label">ðŸŽ¯ AnÃ¡lisis SRI por fases</div>
                 <button class="copy-btn" onclick="copyResult('diego')">
                   <span class="material-symbols-outlined text-xs">content_copy</span> Copiar
                 </button>
@@ -680,13 +680,13 @@
 
             <div class="mt-5 flex justify-between">
               <button id="btn-step3-back" class="btn-ghost"><span
-                  class="material-symbols-outlined text-base">arrow_back</span> Atrás</button>
+                  class="material-symbols-outlined text-base">arrow_back</span> AtrÃ¡s</button>
               <button id="btn-step3-next" class="btn-primary">Guardar en expediente <span
                   class="material-symbols-outlined text-base">arrow_forward</span></button>
             </div>
           </section>
 
-          <!-- ══ STEP 4: EXPEDIENTE ══ -->
+          <!-- â•â• STEP 4: EXPEDIENTE â•â• -->
           <section id="section-4" class="step-section rounded-xl border border-border-soft bg-surface p-5">
             <div class="mb-5">
               <p class="text-[10px] uppercase tracking-[0.3em] text-primary">Paso 04</p>
@@ -714,7 +714,7 @@
 
             <div class="mt-5 flex justify-between">
               <button id="btn-step4-back" class="btn-ghost"><span
-                  class="material-symbols-outlined text-base">arrow_back</span> Atrás</button>
+                  class="material-symbols-outlined text-base">arrow_back</span> AtrÃ¡s</button>
               <a href="ventas.html" class="btn-primary">Ver en Pipeline <span
                   class="material-symbols-outlined text-base">open_in_new</span></a>
             </div>
@@ -722,7 +722,7 @@
 
         </div>
 
-        <!-- ── RIGHT PANEL: SIDEBAR ── -->
+        <!-- â”€â”€ RIGHT PANEL: SIDEBAR â”€â”€ -->
         <aside class="space-y-4">
 
           <!-- Lead actual -->
@@ -752,15 +752,15 @@
             <div class="space-y-2">
               <div class="flex justify-between text-sm">
                 <span class="text-muted">Total leads</span>
-                <span id="stat-total" class="text-white font-bold">—</span>
+                <span id="stat-total" class="text-white font-bold">â€”</span>
               </div>
               <div class="flex justify-between text-sm">
                 <span class="text-muted">Esta semana</span>
-                <span id="stat-semana" class="text-white font-bold">—</span>
+                <span id="stat-semana" class="text-white font-bold">â€”</span>
               </div>
               <div class="flex justify-between text-sm">
                 <span class="text-muted">Mensajes enviados</span>
-                <span id="stat-mensajes" class="text-white font-bold">—</span>
+                <span id="stat-mensajes" class="text-white font-bold">â€”</span>
               </div>
             </div>
           </div>
@@ -771,7 +771,7 @@
     </main>
   </div>
 
-  <!-- ── GLOBAL STYLES INLINE ── -->
+  <!-- â”€â”€ GLOBAL STYLES INLINE â”€â”€ -->
   <style>
     .form-label {
       display: block;
@@ -893,19 +893,19 @@
   <script src="app.js" defer></script>
 
   <script>
-    // ══════════════════════════════════════════════════════════
-    // PROSPECTOR IA — Lógica principal
-    // ══════════════════════════════════════════════════════════
+    // â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
+    // PROSPECTOR IA â€” LÃ³gica principal
+    // â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
     document.addEventListener('DOMContentLoaded', function () {
       (async function ProspectorIA() {
 
-        // ── Supabase (inicialización segura, siempre lazy) ──
+        // â”€â”€ Supabase (inicializaciÃ³n segura, siempre lazy) â”€â”€
         function getDB() {
           if (!window.supabaseClient) throw new Error('Supabase no inicializado. Verifica config.js.');
           return window.supabaseClient;
         }
 
-        // ── Esperar sesión activa antes de continuar ──────────────
+        // â”€â”€ Esperar sesiÃ³n activa antes de continuar â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
         let currentUser = null;
         let vendedorNombre = 'Vendedor';
         try {
@@ -930,17 +930,17 @@
           return;
         }
 
-        // ── Estado ────────────────────────────────────────────────
+        // â”€â”€ Estado â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
         let currentStep = 1;
         let currentLeadId = null;
         let uploadedFiles = [];
         let currentSource = 'Instagram';
         let results = { investigador: '', setter: '', diego: '' };
 
-        // ── Supabase (referencia lazy) ────────────────────────────
+        // â”€â”€ Supabase (referencia lazy) â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
         const db = getDB();
 
-        // ── Gemini API ────────────────────────────────────────────
+        // â”€â”€ Gemini API â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
         const GEMINI_KEY = window.GEMINI_KEY || '';
         const GEMINI_URL = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=${GEMINI_KEY}`;
 
@@ -959,7 +959,7 @@
           return data.candidates?.[0]?.content?.parts?.[0]?.text || '';
         }
 
-        // ── Navegación entre pasos ────────────────────────────────
+        // â”€â”€ NavegaciÃ³n entre pasos â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
         function goToStep(n) {
           document.querySelectorAll('.step-section').forEach(s => s.classList.remove('active'));
           document.getElementById(`section-${n}`).classList.add('active');
@@ -978,7 +978,7 @@
           window.scrollTo({ top: 0, behavior: 'smooth' });
         }
 
-        // ── Step 1: Guardar lead ──────────────────────────────────
+        // â”€â”€ Step 1: Guardar lead â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
         document.getElementById('btn-step1-next').addEventListener('click', async () => {
           const nombre = document.getElementById('f-nombre').value.trim();
           const giro = document.getElementById('f-giro').value;
@@ -1030,7 +1030,7 @@
           }
         });
 
-        // ── Step 2: Upload de archivos ────────────────────────────
+        // â”€â”€ Step 2: Upload de archivos â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
         const uploadZone = document.getElementById('upload-zone');
         const fileInput = document.getElementById('file-input');
         const previewGrid = document.getElementById('preview-grid');
@@ -1073,7 +1073,7 @@
           div.innerHTML = `
       <img src="${item.dataUrl}" alt="Captura ${item.source}" />
       <div class="source-label">${item.source}</div>
-      <button class="remove-btn" onclick="removeFile(${idx})">×</button>
+      <button class="remove-btn" onclick="removeFile(${idx})">Ã—</button>
     `;
           previewGrid.appendChild(div);
         }
@@ -1088,7 +1088,7 @@
         document.getElementById('btn-step2-next').addEventListener('click', () => goToStep(3));
         document.getElementById('btn-step2-back').addEventListener('click', () => goToStep(1));
 
-        // ── Step 3: Cerebros IA ───────────────────────────────────
+        // â”€â”€ Step 3: Cerebros IA â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
         document.getElementById('btn-investigador').addEventListener('click', async () => {
           if (!currentLeadId) { alert('Primero guarda los datos del negocio (Paso 1)'); return; }
           const btn = document.getElementById('btn-investigador');
@@ -1100,7 +1100,7 @@
           const ciudad = document.getElementById('f-ciudad').value;
           const notas = document.getElementById('f-notas').value;
 
-          const prompt = `Eres el Investigador Emocional, experto en psicología de negocios locales en México.
+          const prompt = `Eres el Investigador Emocional, experto en psicologÃ­a de negocios locales en MÃ©xico.
 
 Negocio: ${nombre}
 Giro: ${giro}
@@ -1109,12 +1109,12 @@ Notas: ${notas || 'Sin notas adicionales'}
 Capturas subidas: ${uploadedFiles.map(f => f.source).join(', ') || 'Ninguna'}
 
 Analiza este negocio e identifica:
-1. DOLOR PRINCIPAL: ¿Cuál es su mayor problema con el marketing digital?
-2. DESEO OCULTO: ¿Qué quieren lograr realmente?
-3. PERFIL EMOCIONAL: Cómo es el dueño, qué lo motiva, qué lo frena
-4. ÁNGULO DE ENTRADA: El punto de dolor perfecto para abordarlo
+1. DOLOR PRINCIPAL: Â¿CuÃ¡l es su mayor problema con el marketing digital?
+2. DESEO OCULTO: Â¿QuÃ© quieren lograr realmente?
+3. PERFIL EMOCIONAL: CÃ³mo es el dueÃ±o, quÃ© lo motiva, quÃ© lo frena
+4. ÃNGULO DE ENTRADA: El punto de dolor perfecto para abordarlo
 
-Sé específico al giro y ciudad. Máximo 200 palabras. Formato claro con etiquetas.`;
+SÃ© especÃ­fico al giro y ciudad. MÃ¡ximo 200 palabras. Formato claro con etiquetas.`;
 
           try {
             const resultado = await callGemini(prompt);
@@ -1143,15 +1143,15 @@ Sé específico al giro y ciudad. Máximo 200 palabras. Formato claro con etique
 
           const nombre = document.getElementById('f-nombre').value;
           const giro = document.getElementById('f-giro').value;
-          const perfil = results.investigador || 'Sin análisis previo disponible';
+          const perfil = results.investigador || 'Sin anÃ¡lisis previo disponible';
 
-          const prompt = `Eres el Appointment Setter de Novu 360, agencia de marketing para negocios locales en México.
+          const prompt = `Eres el Appointment Setter de Novu 360, agencia de marketing para negocios locales en MÃ©xico.
 
 Negocio: ${nombre} (${giro})
-Perfil emocional del dueño: ${perfil}
+Perfil emocional del dueÃ±o: ${perfil}
 
 Genera UN solo mensaje para Instagram DM con estas reglas ESTRICTAS:
-- Máximo 2 líneas de texto
+- MÃ¡ximo 2 lÃ­neas de texto
 - Tono humano, natural, no de vendedor
 - NO menciones precios ni servicios
 - Despierta curiosidad genuina
@@ -1183,26 +1183,26 @@ El mensaje debe sonar como alguien interesado, no como publicidad.`;
 
         document.getElementById('btn-diego').addEventListener('click', async () => {
           const conversacion = document.getElementById('input-diego').value.trim();
-          if (!conversacion) { alert('Pega una conversación para analizar'); return; }
+          if (!conversacion) { alert('Pega una conversaciÃ³n para analizar'); return; }
           const btn = document.getElementById('btn-diego');
           btn.disabled = true;
           btn.innerHTML = '<span class="ai-loader"><div class="dot"></div><div class="dot"></div><div class="dot"></div></span>';
 
-          const prompt = `Eres Diego, experto en ventas con el Sistema de Recalificación Inversa (SRI).
+          const prompt = `Eres Diego, experto en ventas con el Sistema de RecalificaciÃ³n Inversa (SRI).
 
-Analiza esta conversación de DM:
+Analiza esta conversaciÃ³n de DM:
 ---
 ${conversacion}
 ---
 
-Evalúa las 4 fases del SRI:
-FASE 1 - APERTURA: ¿Cómo se abrió la conversación? ¿Qué salió mal? ¿Qué debió decirse?
-FASE 2 - PROBLEMA/OBJETIVO: ¿Se identificó el dolor real? ¿Qué falló?
-FASE 3 - DESEO: ¿Se conectó con lo que quieren lograr? ¿Cómo mejorar?
-FASE 4 - CIERRE/SIGUIENTE PASO: ¿Se propuso un siguiente paso claro? ¿Qué cambiar?
+EvalÃºa las 4 fases del SRI:
+FASE 1 - APERTURA: Â¿CÃ³mo se abriÃ³ la conversaciÃ³n? Â¿QuÃ© saliÃ³ mal? Â¿QuÃ© debiÃ³ decirse?
+FASE 2 - PROBLEMA/OBJETIVO: Â¿Se identificÃ³ el dolor real? Â¿QuÃ© fallÃ³?
+FASE 3 - DESEO: Â¿Se conectÃ³ con lo que quieren lograr? Â¿CÃ³mo mejorar?
+FASE 4 - CIERRE/SIGUIENTE PASO: Â¿Se propuso un siguiente paso claro? Â¿QuÃ© cambiar?
 
-Para cada fase: qué estuvo mal, impacto del error, qué decir diferente.
-Sé directo, sin endulzar. Es para aprender, no para sentirse bien.`;
+Para cada fase: quÃ© estuvo mal, impacto del error, quÃ© decir diferente.
+SÃ© directo, sin endulzar. Es para aprender, no para sentirse bien.`;
 
           try {
             const resultado = await callGemini(prompt);
@@ -1233,7 +1233,7 @@ Sé directo, sin endulzar. Es para aprender, no para sentirse bien.`;
         document.getElementById('btn-step3-back').addEventListener('click', () => goToStep(2));
         document.getElementById('btn-step4-back').addEventListener('click', () => goToStep(3));
 
-        // ── Step 4: Expediente ────────────────────────────────────
+        // â”€â”€ Step 4: Expediente â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
         async function buildExpedienteView() {
           const nombre = document.getElementById('f-nombre').value;
           const giro = document.getElementById('f-giro').value;
@@ -1242,43 +1242,43 @@ Sé directo, sin endulzar. Es para aprender, no para sentirse bien.`;
 
           document.getElementById('expediente-summary').innerHTML = `
       <div class="ai-result">
-        <div class="ai-result-label">📋 Datos del lead</div>
-        <p><strong style="color:#fff">${nombre}</strong> · ${giro} · ${ciudad}</p>
+        <div class="ai-result-label">ðŸ“‹ Datos del lead</div>
+        <p><strong style="color:#fff">${nombre}</strong> Â· ${giro} Â· ${ciudad}</p>
         ${instagram ? `<p class="mt-1">Instagram: <span style="color:#00C2A8">${instagram}</span></p>` : ''}
       </div>
       ${results.investigador ? `
         <div class="ai-result">
-          <div class="ai-result-label">🧠 Perfil Emocional</div>
+          <div class="ai-result-label">ðŸ§  Perfil Emocional</div>
           <button class="copy-btn" onclick="copyResult('investigador')"><span class="material-symbols-outlined text-xs">content_copy</span> Copiar</button>
           <p>${results.investigador}</p>
         </div>` : ''}
       ${results.setter ? `
         <div class="ai-result">
-          <div class="ai-result-label">💬 Primer mensaje DM</div>
+          <div class="ai-result-label">ðŸ’¬ Primer mensaje DM</div>
           <button class="copy-btn" onclick="copyResult('setter')"><span class="material-symbols-outlined text-xs">content_copy</span> Copiar</button>
           <p>${results.setter}</p>
         </div>` : ''}
       ${results.diego ? `
         <div class="ai-result">
-          <div class="ai-result-label">🎯 Análisis SRI (Diego)</div>
+          <div class="ai-result-label">ðŸŽ¯ AnÃ¡lisis SRI (Diego)</div>
           <button class="copy-btn" onclick="copyResult('diego')"><span class="material-symbols-outlined text-xs">content_copy</span> Copiar</button>
           <p>${results.diego}</p>
         </div>` : ''}
       ${uploadedFiles.length ? `
         <div class="ai-result">
-          <div class="ai-result-label">📸 Capturas subidas (${uploadedFiles.length})</div>
+          <div class="ai-result-label">ðŸ“¸ Capturas subidas (${uploadedFiles.length})</div>
           <div class="preview-grid">${uploadedFiles.map(f => `<div class="preview-item"><img src="${f.dataUrl}" /><div class="source-label">${f.source}</div></div>`).join('')}</div>
         </div>` : ''}
     `;
         }
 
-        // ── Mensajes de seguimiento ───────────────────────────────
+        // â”€â”€ Mensajes de seguimiento â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
         async function loadMensajes() {
           if (!currentLeadId) return;
           const { data } = await db.from('mensajes_lead').select('*').eq('lead_id', currentLeadId).order('created_at', { ascending: true });
           const container = document.getElementById('mensajes-historial');
           if (!data || !data.length) {
-            container.innerHTML = '<p class="text-xs text-muted">Sin mensajes aún.</p>';
+            container.innerHTML = '<p class="text-xs text-muted">Sin mensajes aÃºn.</p>';
             return;
           }
           container.innerHTML = data.map(m => `
@@ -1309,11 +1309,11 @@ Sé directo, sin endulzar. Es para aprender, no para sentirse bien.`;
           await loadMensajes();
         });
 
-        // ── Sidebar helpers ───────────────────────────────────────
+        // â”€â”€ Sidebar helpers â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
         function updateSidebarLead(lead) {
           document.getElementById('sidebar-lead-info').innerHTML = `
       <p class="text-white font-bold text-sm">${lead.nombre_negocio}</p>
-      <p class="text-xs text-muted mt-1">${lead.giro} · ${lead.ciudad}</p>
+      <p class="text-xs text-muted mt-1">${lead.giro} Â· ${lead.ciudad}</p>
       ${lead.instagram ? `<p class="text-xs text-primary mt-1">${lead.instagram}</p>` : ''}
       <span class="etapa-badge etapa-${lead.etapa || 'nuevo'} mt-2 inline-block">${lead.etapa || 'nuevo'}</span>
     `;
@@ -1323,7 +1323,7 @@ Sé directo, sin endulzar. Es para aprender, no para sentirse bien.`;
           const { data } = await db.from('leads').select('*').order('created_at', { ascending: false }).limit(10);
           const container = document.getElementById('leads-list');
           if (!data || !data.length) {
-            container.innerHTML = '<p class="text-xs text-muted">Sin leads aún.</p>';
+            container.innerHTML = '<p class="text-xs text-muted">Sin leads aÃºn.</p>';
             return;
           }
 
@@ -1340,7 +1340,7 @@ Sé directo, sin endulzar. Es para aprender, no para sentirse bien.`;
           <p class="text-sm font-semibold text-white truncate max-w-[150px]">${lead.nombre_negocio}</p>
           <span class="etapa-badge etapa-${lead.etapa || 'nuevo'} shrink-0">${lead.etapa || 'nuevo'}</span>
         </div>
-        <p class="text-xs text-muted mt-1">${lead.giro} · ${lead.ciudad}</p>
+        <p class="text-xs text-muted mt-1">${lead.giro} Â· ${lead.ciudad}</p>
       </div>
     `).join('');
 
@@ -1377,14 +1377,14 @@ Sé directo, sin endulzar. Es para aprender, no para sentirse bien.`;
           goToStep(1);
         });
 
-        // ── Copy helper ───────────────────────────────────────────
+        // â”€â”€ Copy helper â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
         window.copyResult = function (key) {
           navigator.clipboard.writeText(results[key] || '').then(() => {
-            showStatus('¡Copiado al portapapeles!', 'ok');
+            showStatus('Â¡Copiado al portapapeles!', 'ok');
           });
         };
 
-        // ── Status msg ────────────────────────────────────────────
+        // â”€â”€ Status msg â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
         function showStatus(msg, type) {
           const el = document.getElementById('save-status');
           el.textContent = msg;
@@ -1392,13 +1392,15 @@ Sé directo, sin endulzar. Es para aprender, no para sentirse bien.`;
           setTimeout(() => { el.textContent = ''; }, 3000);
         }
 
-        // ── Init ──────────────────────────────────────────────────
+        // â”€â”€ Init â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
         setTimeout(() => loadLeadsList(), 800);
 
       })(); // end ProspectorIA
     }); // end DOMContentLoaded
-  </script>
-
+  </script><script src="global-nav.js" defer></script>
 </body>
 
 </html>
+
+
+

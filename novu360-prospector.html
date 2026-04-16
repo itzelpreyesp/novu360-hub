@@ -1,9 +1,9 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="es">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Novu 360 — Prospector IA</title>
+<title>Novu 360 â€” Prospector IA</title>
 <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,600;1,9..40,300&display=swap" rel="stylesheet">
 <style>
 :root {
@@ -216,7 +216,7 @@ body {
 }
 
 .option-card.selected::after {
-  content: '✓';
+  content: 'âœ“';
   position: absolute;
   right: 14px;
   top: 50%;
@@ -641,7 +641,7 @@ select.input-field { appearance: none; cursor: pointer; }
 <div class="app">
   <div class="header">
     <div class="logo">
-      <div class="logo-mark">⚡</div>
+      <div class="logo-mark">âš¡</div>
       Novu 360
     </div>
     <div class="step-counter" id="stepCounter">Paso 1 de 6</div>
@@ -653,20 +653,20 @@ select.input-field { appearance: none; cursor: pointer; }
 
   <!-- STEP 1: PROSPECTORA -->
   <div class="step active" id="step1">
-    <div class="step-label">Paso 01 — Inicio</div>
-    <h2>Hola, ¿cómo<br>te <span>llamas</span>?</h2>
-    <p>Así sabremos quién registró este prospecto en el sheet.</p>
+    <div class="step-label">Paso 01 â€” Inicio</div>
+    <h2>Hola, Â¿cÃ³mo<br>te <span>llamas</span>?</h2>
+    <p>AsÃ­ sabremos quiÃ©n registrÃ³ este prospecto en el sheet.</p>
     <input type="text" class="input-field" id="f_prospectora" placeholder="Tu nombre completo..." autocomplete="off">
     <div class="btn-row">
-      <button class="btn btn-primary" onclick="next(1)" id="btn1">Continuar →</button>
+      <button class="btn btn-primary" onclick="next(1)" id="btn1">Continuar â†’</button>
     </div>
   </div>
 
   <!-- STEP 2: DATOS DEL NEGOCIO -->
   <div class="step" id="step2">
-    <div class="step-label">Paso 02 — Negocio</div>
-    <h2>¿Qué negocio<br>vas a <span>analizar</span>?</h2>
-    <p>Llena los datos básicos del prospecto que encontraste.</p>
+    <div class="step-label">Paso 02 â€” Negocio</div>
+    <h2>Â¿QuÃ© negocio<br>vas a <span>analizar</span>?</h2>
+    <p>Llena los datos bÃ¡sicos del prospecto que encontraste.</p>
     <input type="text" class="input-field" id="f_nombre" placeholder="Nombre del negocio..." autocomplete="off">
     <div class="reg-grid">
       <input type="text" class="input-field" id="f_giro" placeholder="Giro (ej: Dentista)" style="margin-bottom:0;">
@@ -674,112 +674,112 @@ select.input-field { appearance: none; cursor: pointer; }
     </div>
     <input type="text" class="input-field" id="f_contacto" placeholder="WhatsApp o @instagram..." style="margin-top:10px;">
     <div class="btn-row">
-      <button class="btn btn-ghost" onclick="prev(2)">←</button>
-      <button class="btn btn-primary" onclick="next(2)">Continuar →</button>
+      <button class="btn btn-ghost" onclick="prev(2)">â†</button>
+      <button class="btn btn-primary" onclick="next(2)">Continuar â†’</button>
     </div>
   </div>
 
-  <!-- STEP 3: CANAL DONDE SE ENCONTRÓ -->
+  <!-- STEP 3: CANAL DONDE SE ENCONTRÃ“ -->
   <div class="step" id="step3">
-    <div class="step-label">Paso 03 — Canal</div>
-    <h2>¿Dónde<br>lo <span>encontraste</span>?</h2>
+    <div class="step-label">Paso 03 â€” Canal</div>
+    <h2>Â¿DÃ³nde<br>lo <span>encontraste</span>?</h2>
     <p>Selecciona el canal donde descubriste este negocio.</p>
     <div class="options-grid cols-1" id="canalOpts">
-      <div class="option-card" onclick="selectOption('canal', this, 'Google Maps')"><span class="option-icon">🗺️</span> Google Maps</div>
-      <div class="option-card" onclick="selectOption('canal', this, 'Instagram')"><span class="option-icon">📸</span> Instagram</div>
-      <div class="option-card" onclick="selectOption('canal', this, 'Facebook')"><span class="option-icon">📘</span> Facebook</div>
-      <div class="option-card" onclick="selectOption('canal', this, 'TikTok')"><span class="option-icon">🎵</span> TikTok</div>
-      <div class="option-card" onclick="selectOption('canal', this, 'Otro')"><span class="option-icon">🔍</span> Otro</div>
+      <div class="option-card" onclick="selectOption('canal', this, 'Google Maps')"><span class="option-icon">ðŸ—ºï¸</span> Google Maps</div>
+      <div class="option-card" onclick="selectOption('canal', this, 'Instagram')"><span class="option-icon">ðŸ“¸</span> Instagram</div>
+      <div class="option-card" onclick="selectOption('canal', this, 'Facebook')"><span class="option-icon">ðŸ“˜</span> Facebook</div>
+      <div class="option-card" onclick="selectOption('canal', this, 'TikTok')"><span class="option-icon">ðŸŽµ</span> TikTok</div>
+      <div class="option-card" onclick="selectOption('canal', this, 'Otro')"><span class="option-icon">ðŸ”</span> Otro</div>
     </div>
     <div class="btn-row">
-      <button class="btn btn-ghost" onclick="prev(3)">←</button>
-      <button class="btn btn-primary" onclick="next(3)" id="btn3" disabled>Continuar →</button>
+      <button class="btn btn-ghost" onclick="prev(3)">â†</button>
+      <button class="btn btn-primary" onclick="next(3)" id="btn3" disabled>Continuar â†’</button>
     </div>
   </div>
 
   <!-- STEP 4: CANALES A ANALIZAR -->
   <div class="step" id="step4">
-    <div class="step-label">Paso 04 — Canales</div>
-    <h2>¿Qué canales<br>vas a <span>subir</span>?</h2>
-    <p>Activa los canales de los que tienes capturas. Más canales = mejor análisis.</p>
+    <div class="step-label">Paso 04 â€” Canales</div>
+    <h2>Â¿QuÃ© canales<br>vas a <span>subir</span>?</h2>
+    <p>Activa los canales de los que tienes capturas. MÃ¡s canales = mejor anÃ¡lisis.</p>
     <div class="toggles-list">
       <div class="toggle-row" onclick="toggleChannel(this, 'instagram')" id="tog_instagram">
-        <div class="toggle-label"><span>📸</span> Instagram</div>
+        <div class="toggle-label"><span>ðŸ“¸</span> Instagram</div>
         <div class="toggle-switch"></div>
       </div>
       <div class="toggle-row" onclick="toggleChannel(this, 'facebook')" id="tog_facebook">
-        <div class="toggle-label"><span>📘</span> Facebook</div>
+        <div class="toggle-label"><span>ðŸ“˜</span> Facebook</div>
         <div class="toggle-switch"></div>
       </div>
       <div class="toggle-row" onclick="toggleChannel(this, 'tiktok')" id="tog_tiktok">
-        <div class="toggle-label"><span>🎵</span> TikTok</div>
+        <div class="toggle-label"><span>ðŸŽµ</span> TikTok</div>
         <div class="toggle-switch"></div>
       </div>
       <div class="toggle-row" onclick="toggleChannel(this, 'googlemaps')" id="tog_googlemaps">
-        <div class="toggle-label"><span>🗺️</span> Google Maps</div>
+        <div class="toggle-label"><span>ðŸ—ºï¸</span> Google Maps</div>
         <div class="toggle-switch"></div>
       </div>
       <div class="toggle-row" onclick="toggleChannel(this, 'paginaweb')" id="tog_paginaweb">
-        <div class="toggle-label"><span>🌐</span> Página Web</div>
+        <div class="toggle-label"><span>ðŸŒ</span> PÃ¡gina Web</div>
         <div class="toggle-switch"></div>
       </div>
     </div>
     <div class="btn-row">
-      <button class="btn btn-ghost" onclick="prev(4)">←</button>
-      <button class="btn btn-primary" onclick="next(4)">Continuar →</button>
+      <button class="btn btn-ghost" onclick="prev(4)">â†</button>
+      <button class="btn btn-primary" onclick="next(4)">Continuar â†’</button>
     </div>
   </div>
 
   <!-- STEP 5: PROMPT PARA CLAUDE -->
   <div class="step" id="step5">
-    <div class="step-label">Paso 05 — Analizar con IA</div>
+    <div class="step-label">Paso 05 â€” Analizar con IA</div>
     <h2>Abre Claude<br>con el <span>prompt listo</span></h2>
-    <p>Copia el prompt, ábrelo en Claude.ai, sube las capturas ahí y pega el resultado aquí.</p>
+    <p>Copia el prompt, Ã¡brelo en Claude.ai, sube las capturas ahÃ­ y pega el resultado aquÃ­.</p>
 
     <div class="prompt-preview" id="promptPreview"></div>
 
     <div class="btn-row" style="flex-direction:column;gap:10px;">
       <button class="btn btn-primary" onclick="copyAndOpen()" id="btnCopiar" style="width:100%;">
-        📋 Copiar prompt y abrir Claude
+        ðŸ“‹ Copiar prompt y abrir Claude
       </button>
       <div id="copyDone" style="display:none;text-align:center;font-size:13px;color:var(--accent);font-weight:600;">
-        ✓ ¡Copiado! Claude.ai se abrirá en una nueva pestaña — sube las fotos y pega el resultado abajo.
+        âœ“ Â¡Copiado! Claude.ai se abrirÃ¡ en una nueva pestaÃ±a â€” sube las fotos y pega el resultado abajo.
       </div>
     </div>
 
     <div style="margin-top:24px;">
-      <p style="font-size:12px;text-transform:uppercase;letter-spacing:0.1em;color:var(--muted);font-weight:700;margin-bottom:12px;">Cuando tengas el resultado, pégalo aquí:</p>
-      <textarea id="resultadoPegado" class="input-field" rows="8" placeholder="Pega aquí todo el texto que te dio Claude..." style="border-radius:14px;resize:vertical;font-size:14px;line-height:1.6;"></textarea>
+      <p style="font-size:12px;text-transform:uppercase;letter-spacing:0.1em;color:var(--muted);font-weight:700;margin-bottom:12px;">Cuando tengas el resultado, pÃ©galo aquÃ­:</p>
+      <textarea id="resultadoPegado" class="input-field" rows="8" placeholder="Pega aquÃ­ todo el texto que te dio Claude..." style="border-radius:14px;resize:vertical;font-size:14px;line-height:1.6;"></textarea>
     </div>
 
     <div class="btn-row">
-      <button class="btn btn-ghost" onclick="prev(5)">←</button>
-      <button class="btn btn-primary" onclick="procesarResultado()">Ver análisis →</button>
+      <button class="btn btn-ghost" onclick="prev(5)">â†</button>
+      <button class="btn btn-primary" onclick="procesarResultado()">Ver anÃ¡lisis â†’</button>
     </div>
   </div>
 
   <!-- STEP 6: RESULTADO IA -->
   <div class="step" id="step6">
-    <div class="step-label">Paso 06 — Resultado</div>
+    <div class="step-label">Paso 06 â€” Resultado</div>
 
     <div class="ai-loading" id="aiLoading">
       <div class="ai-spinner"></div>
       <h3>Analizando el negocio<span class="ai-dots"></span></h3>
-      <p>La IA está revisando las capturas y generando el diagnóstico</p>
+      <p>La IA estÃ¡ revisando las capturas y generando el diagnÃ³stico</p>
     </div>
 
     <div id="aiResults" style="display:none;">
-      <div class="info-pill">✦ Análisis completo generado</div>
-      <h2 style="margin-bottom:8px;">Resultado del<br><span>análisis</span></h2>
-      <p style="margin-bottom:24px;">Revisa el diagnóstico, el canal recomendado y el mensaje listo para enviar.</p>
+      <div class="info-pill">âœ¦ AnÃ¡lisis completo generado</div>
+      <h2 style="margin-bottom:8px;">Resultado del<br><span>anÃ¡lisis</span></h2>
+      <p style="margin-bottom:24px;">Revisa el diagnÃ³stico, el canal recomendado y el mensaje listo para enviar.</p>
 
       <div class="result-block open" id="rb_diag">
         <div class="result-header" onclick="toggleResult('rb_diag')">
           <div class="result-title">
-            <span>🔍</span> Diagnóstico por canal
+            <span>ðŸ”</span> DiagnÃ³stico por canal
             <span class="result-badge badge-diag">Interno</span>
           </div>
-          <span class="result-chevron">▼</span>
+          <span class="result-chevron">â–¼</span>
         </div>
         <div class="result-body">
           <div id="txt_diag"></div>
@@ -789,10 +789,10 @@ select.input-field { appearance: none; cursor: pointer; }
       <div class="result-block open" id="rb_canal">
         <div class="result-header" onclick="toggleResult('rb_canal')">
           <div class="result-title">
-            <span>🎯</span> Canal sugerido
+            <span>ðŸŽ¯</span> Canal sugerido
             <span class="result-badge badge-canal">Estrategia</span>
           </div>
-          <span class="result-chevron">▼</span>
+          <span class="result-chevron">â–¼</span>
         </div>
         <div class="result-body">
           <div id="txt_canal"></div>
@@ -802,28 +802,28 @@ select.input-field { appearance: none; cursor: pointer; }
       <div class="result-block open" id="rb_msg">
         <div class="result-header" onclick="toggleResult('rb_msg')">
           <div class="result-title">
-            <span>💬</span> Mensaje listo para enviar
+            <span>ðŸ’¬</span> Mensaje listo para enviar
             <span class="result-badge badge-msg">Copiar y enviar</span>
           </div>
-          <span class="result-chevron">▼</span>
+          <span class="result-chevron">â–¼</span>
         </div>
         <div class="result-body">
           <div class="msg-box" id="txt_msg"></div>
-          <button class="copy-msg-btn" onclick="copyMsg()">📋 Copiar mensaje</button>
+          <button class="copy-msg-btn" onclick="copyMsg()">ðŸ“‹ Copiar mensaje</button>
         </div>
       </div>
 
       <div class="btn-row" style="margin-top:24px;">
-        <button class="btn btn-primary" onclick="goToRegister()">Registrar prospecto →</button>
+        <button class="btn btn-primary" onclick="goToRegister()">Registrar prospecto â†’</button>
       </div>
     </div>
   </div>
 
   <!-- STEP 7: REGISTRO -->
   <div class="step" id="step7">
-    <div class="step-label">Paso 07 — Registro</div>
+    <div class="step-label">Paso 07 â€” Registro</div>
     <h2>Registra el<br><span>prospecto</span></h2>
-    <p>Los datos se guardan automáticamente en el Google Sheet de Novu 360.</p>
+    <p>Los datos se guardan automÃ¡ticamente en el Google Sheet de Novu 360.</p>
 
     <div style="background:var(--surface);border:1.5px solid var(--border);border-radius:16px;padding:24px;">
 
@@ -831,39 +831,39 @@ select.input-field { appearance: none; cursor: pointer; }
         <label class="form-label">Respuesta obtenida</label>
         <select class="input-field" id="f_respuesta" style="margin-bottom:0;">
           <option value="">Selecciona...</option>
-          <option>Sin respuesta aún</option>
-          <option>Respondió positivo</option>
-          <option>Respondió negativo</option>
-          <option>Pidió más info</option>
+          <option>Sin respuesta aÃºn</option>
+          <option>RespondiÃ³ positivo</option>
+          <option>RespondiÃ³ negativo</option>
+          <option>PidiÃ³ mÃ¡s info</option>
           <option>No le interesa</option>
         </select>
       </div>
 
       <div class="form-group">
-        <label class="form-label">¿Se agendó llamada?</label>
+        <label class="form-label">Â¿Se agendÃ³ llamada?</label>
         <div class="options-grid" style="margin-bottom:0;">
-          <div class="option-card" onclick="selectOption('llamada', this, 'Sí')" style="justify-content:center;">✅ Sí</div>
-          <div class="option-card" onclick="selectOption('llamada', this, 'No')" style="justify-content:center;">❌ No</div>
-          <div class="option-card" onclick="selectOption('llamada', this, 'Pendiente')" style="justify-content:center;grid-column:span 2;">⏳ Pendiente</div>
+          <div class="option-card" onclick="selectOption('llamada', this, 'SÃ­')" style="justify-content:center;">âœ… SÃ­</div>
+          <div class="option-card" onclick="selectOption('llamada', this, 'No')" style="justify-content:center;">âŒ No</div>
+          <div class="option-card" onclick="selectOption('llamada', this, 'Pendiente')" style="justify-content:center;grid-column:span 2;">â³ Pendiente</div>
         </div>
       </div>
 
       <button class="btn btn-primary" style="width:100%;border-radius:12px;padding:16px;margin-top:8px;" onclick="enviarRegistro()" id="btnGuardar">
-        Guardar en Google Sheet ↗
+        Guardar en Google Sheet â†—
       </button>
     </div>
 
     <div class="success-card" id="successCard">
-      <div class="success-icon">🎉</div>
-      <h3>¡Prospecto registrado!</h3>
-      <p>Los datos ya están en el Sheet de Novu 360.</p>
+      <div class="success-icon">ðŸŽ‰</div>
+      <h3>Â¡Prospecto registrado!</h3>
+      <p>Los datos ya estÃ¡n en el Sheet de Novu 360.</p>
       <div class="btn-row" style="margin-top:20px;justify-content:center;">
         <button class="btn btn-primary" onclick="resetAll()">+ Nuevo prospecto</button>
       </div>
     </div>
 
     <div class="btn-row">
-      <button class="btn btn-ghost" onclick="goTo(6)">← Volver al análisis</button>
+      <button class="btn btn-ghost" onclick="goTo(6)">â† Volver al anÃ¡lisis</button>
     </div>
   </div>
 
@@ -956,7 +956,7 @@ function renderPreviews() {
     img.src = URL.createObjectURL(f);
     const btn = document.createElement('button');
     btn.className = 'preview-remove';
-    btn.innerHTML = '✕';
+    btn.innerHTML = 'âœ•';
     btn.onclick = (e) => { e.stopPropagation(); uploadedFiles.splice(i, 1); renderPreviews(); };
     wrap.appendChild(img); wrap.appendChild(btn);
     container.appendChild(wrap);
@@ -979,15 +979,15 @@ function buildPrompt() {
 
   const chLabels = {
     instagram: 'Instagram', facebook: 'Facebook',
-    tiktok: 'TikTok', googlemaps: 'Google Maps', paginaweb: 'Página web'
+    tiktok: 'TikTok', googlemaps: 'Google Maps', paginaweb: 'PÃ¡gina web'
   };
 
   const canalesStr = Object.entries(channels)
-    .map(([k,v]) => `${chLabels[k]}: ${v ? 'SÍ' : 'NO'}`)
+    .map(([k,v]) => `${chLabels[k]}: ${v ? 'SÃ' : 'NO'}`)
     .join('\n');
 
-  return `Eres un consultor de marketing digital de la agencia Novu 360, especializado en auditorías de presencia digital para negocios locales.
-Te voy a compartir capturas de pantalla de los canales digitales de un negocio. Analiza todo lo que puedas ver en las imágenes y genera el resultado en el formato que te indico.
+  return `Eres un consultor de marketing digital de la agencia Novu 360, especializado en auditorÃ­as de presencia digital para negocios locales.
+Te voy a compartir capturas de pantalla de los canales digitales de un negocio. Analiza todo lo que puedas ver en las imÃ¡genes y genera el resultado en el formato que te indico.
 
 NEGOCIO A ANALIZAR:
 Nombre: ${nombre}
@@ -997,28 +997,28 @@ Ciudad: ${ciudad}
 CAPTURAS QUE TE COMPARTO:
 ${canalesStr}
 
-Si no hay captura de algún canal escríbelo como oportunidad de creación, no como ausencia.
+Si no hay captura de algÃºn canal escrÃ­belo como oportunidad de creaciÃ³n, no como ausencia.
 
-DIAGNÓSTICO INTERNO (uso exclusivo Novu 360)
+DIAGNÃ“STICO INTERNO (uso exclusivo Novu 360)
 Analiza cada canal visible en las capturas y para cada uno indica:
-- Qué está haciendo bien (con datos específicos que veas)
-- Área de mejora detectada
+- QuÃ© estÃ¡ haciendo bien (con datos especÃ­ficos que veas)
+- Ãrea de mejora detectada
 - Dato concreto encontrado en la imagen
 Al final indica:
-- Canal con MAYOR oportunidad y por qué
-- Canal sugerido para hacer el primer contacto y por qué
+- Canal con MAYOR oportunidad y por quÃ©
+- Canal sugerido para hacer el primer contacto y por quÃ©
 
 MENSAJE DE CONTACTO (listo para enviar)
 Escribe un mensaje siguiendo EXACTAMENTE estas reglas:
-- Máximo 5 líneas
+- MÃ¡ximo 5 lÃ­neas
 - Tono: formal pero humano, como una persona real escribiendo desde su celular, no una agencia
-- Primera línea: saludo + algo MUY específico y positivo que viste en las capturas (dato real, no genérico)
-- Segunda línea: menciona con amabilidad UNA sola área de oportunidad que detectaste, como observación, nunca como crítica
-- Tercera y cuarta línea: expresa interés genuino en conocer más sobre su negocio y compartirle algunas ideas
-- Última línea: propón una llamada rápida esta semana con una pregunta suave, no agresiva
+- Primera lÃ­nea: saludo + algo MUY especÃ­fico y positivo que viste en las capturas (dato real, no genÃ©rico)
+- Segunda lÃ­nea: menciona con amabilidad UNA sola Ã¡rea de oportunidad que detectaste, como observaciÃ³n, nunca como crÃ­tica
+- Tercera y cuarta lÃ­nea: expresa interÃ©s genuino en conocer mÃ¡s sobre su negocio y compartirle algunas ideas
+- Ãšltima lÃ­nea: propÃ³n una llamada rÃ¡pida esta semana con una pregunta suave, no agresiva
 
 PALABRAS PROHIBIDAS:
-potenciar, sinergia, optimizar, robusto, implementar, digitalizar, estrategia, soluciones, apalancar, escalar, hice un análisis, tengo un reporte
+potenciar, sinergia, optimizar, robusto, implementar, digitalizar, estrategia, soluciones, apalancar, escalar, hice un anÃ¡lisis, tengo un reporte
 
 El mensaje NO debe mencionar precios, paquetes ni servicios.
 El mensaje NO debe sonar a venta en este primer contacto.`;
@@ -1034,7 +1034,7 @@ function copyAndOpen() {
   const prompt = buildPrompt();
   navigator.clipboard.writeText(prompt).then(() => {
     document.getElementById('copyDone').style.display = 'block';
-    document.getElementById('btnCopiar').textContent = '✓ Prompt copiado';
+    document.getElementById('btnCopiar').textContent = 'âœ“ Prompt copiado';
     setTimeout(() => {
       window.open('https://claude.ai', '_blank');
     }, 800);
@@ -1047,7 +1047,7 @@ function copyAndOpen() {
     document.execCommand('copy');
     document.body.removeChild(ta);
     document.getElementById('copyDone').style.display = 'block';
-    document.getElementById('btnCopiar').textContent = '✓ Prompt copiado';
+    document.getElementById('btnCopiar').textContent = 'âœ“ Prompt copiado';
     setTimeout(() => window.open('https://claude.ai', '_blank'), 800);
   });
 }
@@ -1072,7 +1072,7 @@ function procesarResultado() {
     msg = parsed.mensaje || parsed.mensaje_de_contacto || '';
   } catch {
     // Extract by section headers
-    const diagMatch = raw.match(/DIAGNÓSTICO INTERNO[\s\S]*?\n([\s\S]*?)(?=MENSAJE DE CONTACTO|Canal con MAYOR|$)/i);
+    const diagMatch = raw.match(/DIAGNÃ“STICO INTERNO[\s\S]*?\n([\s\S]*?)(?=MENSAJE DE CONTACTO|Canal con MAYOR|$)/i);
     const canalMatch = raw.match(/Canal con MAYOR oportunidad[\s\S]*?\n([\s\S]*?)(?=Canal sugerido para|MENSAJE|$)/i);
     const msgMatch = raw.match(/MENSAJE DE CONTACTO[\s\S]*?\n([\s\S]*?)$/i) ||
                      raw.match(/---\n([\s\S]*)$/);
@@ -1084,16 +1084,16 @@ function procesarResultado() {
     } else {
       // Just show everything in diagnostico
       diag = raw;
-      canal = 'Revisa el diagnóstico completo arriba.';
+      canal = 'Revisa el diagnÃ³stico completo arriba.';
       msg = '';
     }
   }
 
   aiResult = { diag, canal, msg };
 
-  document.getElementById('txt_diag').textContent = diag || 'Sin diagnóstico detectado.';
-  document.getElementById('txt_canal').textContent = canal || 'Revisa el diagnóstico completo.';
-  document.getElementById('txt_msg').textContent = msg || 'No se detectó mensaje — revisa el diagnóstico completo.';
+  document.getElementById('txt_diag').textContent = diag || 'Sin diagnÃ³stico detectado.';
+  document.getElementById('txt_canal').textContent = canal || 'Revisa el diagnÃ³stico completo.';
+  document.getElementById('txt_msg').textContent = msg || 'No se detectÃ³ mensaje â€” revisa el diagnÃ³stico completo.';
 
   goTo(6);
   document.getElementById('aiLoading').classList.remove('show');
@@ -1107,8 +1107,8 @@ function toggleResult(id) {
 function copyMsg() {
   navigator.clipboard.writeText(aiResult.msg).then(() => {
     const btn = document.querySelector('.copy-msg-btn');
-    btn.textContent = '✓ ¡Copiado!';
-    setTimeout(() => btn.textContent = '📋 Copiar mensaje', 2000);
+    btn.textContent = 'âœ“ Â¡Copiado!';
+    setTimeout(() => btn.textContent = 'ðŸ“‹ Copiar mensaje', 2000);
   });
 }
 
@@ -1127,11 +1127,11 @@ async function enviarRegistro() {
     ciudad: document.getElementById('f_ciudad').value.trim(),
     contacto: document.getElementById('f_contacto').value.trim(),
     canal: selections.canal,
-    instagram: channels.instagram ? 'Sí' : 'No',
-    facebook: channels.facebook ? 'Sí' : 'No',
-    tiktok: channels.tiktok ? 'Sí' : 'No',
-    googlemaps: channels.googlemaps ? 'Sí' : 'No',
-    paginaweb: channels.paginaweb ? 'Sí' : 'No',
+    instagram: channels.instagram ? 'SÃ­' : 'No',
+    facebook: channels.facebook ? 'SÃ­' : 'No',
+    tiktok: channels.tiktok ? 'SÃ­' : 'No',
+    googlemaps: channels.googlemaps ? 'SÃ­' : 'No',
+    paginaweb: channels.paginaweb ? 'SÃ­' : 'No',
     canalOportunidad: aiResult.canal.substring(0, 200),
     respuesta: document.getElementById('f_respuesta').value,
     llamada: selections.llamada
@@ -1149,7 +1149,7 @@ async function enviarRegistro() {
     document.querySelector('.step#step7 .btn-row').style.display = 'none';
   } catch {
     btn.disabled = false;
-    btn.textContent = 'Error — intenta de nuevo';
+    btn.textContent = 'Error â€” intenta de nuevo';
   }
 }
 
@@ -1175,7 +1175,7 @@ function resetAll() {
   // Reset btn
   const btn = document.getElementById('btnGuardar');
   btn.disabled = false;
-  btn.textContent = 'Guardar en Google Sheet ↗';
+  btn.textContent = 'Guardar en Google Sheet â†—';
 
   // Show form again
   document.querySelector('.step#step7 > div:first-of-type').style.display = 'block';
@@ -1192,15 +1192,15 @@ updateProgress();
 <!-- BOTTOM NAV -->
 <nav class="bottom-nav-fixed">
   <a href="index.html" class="nav-item-f">
-    <div class="nav-icon-f">🏠</div>
+    <div class="nav-icon-f">ðŸ </div>
     <div class="nav-label-f">Inicio</div>
   </a>
   <a href="novu360-onboarding.html" class="nav-item-f">
-    <div class="nav-icon-f">📚</div>
-    <div class="nav-label-f">Guía</div>
+    <div class="nav-icon-f">ðŸ“š</div>
+    <div class="nav-label-f">GuÃ­a</div>
   </a>
   <a href="novu360-prospector.html" class="nav-item-f active">
-    <div class="nav-icon-f">✦</div>
+    <div class="nav-icon-f">âœ¦</div>
     <div class="nav-label-f">Prospector</div>
   </a>
 </nav>
@@ -1236,6 +1236,10 @@ updateProgress();
 .nav-icon-f { font-size: 22px; color: #6b6b80; transition: color 0.2s; line-height: 1; text-align: center; }
 .nav-label-f { font-size: 10px; font-weight: 600; color: #6b6b80; text-transform: uppercase; letter-spacing: 0.06em; transition: color 0.2s; text-align: center; }
 .nav-item-f:active { transform: scale(0.92); }
-</style>
+</style><script src="global-nav.js" defer></script>
 </body>
 </html>
+
+
+
+

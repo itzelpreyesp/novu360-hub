@@ -1,9 +1,9 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="es">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Novu 360 — Hub</title>
+<title>Novu 360 â€” Hub</title>
 <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,600;1,9..40,300&display=swap" rel="stylesheet">
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <style>
@@ -567,11 +567,11 @@ textarea.fi{resize:vertical;min-height:80px;font-size:14px;line-height:1.5}
         <input class="fi" type="email" id="lemail" placeholder="tu@novu360.mx" onkeydown="if(event.key==='Enter')doLogin()">
       </div>
       <div class="fg">
-        <label class="fl">Contraseña</label>
-        <input class="fi" type="password" id="lpass" placeholder="••••••••" onkeydown="if(event.key==='Enter')doLogin()">
+        <label class="fl">ContraseÃ±a</label>
+        <input class="fi" type="password" id="lpass" placeholder="â€¢â€¢â€¢â€¢â€¢â€¢â€¢â€¢" onkeydown="if(event.key==='Enter')doLogin()">
       </div>
-      <div class="anote">🔐 Tu rol se asigna automáticamente según tu cuenta</div>
-      <button class="lbtn" id="lbtn" onclick="doLogin()">ENTRAR AL HUB →</button>
+      <div class="anote">ðŸ” Tu rol se asigna automÃ¡ticamente segÃºn tu cuenta</div>
+      <button class="lbtn" id="lbtn" onclick="doLogin()">ENTRAR AL HUB â†’</button>
       <div class="gdiv"><span>o</span></div>
       <button class="gbtn" onclick="loginGoogle()">
         <svg width="18" height="18" viewBox="0 0 24 24"><path fill="#4285F4" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"/><path fill="#34A853" d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z"/><path fill="#FBBC05" d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z"/><path fill="#EA4335" d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z"/></svg>
@@ -599,66 +599,66 @@ textarea.fi{resize:vertical;min-height:80px;font-size:14px;line-height:1.5}
     <div class="ssec">
       <div class="sslbl">General</div>
       <div class="si active" onclick="showPage('p-dashboard',this,'Dashboard')">
-        <span class="ico">🏠</span> Dashboard
+        <span class="ico">ðŸ </span> Dashboard
       </div>
     </div>
 
     <div class="ssec">
       <div class="sslbl">Ventas</div>
       <div class="si" onclick="showPage('p-pipeline',this,'Pipeline de ventas')">
-        <span class="ico">🚀</span> Pipeline
+        <span class="ico">ðŸš€</span> Pipeline
       </div>
       <div class="si" onclick="showPage('p-leads',this,'Leads')">
-        <span class="ico">📋</span> Leads
+        <span class="ico">ðŸ“‹</span> Leads
       </div>
     </div>
 
     <div class="ssec">
-      <div class="sslbl">Operación</div>
+      <div class="sslbl">OperaciÃ³n</div>
       <div class="si" onclick="showPage('p-tareas',this,'Tareas')">
-        <span class="ico">✅</span> Tareas
+        <span class="ico">âœ…</span> Tareas
       </div>
       <div class="si" onclick="showPage('p-clientes',this,'Clientes')">
-        <span class="ico">👥</span> Clientes
+        <span class="ico">ðŸ‘¥</span> Clientes
       </div>
     </div>
 
     <div class="ssec">
-      <div class="sslbl">Áreas</div>
+      <div class="sslbl">Ãreas</div>
       <div class="si" onclick="showPage('p-ads',this,'Ads / Meta')">
-        <span class="ico">📢</span> Ads / Meta
+        <span class="ico">ðŸ“¢</span> Ads / Meta
       </div>
       <div class="si" onclick="showPage('p-community',this,'Community')">
-        <span class="ico">📱</span> Community
+        <span class="ico">ðŸ“±</span> Community
       </div>
       <div class="si" onclick="showPage('p-seo',this,'Google Local')">
-        <span class="ico">🗺️</span> Google Local
+        <span class="ico">ðŸ—ºï¸</span> Google Local
       </div>
       <div class="si" onclick="showPage('p-web',this,'Web')">
-        <span class="ico">🌐</span> Web
+        <span class="ico">ðŸŒ</span> Web
       </div>
     </div>
 
     <div class="ssec" id="adminNav">
       <div class="sslbl">Admin</div>
       <div class="si" onclick="showPage('p-aprobaciones',this,'Aprobaciones')">
-        <span class="ico">✅</span> Aprobaciones <span class="bdg" id="apbBadge" style="display:none">0</span>
+        <span class="ico">âœ…</span> Aprobaciones <span class="bdg" id="apbBadge" style="display:none">0</span>
       </div>
       <div class="si" onclick="showPage('p-portal',this,'Portal del cliente')">
-        <span class="ico">🌐</span> Portal clientes
+        <span class="ico">ðŸŒ</span> Portal clientes
       </div>
-      <div class="si" onclick="showPage('p-admin',this,'Administración')">
-        <span class="ico">💰</span> Finanzas
+      <div class="si" onclick="showPage('p-admin',this,'AdministraciÃ³n')">
+        <span class="ico">ðŸ’°</span> Finanzas
       </div>
       <div class="si" onclick="showPage('p-usuarios',this,'Usuarios')">
-        <span class="ico">⚙️</span> Usuarios
+        <span class="ico">âš™ï¸</span> Usuarios
       </div>
     </div>
 
     <div class="ssec">
       <div class="sslbl">IA</div>
       <div class="si" onclick="showPage('p-cerebro',this,'Cerebro IA')">
-        <span class="ico">🧠</span> Cerebro IA
+        <span class="ico">ðŸ§ </span> Cerebro IA
       </div>
     </div>
 
@@ -669,7 +669,7 @@ textarea.fi{resize:vertical;min-height:80px;font-size:14px;line-height:1.5}
           <div class="uname" id="uname">Paula</div>
           <div class="urole" id="urole">Admin</div>
         </div>
-        <button class="lout" onclick="doLogout()" title="Cerrar sesión">⏻</button>
+        <button class="lout" onclick="doLogout()" title="Cerrar sesiÃ³n">â»</button>
       </div>
     </div>
   </div>
@@ -678,14 +678,14 @@ textarea.fi{resize:vertical;min-height:80px;font-size:14px;line-height:1.5}
   <div class="main">
     <div class="topbar">
       <div class="tb-left">
-        <button class="mob-toggle" onclick="toggleSidebar()">☰</button>
-        <span class="tb-back" id="tbBack" onclick="goBack()">←</span>
+        <button class="mob-toggle" onclick="toggleSidebar()">â˜°</button>
+        <span class="tb-back" id="tbBack" onclick="goBack()">â†</span>
         <span class="tb-sep" id="tbSep">/</span>
         <span class="tb-title" id="tbTitle">Dashboard</span>
       </div>
       <div class="tb-right" id="tbRight">
         <div class="notif-bell" onclick="toggleNotifs()" id="notifBell">
-          🔔<span class="notif-badge" id="notifBadge" style="display:none">0</span>
+          ðŸ””<span class="notif-badge" id="notifBadge" style="display:none">0</span>
         </div>
       </div>
     </div>
@@ -693,19 +693,19 @@ textarea.fi{resize:vertical;min-height:80px;font-size:14px;line-height:1.5}
     <!-- DASHBOARD -->
     <div class="page active" id="p-dashboard">
       <div class="greeting">
-        <h2 id="greet">Buenos días 👋</h2>
+        <h2 id="greet">Buenos dÃ­as ðŸ‘‹</h2>
         <p id="greetDate"></p>
       </div>
       <div class="kpi-grid">
-        <div class="kc k1"><div class="kico">🚀</div><span class="knum" id="kLeads">—</span><div class="klbl">Leads totales</div></div>
-        <div class="kc k2"><div class="kico">🏆</div><span class="knum" id="kCerrados">—</span><div class="klbl">Clientes cerrados</div></div>
-        <div class="kc k3"><div class="kico">👥</div><span class="knum" id="kClientes">—</span><div class="klbl">Clientes activos</div></div>
-        <div class="kc k4"><div class="kico">✅</div><span class="knum" id="kTareas">—</span><div class="klbl">Tareas activas</div></div>
+        <div class="kc k1"><div class="kico">ðŸš€</div><span class="knum" id="kLeads">â€”</span><div class="klbl">Leads totales</div></div>
+        <div class="kc k2"><div class="kico">ðŸ†</div><span class="knum" id="kCerrados">â€”</span><div class="klbl">Clientes cerrados</div></div>
+        <div class="kc k3"><div class="kico">ðŸ‘¥</div><span class="knum" id="kClientes">â€”</span><div class="klbl">Clientes activos</div></div>
+        <div class="kc k4"><div class="kico">âœ…</div><span class="knum" id="kTareas">â€”</span><div class="klbl">Tareas activas</div></div>
       </div>
       <div class="area-grid" id="areaGrid"></div>
       <div class="g2">
-        <div class="dc"><h3>📊 Pipeline por etapa</h3><div id="pipelineResumen"></div></div>
-        <div class="dc"><h3>⚡ Actividad reciente</h3><div id="feedReciente"></div></div>
+        <div class="dc"><h3>ðŸ“Š Pipeline por etapa</h3><div id="pipelineResumen"></div></div>
+        <div class="dc"><h3>âš¡ Actividad reciente</h3><div id="feedReciente"></div></div>
       </div>
     </div>
 
@@ -732,12 +732,12 @@ textarea.fi{resize:vertical;min-height:80px;font-size:14px;line-height:1.5}
     <!-- EXPEDIENTE DEL CLIENTE -->
     <div class="page" id="p-expediente">
       <div class="admin-tabs" id="expTabs">
-        <div class="atab active" onclick="switchTab('exp','tab-exp-brief',this)">📋 Brief</div>
-        <div class="atab" onclick="switchTab('exp','tab-exp-mercado',this)">🔍 Mercado</div>
-        <div class="atab" onclick="switchTab('exp','tab-exp-bench',this)">🏆 Benchmark</div>
-        <div class="atab" onclick="switchTab('exp','tab-exp-estrategia',this)">🎯 Estrategia</div>
-        <div class="atab" onclick="switchTab('exp','tab-exp-onboarding',this)">🚀 Onboarding</div>
-        <div class="atab" onclick="switchTab('exp','tab-exp-notas',this)">📝 Notas</div>
+        <div class="atab active" onclick="switchTab('exp','tab-exp-brief',this)">ðŸ“‹ Brief</div>
+        <div class="atab" onclick="switchTab('exp','tab-exp-mercado',this)">ðŸ” Mercado</div>
+        <div class="atab" onclick="switchTab('exp','tab-exp-bench',this)">ðŸ† Benchmark</div>
+        <div class="atab" onclick="switchTab('exp','tab-exp-estrategia',this)">ðŸŽ¯ Estrategia</div>
+        <div class="atab" onclick="switchTab('exp','tab-exp-onboarding',this)">ðŸš€ Onboarding</div>
+        <div class="atab" onclick="switchTab('exp','tab-exp-notas',this)">ðŸ“ Notas</div>
       </div>
 
       <!-- BRIEF -->
@@ -745,40 +745,40 @@ textarea.fi{resize:vertical;min-height:80px;font-size:14px;line-height:1.5}
         <div class="exp-layout">
           <div class="exp-content">
             <div class="exp-header">
-              <h3>📋 Brief del cliente</h3>
-              <button class="btn btnp btn-sm" onclick="generateWithAI('brief')">🧠 Generar con IA</button>
+              <h3>ðŸ“‹ Brief del cliente</h3>
+              <button class="btn btnp btn-sm" onclick="generateWithAI('brief')">ðŸ§  Generar con IA</button>
             </div>
             <div class="exp-grid">
-              <div class="exp-field"><label class="fl">Nombre del negocio</label><input class="fi" id="exp_nombre_neg" placeholder="Ej: Restaurante El Rincón"></div>
+              <div class="exp-field"><label class="fl">Nombre del negocio</label><input class="fi" id="exp_nombre_neg" placeholder="Ej: Restaurante El RincÃ³n"></div>
               <div class="exp-field"><label class="fl">Giro / Industria</label><input class="fi" id="exp_giro" placeholder="Ej: Restaurante de comida mexicana"></div>
-              <div class="exp-field"><label class="fl">Propuesta de valor</label><textarea class="fi" id="exp_propuesta" placeholder="¿Qué hace único a este negocio?" rows="3"></textarea></div>
-              <div class="exp-field"><label class="fl">Público objetivo</label><textarea class="fi" id="exp_publico" placeholder="Describe al cliente ideal..." rows="3"></textarea></div>
-              <div class="exp-field"><label class="fl">Tono de comunicación</label>
+              <div class="exp-field"><label class="fl">Propuesta de valor</label><textarea class="fi" id="exp_propuesta" placeholder="Â¿QuÃ© hace Ãºnico a este negocio?" rows="3"></textarea></div>
+              <div class="exp-field"><label class="fl">PÃºblico objetivo</label><textarea class="fi" id="exp_publico" placeholder="Describe al cliente ideal..." rows="3"></textarea></div>
+              <div class="exp-field"><label class="fl">Tono de comunicaciÃ³n</label>
                 <div class="tone-opts" id="toneOpts">
-                  <div class="tone-opt" onclick="selectTone(this,'profesional')">💼 Profesional</div>
-                  <div class="tone-opt" onclick="selectTone(this,'cercano')">🤝 Cercano</div>
-                  <div class="tone-opt" onclick="selectTone(this,'divertido')">😄 Divertido</div>
-                  <div class="tone-opt" onclick="selectTone(this,'inspirador')">✨ Inspirador</div>
-                  <div class="tone-opt" onclick="selectTone(this,'lujo')">👑 Lujo</div>
-                  <div class="tone-opt" onclick="selectTone(this,'juvenil')">🔥 Juvenil</div>
+                  <div class="tone-opt" onclick="selectTone(this,'profesional')">ðŸ’¼ Profesional</div>
+                  <div class="tone-opt" onclick="selectTone(this,'cercano')">ðŸ¤ Cercano</div>
+                  <div class="tone-opt" onclick="selectTone(this,'divertido')">ðŸ˜„ Divertido</div>
+                  <div class="tone-opt" onclick="selectTone(this,'inspirador')">âœ¨ Inspirador</div>
+                  <div class="tone-opt" onclick="selectTone(this,'lujo')">ðŸ‘‘ Lujo</div>
+                  <div class="tone-opt" onclick="selectTone(this,'juvenil')">ðŸ”¥ Juvenil</div>
                 </div>
               </div>
               <div class="exp-field"><label class="fl">Colores de marca (hex)</label><input class="fi" id="exp_colores" placeholder="Ej: #E8390E, #FFFFFF, #000000"></div>
               <div class="exp-field"><label class="fl">Links importantes</label><textarea class="fi" id="exp_links" placeholder="Sitio web, Instagram, Facebook, Google Maps..." rows="3"></textarea></div>
             </div>
             <div class="exp-actions">
-              <button class="btn btng" onclick="loadExpediente(currentClienteId,'brief')">↺ Recargar</button>
-              <button class="btn btnp" onclick="saveExpediente('brief')">💾 Guardar brief</button>
+              <button class="btn btng" onclick="loadExpediente(currentClienteId,'brief')">â†º Recargar</button>
+              <button class="btn btnp" onclick="saveExpediente('brief')">ðŸ’¾ Guardar brief</button>
             </div>
           </div>
           <div class="exp-ai-panel">
-            <div class="exp-ai-header"><span>🧠</span> Asistente de Brief</div>
+            <div class="exp-ai-header"><span>ðŸ§ </span> Asistente de Brief</div>
             <div class="exp-ai-msgs" id="ai-brief-msgs">
-              <div class="msg ai">Hola 👋 Puedo ayudarte a generar el brief de este cliente. Dime el nombre del negocio y su giro, y te propongo una base completa para que la ajustes.</div>
+              <div class="msg ai">Hola ðŸ‘‹ Puedo ayudarte a generar el brief de este cliente. Dime el nombre del negocio y su giro, y te propongo una base completa para que la ajustes.</div>
             </div>
             <div class="exp-ai-inp">
               <input type="text" id="ai-brief-input" placeholder="Pregunta sobre el brief..." onkeydown="if(event.key==='Enter')sendExpAI('brief')">
-              <button onclick="sendExpAI('brief')">↑</button>
+              <button onclick="sendExpAI('brief')">â†‘</button>
             </div>
           </div>
         </div>
@@ -789,28 +789,28 @@ textarea.fi{resize:vertical;min-height:80px;font-size:14px;line-height:1.5}
         <div class="exp-layout">
           <div class="exp-content">
             <div class="exp-header">
-              <h3>🔍 Investigación de mercado</h3>
-              <button class="btn btnp btn-sm" onclick="generateWithAI('mercado')">🧠 Generar con IA</button>
+              <h3>ðŸ” InvestigaciÃ³n de mercado</h3>
+              <button class="btn btnp btn-sm" onclick="generateWithAI('mercado')">ðŸ§  Generar con IA</button>
             </div>
             <div class="exp-grid">
-              <div class="exp-field"><label class="fl">Análisis del sector</label><textarea class="fi" id="exp_sector" placeholder="¿Cómo está el sector actualmente? Tendencias, tamaño, crecimiento..." rows="4"></textarea></div>
-              <div class="exp-field"><label class="fl">Buyer persona detallado</label><textarea class="fi" id="exp_persona" placeholder="Edad, ocupación, hábitos, dolores, deseos, dónde está en digital..." rows="4"></textarea></div>
-              <div class="exp-field"><label class="fl">Tendencias relevantes</label><textarea class="fi" id="exp_tendencias" placeholder="Qué está cambiando en esta industria que afecta al cliente..." rows="3"></textarea></div>
-              <div class="exp-field"><label class="fl">Oportunidades detectadas</label><textarea class="fi" id="exp_oportunidades" placeholder="¿Qué nichos o canales no está aprovechando?" rows="3"></textarea></div>
+              <div class="exp-field"><label class="fl">AnÃ¡lisis del sector</label><textarea class="fi" id="exp_sector" placeholder="Â¿CÃ³mo estÃ¡ el sector actualmente? Tendencias, tamaÃ±o, crecimiento..." rows="4"></textarea></div>
+              <div class="exp-field"><label class="fl">Buyer persona detallado</label><textarea class="fi" id="exp_persona" placeholder="Edad, ocupaciÃ³n, hÃ¡bitos, dolores, deseos, dÃ³nde estÃ¡ en digital..." rows="4"></textarea></div>
+              <div class="exp-field"><label class="fl">Tendencias relevantes</label><textarea class="fi" id="exp_tendencias" placeholder="QuÃ© estÃ¡ cambiando en esta industria que afecta al cliente..." rows="3"></textarea></div>
+              <div class="exp-field"><label class="fl">Oportunidades detectadas</label><textarea class="fi" id="exp_oportunidades" placeholder="Â¿QuÃ© nichos o canales no estÃ¡ aprovechando?" rows="3"></textarea></div>
             </div>
             <div class="exp-actions">
-              <button class="btn btng" onclick="loadExpediente(currentClienteId,'mercado')">↺ Recargar</button>
-              <button class="btn btnp" onclick="saveExpediente('mercado')">💾 Guardar</button>
+              <button class="btn btng" onclick="loadExpediente(currentClienteId,'mercado')">â†º Recargar</button>
+              <button class="btn btnp" onclick="saveExpediente('mercado')">ðŸ’¾ Guardar</button>
             </div>
           </div>
           <div class="exp-ai-panel">
-            <div class="exp-ai-header"><span>🧠</span> Asistente de Mercado</div>
+            <div class="exp-ai-header"><span>ðŸ§ </span> Asistente de Mercado</div>
             <div class="exp-ai-msgs" id="ai-mercado-msgs">
-              <div class="msg ai">Puedo generar un análisis de mercado completo para este cliente. Solo dime el giro y la ciudad, y te propongo el análisis base para que valides y enriquezcas con tu investigación.</div>
+              <div class="msg ai">Puedo generar un anÃ¡lisis de mercado completo para este cliente. Solo dime el giro y la ciudad, y te propongo el anÃ¡lisis base para que valides y enriquezcas con tu investigaciÃ³n.</div>
             </div>
             <div class="exp-ai-inp">
               <input type="text" id="ai-mercado-input" placeholder="Ej: Analiza el mercado de dentistas en CDMX" onkeydown="if(event.key==='Enter')sendExpAI('mercado')">
-              <button onclick="sendExpAI('mercado')">↑</button>
+              <button onclick="sendExpAI('mercado')">â†‘</button>
             </div>
           </div>
         </div>
@@ -821,28 +821,28 @@ textarea.fi{resize:vertical;min-height:80px;font-size:14px;line-height:1.5}
         <div class="exp-layout">
           <div class="exp-content">
             <div class="exp-header">
-              <h3>🏆 Benchmark / Competencia</h3>
-              <button class="btn btnp btn-sm" onclick="generateWithAI('benchmark')">🧠 Generar con IA</button>
+              <h3>ðŸ† Benchmark / Competencia</h3>
+              <button class="btn btnp btn-sm" onclick="generateWithAI('benchmark')">ðŸ§  Generar con IA</button>
             </div>
             <div id="competidoresList" style="margin-bottom:16px"></div>
             <button class="btn btng btn-sm" onclick="addCompetidor()" style="margin-bottom:20px">+ Agregar competidor</button>
             <div class="exp-grid">
-              <div class="exp-field"><label class="fl">Diferenciadores vs competencia</label><textarea class="fi" id="exp_diferenciadores" placeholder="¿En qué es mejor nuestro cliente que los demás?" rows="4"></textarea></div>
-              <div class="exp-field"><label class="fl">Áreas de oportunidad vs competencia</label><textarea class="fi" id="exp_areas_comp" placeholder="¿Qué hace la competencia que nuestro cliente no hace?" rows="4"></textarea></div>
+              <div class="exp-field"><label class="fl">Diferenciadores vs competencia</label><textarea class="fi" id="exp_diferenciadores" placeholder="Â¿En quÃ© es mejor nuestro cliente que los demÃ¡s?" rows="4"></textarea></div>
+              <div class="exp-field"><label class="fl">Ãreas de oportunidad vs competencia</label><textarea class="fi" id="exp_areas_comp" placeholder="Â¿QuÃ© hace la competencia que nuestro cliente no hace?" rows="4"></textarea></div>
             </div>
             <div class="exp-actions">
-              <button class="btn btng" onclick="loadExpediente(currentClienteId,'benchmark')">↺ Recargar</button>
-              <button class="btn btnp" onclick="saveExpediente('benchmark')">💾 Guardar</button>
+              <button class="btn btng" onclick="loadExpediente(currentClienteId,'benchmark')">â†º Recargar</button>
+              <button class="btn btnp" onclick="saveExpediente('benchmark')">ðŸ’¾ Guardar</button>
             </div>
           </div>
           <div class="exp-ai-panel">
-            <div class="exp-ai-header"><span>🧠</span> Asistente de Benchmark</div>
+            <div class="exp-ai-header"><span>ðŸ§ </span> Asistente de Benchmark</div>
             <div class="exp-ai-msgs" id="ai-benchmark-msgs">
-              <div class="msg ai">Puedo ayudarte a analizar la competencia. Dime el giro, la ciudad y algún competidor conocido, y genero un análisis comparativo completo.</div>
+              <div class="msg ai">Puedo ayudarte a analizar la competencia. Dime el giro, la ciudad y algÃºn competidor conocido, y genero un anÃ¡lisis comparativo completo.</div>
             </div>
             <div class="exp-ai-inp">
               <input type="text" id="ai-benchmark-input" placeholder="Ej: Analiza competidores de gym en Monterrey" onkeydown="if(event.key==='Enter')sendExpAI('benchmark')">
-              <button onclick="sendExpAI('benchmark')">↑</button>
+              <button onclick="sendExpAI('benchmark')">â†‘</button>
             </div>
           </div>
         </div>
@@ -853,37 +853,37 @@ textarea.fi{resize:vertical;min-height:80px;font-size:14px;line-height:1.5}
         <div class="exp-layout">
           <div class="exp-content">
             <div class="exp-header">
-              <h3>🎯 Estrategia general</h3>
-              <button class="btn btnp btn-sm" onclick="generateWithAI('estrategia')">🧠 Generar con IA</button>
+              <h3>ðŸŽ¯ Estrategia general</h3>
+              <button class="btn btnp btn-sm" onclick="generateWithAI('estrategia')">ðŸ§  Generar con IA</button>
             </div>
             <div class="exp-grid">
-              <div class="exp-field"><label class="fl">Objetivo principal del cliente</label><textarea class="fi" id="exp_objetivo" placeholder="¿Qué quiere lograr en los próximos 3-6 meses?" rows="3"></textarea></div>
+              <div class="exp-field"><label class="fl">Objetivo principal del cliente</label><textarea class="fi" id="exp_objetivo" placeholder="Â¿QuÃ© quiere lograr en los prÃ³ximos 3-6 meses?" rows="3"></textarea></div>
               <div class="exp-field"><label class="fl">KPIs a medir</label><textarea class="fi" id="exp_kpis" placeholder="Ej: CPL menor a $50, 100 leads/mes, ROAS 3x..." rows="3"></textarea></div>
               <div class="exp-field"><label class="fl">Servicios contratados</label>
                 <div class="servicios-check" id="serviciosCheck">
-                  <label class="schk"><input type="checkbox" value="ads"> 📢 Meta Ads</label>
-                  <label class="schk"><input type="checkbox" value="seo"> 🗺️ Google Local</label>
-                  <label class="schk"><input type="checkbox" value="web"> 🌐 Landing Page</label>
-                  <label class="schk"><input type="checkbox" value="community"> 📱 Social Media</label>
-                  <label class="schk"><input type="checkbox" value="ia"> 🧠 IA + Automatización</label>
+                  <label class="schk"><input type="checkbox" value="ads"> ðŸ“¢ Meta Ads</label>
+                  <label class="schk"><input type="checkbox" value="seo"> ðŸ—ºï¸ Google Local</label>
+                  <label class="schk"><input type="checkbox" value="web"> ðŸŒ Landing Page</label>
+                  <label class="schk"><input type="checkbox" value="community"> ðŸ“± Social Media</label>
+                  <label class="schk"><input type="checkbox" value="ia"> ðŸ§  IA + AutomatizaciÃ³n</label>
                 </div>
               </div>
-              <div class="exp-field"><label class="fl">Prioridades del mes</label><textarea class="fi" id="exp_prioridades" placeholder="¿Qué es lo más urgente este mes para este cliente?" rows="3"></textarea></div>
-              <div class="exp-field"><label class="fl">Notas estratégicas</label><textarea class="fi" id="exp_notas_est" placeholder="Decisiones estratégicas importantes, restricciones, consideraciones especiales..." rows="3"></textarea></div>
+              <div class="exp-field"><label class="fl">Prioridades del mes</label><textarea class="fi" id="exp_prioridades" placeholder="Â¿QuÃ© es lo mÃ¡s urgente este mes para este cliente?" rows="3"></textarea></div>
+              <div class="exp-field"><label class="fl">Notas estratÃ©gicas</label><textarea class="fi" id="exp_notas_est" placeholder="Decisiones estratÃ©gicas importantes, restricciones, consideraciones especiales..." rows="3"></textarea></div>
             </div>
             <div class="exp-actions">
-              <button class="btn btng" onclick="loadExpediente(currentClienteId,'estrategia')">↺ Recargar</button>
-              <button class="btn btnp" onclick="saveExpediente('estrategia')">💾 Guardar</button>
+              <button class="btn btng" onclick="loadExpediente(currentClienteId,'estrategia')">â†º Recargar</button>
+              <button class="btn btnp" onclick="saveExpediente('estrategia')">ðŸ’¾ Guardar</button>
             </div>
           </div>
           <div class="exp-ai-panel">
-            <div class="exp-ai-header"><span>🧠</span> Asistente Estratégico</div>
+            <div class="exp-ai-header"><span>ðŸ§ </span> Asistente EstratÃ©gico</div>
             <div class="exp-ai-msgs" id="ai-estrategia-msgs">
-              <div class="msg ai">Puedo diseñar una estrategia personalizada basada en el brief y la investigación de mercado de este cliente. ¿Quieres que la genere o tienes alguna pregunta estratégica?</div>
+              <div class="msg ai">Puedo diseÃ±ar una estrategia personalizada basada en el brief y la investigaciÃ³n de mercado de este cliente. Â¿Quieres que la genere o tienes alguna pregunta estratÃ©gica?</div>
             </div>
             <div class="exp-ai-inp">
-              <input type="text" id="ai-estrategia-input" placeholder="Ej: ¿Qué canal priorizar primero?" onkeydown="if(event.key==='Enter')sendExpAI('estrategia')">
-              <button onclick="sendExpAI('estrategia')">↑</button>
+              <input type="text" id="ai-estrategia-input" placeholder="Ej: Â¿QuÃ© canal priorizar primero?" onkeydown="if(event.key==='Enter')sendExpAI('estrategia')">
+              <button onclick="sendExpAI('estrategia')">â†‘</button>
             </div>
           </div>
         </div>
@@ -894,11 +894,11 @@ textarea.fi{resize:vertical;min-height:80px;font-size:14px;line-height:1.5}
         <div class="exp-layout">
           <div class="exp-content">
             <div class="exp-header">
-              <h3>🚀 Onboarding del cliente</h3>
-              <button class="btn btnp btn-sm" onclick="generateWithAI('onboarding')">🧠 Generar checklist</button>
+              <h3>ðŸš€ Onboarding del cliente</h3>
+              <button class="btn btnp btn-sm" onclick="generateWithAI('onboarding')">ðŸ§  Generar checklist</button>
             </div>
             <div class="exp-grid">
-              <div class="exp-field"><label class="fl">Canal de comunicación principal</label>
+              <div class="exp-field"><label class="fl">Canal de comunicaciÃ³n principal</label>
                 <select class="sel" id="exp_canal" style="margin-bottom:0">
                   <option value="">Selecciona...</option>
                   <option value="whatsapp">WhatsApp</option>
@@ -920,26 +920,26 @@ textarea.fi{resize:vertical;min-height:80px;font-size:14px;line-height:1.5}
               <div class="exp-field">
                 <label class="fl">Accesos recibidos</label>
                 <div style="display:flex;flex-direction:column;gap:8px" id="accesosList">
-                  <div class="acceso-row"><input class="fi" placeholder="Ej: Meta Business Suite" style="margin-bottom:0;flex:1"><div class="acceso-status ok">✓</div></div>
+                  <div class="acceso-row"><input class="fi" placeholder="Ej: Meta Business Suite" style="margin-bottom:0;flex:1"><div class="acceso-status ok">âœ“</div></div>
                 </div>
                 <button class="btn btng btn-sm" onclick="addAcceso()" style="margin-top:8px">+ Agregar acceso</button>
               </div>
-              <div class="exp-field"><label class="fl">Dominio y hosting</label><textarea class="fi" id="exp_hosting" placeholder="Proveedor de dominio, hosting, credenciales (guárdalas de forma segura)..." rows="3"></textarea></div>
+              <div class="exp-field"><label class="fl">Dominio y hosting</label><textarea class="fi" id="exp_hosting" placeholder="Proveedor de dominio, hosting, credenciales (guÃ¡rdalas de forma segura)..." rows="3"></textarea></div>
               <div class="exp-field"><label class="fl">Notas de onboarding</label><textarea class="fi" id="exp_notas_onb" placeholder="Cualquier detalle importante del proceso de arranque..." rows="3"></textarea></div>
             </div>
             <div class="exp-actions">
-              <button class="btn btng" onclick="loadExpediente(currentClienteId,'onboarding')">↺ Recargar</button>
-              <button class="btn btnp" onclick="saveExpediente('onboarding')">💾 Guardar</button>
+              <button class="btn btng" onclick="loadExpediente(currentClienteId,'onboarding')">â†º Recargar</button>
+              <button class="btn btnp" onclick="saveExpediente('onboarding')">ðŸ’¾ Guardar</button>
             </div>
           </div>
           <div class="exp-ai-panel">
-            <div class="exp-ai-header"><span>🧠</span> Asistente de Onboarding</div>
+            <div class="exp-ai-header"><span>ðŸ§ </span> Asistente de Onboarding</div>
             <div class="exp-ai-msgs" id="ai-onboarding-msgs">
-              <div class="msg ai">Puedo generar el checklist de onboarding completo para este cliente según los servicios contratados. ¿Quieres que lo genere?</div>
+              <div class="msg ai">Puedo generar el checklist de onboarding completo para este cliente segÃºn los servicios contratados. Â¿Quieres que lo genere?</div>
             </div>
             <div class="exp-ai-inp">
               <input type="text" id="ai-onboarding-input" placeholder="Ej: Genera checklist para cliente de Ads + SEO" onkeydown="if(event.key==='Enter')sendExpAI('onboarding')">
-              <button onclick="sendExpAI('onboarding')">↑</button>
+              <button onclick="sendExpAI('onboarding')">â†‘</button>
             </div>
           </div>
         </div>
@@ -949,7 +949,7 @@ textarea.fi{resize:vertical;min-height:80px;font-size:14px;line-height:1.5}
       <div class="atab-content" id="tab-exp-notas">
         <div class="exp-content" style="max-width:100%">
           <div class="exp-header">
-            <h3>📝 Notas del equipo</h3>
+            <h3>ðŸ“ Notas del equipo</h3>
             <button class="btn btnp btn-sm" onclick="openModal('mNota')">+ Agregar nota</button>
           </div>
           <div id="notasList"></div>
@@ -966,13 +966,13 @@ textarea.fi{resize:vertical;min-height:80px;font-size:14px;line-height:1.5}
       </div>
       <div class="atab-content active" id="tab-ads-clientes">
         <div class="table-wrap">
-          <div class="table-hd"><h3>Campañas activas</h3><button class="btn btng btn-sm" onclick="openModal('mLead')">+ Nuevo</button></div>
+          <div class="table-hd"><h3>CampaÃ±as activas</h3><button class="btn btng btn-sm" onclick="openModal('mLead')">+ Nuevo</button></div>
           <div class="trow thead" style="grid-template-columns:2fr 1fr 1fr 1fr 100px"><div>Cliente</div><div>Presupuesto</div><div>CPL</div><div>ROAS</div><div>Estado</div></div>
-          <div style="padding:40px;text-align:center;color:var(--muted);font-size:13px">Sin campañas activas aún. Agrega clientes primero.</div>
+          <div style="padding:40px;text-align:center;color:var(--muted);font-size:13px">Sin campaÃ±as activas aÃºn. Agrega clientes primero.</div>
         </div>
       </div>
       <div class="atab-content" id="tab-ads-checklist">
-        <div class="dc"><h3>✅ Checklist mensual de Ads</h3>
+        <div class="dc"><h3>âœ… Checklist mensual de Ads</h3>
           <div style="display:flex;flex-direction:column;gap:8px;margin-top:4px" id="adsChecklist"></div>
         </div>
       </div>
@@ -981,16 +981,16 @@ textarea.fi{resize:vertical;min-height:80px;font-size:14px;line-height:1.5}
     <!-- COMMUNITY -->
     <div class="page" id="p-community">
       <div class="admin-tabs">
-        <div class="atab active" onclick="switchTab('comm','tab-comm-cal',this)">📅 Calendario</div>
-        <div class="atab" onclick="switchTab('comm','tab-comm-posts',this)">📝 Posts</div>
-        <div class="atab" onclick="switchTab('comm','tab-comm-aprov',this)">⏳ Por aprobar</div>
+        <div class="atab active" onclick="switchTab('comm','tab-comm-cal',this)">ðŸ“… Calendario</div>
+        <div class="atab" onclick="switchTab('comm','tab-comm-posts',this)">ðŸ“ Posts</div>
+        <div class="atab" onclick="switchTab('comm','tab-comm-aprov',this)">â³ Por aprobar</div>
       </div>
       <div class="atab-content active" id="tab-comm-cal">
         <div class="cal-header">
-          <button class="btn btng btn-sm" onclick="prevMonth()">←</button>
+          <button class="btn btng btn-sm" onclick="prevMonth()">â†</button>
           <h3 id="calMonthTitle" style="font-family:'Bebas Neue',sans-serif;font-size:18px;letter-spacing:0.04em;color:#fff"></h3>
-          <button class="btn btng btn-sm" onclick="nextMonth()">→</button>
-          <button class="btn btnp btn-sm" onclick="openModal('mPost')" style="margin-left:auto">➕ Nuevo post</button>
+          <button class="btn btng btn-sm" onclick="nextMonth()">â†’</button>
+          <button class="btn btnp btn-sm" onclick="openModal('mPost')" style="margin-left:auto">âž• Nuevo post</button>
         </div>
         <div class="cal-grid" id="calGrid"></div>
       </div>
@@ -1006,16 +1006,16 @@ textarea.fi{resize:vertical;min-height:80px;font-size:14px;line-height:1.5}
     <div class="page" id="p-seo">
       <div class="admin-tabs">
         <div class="atab active" onclick="switchTab('seo','tab-seo-fichas',this)">Fichas</div>
-        <div class="atab" onclick="switchTab('seo','tab-seo-resenas',this)">Reseñas</div>
+        <div class="atab" onclick="switchTab('seo','tab-seo-resenas',this)">ReseÃ±as</div>
       </div>
       <div class="atab-content active" id="tab-seo-fichas">
-        <div class="dc"><h3>🗺️ Fichas de Google Business</h3>
+        <div class="dc"><h3>ðŸ—ºï¸ Fichas de Google Business</h3>
           <div style="padding:32px;text-align:center;color:var(--muted);font-size:13px">Agrega clientes para ver sus fichas.</div>
         </div>
       </div>
       <div class="atab-content" id="tab-seo-resenas">
-        <div class="dc"><h3>⭐ Reseñas pendientes de respuesta</h3>
-          <div style="padding:32px;text-align:center;color:var(--muted);font-size:13px">Sin reseñas pendientes.</div>
+        <div class="dc"><h3>â­ ReseÃ±as pendientes de respuesta</h3>
+          <div style="padding:32px;text-align:center;color:var(--muted);font-size:13px">Sin reseÃ±as pendientes.</div>
         </div>
       </div>
     </div>
@@ -1027,12 +1027,12 @@ textarea.fi{resize:vertical;min-height:80px;font-size:14px;line-height:1.5}
         <div class="atab" onclick="switchTab('web','tab-web-mejoras',this)">Mejoras</div>
       </div>
       <div class="atab-content active" id="tab-web-proyectos">
-        <div class="dc"><h3>🌐 Proyectos web</h3>
-          <div style="padding:32px;text-align:center;color:var(--muted);font-size:13px">Sin proyectos activos aún.</div>
+        <div class="dc"><h3>ðŸŒ Proyectos web</h3>
+          <div style="padding:32px;text-align:center;color:var(--muted);font-size:13px">Sin proyectos activos aÃºn.</div>
         </div>
       </div>
       <div class="atab-content" id="tab-web-mejoras">
-        <div class="dc"><h3>🔧 Log de mejoras pendientes</h3>
+        <div class="dc"><h3>ðŸ”§ Log de mejoras pendientes</h3>
           <div style="padding:32px;text-align:center;color:var(--muted);font-size:13px">Sin mejoras registradas.</div>
         </div>
       </div>
@@ -1057,7 +1057,7 @@ textarea.fi{resize:vertical;min-height:80px;font-size:14px;line-height:1.5}
         <div id="contratosTable"></div>
       </div>
       <div class="atab-content" id="tab-adm-finanzas">
-        <div class="dc"><h3>📈 Proyección mensual</h3>
+        <div class="dc"><h3>ðŸ“ˆ ProyecciÃ³n mensual</h3>
           <div style="padding:32px;text-align:center;color:var(--muted);font-size:13px">Registra contratos y pagos para ver proyecciones.</div>
         </div>
       </div>
@@ -1071,8 +1071,8 @@ textarea.fi{resize:vertical;min-height:80px;font-size:14px;line-height:1.5}
     <!-- PORTAL DEL CLIENTE -->
     <div class="page" id="p-portal">
       <div class="dc" style="margin-bottom:12px">
-        <h3>🌐 Portal del cliente</h3>
-        <p style="font-size:13px;color:var(--muted);margin-top:6px">Cada cliente tiene un link único para aprobar contenido y ver reportes sin necesidad de login.</p>
+        <h3>ðŸŒ Portal del cliente</h3>
+        <p style="font-size:13px;color:var(--muted);margin-top:6px">Cada cliente tiene un link Ãºnico para aprobar contenido y ver reportes sin necesidad de login.</p>
       </div>
       <div id="portalList"></div>
     </div>
@@ -1080,9 +1080,9 @@ textarea.fi{resize:vertical;min-height:80px;font-size:14px;line-height:1.5}
     <!-- APROBACIONES GLOBALES -->
     <div class="page" id="p-aprobaciones">
       <div class="admin-tabs">
-        <div class="atab active" onclick="switchTab('apb','tab-apb-pend',this)">⏳ Pendientes</div>
-        <div class="atab" onclick="switchTab('apb','tab-apb-aprov',this)">✅ Aprobados</div>
-        <div class="atab" onclick="switchTab('apb','tab-apb-rech',this)">❌ Rechazados</div>
+        <div class="atab active" onclick="switchTab('apb','tab-apb-pend',this)">â³ Pendientes</div>
+        <div class="atab" onclick="switchTab('apb','tab-apb-aprov',this)">âœ… Aprobados</div>
+        <div class="atab" onclick="switchTab('apb','tab-apb-rech',this)">âŒ Rechazados</div>
       </div>
       <div class="atab-content active" id="tab-apb-pend"><div id="apbPend"></div></div>
       <div class="atab-content" id="tab-apb-aprov"><div id="apbAprov"></div></div>
@@ -1093,15 +1093,15 @@ textarea.fi{resize:vertical;min-height:80px;font-size:14px;line-height:1.5}
     <div class="page" id="p-cerebro">
       <div class="cerebro-layout">
         <div class="cerebro-list">
-          <h3>🧠 Cerebros</h3>
+          <h3>ðŸ§  Cerebros</h3>
           <div id="cerebroList"></div>
         </div>
         <div class="chat-panel" id="chatPanel">
           <div class="chat-hd">
-            <div class="chat-av" id="chatAv">🧠</div>
+            <div class="chat-av" id="chatAv">ðŸ§ </div>
             <div>
               <div class="chat-name" id="chatName">CEREBRO GENERAL</div>
-              <div class="chat-sub" id="chatSub">Consultor estratégico de Novu 360</div>
+              <div class="chat-sub" id="chatSub">Consultor estratÃ©gico de Novu 360</div>
             </div>
             <div class="chat-online"><div class="chat-dot"></div>Activo</div>
           </div>
@@ -1111,7 +1111,7 @@ textarea.fi{resize:vertical;min-height:80px;font-size:14px;line-height:1.5}
           </div>
           <div class="chat-inp">
             <input type="text" id="chatInput" placeholder="Escribe tu pregunta..." onkeydown="if(event.key==='Enter')sendChat()">
-            <button class="chat-send" onclick="sendChat()">↑</button>
+            <button class="chat-send" onclick="sendChat()">â†‘</button>
           </div>
         </div>
       </div>
@@ -1123,18 +1123,18 @@ textarea.fi{resize:vertical;min-height:80px;font-size:14px;line-height:1.5}
 <!-- MODALS -->
 <div class="moverlay" id="mLead">
   <div class="modal">
-    <h3>➕ Nuevo Lead</h3>
+    <h3>âž• Nuevo Lead</h3>
     <p>Agrega un prospecto al pipeline</p>
     <label class="fl">Nombre del negocio *</label>
-    <input class="fi" id="ln_nombre" placeholder="Ej: Restaurante El Rincón">
+    <input class="fi" id="ln_nombre" placeholder="Ej: Restaurante El RincÃ³n">
     <div class="frow">
       <div><label class="fl">Giro</label><input class="fi" id="ln_giro" placeholder="Ej: Restaurante" style="margin-bottom:0"></div>
       <div><label class="fl">Ciudad</label><input class="fi" id="ln_ciudad" placeholder="Ej: CDMX" style="margin-bottom:0"></div>
     </div>
     <div style="height:14px"></div>
     <label class="fl">Contacto</label>
-    <input class="fi" id="ln_contacto" placeholder="Nombre del dueño">
-    <label class="fl">Teléfono</label>
+    <input class="fi" id="ln_contacto" placeholder="Nombre del dueÃ±o">
+    <label class="fl">TelÃ©fono</label>
     <input class="fi" id="ln_tel" placeholder="55 1234 5678">
     <label class="fl">Etapa</label>
     <select class="sel" id="ln_etapa">
@@ -1142,7 +1142,7 @@ textarea.fi{resize:vertical;min-height:80px;font-size:14px;line-height:1.5}
       <option value="contactado">Contactado</option>
       <option value="en_llamada">En llamada</option>
       <option value="propuesta_enviada">Propuesta enviada</option>
-      <option value="cerrado">Cerrado ✅</option>
+      <option value="cerrado">Cerrado âœ…</option>
     </select>
     <label class="fl">Notas</label>
     <textarea class="fi" id="ln_notas" placeholder="Notas adicionales..."></textarea>
@@ -1155,13 +1155,13 @@ textarea.fi{resize:vertical;min-height:80px;font-size:14px;line-height:1.5}
 
 <div class="moverlay" id="mCliente">
   <div class="modal">
-    <h3>➕ Nuevo Cliente</h3>
+    <h3>âž• Nuevo Cliente</h3>
     <p>Registra un cliente activo de la agencia</p>
     <label class="fl">Nombre *</label>
-    <input class="fi" id="cl_nombre" placeholder="Ej: Dentista Hernández">
+    <input class="fi" id="cl_nombre" placeholder="Ej: Dentista HernÃ¡ndez">
     <div class="frow">
       <div><label class="fl">Giro</label><input class="fi" id="cl_giro" placeholder="Ej: Salud" style="margin-bottom:0"></div>
-      <div><label class="fl">Teléfono</label><input class="fi" id="cl_tel" placeholder="55 1234 5678" style="margin-bottom:0"></div>
+      <div><label class="fl">TelÃ©fono</label><input class="fi" id="cl_tel" placeholder="55 1234 5678" style="margin-bottom:0"></div>
     </div>
     <div style="height:14px"></div>
     <label class="fl">Email</label>
@@ -1177,28 +1177,28 @@ textarea.fi{resize:vertical;min-height:80px;font-size:14px;line-height:1.5}
 
 <div class="moverlay" id="mTarea">
   <div class="modal">
-    <h3>➕ Nueva Tarea</h3>
-    <p>Crea una tarea y asígnala a un área</p>
-    <label class="fl">Título *</label>
+    <h3>âž• Nueva Tarea</h3>
+    <p>Crea una tarea y asÃ­gnala a un Ã¡rea</p>
+    <label class="fl">TÃ­tulo *</label>
     <input class="fi" id="ta_titulo" placeholder="Ej: Crear calendario de contenido">
-    <label class="fl">Área</label>
+    <label class="fl">Ãrea</label>
     <select class="sel" id="ta_area">
       <option value="ads">Ads / Meta</option>
       <option value="community">Community</option>
       <option value="seo">Google Local</option>
       <option value="web">Web</option>
       <option value="ventas">Ventas</option>
-      <option value="admin">Administración</option>
+      <option value="admin">AdministraciÃ³n</option>
     </select>
     <label class="fl">Prioridad</label>
     <select class="sel" id="ta_prioridad">
-      <option value="alta">🔴 Alta</option>
-      <option value="media" selected>🟡 Media</option>
-      <option value="baja">🟢 Baja</option>
+      <option value="alta">ðŸ”´ Alta</option>
+      <option value="media" selected>ðŸŸ¡ Media</option>
+      <option value="baja">ðŸŸ¢ Baja</option>
     </select>
-    <label class="fl">Fecha límite</label>
+    <label class="fl">Fecha lÃ­mite</label>
     <input class="fi" type="date" id="ta_fecha">
-    <label class="fl">Descripción</label>
+    <label class="fl">DescripciÃ³n</label>
     <textarea class="fi" id="ta_desc" placeholder="Detalles de la tarea..."></textarea>
     <div class="mactions">
       <button class="btn btng" onclick="closeModal('mTarea')">Cancelar</button>
@@ -1209,17 +1209,17 @@ textarea.fi{resize:vertical;min-height:80px;font-size:14px;line-height:1.5}
 
 <div class="moverlay" id="mUsuario">
   <div class="modal">
-    <h3>➕ Nuevo Usuario</h3>
+    <h3>âž• Nuevo Usuario</h3>
     <p>Invita a un miembro del equipo</p>
     <label class="fl">Nombre completo *</label>
-    <input class="fi" id="us_nombre" placeholder="Ej: Ana García">
+    <input class="fi" id="us_nombre" placeholder="Ej: Ana GarcÃ­a">
     <label class="fl">Email *</label>
     <input class="fi" id="us_email" placeholder="ana@novu360.mx">
-    <label class="fl">Contraseña temporal *</label>
-    <input class="fi" type="password" id="us_pass" placeholder="Mínimo 6 caracteres">
+    <label class="fl">ContraseÃ±a temporal *</label>
+    <input class="fi" type="password" id="us_pass" placeholder="MÃ­nimo 6 caracteres">
     <label class="fl">Rol principal</label>
     <select class="sel" id="us_rol">
-      <option value="ventas">Ventas / Prospección</option>
+      <option value="ventas">Ventas / ProspecciÃ³n</option>
       <option value="account_manager">Account Manager</option>
       <option value="ads">Ads / Meta</option>
       <option value="community">Community Manager</option>
@@ -1238,7 +1238,7 @@ textarea.fi{resize:vertical;min-height:80px;font-size:14px;line-height:1.5}
 <div class="notif-panel" id="notifPanel">
   <div class="notif-hd">
     <h4>Notificaciones</h4>
-    <span class="notif-mark" onclick="markAllRead()">Marcar todas leídas</span>
+    <span class="notif-mark" onclick="markAllRead()">Marcar todas leÃ­das</span>
   </div>
   <div class="notif-list" id="notifList">
     <div class="notif-empty">Sin notificaciones</div>
@@ -1248,16 +1248,16 @@ textarea.fi{resize:vertical;min-height:80px;font-size:14px;line-height:1.5}
 <!-- MODAL: NUEVO POST -->
 <div class="moverlay" id="mPost">
   <div class="modal">
-    <h3>📱 Nuevo post</h3>
+    <h3>ðŸ“± Nuevo post</h3>
     <p>Agrega contenido al calendario</p>
     <label class="fl">Cliente</label>
     <select class="sel" id="post_cliente"><option value="">Selecciona cliente...</option></select>
     <label class="fl">Plataforma</label>
     <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin-bottom:16px">
-      <div class="tone-opt" onclick="selectToneAny(this,'ig','postPlat')" data-group="postPlat">📸 IG</div>
-      <div class="tone-opt" onclick="selectToneAny(this,'fb','postPlat')" data-group="postPlat">📘 FB</div>
-      <div class="tone-opt" onclick="selectToneAny(this,'tt','postPlat')" data-group="postPlat">🎵 TT</div>
-      <div class="tone-opt" onclick="selectToneAny(this,'gm','postPlat')" data-group="postPlat">🗺️ GM</div>
+      <div class="tone-opt" onclick="selectToneAny(this,'ig','postPlat')" data-group="postPlat">ðŸ“¸ IG</div>
+      <div class="tone-opt" onclick="selectToneAny(this,'fb','postPlat')" data-group="postPlat">ðŸ“˜ FB</div>
+      <div class="tone-opt" onclick="selectToneAny(this,'tt','postPlat')" data-group="postPlat">ðŸŽµ TT</div>
+      <div class="tone-opt" onclick="selectToneAny(this,'gm','postPlat')" data-group="postPlat">ðŸ—ºï¸ GM</div>
     </div>
     <label class="fl">Formato</label>
     <select class="sel" id="post_formato">
@@ -1266,12 +1266,12 @@ textarea.fi{resize:vertical;min-height:80px;font-size:14px;line-height:1.5}
       <option value="reel">Reel / Video</option>
       <option value="carrusel">Carrusel</option>
     </select>
-    <label class="fl">Fecha de publicación</label>
+    <label class="fl">Fecha de publicaciÃ³n</label>
     <input class="fi" type="date" id="post_fecha">
     <label class="fl">Copy del post</label>
     <textarea class="fi" id="post_copy" placeholder="Escribe el copy o usa la IA para generarlo..." rows="4"></textarea>
-    <button class="btn btng btn-sm" onclick="generatePostCopy()" style="margin-bottom:14px">🧠 Generar copy con IA</button>
-    <label class="fl">Notas para el diseñador</label>
+    <button class="btn btng btn-sm" onclick="generatePostCopy()" style="margin-bottom:14px">ðŸ§  Generar copy con IA</button>
+    <label class="fl">Notas para el diseÃ±ador</label>
     <input class="fi" id="post_notas_dis" placeholder="Ej: Usar colores de marca, mostrar producto X...">
     <div class="mactions">
       <button class="btn btng" onclick="closeModal('mPost')">Cancelar</button>
@@ -1280,46 +1280,46 @@ textarea.fi{resize:vertical;min-height:80px;font-size:14px;line-height:1.5}
   </div>
 </div>
 
-<!-- MODAL: NUEVA APROBACIÓN -->
+<!-- MODAL: NUEVA APROBACIÃ“N -->
 <div class="moverlay" id="mAprobacion">
   <div class="modal">
-    <h3>📋 Enviar a aprobación</h3>
-    <p>Envía este entregable a revisión del Account Manager</p>
+    <h3>ðŸ“‹ Enviar a aprobaciÃ³n</h3>
+    <p>EnvÃ­a este entregable a revisiÃ³n del Account Manager</p>
     <label class="fl">Tipo de entregable</label>
     <select class="sel" id="apb_tipo">
-      <option value="calendario">📅 Calendario de contenido</option>
-      <option value="campana">📢 Ajuste de campaña</option>
-      <option value="reporte">📊 Reporte mensual</option>
-      <option value="landing">🌐 Landing page</option>
-      <option value="creativo">🎨 Creativo / diseño</option>
-      <option value="otro">📄 Otro</option>
+      <option value="calendario">ðŸ“… Calendario de contenido</option>
+      <option value="campana">ðŸ“¢ Ajuste de campaÃ±a</option>
+      <option value="reporte">ðŸ“Š Reporte mensual</option>
+      <option value="landing">ðŸŒ Landing page</option>
+      <option value="creativo">ðŸŽ¨ Creativo / diseÃ±o</option>
+      <option value="otro">ðŸ“„ Otro</option>
     </select>
-    <label class="fl">Título</label>
-    <input class="fi" id="apb_titulo" placeholder="Ej: Calendario Mayo - Restaurante El Rincón">
-    <label class="fl">Descripción / notas</label>
-    <textarea class="fi" id="apb_desc" placeholder="¿Qué revisó? ¿Qué cambios hiciste? ¿Alguna pregunta?" rows="3"></textarea>
+    <label class="fl">TÃ­tulo</label>
+    <input class="fi" id="apb_titulo" placeholder="Ej: Calendario Mayo - Restaurante El RincÃ³n">
+    <label class="fl">DescripciÃ³n / notas</label>
+    <textarea class="fi" id="apb_desc" placeholder="Â¿QuÃ© revisÃ³? Â¿QuÃ© cambios hiciste? Â¿Alguna pregunta?" rows="3"></textarea>
     <div class="mactions">
       <button class="btn btng" onclick="closeModal('mAprobacion')">Cancelar</button>
-      <button class="btn btnp" onclick="saveAprobacion()">Enviar a revisión</button>
+      <button class="btn btnp" onclick="saveAprobacion()">Enviar a revisiÃ³n</button>
     </div>
   </div>
 </div>
 
 <div class="moverlay" id="mNota">
   <div class="modal">
-    <h3>📝 Nueva nota del equipo</h3>
-    <p>Agrega un hallazgo o información relevante para este cliente</p>
-    <label class="fl">Área</label>
+    <h3>ðŸ“ Nueva nota del equipo</h3>
+    <p>Agrega un hallazgo o informaciÃ³n relevante para este cliente</p>
+    <label class="fl">Ãrea</label>
     <select class="sel" id="nota_area">
-      <option value="ads">📢 Ads / Meta</option>
-      <option value="community">📱 Community</option>
-      <option value="seo">🗺️ Google Local</option>
-      <option value="web">🌐 Web</option>
-      <option value="admin">💰 Administración</option>
-      <option value="account">🤝 Account Manager</option>
+      <option value="ads">ðŸ“¢ Ads / Meta</option>
+      <option value="community">ðŸ“± Community</option>
+      <option value="seo">ðŸ—ºï¸ Google Local</option>
+      <option value="web">ðŸŒ Web</option>
+      <option value="admin">ðŸ’° AdministraciÃ³n</option>
+      <option value="account">ðŸ¤ Account Manager</option>
     </select>
     <label class="fl">Nota *</label>
-    <textarea class="fi" id="nota_texto" placeholder="¿Qué encontraste o aprendiste sobre este cliente?" rows="4"></textarea>
+    <textarea class="fi" id="nota_texto" placeholder="Â¿QuÃ© encontraste o aprendiste sobre este cliente?" rows="4"></textarea>
     <div class="mactions">
       <button class="btn btng" onclick="closeModal('mNota')">Cancelar</button>
       <button class="btn btnp" onclick="saveNota()">Guardar nota</button>
@@ -1352,7 +1352,7 @@ async function openExpediente(clienteId, clienteNombre, clienteGiro) {
   document.getElementById('tbTitle').textContent = clienteNombre;
   document.getElementById('tbBack').style.display = 'block';
   document.getElementById('tbSep').style.display = 'block';
-  document.getElementById('tbRight').innerHTML = `<button class="btn btng btn-sm" onclick="showPage('p-clientes',null,'Clientes')">← Clientes</button>`;
+  document.getElementById('tbRight').innerHTML = `<button class="btn btng btn-sm" onclick="showPage('p-clientes',null,'Clientes')">â† Clientes</button>`;
 
   // Set client header
   const hd = document.getElementById('expClienteHd');
@@ -1448,8 +1448,8 @@ async function saveExpediente(section) {
     updated_at: new Date().toISOString(),
   }, { onConflict: 'cliente_id,seccion' });
 
-  if (error) { showToast('❌ Error al guardar','err'); return; }
-  showToast(`✅ ${section.charAt(0).toUpperCase()+section.slice(1)} guardado`,'ok');
+  if (error) { showToast('âŒ Error al guardar','err'); return; }
+  showToast(`âœ… ${section.charAt(0).toUpperCase()+section.slice(1)} guardado`,'ok');
 }
 
 async function loadNotas(clienteId) {
@@ -1458,7 +1458,7 @@ async function loadNotas(clienteId) {
 
   const el = document.getElementById('notasList');
   if (!data?.length) {
-    el.innerHTML = '<div style="text-align:center;padding:32px;color:var(--muted);font-size:13px">Sin notas aún. Sé el primero en agregar un hallazgo.</div>';
+    el.innerHTML = '<div style="text-align:center;padding:32px;color:var(--muted);font-size:13px">Sin notas aÃºn. SÃ© el primero en agregar un hallazgo.</div>';
     return;
   }
 
@@ -1480,7 +1480,7 @@ async function saveNota() {
   if (!currentClienteId) return;
   const texto = document.getElementById('nota_texto').value.trim();
   const area = document.getElementById('nota_area').value;
-  if (!texto) { showToast('⚠️ Escribe la nota','err'); return; }
+  if (!texto) { showToast('âš ï¸ Escribe la nota','err'); return; }
 
   const { error } = await sb.from('expediente_cliente').insert({
     cliente_id: currentClienteId,
@@ -1489,10 +1489,10 @@ async function saveNota() {
     creado_por: CU?.id,
   });
 
-  if (error) { showToast('❌ Error al guardar','err'); return; }
+  if (error) { showToast('âŒ Error al guardar','err'); return; }
   closeModal('mNota');
   document.getElementById('nota_texto').value = '';
-  showToast('✅ Nota guardada','ok');
+  showToast('âœ… Nota guardada','ok');
   loadNotas(currentClienteId);
 }
 
@@ -1511,9 +1511,9 @@ function addCompetidor() {
   div.innerHTML = `
     <div class="comp-header">
       <input class="fi" placeholder="Nombre del competidor" style="margin-bottom:0;flex:1">
-      <button class="comp-del" onclick="document.getElementById('comp-${id}').remove()">✕</button>
+      <button class="comp-del" onclick="document.getElementById('comp-${id}').remove()">âœ•</button>
     </div>
-    <textarea class="fi" placeholder="¿Qué hace bien? ¿Qué hace mal? URL de sus redes..." rows="2" style="margin-bottom:0"></textarea>`;
+    <textarea class="fi" placeholder="Â¿QuÃ© hace bien? Â¿QuÃ© hace mal? URL de sus redes..." rows="2" style="margin-bottom:0"></textarea>`;
   list.appendChild(div);
 }
 
@@ -1522,7 +1522,7 @@ function addAcceso() {
   const div = document.createElement('div');
   div.className = 'acceso-row';
   div.style.marginTop = '8px';
-  div.innerHTML = `<input class="fi" placeholder="Ej: Google Business Profile" style="margin-bottom:0;flex:1"><div class="acceso-status pending" onclick="this.classList.toggle('ok');this.classList.toggle('pending');this.textContent=this.classList.contains('ok')?'✓':'⏳'">⏳</div>`;
+  div.innerHTML = `<input class="fi" placeholder="Ej: Google Business Profile" style="margin-bottom:0;flex:1"><div class="acceso-status pending" onclick="this.classList.toggle('ok');this.classList.toggle('pending');this.textContent=this.classList.contains('ok')?'âœ“':'â³'">â³</div>`;
   list.appendChild(div);
 }
 
@@ -1546,10 +1546,10 @@ async function sendExpAI(section) {
   msgs.scrollTop = msgs.scrollHeight;
 
   const systemPrompts = {
-    brief: `Eres el Asistente de Brief de Novu 360. Ayudas al Account Manager a construir el brief del cliente: ${currentClienteData?.nombre||'cliente'} (${currentClienteData?.giro||'sin giro'}). Genera propuestas concretas, en español, listas para copiar y pegar en el formulario.`,
-    mercado: `Eres el Asistente de Investigación de Mercado de Novu 360. Ayudas a investigar el mercado para: ${currentClienteData?.nombre||'cliente'} (${currentClienteData?.giro||'sin giro'}). Genera análisis concretos basados en el mercado mexicano, en español.`,
-    benchmark: `Eres el Asistente de Benchmark de Novu 360. Ayudas a analizar la competencia de: ${currentClienteData?.nombre||'cliente'} (${currentClienteData?.giro||'sin giro'}). Genera análisis comparativos concretos enfocados en el mercado mexicano.`,
-    estrategia: `Eres el Asistente Estratégico de Novu 360. Diseñas estrategias de marketing digital para: ${currentClienteData?.nombre||'cliente'} (${currentClienteData?.giro||'sin giro'}). Genera estrategias concretas, medibles y adaptadas al mercado mexicano.`,
+    brief: `Eres el Asistente de Brief de Novu 360. Ayudas al Account Manager a construir el brief del cliente: ${currentClienteData?.nombre||'cliente'} (${currentClienteData?.giro||'sin giro'}). Genera propuestas concretas, en espaÃ±ol, listas para copiar y pegar en el formulario.`,
+    mercado: `Eres el Asistente de InvestigaciÃ³n de Mercado de Novu 360. Ayudas a investigar el mercado para: ${currentClienteData?.nombre||'cliente'} (${currentClienteData?.giro||'sin giro'}). Genera anÃ¡lisis concretos basados en el mercado mexicano, en espaÃ±ol.`,
+    benchmark: `Eres el Asistente de Benchmark de Novu 360. Ayudas a analizar la competencia de: ${currentClienteData?.nombre||'cliente'} (${currentClienteData?.giro||'sin giro'}). Genera anÃ¡lisis comparativos concretos enfocados en el mercado mexicano.`,
+    estrategia: `Eres el Asistente EstratÃ©gico de Novu 360. DiseÃ±as estrategias de marketing digital para: ${currentClienteData?.nombre||'cliente'} (${currentClienteData?.giro||'sin giro'}). Genera estrategias concretas, medibles y adaptadas al mercado mexicano.`,
     onboarding: `Eres el Asistente de Onboarding de Novu 360. Ayudas al Account Manager a estructurar el proceso de arranque con: ${currentClienteData?.nombre||'cliente'}. Genera checklists y recomendaciones concretas.`,
   };
 
@@ -1583,11 +1583,11 @@ async function generateWithAI(section) {
   const nombre = currentClienteData?.nombre || document.getElementById('exp_nombre_neg')?.value || 'el cliente';
 
   const prompts = {
-    brief: `Genera un brief completo para un negocio llamado "${nombre}" del giro "${giro}" en México. Incluye: propuesta de valor, público objetivo, tono de comunicación recomendado y consideraciones de identidad visual.`,
-    mercado: `Genera un análisis de mercado completo para un negocio de "${giro}" en México. Incluye: análisis del sector, buyer persona detallado, tendencias relevantes y oportunidades de mercado.`,
-    benchmark: `Genera un análisis de competencia para un negocio de "${giro}" en México. Incluye: tipos de competidores típicos, qué hacen bien, qué hacen mal y los principales diferenciadores que debería explotar nuestro cliente.`,
-    estrategia: `Genera una estrategia de marketing digital para un negocio de "${giro}" en México llamado "${nombre}". Incluye: objetivos SMART, KPIs recomendados, canales prioritarios y acciones del primer mes.`,
-    onboarding: `Genera un checklist de onboarding completo para un cliente de agencia de marketing digital del giro "${giro}". Incluye todos los accesos necesarios, información a recopilar y pasos del proceso de arranque.`,
+    brief: `Genera un brief completo para un negocio llamado "${nombre}" del giro "${giro}" en MÃ©xico. Incluye: propuesta de valor, pÃºblico objetivo, tono de comunicaciÃ³n recomendado y consideraciones de identidad visual.`,
+    mercado: `Genera un anÃ¡lisis de mercado completo para un negocio de "${giro}" en MÃ©xico. Incluye: anÃ¡lisis del sector, buyer persona detallado, tendencias relevantes y oportunidades de mercado.`,
+    benchmark: `Genera un anÃ¡lisis de competencia para un negocio de "${giro}" en MÃ©xico. Incluye: tipos de competidores tÃ­picos, quÃ© hacen bien, quÃ© hacen mal y los principales diferenciadores que deberÃ­a explotar nuestro cliente.`,
+    estrategia: `Genera una estrategia de marketing digital para un negocio de "${giro}" en MÃ©xico llamado "${nombre}". Incluye: objetivos SMART, KPIs recomendados, canales prioritarios y acciones del primer mes.`,
+    onboarding: `Genera un checklist de onboarding completo para un cliente de agencia de marketing digital del giro "${giro}". Incluye todos los accesos necesarios, informaciÃ³n a recopilar y pasos del proceso de arranque.`,
   };
 
   document.getElementById(`ai-${section}-input`).value = prompts[section];
@@ -1611,13 +1611,13 @@ const ETAPAS = {
   contactado:       { label:'Contactado',        color:'#a78bfa', col:'col-contactado' },
   en_llamada:       { label:'En llamada',        color:'#facc15', col:'col-llamada' },
   propuesta_enviada:{ label:'Propuesta enviada', color:'#ff6b35', col:'col-propuesta' },
-  cerrado:          { label:'Cerrado ✅',        color:'#4ade80', col:'col-cerrado' },
+  cerrado:          { label:'Cerrado âœ…',        color:'#4ade80', col:'col-cerrado' },
 };
 
 const ESTADOS_TAREA = {
   por_hacer:   { label:'Por hacer',    col:'#60a5fa' },
   en_proceso:  { label:'En proceso',   col:'#facc15' },
-  en_revision: { label:'En revisión',  col:'#a78bfa' },
+  en_revision: { label:'En revisiÃ³n',  col:'#a78bfa' },
   completada:  { label:'Completada',   col:'#4ade80' },
 };
 
@@ -1627,21 +1627,21 @@ const ROL_LABELS = {
 };
 
 const CEREBROS = [
-  { id:'general',   name:'General',        area:'Estrategia & Operación',    ico:'🧠', prompts:['¿Cómo vamos este mes?','¿Qué clientes están en riesgo?','Resume la actividad reciente','¿Tengo capacidad para un cliente nuevo?'] },
-  { id:'ventas',    name:'Cerebro Ventas', area:'Prospección & Cierre',      ico:'🚀', prompts:['Ayúdame a escribir un mensaje de seguimiento','¿Por qué perdemos leads?','Genera una propuesta para restaurante','¿Cuándo hacer el seguimiento?'] },
-  { id:'ads',       name:'Cerebro Ads',    area:'Meta Ads & Campañas',       ico:'📢', prompts:['¿Cómo mejorar el ROAS?','Crear campaña desde cero','¿Qué audiencias usar?','Mi CPL está muy alto'] },
-  { id:'community', name:'Cerebro Community', area:'Contenido & Redes',     ico:'📱', prompts:['Ideas de contenido para restaurante','¿Qué formato funciona mejor?','Genera calendario del mes','Copy para post de Instagram'] },
-  { id:'seo',       name:'Cerebro SEO',    area:'Google Local & Posición',   ico:'🗺️', prompts:['¿Cómo optimizar la ficha?','Respuesta para reseña negativa','Ideas de posts para Google Business','¿Qué palabras clave usar?'] },
-  { id:'web',       name:'Cerebro Web',    area:'Landing Pages & UX',        ico:'🌐', prompts:['Estructura para landing de dentista','Copy para sección hero','¿Cómo mejorar la conversión?','Brief para nueva landing'] },
+  { id:'general',   name:'General',        area:'Estrategia & OperaciÃ³n',    ico:'ðŸ§ ', prompts:['Â¿CÃ³mo vamos este mes?','Â¿QuÃ© clientes estÃ¡n en riesgo?','Resume la actividad reciente','Â¿Tengo capacidad para un cliente nuevo?'] },
+  { id:'ventas',    name:'Cerebro Ventas', area:'ProspecciÃ³n & Cierre',      ico:'ðŸš€', prompts:['AyÃºdame a escribir un mensaje de seguimiento','Â¿Por quÃ© perdemos leads?','Genera una propuesta para restaurante','Â¿CuÃ¡ndo hacer el seguimiento?'] },
+  { id:'ads',       name:'Cerebro Ads',    area:'Meta Ads & CampaÃ±as',       ico:'ðŸ“¢', prompts:['Â¿CÃ³mo mejorar el ROAS?','Crear campaÃ±a desde cero','Â¿QuÃ© audiencias usar?','Mi CPL estÃ¡ muy alto'] },
+  { id:'community', name:'Cerebro Community', area:'Contenido & Redes',     ico:'ðŸ“±', prompts:['Ideas de contenido para restaurante','Â¿QuÃ© formato funciona mejor?','Genera calendario del mes','Copy para post de Instagram'] },
+  { id:'seo',       name:'Cerebro SEO',    area:'Google Local & PosiciÃ³n',   ico:'ðŸ—ºï¸', prompts:['Â¿CÃ³mo optimizar la ficha?','Respuesta para reseÃ±a negativa','Ideas de posts para Google Business','Â¿QuÃ© palabras clave usar?'] },
+  { id:'web',       name:'Cerebro Web',    area:'Landing Pages & UX',        ico:'ðŸŒ', prompts:['Estructura para landing de dentista','Copy para secciÃ³n hero','Â¿CÃ³mo mejorar la conversiÃ³n?','Brief para nueva landing'] },
 ];
 
 const CEREBRO_PROMPTS = {
-  general: `Eres el Cerebro General de Novu 360, una agencia de marketing digital mexicana. Eres el consultor estratégico del admin. Tienes acceso a toda la información del negocio. Responde en español de forma concisa y accionable. Eres directo, profesional y orientado a resultados.`,
-  ventas: `Eres el Cerebro de Ventas de Novu 360. Eres experto en prospección, seguimiento de leads, cierre de ventas y generación de propuestas para agencias de marketing digital en México. Ayudas al equipo de ventas a convertir más prospectos. Responde en español de forma práctica.`,
-  ads: `Eres el Cerebro de Ads de Novu 360. Eres un experto certificado en Meta Ads (Facebook e Instagram) con enfoque en negocios locales mexicanos. Sabes crear campañas, optimizar ROAS, reducir CPL y analizar métricas. Guías paso a paso sin asumir conocimiento previo. Responde en español.`,
-  community: `Eres el Cerebro de Community Manager de Novu 360. Eres experto en estrategia de contenido para redes sociales, calendarios editoriales, copywriting y tendencias para el mercado mexicano. Ayudas a crear contenido que conecta con audiencias locales. Responde en español.`,
-  seo: `Eres el Cerebro de SEO Local de Novu 360. Eres experto en Google Business Profile, posicionamiento en Google Maps, reseñas y SEO local para negocios mexicanos. Sabes optimizar fichas, responder reseñas y mejorar la visibilidad local. Responde en español.`,
-  web: `Eres el Cerebro Web de Novu 360. Eres experto en diseño de landing pages que convierten, arquitectura de información, copywriting web y UX para negocios locales mexicanos. Ayudas a crear briefs, estructuras y copies efectivos. Responde en español.`,
+  general: `Eres el Cerebro General de Novu 360, una agencia de marketing digital mexicana. Eres el consultor estratÃ©gico del admin. Tienes acceso a toda la informaciÃ³n del negocio. Responde en espaÃ±ol de forma concisa y accionable. Eres directo, profesional y orientado a resultados.`,
+  ventas: `Eres el Cerebro de Ventas de Novu 360. Eres experto en prospecciÃ³n, seguimiento de leads, cierre de ventas y generaciÃ³n de propuestas para agencias de marketing digital en MÃ©xico. Ayudas al equipo de ventas a convertir mÃ¡s prospectos. Responde en espaÃ±ol de forma prÃ¡ctica.`,
+  ads: `Eres el Cerebro de Ads de Novu 360. Eres un experto certificado en Meta Ads (Facebook e Instagram) con enfoque en negocios locales mexicanos. Sabes crear campaÃ±as, optimizar ROAS, reducir CPL y analizar mÃ©tricas. GuÃ­as paso a paso sin asumir conocimiento previo. Responde en espaÃ±ol.`,
+  community: `Eres el Cerebro de Community Manager de Novu 360. Eres experto en estrategia de contenido para redes sociales, calendarios editoriales, copywriting y tendencias para el mercado mexicano. Ayudas a crear contenido que conecta con audiencias locales. Responde en espaÃ±ol.`,
+  seo: `Eres el Cerebro de SEO Local de Novu 360. Eres experto en Google Business Profile, posicionamiento en Google Maps, reseÃ±as y SEO local para negocios mexicanos. Sabes optimizar fichas, responder reseÃ±as y mejorar la visibilidad local. Responde en espaÃ±ol.`,
+  web: `Eres el Cerebro Web de Novu 360. Eres experto en diseÃ±o de landing pages que convierten, arquitectura de informaciÃ³n, copywriting web y UX para negocios locales mexicanos. Ayudas a crear briefs, estructuras y copies efectivos. Responde en espaÃ±ol.`,
 };
 
 // ============================================
@@ -1662,8 +1662,8 @@ async function doLogin() {
   const { data, error } = await sb.auth.signInWithPassword({ email, password: pass });
   if (error) {
     btn.disabled = false;
-    btn.innerHTML = 'ENTRAR AL HUB →';
-    showLoginErr('Correo o contraseña incorrectos.');
+    btn.innerHTML = 'ENTRAR AL HUB â†’';
+    showLoginErr('Correo o contraseÃ±a incorrectos.');
     return;
   }
 
@@ -1681,7 +1681,7 @@ async function loginGoogle() {
 
 function showLoginErr(msg) {
   const el = document.getElementById('lerr');
-  el.textContent = '⚠️ ' + msg;
+  el.textContent = 'âš ï¸ ' + msg;
   el.style.display = 'block';
 }
 
@@ -1707,7 +1707,7 @@ async function doLogout() {
   document.getElementById('lpass').value = '';
   const btn = document.getElementById('lbtn');
   btn.disabled = false;
-  btn.innerHTML = 'ENTRAR AL HUB →';
+  btn.innerHTML = 'ENTRAR AL HUB â†’';
 }
 
 // ============================================
@@ -1731,8 +1731,8 @@ async function initApp() {
 
   // Greeting
   const h = new Date().getHours();
-  const g = h < 12 ? 'Buenos días' : h < 19 ? 'Buenas tardes' : 'Buenas noches';
-  document.getElementById('greet').textContent = `${g}, ${nombre} 👋`;
+  const g = h < 12 ? 'Buenos dÃ­as' : h < 19 ? 'Buenas tardes' : 'Buenas noches';
+  document.getElementById('greet').textContent = `${g}, ${nombre} ðŸ‘‹`;
   document.getElementById('greetDate').textContent = new Date().toLocaleDateString('es-MX', { weekday:'long', year:'numeric', month:'long', day:'numeric' });
 
   // Init cerebros
@@ -1762,20 +1762,20 @@ function showPage(pageId, sidebarEl, title) {
   // Set topbar actions
   const r = document.getElementById('tbRight');
   if (pageId === 'p-pipeline' || pageId === 'p-leads') {
-    r.innerHTML = `<button class="btn btnp" onclick="openModal('mLead')">➕ Nuevo lead</button>`;
+    r.innerHTML = `<button class="btn btnp" onclick="openModal('mLead')">âž• Nuevo lead</button>`;
     loadPipeline();
     if (pageId === 'p-leads') loadLeadsTable();
   } else if (pageId === 'p-tareas') {
-    r.innerHTML = `<button class="btn btnp" onclick="openModal('mTarea')">➕ Nueva tarea</button>`;
+    r.innerHTML = `<button class="btn btnp" onclick="openModal('mTarea')">âž• Nueva tarea</button>`;
     loadTareas();
   } else if (pageId === 'p-clientes') {
-    r.innerHTML = `<button class="btn btnp" onclick="openModal('mCliente')">➕ Nuevo cliente</button>`;
+    r.innerHTML = `<button class="btn btnp" onclick="openModal('mCliente')">âž• Nuevo cliente</button>`;
     loadClientesTable();
   } else if (pageId === 'p-usuarios') {
-    r.innerHTML = `<button class="btn btnp" onclick="openModal('mUsuario')">➕ Nuevo usuario</button>`;
+    r.innerHTML = `<button class="btn btnp" onclick="openModal('mUsuario')">âž• Nuevo usuario</button>`;
     loadUsuariosTable();
   } else if (pageId === 'p-admin') {
-    r.innerHTML = `<button class="btn btnp" onclick="openModal('mCliente')">➕ Nuevo pago</button>`;
+    r.innerHTML = `<button class="btn btnp" onclick="openModal('mCliente')">âž• Nuevo pago</button>`;
     loadAdmin();
   } else if (pageId === 'p-dashboard') {
     loadDashboard();
@@ -1822,16 +1822,16 @@ async function loadDashboard() {
 
   // Area cards
   const areas = [
-    { name:'Ads / Meta', ico:'📢', bg:'rgba(96,165,250,0.1)', page:'p-ads', status:'ok', sub:'Campañas activas', pct:75 },
-    { name:'Community', ico:'📱', bg:'rgba(167,139,250,0.1)', page:'p-community', status:'warn', sub:'3 posts pendientes', pct:60 },
-    { name:'Google Local', ico:'🗺️', bg:'rgba(232,57,14,0.1)', page:'p-seo', status:'ok', sub:'Fichas optimizadas', pct:90 },
-    { name:'Web', ico:'🌐', bg:'rgba(248,113,113,0.1)', page:'p-web', status:'alert', sub:'1 proyecto en revisión', pct:30 },
+    { name:'Ads / Meta', ico:'ðŸ“¢', bg:'rgba(96,165,250,0.1)', page:'p-ads', status:'ok', sub:'CampaÃ±as activas', pct:75 },
+    { name:'Community', ico:'ðŸ“±', bg:'rgba(167,139,250,0.1)', page:'p-community', status:'warn', sub:'3 posts pendientes', pct:60 },
+    { name:'Google Local', ico:'ðŸ—ºï¸', bg:'rgba(232,57,14,0.1)', page:'p-seo', status:'ok', sub:'Fichas optimizadas', pct:90 },
+    { name:'Web', ico:'ðŸŒ', bg:'rgba(248,113,113,0.1)', page:'p-web', status:'alert', sub:'1 proyecto en revisiÃ³n', pct:30 },
   ];
   document.getElementById('areaGrid').innerHTML = areas.map(a => `
     <div class="acard" onclick="showPage('${a.page}',null,'${a.name}')">
       <div class="acard-hd">
         <div class="acard-ico" style="background:${a.bg}">${a.ico}</div>
-        <span class="astatus s-${a.status}">${a.status==='ok'?'Al día':a.status==='warn'?'Revisar':'Urgente'}</span>
+        <span class="astatus s-${a.status}">${a.status==='ok'?'Al dÃ­a':a.status==='warn'?'Revisar':'Urgente'}</span>
       </div>
       <div class="acard-title">${a.name}</div>
       <div class="acard-sub">${a.sub}</div>
@@ -1853,10 +1853,10 @@ async function loadDashboard() {
     <div class="feed-item">
       <div class="fdot" style="background:${ETAPAS[l.etapa]?.color||'#fff'}"></div>
       <div>
-        <div class="faction"><strong>${l.nombre_negocio}</strong> — ${ETAPAS[l.etapa]?.label||l.etapa}</div>
+        <div class="faction"><strong>${l.nombre_negocio}</strong> â€” ${ETAPAS[l.etapa]?.label||l.etapa}</div>
         <div class="ftime">${new Date(l.created_at).toLocaleDateString('es-MX')}</div>
       </div>
-    </div>`).join('') || '<div style="font-size:13px;color:var(--muted);padding:8px 0">Sin actividad aún</div>';
+    </div>`).join('') || '<div style="font-size:13px;color:var(--muted);padding:8px 0">Sin actividad aÃºn</div>';
 }
 
 // ============================================
@@ -1878,7 +1878,7 @@ async function loadPipeline() {
       ${items.map(l => `
         <div class="lcard-k">
           <div class="lkname">${l.nombre_negocio}</div>
-          <div class="lkmeta">${l.contacto||'—'} ${l.telefono?'· '+l.telefono:''}</div>
+          <div class="lkmeta">${l.contacto||'â€”'} ${l.telefono?'Â· '+l.telefono:''}</div>
           ${l.giro?`<div class="lkgiro">${l.giro}</div>`:''}
         </div>`).join('')}
       <button class="add-col-btn" onclick="openModal('mLead')">+ Agregar</button>`;
@@ -1892,7 +1892,7 @@ async function loadPipeline() {
 async function loadLeadsTable() {
   const { data } = await sb.from('leads').select('*').order('created_at',{ascending:false});
   const el = document.getElementById('leadsTable');
-  if (!data?.length) { el.innerHTML = emptyState('📋','Sin leads aún','Agrega tu primer prospecto al pipeline'); return; }
+  if (!data?.length) { el.innerHTML = emptyState('ðŸ“‹','Sin leads aÃºn','Agrega tu primer prospecto al pipeline'); return; }
   el.innerHTML = `
     <div class="table-wrap">
       <div class="table-hd"><h3>Todos los leads</h3></div>
@@ -1902,9 +1902,9 @@ async function loadLeadsTable() {
       ${data.map(l => `
         <div class="trow" style="grid-template-columns:2fr 1fr 1fr 1fr 120px">
           <div class="tcname">${l.nombre_negocio}</div>
-          <div style="color:var(--muted)">${l.giro||'—'}</div>
-          <div style="color:var(--muted)">${l.ciudad||'—'}</div>
-          <div style="color:var(--muted)">${l.contacto||'—'}</div>
+          <div style="color:var(--muted)">${l.giro||'â€”'}</div>
+          <div style="color:var(--muted)">${l.ciudad||'â€”'}</div>
+          <div style="color:var(--muted)">${l.contacto||'â€”'}</div>
           <div><span class="tbadge" style="background:${ETAPAS[l.etapa]?.color}22;color:${ETAPAS[l.etapa]?.color}">${ETAPAS[l.etapa]?.label||l.etapa}</span></div>
         </div>`).join('')}
     </div>`;
@@ -1931,7 +1931,7 @@ async function loadTareas() {
           <div class="tcard-title">${t.titulo}</div>
           <div class="tcard-meta">
             <span class="tprio p-${t.prioridad||'media'}">${t.prioridad||'media'}</span>
-            ${t.fecha_limite?`<span class="tarea">📅 ${t.fecha_limite}</span>`:''}
+            ${t.fecha_limite?`<span class="tarea">ðŸ“… ${t.fecha_limite}</span>`:''}
           </div>
           ${t.area?`<span class="tcard-area">${t.area}</span>`:''}
         </div>`).join('')}
@@ -1946,7 +1946,7 @@ async function loadTareas() {
 async function loadClientesTable() {
   const { data } = await sb.from('clientes').select('*').order('created_at',{ascending:false});
   const el = document.getElementById('clientesTable');
-  if (!data?.length) { el.innerHTML = emptyState('👥','Sin clientes aún','Agrega tu primer cliente activo'); return; }
+  if (!data?.length) { el.innerHTML = emptyState('ðŸ‘¥','Sin clientes aÃºn','Agrega tu primer cliente activo'); return; }
   el.innerHTML = `
     <div class="table-wrap">
       <div class="table-hd"><h3>Clientes activos</h3></div>
@@ -1956,10 +1956,10 @@ async function loadClientesTable() {
       ${data.map(c => `
         <div class="trow" style="grid-template-columns:2fr 1fr 1fr 1fr 80px;cursor:pointer" onclick="openExpediente('${c.id}','${c.nombre.replace(/'/g,"\\'")}','${(c.giro||'').replace(/'/g,"\\'")}')">
           <div class="tcname">${c.nombre}</div>
-          <div style="color:var(--muted)">${c.giro||'—'}</div>
-          <div style="color:var(--muted)">${c.contacto||'—'}</div>
+          <div style="color:var(--muted)">${c.giro||'â€”'}</div>
+          <div style="color:var(--muted)">${c.contacto||'â€”'}</div>
           <div><span class="tbadge bg-ok">${c.estado||'activo'}</span></div>
-          <div><span style="color:var(--accent);font-size:13px">Ver →</span></div>
+          <div><span style="color:var(--accent);font-size:13px">Ver â†’</span></div>
         </div>`).join('')}
     </div>`;
 }
@@ -1970,7 +1970,7 @@ async function loadClientesTable() {
 async function loadUsuariosTable() {
   const { data } = await sb.from('usuarios').select('*').order('created_at',{ascending:false});
   const el = document.getElementById('usuariosTable');
-  if (!data?.length) { el.innerHTML = emptyState('⚙️','Sin usuarios aún','Invita a tu equipo al hub'); return; }
+  if (!data?.length) { el.innerHTML = emptyState('âš™ï¸','Sin usuarios aÃºn','Invita a tu equipo al hub'); return; }
   el.innerHTML = `
     <div class="table-wrap">
       <div class="table-hd"><h3>Equipo Novu 360</h3></div>
@@ -1979,7 +1979,7 @@ async function loadUsuariosTable() {
       </div>
       ${data.map(u => `
         <div class="trow" style="grid-template-columns:2fr 2fr 1fr 1fr">
-          <div class="tcname">${u.nombre||'—'}</div>
+          <div class="tcname">${u.nombre||'â€”'}</div>
           <div style="color:var(--muted)">${u.email}</div>
           <div><span class="tbadge bg-acc">${ROL_LABELS[u.rol]||u.rol}</span></div>
           <div><span class="tbadge bg-ok">${u.activo?'Activo':'Inactivo'}</span></div>
@@ -2009,7 +2009,7 @@ async function loadAdmin() {
   document.getElementById('pagosVenc').textContent = vencidos;
 
   const pt = document.getElementById('pagosTable');
-  if (!pagos?.length) { pt.innerHTML = emptyState('💰','Sin pagos registrados','Registra contratos y pagos para ver el historial'); }
+  if (!pagos?.length) { pt.innerHTML = emptyState('ðŸ’°','Sin pagos registrados','Registra contratos y pagos para ver el historial'); }
   else {
     pt.innerHTML = `
       <div class="table-wrap">
@@ -2019,16 +2019,16 @@ async function loadAdmin() {
         </div>
         ${pagos.map(p => `
           <div class="trow" style="grid-template-columns:2fr 1fr 1fr 1fr">
-            <div class="tcname">${p.concepto||'—'}</div>
+            <div class="tcname">${p.concepto||'â€”'}</div>
             <div style="color:var(--accent);font-weight:700">$${(p.monto||0).toLocaleString('es-MX')}</div>
-            <div style="color:var(--muted)">${p.fecha_pago||'—'}</div>
+            <div style="color:var(--muted)">${p.fecha_pago||'â€”'}</div>
             <div><span class="tbadge ${p.estado==='pagado'?'bg-ok':p.estado==='vencido'?'bg-red':'bg-warn'}">${p.estado}</span></div>
           </div>`).join('')}
       </div>`;
   }
 
   const ct = document.getElementById('contratosTable');
-  if (!contratos?.length) { ct.innerHTML = emptyState('📄','Sin contratos aún','Genera contratos para tus clientes activos'); }
+  if (!contratos?.length) { ct.innerHTML = emptyState('ðŸ“„','Sin contratos aÃºn','Genera contratos para tus clientes activos'); }
   else {
     ct.innerHTML = `
       <div class="table-wrap">
@@ -2038,9 +2038,9 @@ async function loadAdmin() {
         </div>
         ${contratos.map(c => `
           <div class="trow" style="grid-template-columns:2fr 1fr 1fr 1fr">
-            <div class="tcname">${c.servicio||'—'}</div>
+            <div class="tcname">${c.servicio||'â€”'}</div>
             <div style="color:var(--accent);font-weight:700">$${(c.monto||0).toLocaleString('es-MX')}</div>
-            <div style="color:var(--muted)">${c.fecha_fin||'—'}</div>
+            <div style="color:var(--muted)">${c.fecha_fin||'â€”'}</div>
             <div><span class="tbadge ${c.estado==='activo'?'bg-ok':'bg-red'}">${c.estado}</span></div>
           </div>`).join('')}
       </div>`;
@@ -2052,12 +2052,12 @@ async function loadAdmin() {
 // ============================================
 function initAdsChecklist() {
   const items = [
-    'Revisar métricas semanales de todos los clientes',
-    'Ajustar presupuestos según rendimiento',
-    'Revisar audiencias y segmentación',
-    'Proponer nuevos creativos para campañas con fatiga',
+    'Revisar mÃ©tricas semanales de todos los clientes',
+    'Ajustar presupuestos segÃºn rendimiento',
+    'Revisar audiencias y segmentaciÃ³n',
+    'Proponer nuevos creativos para campaÃ±as con fatiga',
     'Enviar reporte mensual a cada cliente',
-    'Verificar píxel de conversión en todos los clientes',
+    'Verificar pÃ­xel de conversiÃ³n en todos los clientes',
   ];
   const el = document.getElementById('adsChecklist');
   if (!el) return;
@@ -2081,7 +2081,7 @@ function toggleCheck(el) {
   } else {
     circle.style.background = 'var(--accent)';
     circle.style.borderColor = 'var(--accent)';
-    circle.textContent = '✓';
+    circle.textContent = 'âœ“';
     circle.style.fontSize = '11px';
     circle.style.color = '#fff';
     label.style.textDecoration = 'line-through';
@@ -2122,12 +2122,12 @@ function selectCerebro(id, el) {
   const msgs = document.getElementById('chatMsgs');
   msgs.innerHTML = `
     <div class="msg ai">
-      Hola 👋 Soy tu <strong>${c.name}</strong>. Estoy aquí para ayudarte con ${c.area.toLowerCase()}. ¿Por dónde empezamos?
+      Hola ðŸ‘‹ Soy tu <strong>${c.name}</strong>. Estoy aquÃ­ para ayudarte con ${c.area.toLowerCase()}. Â¿Por dÃ³nde empezamos?
     </div>`;
 
   // Quick prompts
   document.getElementById('quickPrompts').innerHTML = c.prompts.map(p => `
-    <div class="qp" onclick="sendQuickPrompt('${p.replace(/'/g,"\\'")}')">💬 ${p}</div>`).join('');
+    <div class="qp" onclick="sendQuickPrompt('${p.replace(/'/g,"\\'")}')">ðŸ’¬ ${p}</div>`).join('');
 }
 
 function sendQuickPrompt(text) {
@@ -2177,7 +2177,7 @@ async function sendChat() {
 
   } catch(e) {
     document.getElementById(typingId)?.remove();
-    msgs.innerHTML += `<div class="msg ai" style="color:var(--red)">Error al conectar con la IA. Verifica tu conexión.</div>`;
+    msgs.innerHTML += `<div class="msg ai" style="color:var(--red)">Error al conectar con la IA. Verifica tu conexiÃ³n.</div>`;
     msgs.scrollTop = msgs.scrollHeight;
   }
 }
@@ -2187,7 +2187,7 @@ async function sendChat() {
 // ============================================
 async function saveLead() {
   const nombre = document.getElementById('ln_nombre').value.trim();
-  if (!nombre) { showToast('⚠️ El nombre es obligatorio','err'); return; }
+  if (!nombre) { showToast('âš ï¸ El nombre es obligatorio','err'); return; }
 
   const { error } = await sb.from('leads').insert({
     nombre_negocio: nombre,
@@ -2199,16 +2199,16 @@ async function saveLead() {
     notas: document.getElementById('ln_notas').value.trim(),
   });
 
-  if (error) { showToast('❌ Error al guardar','err'); return; }
+  if (error) { showToast('âŒ Error al guardar','err'); return; }
   closeModal('mLead');
   ['ln_nombre','ln_giro','ln_ciudad','ln_contacto','ln_tel','ln_notas'].forEach(id => document.getElementById(id).value='');
-  showToast('✅ Lead guardado','ok');
+  showToast('âœ… Lead guardado','ok');
   loadPipeline(); loadDashboard();
 }
 
 async function saveCliente() {
   const nombre = document.getElementById('cl_nombre').value.trim();
-  if (!nombre) { showToast('⚠️ El nombre es obligatorio','err'); return; }
+  if (!nombre) { showToast('âš ï¸ El nombre es obligatorio','err'); return; }
 
   const { error } = await sb.from('clientes').insert({
     nombre,
@@ -2218,16 +2218,16 @@ async function saveCliente() {
     contacto: document.getElementById('cl_contacto').value.trim(),
   });
 
-  if (error) { showToast('❌ Error al guardar','err'); return; }
+  if (error) { showToast('âŒ Error al guardar','err'); return; }
   closeModal('mCliente');
   ['cl_nombre','cl_giro','cl_tel','cl_email','cl_contacto'].forEach(id => document.getElementById(id).value='');
-  showToast('✅ Cliente guardado','ok');
+  showToast('âœ… Cliente guardado','ok');
   loadClientesTable(); loadDashboard();
 }
 
 async function saveTarea() {
   const titulo = document.getElementById('ta_titulo').value.trim();
-  if (!titulo) { showToast('⚠️ El título es obligatorio','err'); return; }
+  if (!titulo) { showToast('âš ï¸ El tÃ­tulo es obligatorio','err'); return; }
 
   const { error } = await sb.from('tareas').insert({
     titulo,
@@ -2238,10 +2238,10 @@ async function saveTarea() {
     estado: 'por_hacer',
   });
 
-  if (error) { showToast('❌ Error al guardar','err'); return; }
+  if (error) { showToast('âŒ Error al guardar','err'); return; }
   closeModal('mTarea');
   ['ta_titulo','ta_fecha','ta_desc'].forEach(id => document.getElementById(id).value='');
-  showToast('✅ Tarea guardada','ok');
+  showToast('âœ… Tarea guardada','ok');
   loadTareas(); loadDashboard();
 }
 
@@ -2251,10 +2251,10 @@ async function saveUsuario() {
   const pass = document.getElementById('us_password')?.value || document.getElementById('us_pass').value;
   const rol = document.getElementById('us_rol').value;
 
-  if (!nombre || !email || !pass) { showToast('⚠️ Completa todos los campos','err'); return; }
+  if (!nombre || !email || !pass) { showToast('âš ï¸ Completa todos los campos','err'); return; }
 
   const { data, error } = await sb.auth.signUp({ email, password: pass });
-  if (error) { showToast('❌ ' + error.message,'err'); return; }
+  if (error) { showToast('âŒ ' + error.message,'err'); return; }
 
   if (data?.user?.id) {
     await sb.from('usuarios').insert({ id: data.user.id, nombre, email, rol, activo: true });
@@ -2262,7 +2262,7 @@ async function saveUsuario() {
   }
 
   closeModal('mUsuario');
-  showToast('✅ Usuario creado — debe confirmar su email','ok');
+  showToast('âœ… Usuario creado â€” debe confirmar su email','ok');
   loadUsuariosTable();
 }
 
@@ -2309,10 +2309,10 @@ let calYear = new Date().getFullYear();
 let calMonth = new Date().getMonth();
 
 const PLAT_INFO = {
-  ig: { label:'Instagram', ico:'📸', cls:'plat-ig' },
-  fb: { label:'Facebook',  ico:'📘', cls:'plat-fb' },
-  tt: { label:'TikTok',    ico:'🎵', cls:'plat-tt' },
-  gm: { label:'Google',   ico:'🗺️', cls:'plat-gm' },
+  ig: { label:'Instagram', ico:'ðŸ“¸', cls:'plat-ig' },
+  fb: { label:'Facebook',  ico:'ðŸ“˜', cls:'plat-fb' },
+  tt: { label:'TikTok',    ico:'ðŸŽµ', cls:'plat-tt' },
+  gm: { label:'Google',   ico:'ðŸ—ºï¸', cls:'plat-gm' },
 };
 
 const POST_STATUS = {
@@ -2332,7 +2332,7 @@ async function renderCalendar() {
     .lte('created_at', new Date(calYear, calMonth+1, 0).toISOString());
 
   const grid = document.getElementById('calGrid');
-  const days = ['Dom','Lun','Mar','Mié','Jue','Vie','Sáb'];
+  const days = ['Dom','Lun','Mar','MiÃ©','Jue','Vie','SÃ¡b'];
   let html = days.map(d => `<div class="cal-day-hd">${d}</div>`).join('');
 
   const firstDay = new Date(calYear, calMonth, 1).getDay();
@@ -2373,7 +2373,7 @@ function nextMonth() { calMonth++; if (calMonth > 11) { calMonth = 0; calYear++;
 async function loadPosts() {
   const { data } = await sb.from('aprobaciones').select('*').eq('tipo','post').order('created_at',{ascending:false});
   const el = document.getElementById('postsList');
-  if (!data?.length) { el.innerHTML = emptyState('📱','Sin posts aún','Crea el primer post del calendario'); return; }
+  if (!data?.length) { el.innerHTML = emptyState('ðŸ“±','Sin posts aÃºn','Crea el primer post del calendario'); return; }
   el.innerHTML = data.map(p => {
     try {
       const c = JSON.parse(p.descripcion||'{}');
@@ -2382,16 +2382,16 @@ async function loadPosts() {
       return `<div class="post-card">
         <div class="post-plat" style="background:${pl.cls.includes('ig')?'rgba(167,139,250,0.15)':pl.cls.includes('fb')?'rgba(96,165,250,0.15)':pl.cls.includes('tt')?'rgba(248,113,113,0.15)':'rgba(232,57,14,0.15)'}">${pl.ico}</div>
         <div class="post-info">
-          <div class="post-cliente">${p.titulo||'Sin título'}</div>
+          <div class="post-cliente">${p.titulo||'Sin tÃ­tulo'}</div>
           <div class="post-copy">${c.copy||'Sin copy'}</div>
           <div class="post-meta">
-            <span class="post-date">📅 ${c.fecha||'Sin fecha'}</span>
+            <span class="post-date">ðŸ“… ${c.fecha||'Sin fecha'}</span>
             <span class="post-status ${st.cls}">${st.label}</span>
             ${c.formato?`<span style="font-size:11px;color:var(--muted)">${c.formato}</span>`:''}
           </div>
         </div>
         <div class="post-actions">
-          <button class="btn btng btn-sm" onclick="sendToApproval('${p.id}')">📋 Aprobar</button>
+          <button class="btn btng btn-sm" onclick="sendToApproval('${p.id}')">ðŸ“‹ Aprobar</button>
         </div>
       </div>`;
     } catch { return ''; }
@@ -2401,7 +2401,7 @@ async function loadPosts() {
 async function loadAprobacionesCommunity() {
   const { data } = await sb.from('aprobaciones').select('*').eq('estado','pendiente').order('created_at',{ascending:false});
   const el = document.getElementById('aprobList');
-  if (!data?.length) { el.innerHTML = emptyState('✅','Sin pendientes','Todo está al día'); return; }
+  if (!data?.length) { el.innerHTML = emptyState('âœ…','Sin pendientes','Todo estÃ¡ al dÃ­a'); return; }
   el.innerHTML = renderAprobCards(data);
 }
 
@@ -2411,22 +2411,22 @@ async function savePost() {
   const plat = document.querySelector('[data-group="postPlat"].selected')?.dataset?.value || 'ig';
   const formato = document.getElementById('post_formato').value;
   const cliente = document.getElementById('post_cliente').value;
-  if (!copy) { showToast('⚠️ Escribe el copy','err'); return; }
+  if (!copy) { showToast('âš ï¸ Escribe el copy','err'); return; }
 
   const { error } = await sb.from('aprobaciones').insert({
     tipo: 'post',
     area: 'community',
-    titulo: `Post ${PLAT_INFO[plat]?.label} — ${fecha}`,
+    titulo: `Post ${PLAT_INFO[plat]?.label} â€” ${fecha}`,
     descripcion: JSON.stringify({ copy, fecha, plataforma: plat, formato, cliente_id: cliente }),
     estado: 'borrador',
     creado_por: CU?.id,
   });
 
-  if (error) { showToast('❌ Error','err'); return; }
+  if (error) { showToast('âŒ Error','err'); return; }
   closeModal('mPost');
   document.getElementById('post_copy').value = '';
   document.getElementById('post_fecha').value = '';
-  showToast('✅ Post guardado','ok');
+  showToast('âœ… Post guardado','ok');
   renderCalendar(); loadPosts();
 }
 
@@ -2443,12 +2443,12 @@ async function generatePostCopy() {
       method:'POST', headers:{'Content-Type':'application/json'},
       body: JSON.stringify({
         model:'claude-sonnet-4-20250514', max_tokens:500,
-        messages:[{ role:'user', content:`Genera un copy para un ${formato} de ${PLAT_INFO[plat]?.label} para el cliente "${clienteNombre}". Tono cercano, en español, máximo 150 palabras, incluye emojis relevantes y hashtags al final.` }]
+        messages:[{ role:'user', content:`Genera un copy para un ${formato} de ${PLAT_INFO[plat]?.label} para el cliente "${clienteNombre}". Tono cercano, en espaÃ±ol, mÃ¡ximo 150 palabras, incluye emojis relevantes y hashtags al final.` }]
       })
     });
     const data = await res.json();
     document.getElementById('post_copy').value = data.content?.[0]?.text || '';
-  } catch(e) { document.getElementById('post_copy').value = ''; showToast('❌ Error al generar','err'); }
+  } catch(e) { document.getElementById('post_copy').value = ''; showToast('âŒ Error al generar','err'); }
 }
 
 // ============================================
@@ -2458,18 +2458,18 @@ async function saveAprobacion() {
   const titulo = document.getElementById('apb_titulo').value.trim();
   const tipo = document.getElementById('apb_tipo').value;
   const desc = document.getElementById('apb_desc').value.trim();
-  if (!titulo) { showToast('⚠️ El título es obligatorio','err'); return; }
+  if (!titulo) { showToast('âš ï¸ El tÃ­tulo es obligatorio','err'); return; }
 
   const { error } = await sb.from('aprobaciones').insert({
     tipo, area: CUS?.rol || 'operativo', titulo, descripcion: desc, estado: 'pendiente', creado_por: CU?.id,
   });
 
-  if (error) { showToast('❌ Error','err'); return; }
+  if (error) { showToast('âŒ Error','err'); return; }
   closeModal('mAprobacion');
   document.getElementById('apb_titulo').value = '';
   document.getElementById('apb_desc').value = '';
-  showToast('✅ Enviado a revisión','ok');
-  loadAprobaciones(); addNotification('Nueva solicitud de aprobación', `${titulo} está esperando revisión`, 'warn');
+  showToast('âœ… Enviado a revisiÃ³n','ok');
+  loadAprobaciones(); addNotification('Nueva solicitud de aprobaciÃ³n', `${titulo} estÃ¡ esperando revisiÃ³n`, 'warn');
 }
 
 async function loadAprobaciones() {
@@ -2479,9 +2479,9 @@ async function loadAprobaciones() {
     sb.from('aprobaciones').select('*').eq('estado','rechazado').order('created_at',{ascending:false}),
   ]);
 
-  document.getElementById('apbPend').innerHTML = pend?.length ? renderAprobCards(pend, true) : emptyState('✅','Sin pendientes','Todo está al día');
-  document.getElementById('apbAprov').innerHTML = aprov?.length ? renderAprobCards(aprov) : emptyState('📋','Sin aprobados','Aún no hay entregables aprobados');
-  document.getElementById('apbRech').innerHTML = rech?.length ? renderAprobCards(rech) : emptyState('❌','Sin rechazados','');
+  document.getElementById('apbPend').innerHTML = pend?.length ? renderAprobCards(pend, true) : emptyState('âœ…','Sin pendientes','Todo estÃ¡ al dÃ­a');
+  document.getElementById('apbAprov').innerHTML = aprov?.length ? renderAprobCards(aprov) : emptyState('ðŸ“‹','Sin aprobados','AÃºn no hay entregables aprobados');
+  document.getElementById('apbRech').innerHTML = rech?.length ? renderAprobCards(rech) : emptyState('âŒ','Sin rechazados','');
 
   // Update badge
   const badge = document.getElementById('apbBadge');
@@ -2494,8 +2494,8 @@ function renderAprobCards(items, showActions=false) {
     <div class="aprov-card">
       <div class="aprov-hd">
         <div>
-          <div class="aprov-area">${a.area||'equipo'} · ${a.tipo}</div>
-          <div class="aprov-title">${a.titulo||'Sin título'}</div>
+          <div class="aprov-area">${a.area||'equipo'} Â· ${a.tipo}</div>
+          <div class="aprov-title">${a.titulo||'Sin tÃ­tulo'}</div>
         </div>
         <span class="post-status ${a.estado==='aprobado'?'ps-aprobado':a.estado==='rechazado'?'ps-borrador':'ps-listo'}">${a.estado}</span>
       </div>
@@ -2505,15 +2505,15 @@ function renderAprobCards(items, showActions=false) {
       </div>
       ${showActions?`
       <div class="aprov-actions">
-        <button class="btn-aprov ok" onclick="resolveAprobacion('${a.id}','aprobado')">✅ Aprobar</button>
-        <button class="btn-aprov no" onclick="resolveAprobacion('${a.id}','rechazado')">❌ Rechazar</button>
+        <button class="btn-aprov ok" onclick="resolveAprobacion('${a.id}','aprobado')">âœ… Aprobar</button>
+        <button class="btn-aprov no" onclick="resolveAprobacion('${a.id}','rechazado')">âŒ Rechazar</button>
       </div>`:''}
     </div>`).join('');
 }
 
 async function resolveAprobacion(id, estado) {
   await sb.from('aprobaciones').update({ estado, revisado_por: CU?.id }).eq('id', id);
-  showToast(estado==='aprobado'?'✅ Aprobado':'❌ Rechazado', estado==='aprobado'?'ok':'err');
+  showToast(estado==='aprobado'?'âœ… Aprobado':'âŒ Rechazado', estado==='aprobado'?'ok':'err');
   loadAprobaciones();
   addNotification(`Entregable ${estado}`, `Una solicitud fue ${estado} por el Account Manager`, estado==='aprobado'?'ok':'err');
 }
@@ -2526,7 +2526,7 @@ async function loadPortal() {
   const { data: portales } = await sb.from('portal_cliente').select('*');
   const el = document.getElementById('portalList');
 
-  if (!clientes?.length) { el.innerHTML = emptyState('🌐','Sin clientes activos','Agrega clientes para crear sus portales'); return; }
+  if (!clientes?.length) { el.innerHTML = emptyState('ðŸŒ','Sin clientes activos','Agrega clientes para crear sus portales'); return; }
 
   el.innerHTML = clientes.map(c => {
     const portal = portales?.find(p => p.cliente_id === c.id);
@@ -2540,9 +2540,9 @@ async function loadPortal() {
       </div>
       <div class="portal-actions">
         ${url ? `
-          <button class="btn btnp btn-sm" onclick="copyPortalUrl('${url}')">📋 Copiar link</button>
+          <button class="btn btnp btn-sm" onclick="copyPortalUrl('${url}')">ðŸ“‹ Copiar link</button>
           <button class="btn btng btn-sm" onclick="deactivatePortal('${c.id}')">Desactivar</button>
-        ` : `<button class="btn btnp btn-sm" onclick="createPortal('${c.id}')">🌐 Crear portal</button>`}
+        ` : `<button class="btn btnp btn-sm" onclick="createPortal('${c.id}')">ðŸŒ Crear portal</button>`}
       </div>
     </div>`;
   }).join('');
@@ -2551,13 +2551,13 @@ async function loadPortal() {
 async function createPortal(clienteId) {
   const token = 'portal-' + clienteId.substring(0,8) + '-' + Math.random().toString(36).substring(2,8);
   const { error } = await sb.from('portal_cliente').upsert({ cliente_id: clienteId, token, activo: true }, { onConflict: 'cliente_id' });
-  if (error) { showToast('❌ Error al crear portal','err'); return; }
-  showToast('✅ Portal creado','ok');
+  if (error) { showToast('âŒ Error al crear portal','err'); return; }
+  showToast('âœ… Portal creado','ok');
   loadPortal();
 }
 
 function copyPortalUrl(url) {
-  navigator.clipboard.writeText(url).then(() => showToast('📋 Link copiado','ok'));
+  navigator.clipboard.writeText(url).then(() => showToast('ðŸ“‹ Link copiado','ok'));
 }
 
 async function deactivatePortal(clienteId) {
@@ -2661,8 +2661,8 @@ showPage = function(pageId, sidebarEl, title) {
 
   if (pageId === 'p-community') {
     r.innerHTML = `
-      <button class="btn btng" onclick="openModal('mAprobacion')">📋 Enviar a aprobación</button>
-      <button class="btn btnp" onclick="openModal('mPost')">➕ Nuevo post</button>`;
+      <button class="btn btng" onclick="openModal('mAprobacion')">ðŸ“‹ Enviar a aprobaciÃ³n</button>
+      <button class="btn btnp" onclick="openModal('mPost')">âž• Nuevo post</button>`;
     renderCalendar(); loadPosts(); loadAprobacionesCommunity();
     // Populate client select
     sb.from('clientes').select('id,nombre').eq('estado','activo').then(({data}) => {
@@ -2670,7 +2670,7 @@ showPage = function(pageId, sidebarEl, title) {
       if (sel && data) { sel.innerHTML = '<option value="">Selecciona cliente...</option>' + data.map(c => `<option value="${c.id}">${c.nombre}</option>`).join(''); }
     });
   } else if (pageId === 'p-aprobaciones') {
-    r.innerHTML = `<button class="btn btnp" onclick="openModal('mAprobacion')">📋 Nueva solicitud</button>`;
+    r.innerHTML = `<button class="btn btnp" onclick="openModal('mAprobacion')">ðŸ“‹ Nueva solicitud</button>`;
     loadAprobaciones();
   } else if (pageId === 'p-portal') {
     loadPortal();
@@ -2707,11 +2707,10 @@ initApp = async function() {
   // Load initial notifications
   const { data: apbs } = await sb.from('aprobaciones').select('*').eq('estado','pendiente');
   if (apbs?.length) {
-    apbs.forEach(a => addNotification('Pendiente de aprobación', a.titulo, 'warn'));
+    apbs.forEach(a => addNotification('Pendiente de aprobaciÃ³n', a.titulo, 'warn'));
   }
 };
-</script>
-</body>
+</script></body>
 </html>
   const { data: { session } } = await sb.auth.getSession();
   if (session) {
@@ -2737,6 +2736,10 @@ initApp = async function() {
     }
   });
 });
-</script>
+</script><script src="global-nav.js" defer></script>
 </body>
 </html>
+
+
+
+
