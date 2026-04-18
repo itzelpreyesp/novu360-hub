@@ -1,455 +1,966 @@
-﻿<!DOCTYPE html>
-
-<html class="dark" lang="es"><head>
-<meta charset="utf-8"/>
-<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
-<title>Novu 360 Â· Cerebros IA</title>
-<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
-<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&amp;family=Inter:wght@400;500;600&amp;display=swap" rel="stylesheet"/>
-<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
-<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
-<script id="tailwind-config">
-        tailwind.config = {
-            darkMode: "class",
-            theme: {
-                extend: {
-                    colors: {
-                        "outline-variant": "#3c4a46",
-                        "tertiary-fixed": "#ffdbd0",
-                        "on-surface-variant": "#bbcac4",
-                        "surface-bright": "#333b38",
-                        "outline": "#85948f",
-                        "on-primary-fixed": "#00201b",
-                        "surface-container-lowest": "#09100e",
-                        "primary": "#42dec3",
-                        "on-primary-fixed-variant": "#005045",
-                        "on-tertiary-fixed": "#3a0b00",
-                        "surface-container": "#1a211f",
-                        "primary-fixed-dim": "#41ddc2",
-                        "on-tertiary-container": "#752509",
-                        "tertiary-fixed-dim": "#ffb59e",
-                        "surface-tint": "#41ddc2",
-                        "surface": "#0e1513",
-                        "surface-dim": "#0e1513",
-                        "surface-container-highest": "#2f3634",
-                        "on-background": "#dde4e1",
-                        "surface-container-low": "#161d1b",
-                        "error": "#ffb4ab",
-                        "on-surface": "#dde4e1",
-                        "on-error": "#690005",
-                        "on-secondary-fixed": "#1b1b1b",
-                        "on-secondary-container": "#b5b5b5",
-                        "inverse-surface": "#dde4e1",
-                        "secondary-container": "#474747",
-                        "on-error-container": "#ffdad6",
-                        "inverse-primary": "#006b5c",
-                        "secondary-fixed-dim": "#c6c6c6",
-                        "surface-variant": "#2f3634",
-                        "on-tertiary": "#5e1700",
-                        "surface-container-high": "#242b29",
-                        "on-tertiary-fixed-variant": "#7e2c0f",
-                        "on-primary-container": "#00493e",
-                        "on-primary": "#00382f",
-                        "error-container": "#93000a",
-                        "tertiary-container": "#ff8d69",
-                        "on-secondary-fixed-variant": "#474747",
-                        "tertiary": "#ffb6a0",
-                        "secondary-fixed": "#e2e2e2",
-                        "background": "#0e1513",
-                        "secondary": "#c6c6c6",
-                        "primary-fixed": "#65fade",
-                        "on-secondary": "#303030",
-                        "inverse-on-surface": "#2b3230",
-                        "primary-container": "#00c2a8"
-                    },
-                    fontFamily: {
-                        "headline": ["Manrope", "sans-serif"],
-                        "body": ["Inter", "sans-serif"],
-                        "label": ["Inter", "sans-serif"]
-                    },
-                    borderRadius: {"DEFAULT": "0.25rem", "lg": "0.5rem", "xl": "0.75rem", "full": "9999px"},
-                },
-            },
+<!DOCTYPE html>
+<html class="dark" lang="es">
+<head>
+  <meta charset="utf-8"/>
+  <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+  <title>Novu 360 · Cerebros IA</title>
+  <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&family=Inter:wght@400;500;600&display=swap" rel="stylesheet"/>
+  <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0,0" rel="stylesheet"/>
+  <script id="tailwind-config">
+    tailwind.config = {
+      darkMode: "class",
+      theme: {
+        extend: {
+          colors: {
+            "primary": "#00C2A8",
+            "surface": "#0e1513",
+            "surface-container": "#1a211f",
+            "surface-container-high": "#242b29",
+            "on-surface": "#dde4e1",
+            "on-surface-variant": "#bbcac4",
+            "outline": "#85948f",
+            "outline-variant": "#3c4a46",
+          },
+          fontFamily: {
+            "headline": ["Manrope", "sans-serif"],
+            "body":     ["Inter",   "sans-serif"],
+          }
         }
-    </script>
+      }
+    }
+  </script>
+  <link rel="stylesheet" href="style.css"/>
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script src="config.js"></script>
+  <script src="auth.js"></script>
+  <script>checkAuth();</script>
 
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;700;800&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="style.css">
-<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-<script src="config.js"></script>
-<script src="auth.js"></script>
-<script>checkAuth();</script>
+  <style>
+    body { font-family: 'Inter', sans-serif; }
+
+    @media (min-width: 1024px) {
+      .page-header { left: 256px; }
+      .page-main   { margin-left: 256px; padding-top: 64px; }
+    }
+    @media (max-width: 1023px) {
+      .page-header { left: 0; }
+      .page-main   { margin-left: 0; padding-top: 56px; padding-bottom: 80px; }
+      .tabs-scroll { overflow-x: auto; }
+      .tabs-scroll::-webkit-scrollbar { display: none; }
+      .editor-card { height: auto !important; min-height: 320px; }
+    }
+
+    .tab-btn.active { background: #00C2A8; color: #000; font-weight: 700; }
+    .tab-btn:not(.active) { color: #85948f; }
+    .tab-btn:not(.active):hover { color: #dde4e1; background: #242b29; }
+
+    .toolbar-btn {
+      display:flex; align-items:center; justify-content:center;
+      width:32px; height:32px; border-radius:6px;
+      color:#85948f; cursor:pointer; background:transparent; border:none;
+      transition: background .15s, color .15s;
+    }
+    .toolbar-btn:hover { background:#242b29; color:#fff; }
+
+    #knowledge-editor {
+      resize:none; background:transparent; border:none; outline:none;
+      flex:1; padding:18px 22px; color:#dde4e1;
+      line-height:1.8; font-family:'Inter',sans-serif; font-size:14px;
+    }
+    #knowledge-editor::placeholder { color:#3c4a46; }
+
+    /* Drop zone */
+    .drop-zone {
+      border: 2px dashed #3c4a46; border-radius: 16px;
+      padding: 28px 20px; text-align: center; cursor: pointer;
+      transition: border-color .2s, background .2s; position: relative;
+    }
+    .drop-zone:hover, .drop-zone.drag-over {
+      border-color: #00C2A8; background: rgba(0,194,168,0.04);
+    }
+    .drop-zone input[type="file"] {
+      position:absolute; inset:0; opacity:0; cursor:pointer; width:100%; height:100%;
+    }
+
+    /* File cards */
+    .file-card {
+      background: rgba(0,0,0,0.4); border: 1px solid #3c4a46;
+      border-radius: 12px; padding: 14px 16px;
+      display: flex; align-items: flex-start; gap: 12px;
+      transition: border-color .2s;
+    }
+    .file-card:hover { border-color: #85948f; }
+    .file-icon {
+      width:38px; height:38px; border-radius:8px;
+      display:flex; align-items:center; justify-content:center;
+      font-size:18px; flex-shrink:0;
+    }
+    .file-icon.pdf   { background:rgba(239,68,68,.12);   color:#f87171; }
+    .file-icon.video { background:rgba(139,92,246,.12);  color:#a78bfa; }
+    .file-icon.audio { background:rgba(245,158,11,.12);  color:#fbbf24; }
+    .file-icon.doc   { background:rgba(59,130,246,.12);  color:#60a5fa; }
+    .file-icon.text  { background:rgba(0,194,168,.12);   color:#00C2A8; }
+
+    /* Progress */
+    .progress-bar-track { height:4px; background:#1a211f; border-radius:99px; overflow:hidden; }
+    .progress-bar-fill  { height:100%; background:#00C2A8; border-radius:99px; transition:width .4s ease; }
+
+    /* Badges */
+    .badge-processing { background:rgba(245,158,11,.15); color:#fbbf24; }
+    .badge-ready      { background:rgba(0,194,168,.15);  color:#00C2A8; }
+    .badge-error      { background:rgba(248,113,113,.15);color:#f87171; }
+
+    /* Capa 2 */
+    .capa2-card {
+      background:rgba(0,0,0,0.4); border:1px solid rgba(60,74,70,.6);
+      border-radius:12px; padding:18px; transition:border-color .2s;
+    }
+    .capa2-card:hover { border-color:#3c4a46; }
+
+    /* Spinner */
+    .spinner {
+      display:inline-block; width:15px; height:15px;
+      border:2px solid rgba(0,194,168,.3); border-top-color:#00C2A8;
+      border-radius:50%; animation:spin .7s linear infinite;
+      vertical-align:middle; margin-right:6px;
+    }
+    @keyframes spin { to { transform:rotate(360deg); } }
+
+    /* Save status */
+    .save-saved  { color:#10b981; }
+    .save-saving { color:#f59e0b; }
+    .save-error  { color:#f87171; }
+    .save-idle   { color:#85948f; }
+
+    /* Toast */
+    #toast {
+      position:fixed; bottom:90px; right:24px; z-index:9999;
+      padding:12px 20px; border-radius:10px;
+      font-size:14px; font-weight:600;
+      opacity:0; transform:translateY(10px);
+      transition:all .25s ease; pointer-events:none;
+    }
+    #toast.show { opacity:1; transform:translateY(0); }
+    #toast.success { background:#00C2A8; color:#000; }
+    #toast.error   { background:#f87171; color:#000; }
+    #toast.info    { background:#3c4a46; color:#dde4e1; }
+  </style>
 </head>
+
 <body class="bg-black text-on-surface antialiased overflow-x-hidden">
 
-<!-- TopAppBar -->
-<header class="fixed top-0 right-0 left-64 h-16 bg-black/80 backdrop-blur-md flex justify-between items-center px-8 z-40 border-b border-zinc-800">
-<div class="flex items-center gap-4 bg-zinc-900/50 px-4 py-2 rounded-full border border-zinc-800 w-96">
-<span class="material-symbols-outlined text-zinc-500 text-sm">search</span>
-<input class="bg-transparent border-none text-sm text-zinc-300 focus:ring-0 w-full placeholder:text-zinc-600" placeholder="Buscar en el conocimiento..." type="text"/>
-</div>
-<div class="flex items-center gap-4">
-<button class="w-10 h-10 flex items-center justify-center text-zinc-400 hover:text-[#00C2A8] transition-colors">
-<span class="material-symbols-outlined">notifications</span>
-</button>
-<button class="w-10 h-10 flex items-center justify-center text-zinc-400 hover:text-[#00C2A8] transition-colors">
-<span class="material-symbols-outlined">settings</span>
-</button>
-</div>
-</header>
-<!-- Main Content Canvas -->
-<main class="bg-black">
-<!-- Header Section -->
-<div class="mb-8">
-<h2 class="text-3xl font-extrabold font-headline text-white tracking-tight">Cerebros IA</h2>
-<p class="text-zinc-400 mt-1">Gestiona el conocimiento de tus asistentes</p>
-</div>
-<!-- Module Tabs -->
-<div class="flex gap-1 mb-8 bg-zinc-900/40 p-1 rounded-xl w-fit border border-zinc-800/50">
-<button class="px-6 py-2.5 rounded-lg text-sm font-semibold transition-all bg-[#00C2A8] text-black">General</button>
-<button class="px-6 py-2.5 rounded-lg text-sm font-medium transition-all text-zinc-400 hover:text-zinc-100 hover:bg-zinc-800">Ventas</button>
-<button class="px-6 py-2.5 rounded-lg text-sm font-medium transition-all text-zinc-400 hover:text-zinc-100 hover:bg-zinc-800">Ads</button>
-<button class="px-6 py-2.5 rounded-lg text-sm font-medium transition-all text-zinc-400 hover:text-zinc-100 hover:bg-zinc-800">Community</button>
-<button class="px-6 py-2.5 rounded-lg text-sm font-medium transition-all text-zinc-400 hover:text-zinc-100 hover:bg-zinc-800">SEO</button>
-<button class="px-6 py-2.5 rounded-lg text-sm font-medium transition-all text-zinc-400 hover:text-zinc-100 hover:bg-zinc-800">Web</button>
-</div>
-<!-- Knowledge Workspace (2 Columns) -->
-<div class="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-8">
-<!-- LEFT COLUMN: Knowledge Base Editor -->
-<section class="bg-zinc-900/30 border border-zinc-800 rounded-2xl p-6 flex flex-col h-[600px] backdrop-blur-sm">
-<div class="flex justify-between items-center mb-6">
-<div class="flex items-center gap-3">
-<div class="w-10 h-10 rounded-lg bg-[#00C2A8]/10 flex items-center justify-center text-[#00C2A8]">
-<span class="material-symbols-outlined">menu_book</span>
-</div>
-<h3 class="text-lg font-bold font-headline text-zinc-100">Capa 1 - Conocimiento Base</h3>
-</div>
-<button class="text-zinc-500 hover:text-[#00C2A8] transition-colors">
-<span class="material-symbols-outlined">edit</span>
-</button>
-</div>
-<div class="flex-1 flex flex-col bg-black rounded-xl border border-zinc-800 overflow-hidden">
-<div class="flex items-center gap-2 p-2 border-b border-zinc-800 bg-zinc-900/50">
-<button class="p-1.5 text-zinc-400 hover:bg-zinc-800 hover:text-white rounded transition-colors"><span class="material-symbols-outlined text-lg">format_bold</span></button>
-<button class="p-1.5 text-zinc-400 hover:bg-zinc-800 hover:text-white rounded transition-colors"><span class="material-symbols-outlined text-lg">format_list_bulleted</span></button>
-<button class="p-1.5 text-zinc-400 hover:bg-zinc-800 hover:text-white rounded transition-colors"><span class="material-symbols-outlined text-lg">title</span></button>
-<div class="w-[1px] h-4 bg-zinc-700 mx-1"></div>
-<button class="p-1.5 text-zinc-400 hover:bg-zinc-800 hover:text-white rounded transition-colors"><span class="material-symbols-outlined text-lg">link</span></button>
-</div>
-<textarea class="flex-1 bg-transparent border-none focus:ring-0 p-6 text-zinc-300 resize-none font-body leading-relaxed placeholder:text-zinc-700" placeholder="Escribe aqui los procesos, precios y metodologias para esta area..."></textarea>
-</div>
-<div class="flex justify-between items-center mt-6">
-<div class="flex items-center gap-2">
-<span class="w-2 h-2 rounded-full bg-emerald-500"></span>
-<span class="text-xs text-emerald-500 font-medium uppercase tracking-wider">Guardado hace 2 min</span>
-</div>
-<button class="px-8 py-3 bg-[#00C2A8] text-black font-bold rounded-lg hover:brightness-110 active:scale-95 transition-all text-sm uppercase tracking-wide shadow-[0_0_20px_rgba(0,194,168,0.2)]">
-                        Guardar Cambios
-                    </button>
-</div>
-</section>
-<!-- RIGHT COLUMN: NotebookLM Integration -->
-<section class="bg-zinc-900/30 border border-zinc-800 rounded-2xl p-6 flex flex-col h-[600px] backdrop-blur-sm">
-<div class="flex items-center gap-3 mb-6">
-<div class="w-10 h-10 rounded-lg bg-zinc-800 flex items-center justify-center text-zinc-400">
-<span class="material-symbols-outlined">auto_awesome</span>
-</div>
-<h3 class="text-lg font-bold font-headline text-zinc-100">Consultar NotebookLM</h3>
-</div>
-<div class="space-y-4">
-<div class="relative group">
-<label class="block text-xs font-semibold text-zinc-500 uppercase tracking-widest mb-1.5 ml-1">URL de tu notebook</label>
-<div class="relative">
-<input class="w-full bg-black border-zinc-800 rounded-xl px-4 py-3 text-sm text-zinc-300 focus:border-[#00C2A8] focus:ring-1 focus:ring-[#00C2A8] transition-all" placeholder="https://notebooklm.google.com/..." type="text"/>
-<button class="absolute right-2 top-1/2 -translate-y-1/2 px-3 py-1.5 text-xs font-bold text-[#00C2A8] hover:bg-[#00C2A8]/10 rounded-lg transition-colors">PEGAR</button>
-</div>
-</div>
-<div class="relative">
-<label class="block text-xs font-semibold text-zinc-500 uppercase tracking-widest mb-1.5 ml-1">Escribe tu pregunta...</label>
-<textarea class="w-full bg-black border-zinc-800 rounded-xl px-4 py-3 text-sm text-zinc-300 h-24 focus:border-[#00C2A8] focus:ring-1 focus:ring-[#00C2A8] transition-all placeholder:text-zinc-700" placeholder="Â¿CÃ³mo manejamos las objeciones de precio?"></textarea>
-</div>
-<button class="w-full py-3 bg-[#00C2A8] text-black font-bold rounded-lg hover:brightness-110 active:scale-95 transition-all text-sm uppercase tracking-wide">
-                        Consultar NotebookLM
-                    </button>
-<div class="mt-4 flex-1">
-<div class="bg-black/60 border border-zinc-800 rounded-xl p-4 min-h-[160px] flex flex-col">
-<div class="flex items-center gap-2 mb-3 text-zinc-500">
-<span class="material-symbols-outlined text-sm">smart_toy</span>
-<span class="text-[10px] uppercase font-bold tracking-tighter">Respuesta de IA</span>
-</div>
-<div class="text-zinc-500 text-sm italic leading-relaxed">
-                                La respuesta aparecerÃ¡ aquÃ­ despuÃ©s de procesar tu consulta...
-                            </div>
-<div class="mt-auto pt-4 flex justify-end">
-<button class="flex items-center gap-2 px-4 py-2 bg-zinc-800 text-zinc-300 text-xs font-bold rounded-lg hover:bg-zinc-700 transition-colors">
-<span class="material-symbols-outlined text-sm">content_paste_go</span>
-                                    Pegar en Capa 1
-                                </button>
-</div>
-</div>
-</div>
-</div>
-</section>
-</div>
-<!-- BOTTOM: Client Case File (Read-Only) -->
-<section class="bg-zinc-900/30 border border-zinc-800 rounded-2xl p-6 backdrop-blur-sm">
-<div class="flex flex-col md:flex-row md:items-center justify-between gap-4 mb-8">
-<div class="flex items-center gap-3">
-<div class="w-10 h-10 rounded-lg bg-[#00C2A8]/10 flex items-center justify-center text-[#00C2A8]">
-<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">assignment_ind</span>
-</div>
-<div>
-<h3 class="text-lg font-bold font-headline text-zinc-100">Capa 2 - Expediente del Cliente</h3>
-<p class="text-xs text-zinc-500 uppercase tracking-wide">Solo lectura</p>
-</div>
-</div>
-<div class="relative min-w-[280px]">
-<select class="w-full bg-black border-zinc-800 rounded-xl px-4 py-2.5 text-sm text-zinc-300 appearance-none focus:ring-1 focus:ring-[#00C2A8] cursor-pointer">
-<option>Seleccionar Cliente...</option>
-<option>Tech Solutions S.A.</option>
-<option>InnovaciÃ³n Digital</option>
-<option>Global Logistics Inc.</option>
-</select>
-<div class="absolute right-4 top-1/2 -translate-y-1/2 pointer-events-none text-zinc-500">
-<span class="material-symbols-outlined text-sm">expand_more</span>
-</div>
-</div>
-</div>
-<div class="grid grid-cols-1 md:grid-cols-3 gap-6">
-<!-- Brief Card -->
-<div class="bg-black/40 border border-zinc-800/60 rounded-xl p-5 hover:border-zinc-700 transition-all">
-<div class="flex items-center gap-2 mb-4 text-zinc-400">
-<span class="material-symbols-outlined text-lg">description</span>
-<span class="text-xs font-bold uppercase tracking-widest">Brief</span>
-</div>
-<p class="text-sm text-zinc-500 line-clamp-4 leading-relaxed italic">
-                        Selecciona un cliente para visualizar los objetivos estratÃ©gicos, pÃºblico objetivo y KPIs definidos en la etapa de onboarding...
-                    </p>
-</div>
-<!-- Tono de Voz Card -->
-<div class="bg-black/40 border border-zinc-800/60 rounded-xl p-5 hover:border-zinc-700 transition-all">
-<div class="flex items-center gap-2 mb-4 text-zinc-400">
-<span class="material-symbols-outlined text-lg">record_voice_over</span>
-<span class="text-xs font-bold uppercase tracking-widest">Tono de voz</span>
-</div>
-<p class="text-sm text-zinc-500 line-clamp-4 leading-relaxed italic">
-                        Define la personalidad de la marca: Â¿Es formal? Â¿Cercano? Â¿TÃ©cnico? Esta informaciÃ³n guÃ­a la generaciÃ³n de contenido...
-                    </p>
-</div>
-<!-- Historial Card -->
-<div class="bg-black/40 border border-zinc-800/60 rounded-xl p-5 hover:border-zinc-700 transition-all">
-<div class="flex items-center gap-2 mb-4 text-zinc-400">
-<span class="material-symbols-outlined text-lg">history_edu</span>
-<span class="text-xs font-bold uppercase tracking-widest">Historial</span>
-</div>
-<p class="text-sm text-zinc-500 line-clamp-4 leading-relaxed italic">
-                        Registro acumulativo de decisiones pasadas, campaÃ±as exitosas y aprendizajes especÃ­ficos para este cliente...
-    </a>
-<a class="text-neutral-400 hover:text-white px-4 py-3 flex items-center gap-3 transition-all hover:bg-white/5 rounded-lg mx-3" href="portal-cliente.html">
-      <span class="material-symbols-outlined">group</span>
-      <span>Clientes</span>
-    </a>
-<a class="text-neutral-400 hover:text-white px-4 py-3 flex items-center gap-3 transition-all hover:bg-white/5 rounded-lg mx-3" href="finanzas.html">
-      <span class="material-symbols-outlined">payments</span>
-      <span>Finanzas</span>
-    </a>
-<a class="text-neutral-400 hover:text-white px-4 py-3 flex items-center gap-3 transition-all hover:bg-white/5 rounded-lg mx-3" href="aprobaciones.html">
-      <span class="material-symbols-outlined">fact_check</span>
-      <span>Aprobaciones</span>
-    </a>
-<a class="text-neutral-400 hover:text-white px-4 py-3 flex items-center gap-3 transition-all hover:bg-white/5 rounded-lg mx-3" href="onboarding.html">
-      <span class="material-symbols-outlined">rocket_launch</span>
-      <span>Onboarding</span>
-    </a>
-<a class="bg-primary text-black rounded-lg mx-3 flex items-center px-4 py-3 gap-3 transition-all font-bold nav-active" href="cerebros.html">
-      <span class="material-symbols-outlined">psychology</span>
-      <span>Cerebros IA</span>
-    </a>
-  </nav>
-  <div class="mt-auto pt-4 space-y-1" style="border-top:1px solid rgba(255,255,255,0.05)">
-    <a class="text-neutral-400 hover:text-white px-7 py-3 flex items-center gap-3 transition-all hover:bg-white/5" href="#">
-      <span class="material-symbols-outlined">help</span>
-      <span>Soporte</span>
-    </a>
-    <a class="text-neutral-400 hover:text-white px-7 py-3 flex items-center gap-3 transition-all hover:bg-white/5" href="#">
-      <span class="material-symbols-outlined">person</span>
-      <span>Cuenta</span>
-    </a>
+<!-- TOP BAR -->
+<header class="page-header fixed top-0 right-0 h-14 md:h-16 bg-black/80 backdrop-blur-md
+               flex justify-between items-center px-4 md:px-8 z-40 border-b border-zinc-800">
+  <div class="hidden md:flex items-center gap-3 bg-zinc-900/50 px-4 py-2 rounded-full border border-zinc-800 w-80">
+    <span class="material-symbols-outlined text-zinc-500" style="font-size:18px">search</span>
+    <input class="bg-transparent border-none text-sm text-zinc-300 focus:ring-0 w-full placeholder:text-zinc-600"
+           placeholder="Buscar en el conocimiento..." type="text"/>
   </div>
-</aside>
-<!-- TopAppBar -->
-<header class="fixed top-0 right-0 left-64 h-16 bg-black/80 backdrop-blur-md flex justify-between items-center px-8 z-40 border-b border-zinc-800">
-<div class="flex items-center gap-4 bg-zinc-900/50 px-4 py-2 rounded-full border border-zinc-800 w-96">
-<span class="material-symbols-outlined text-zinc-500 text-sm">search</span>
-<input class="bg-transparent border-none text-sm text-zinc-300 focus:ring-0 w-full placeholder:text-zinc-600" placeholder="Buscar en el conocimiento..." type="text"/>
-</div>
-<div class="flex items-center gap-4">
-<button class="w-10 h-10 flex items-center justify-center text-zinc-400 hover:text-[#00C2A8] transition-colors">
-<span class="material-symbols-outlined">notifications</span>
-</button>
-<button class="w-10 h-10 flex items-center justify-center text-zinc-400 hover:text-[#00C2A8] transition-colors">
-<span class="material-symbols-outlined">settings</span>
-</button>
-</div>
+  <div class="flex md:hidden items-center gap-2">
+    <span class="material-symbols-outlined text-primary" style="font-size:20px">psychology</span>
+    <span class="font-headline font-bold text-white text-base">Cerebros IA</span>
+  </div>
+  <div class="flex items-center gap-2">
+    <button class="w-9 h-9 flex items-center justify-center text-zinc-400 hover:text-primary transition-colors">
+      <span class="material-symbols-outlined" style="font-size:22px">notifications</span>
+    </button>
+    <button class="w-9 h-9 flex items-center justify-center text-zinc-400 hover:text-primary transition-colors">
+      <span class="material-symbols-outlined" style="font-size:22px">settings</span>
+    </button>
+  </div>
 </header>
-<!-- Main Content Canvas -->
-<main class="bg-black">
-<!-- Header Section -->
-<div class="mb-8">
-<h2 class="text-3xl font-extrabold font-headline text-white tracking-tight">Cerebros IA</h2>
-<p class="text-zinc-400 mt-1">Gestiona el conocimiento de tus asistentes</p>
-</div>
-<!-- Module Tabs -->
-<div class="flex gap-1 mb-8 bg-zinc-900/40 p-1 rounded-xl w-fit border border-zinc-800/50">
-<button class="px-6 py-2.5 rounded-lg text-sm font-semibold transition-all bg-[#00C2A8] text-black">General</button>
-<button class="px-6 py-2.5 rounded-lg text-sm font-medium transition-all text-zinc-400 hover:text-zinc-100 hover:bg-zinc-800">Ventas</button>
-<button class="px-6 py-2.5 rounded-lg text-sm font-medium transition-all text-zinc-400 hover:text-zinc-100 hover:bg-zinc-800">Ads</button>
-<button class="px-6 py-2.5 rounded-lg text-sm font-medium transition-all text-zinc-400 hover:text-zinc-100 hover:bg-zinc-800">Community</button>
-<button class="px-6 py-2.5 rounded-lg text-sm font-medium transition-all text-zinc-400 hover:text-zinc-100 hover:bg-zinc-800">SEO</button>
-<button class="px-6 py-2.5 rounded-lg text-sm font-medium transition-all text-zinc-400 hover:text-zinc-100 hover:bg-zinc-800">Web</button>
-</div>
-<!-- Knowledge Workspace (2 Columns) -->
-<div class="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-8">
-<!-- LEFT COLUMN: Knowledge Base Editor -->
-<section class="bg-zinc-900/30 border border-zinc-800 rounded-2xl p-6 flex flex-col h-[600px] backdrop-blur-sm">
-<div class="flex justify-between items-center mb-6">
-<div class="flex items-center gap-3">
-<div class="w-10 h-10 rounded-lg bg-[#00C2A8]/10 flex items-center justify-center text-[#00C2A8]">
-<span class="material-symbols-outlined">menu_book</span>
-</div>
-<h3 class="text-lg font-bold font-headline text-zinc-100">Capa 1 - Conocimiento Base</h3>
-</div>
-<button class="text-zinc-500 hover:text-[#00C2A8] transition-colors">
-<span class="material-symbols-outlined">edit</span>
-</button>
-</div>
-<div class="flex-1 flex flex-col bg-black rounded-xl border border-zinc-800 overflow-hidden">
-<div class="flex items-center gap-2 p-2 border-b border-zinc-800 bg-zinc-900/50">
-<button class="p-1.5 text-zinc-400 hover:bg-zinc-800 hover:text-white rounded transition-colors"><span class="material-symbols-outlined text-lg">format_bold</span></button>
-<button class="p-1.5 text-zinc-400 hover:bg-zinc-800 hover:text-white rounded transition-colors"><span class="material-symbols-outlined text-lg">format_list_bulleted</span></button>
-<button class="p-1.5 text-zinc-400 hover:bg-zinc-800 hover:text-white rounded transition-colors"><span class="material-symbols-outlined text-lg">title</span></button>
-<div class="w-[1px] h-4 bg-zinc-700 mx-1"></div>
-<button class="p-1.5 text-zinc-400 hover:bg-zinc-800 hover:text-white rounded transition-colors"><span class="material-symbols-outlined text-lg">link</span></button>
-</div>
-<textarea class="flex-1 bg-transparent border-none focus:ring-0 p-6 text-zinc-300 resize-none font-body leading-relaxed placeholder:text-zinc-700" placeholder="Escribe aqui los procesos, precios y metodologias para esta area..."></textarea>
-</div>
-<div class="flex justify-between items-center mt-6">
-<div class="flex items-center gap-2">
-<span class="w-2 h-2 rounded-full bg-emerald-500"></span>
-<span class="text-xs text-emerald-500 font-medium uppercase tracking-wider">Guardado hace 2 min</span>
-</div>
-<button class="px-8 py-3 bg-[#00C2A8] text-black font-bold rounded-lg hover:brightness-110 active:scale-95 transition-all text-sm uppercase tracking-wide shadow-[0_0_20px_rgba(0,194,168,0.2)]">
-                        Guardar Cambios
-                    </button>
-</div>
-</section>
-<!-- RIGHT COLUMN: NotebookLM Integration -->
-<section class="bg-zinc-900/30 border border-zinc-800 rounded-2xl p-6 flex flex-col h-[600px] backdrop-blur-sm">
-<div class="flex items-center gap-3 mb-6">
-<div class="w-10 h-10 rounded-lg bg-zinc-800 flex items-center justify-center text-zinc-400">
-<span class="material-symbols-outlined">auto_awesome</span>
-</div>
-<h3 class="text-lg font-bold font-headline text-zinc-100">Consultar NotebookLM</h3>
-</div>
-<div class="space-y-4">
-<div class="relative group">
-<label class="block text-xs font-semibold text-zinc-500 uppercase tracking-widest mb-1.5 ml-1">URL de tu notebook</label>
-<div class="relative">
-<input class="w-full bg-black border-zinc-800 rounded-xl px-4 py-3 text-sm text-zinc-300 focus:border-[#00C2A8] focus:ring-1 focus:ring-[#00C2A8] transition-all" placeholder="https://notebooklm.google.com/..." type="text"/>
-<button class="absolute right-2 top-1/2 -translate-y-1/2 px-3 py-1.5 text-xs font-bold text-[#00C2A8] hover:bg-[#00C2A8]/10 rounded-lg transition-colors">PEGAR</button>
-</div>
-</div>
-<div class="relative">
-<label class="block text-xs font-semibold text-zinc-500 uppercase tracking-widest mb-1.5 ml-1">Escribe tu pregunta...</label>
-<textarea class="w-full bg-black border-zinc-800 rounded-xl px-4 py-3 text-sm text-zinc-300 h-24 focus:border-[#00C2A8] focus:ring-1 focus:ring-[#00C2A8] transition-all placeholder:text-zinc-700" placeholder="Â¿CÃ³mo manejamos las objeciones de precio?"></textarea>
-</div>
-<button class="w-full py-3 bg-[#00C2A8] text-black font-bold rounded-lg hover:brightness-110 active:scale-95 transition-all text-sm uppercase tracking-wide">
-                        Consultar NotebookLM
-                    </button>
-<div class="mt-4 flex-1">
-<div class="bg-black/60 border border-zinc-800 rounded-xl p-4 min-h-[160px] flex flex-col">
-<div class="flex items-center gap-2 mb-3 text-zinc-500">
-<span class="material-symbols-outlined text-sm">smart_toy</span>
-<span class="text-[10px] uppercase font-bold tracking-tighter">Respuesta de IA</span>
-</div>
-<div class="text-zinc-500 text-sm italic leading-relaxed">
-                                La respuesta aparecerÃ¡ aquÃ­ despuÃ©s de procesar tu consulta...
-                            </div>
-<div class="mt-auto pt-4 flex justify-end">
-<button class="flex items-center gap-2 px-4 py-2 bg-zinc-800 text-zinc-300 text-xs font-bold rounded-lg hover:bg-zinc-700 transition-colors">
-<span class="material-symbols-outlined text-sm">content_paste_go</span>
-                                    Pegar en Capa 1
-                                </button>
-</div>
-</div>
-</div>
-</div>
-</section>
-</div>
-<!-- BOTTOM: Client Case File (Read-Only) -->
-<section class="bg-zinc-900/30 border border-zinc-800 rounded-2xl p-6 backdrop-blur-sm">
-<div class="flex flex-col md:flex-row md:items-center justify-between gap-4 mb-8">
-<div class="flex items-center gap-3">
-<div class="w-10 h-10 rounded-lg bg-[#00C2A8]/10 flex items-center justify-center text-[#00C2A8]">
-<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">assignment_ind</span>
-</div>
-<div>
-<h3 class="text-lg font-bold font-headline text-zinc-100">Capa 2 - Expediente del Cliente</h3>
-<p class="text-xs text-zinc-500 uppercase tracking-wide">Solo lectura</p>
-</div>
-</div>
-<div class="relative min-w-[280px]">
-<select class="w-full bg-black border-zinc-800 rounded-xl px-4 py-2.5 text-sm text-zinc-300 appearance-none focus:ring-1 focus:ring-[#00C2A8] cursor-pointer">
-<option>Seleccionar Cliente...</option>
-<option>Tech Solutions S.A.</option>
-<option>InnovaciÃ³n Digital</option>
-<option>Global Logistics Inc.</option>
-</select>
-<div class="absolute right-4 top-1/2 -translate-y-1/2 pointer-events-none text-zinc-500">
-<span class="material-symbols-outlined text-sm">expand_more</span>
-</div>
-</div>
-</div>
-<div class="grid grid-cols-1 md:grid-cols-3 gap-6">
-<!-- Brief Card -->
-<div class="bg-black/40 border border-zinc-800/60 rounded-xl p-5 hover:border-zinc-700 transition-all">
-<div class="flex items-center gap-2 mb-4 text-zinc-400">
-<span class="material-symbols-outlined text-lg">description</span>
-<span class="text-xs font-bold uppercase tracking-widest">Brief</span>
-</div>
-<p class="text-sm text-zinc-500 line-clamp-4 leading-relaxed italic">
-                        Selecciona un cliente para visualizar los objetivos estratÃ©gicos, pÃºblico objetivo y KPIs definidos en la etapa de onboarding...
-                    </p>
-</div>
-<!-- Tono de Voz Card -->
-<div class="bg-black/40 border border-zinc-800/60 rounded-xl p-5 hover:border-zinc-700 transition-all">
-<div class="flex items-center gap-2 mb-4 text-zinc-400">
-<span class="material-symbols-outlined text-lg">record_voice_over</span>
-<span class="text-xs font-bold uppercase tracking-widest">Tono de voz</span>
-</div>
-<p class="text-sm text-zinc-500 line-clamp-4 leading-relaxed italic">
-                        Define la personalidad de la marca: Â¿Es formal? Â¿Cercano? Â¿TÃ©cnico? Esta informaciÃ³n guÃ­a la generaciÃ³n de contenido...
-                    </p>
-</div>
-<!-- Historial Card -->
-<div class="bg-black/40 border border-zinc-800/60 rounded-xl p-5 hover:border-zinc-700 transition-all">
-<div class="flex items-center gap-2 mb-4 text-zinc-400">
-<span class="material-symbols-outlined text-lg">history_edu</span>
-<span class="text-xs font-bold uppercase tracking-widest">Historial</span>
-</div>
-<p class="text-sm text-zinc-500 line-clamp-4 leading-relaxed italic">
-                        Registro acumulativo de decisiones pasadas, campaÃ±as exitosas y aprendizajes especÃ­ficos para este cliente...
-                    </p>
-</div>
-</div>
-</section>
+
+<!-- MAIN -->
+<main class="page-main min-h-screen bg-black px-4 md:px-8 py-6">
+
+  <!-- Título -->
+  <div class="mb-5">
+    <h2 class="text-2xl md:text-3xl font-extrabold font-headline text-white tracking-tight">Cerebros IA</h2>
+    <p class="text-zinc-400 mt-1 text-sm">Gestiona el conocimiento de tus asistentes</p>
+  </div>
+
+  <!-- TABS -->
+  <div class="tabs-scroll mb-5">
+    <div class="flex gap-1 bg-zinc-900/40 p-1 rounded-xl border border-zinc-800/50 w-fit min-w-max">
+      <button class="tab-btn active px-4 md:px-5 py-2 rounded-lg text-sm transition-all whitespace-nowrap" data-area="general">General</button>
+      <button class="tab-btn px-4 md:px-5 py-2 rounded-lg text-sm transition-all whitespace-nowrap" data-area="ventas">Ventas</button>
+      <button class="tab-btn px-4 md:px-5 py-2 rounded-lg text-sm transition-all whitespace-nowrap" data-area="ads">Ads</button>
+      <button class="tab-btn px-4 md:px-5 py-2 rounded-lg text-sm transition-all whitespace-nowrap" data-area="community">Community</button>
+      <button class="tab-btn px-4 md:px-5 py-2 rounded-lg text-sm transition-all whitespace-nowrap" data-area="seo">SEO</button>
+      <button class="tab-btn px-4 md:px-5 py-2 rounded-lg text-sm transition-all whitespace-nowrap" data-area="web">Web</button>
+    </div>
+  </div>
+
+  <!-- ════════════════════════════════
+       FILA 1: Capa 1 + Consultar IA
+  ════════════════════════════════ -->
+  <div class="grid grid-cols-1 lg:grid-cols-2 gap-5 mb-5">
+
+    <!-- CAPA 1: Editor -->
+    <section class="editor-card bg-zinc-900/30 border border-zinc-800 rounded-2xl p-5 flex flex-col md:h-[540px] backdrop-blur-sm">
+      <div class="flex justify-between items-center mb-4">
+        <div class="flex items-center gap-3">
+          <div class="w-9 h-9 rounded-lg bg-primary/10 flex items-center justify-center text-primary shrink-0">
+            <span class="material-symbols-outlined" style="font-size:19px">menu_book</span>
+          </div>
+          <div>
+            <h3 class="text-base font-bold font-headline text-zinc-100">Capa 1 — Conocimiento Base</h3>
+            <p class="text-xs text-zinc-500 uppercase tracking-wide" id="area-label">Área: General</p>
+          </div>
+        </div>
+        <button onclick="insertPlaceholder()"
+                class="text-xs text-zinc-500 hover:text-primary border border-zinc-800 hover:border-primary/30 rounded-lg px-3 py-1.5 transition-colors">
+          Guía ↗
+        </button>
+      </div>
+
+      <div class="flex-1 flex flex-col bg-black rounded-xl border border-zinc-800 overflow-hidden">
+        <div class="flex items-center gap-1 p-2 border-b border-zinc-800 bg-zinc-900/50">
+          <button class="toolbar-btn" onclick="formatText('bold')" title="Negrita">
+            <span class="material-symbols-outlined">format_bold</span>
+          </button>
+          <button class="toolbar-btn" onclick="formatText('insertUnorderedList')" title="Lista">
+            <span class="material-symbols-outlined">format_list_bulleted</span>
+          </button>
+          <button class="toolbar-btn" onclick="insertHeading()" title="Encabezado">
+            <span class="material-symbols-outlined">title</span>
+          </button>
+          <div class="w-px h-4 bg-zinc-700 mx-1"></div>
+          <button class="toolbar-btn" onclick="clearEditor()" title="Limpiar">
+            <span class="material-symbols-outlined">delete_sweep</span>
+          </button>
+          <span class="ml-auto pr-2 text-xs text-zinc-700 font-mono" id="char-count">0 chars</span>
+        </div>
+        <textarea id="knowledge-editor"
+                  placeholder="Escribe aquí los procesos, precios y metodologías de esta área..."></textarea>
+      </div>
+
+      <div class="flex justify-between items-center mt-4 flex-wrap gap-3">
+        <div class="flex items-center gap-2">
+          <span class="w-2 h-2 rounded-full bg-zinc-600" id="save-dot"></span>
+          <span class="text-xs font-medium uppercase tracking-wider save-idle" id="save-text">Sin cambios</span>
+        </div>
+        <button onclick="saveKnowledge()" id="save-btn"
+                class="px-6 py-2.5 bg-primary text-black font-bold rounded-lg hover:brightness-110 active:scale-95
+                       transition-all text-sm uppercase tracking-wide flex items-center gap-2 shadow-[0_0_20px_rgba(0,194,168,0.15)]">
+          <span class="material-symbols-outlined" style="font-size:17px">save</span>
+          Guardar
+        </button>
+      </div>
+    </section>
+
+    <!-- CONSULTAR IA -->
+    <section class="bg-zinc-900/30 border border-zinc-800 rounded-2xl p-5 flex flex-col backdrop-blur-sm">
+      <div class="flex items-center gap-3 mb-4">
+        <div class="w-9 h-9 rounded-lg bg-zinc-800 flex items-center justify-center text-zinc-400 shrink-0">
+          <span class="material-symbols-outlined" style="font-size:19px">auto_awesome</span>
+        </div>
+        <div>
+          <h3 class="text-base font-bold font-headline text-zinc-100">Consultar al Cerebro</h3>
+          <p class="text-xs text-zinc-500">Usa el conocimiento del área activa + archivos subidos</p>
+        </div>
+      </div>
+
+      <div class="mb-3">
+        <label class="block text-xs font-semibold text-zinc-500 uppercase tracking-widest mb-1.5">Tu pregunta</label>
+        <textarea id="notebook-question"
+                  class="w-full bg-black border border-zinc-800 rounded-xl px-4 py-3 text-sm text-zinc-300
+                         h-[90px] focus:border-primary focus:ring-1 focus:ring-primary transition-all
+                         placeholder:text-zinc-700 resize-none"
+                  placeholder="Ej: ¿Qué campaña de Ads hago para un gimnasio?"></textarea>
+      </div>
+
+      <div class="mb-3">
+        <label class="block text-xs font-semibold text-zinc-500 uppercase tracking-widest mb-1.5">
+          Cliente (opcional — agrega contexto de Capa 2)
+        </label>
+        <div class="relative">
+          <select id="query-client-selector"
+                  class="w-full bg-black border border-zinc-800 rounded-xl px-4 py-2.5 text-sm
+                         text-zinc-300 appearance-none focus:ring-1 focus:ring-primary cursor-pointer">
+            <option value="">Sin cliente específico</option>
+          </select>
+          <div class="absolute right-3 top-1/2 -translate-y-1/2 pointer-events-none text-zinc-500">
+            <span class="material-symbols-outlined" style="font-size:17px">expand_more</span>
+          </div>
+        </div>
+      </div>
+
+      <button onclick="consultarIA()" id="query-btn"
+              class="w-full py-3 bg-primary text-black font-bold rounded-lg hover:brightness-110 active:scale-95
+                     transition-all text-sm uppercase tracking-wide mb-3 flex items-center justify-center gap-2">
+        <span class="material-symbols-outlined" style="font-size:17px">send</span>
+        <span id="query-btn-text">Preguntar al Cerebro</span>
+      </button>
+
+      <div class="flex-1 bg-black/60 border border-zinc-800 rounded-xl p-4 min-h-[170px] flex flex-col">
+        <div class="flex items-center gap-2 mb-3 text-zinc-500">
+          <span class="material-symbols-outlined" style="font-size:16px">smart_toy</span>
+          <span class="text-xs uppercase font-bold tracking-tighter">Respuesta</span>
+          <span class="ml-auto text-xs text-zinc-700" id="response-meta"></span>
+        </div>
+        <div id="ia-response" class="text-zinc-500 text-sm italic leading-relaxed flex-1 whitespace-pre-wrap">
+          La respuesta aparecerá aquí...
+        </div>
+        <div class="pt-3 flex gap-2 justify-end">
+          <button onclick="copyResponse()"
+                  class="flex items-center gap-1 px-3 py-1.5 bg-zinc-800 text-zinc-400 text-xs font-bold
+                         rounded-lg hover:bg-zinc-700 hover:text-zinc-200 transition-colors">
+            <span class="material-symbols-outlined" style="font-size:14px">content_copy</span>
+            Copiar
+          </button>
+          <button onclick="pasteIntoCapa1()" id="paste-btn" disabled
+                  class="flex items-center gap-1 px-3 py-1.5 bg-zinc-800 text-xs font-bold rounded-lg
+                         transition-colors disabled:opacity-30 disabled:cursor-not-allowed
+                         enabled:hover:bg-zinc-700 enabled:text-zinc-300 text-zinc-500">
+            <span class="material-symbols-outlined" style="font-size:14px">content_paste_go</span>
+            Pegar en Capa 1
+          </button>
+        </div>
+      </div>
+    </section>
+  </div>
+
+  <!-- ════════════════════════════════
+       FILA 2: SUBIR CONOCIMIENTO
+  ════════════════════════════════ -->
+  <section class="bg-zinc-900/30 border border-zinc-800 rounded-2xl p-5 md:p-6 mb-5 backdrop-blur-sm">
+
+    <div class="flex flex-col md:flex-row md:items-center justify-between gap-4 mb-5">
+      <div class="flex items-center gap-3">
+        <div class="w-9 h-9 rounded-lg bg-primary/10 flex items-center justify-center text-primary shrink-0">
+          <span class="material-symbols-outlined" style="font-size:19px">cloud_upload</span>
+        </div>
+        <div>
+          <h3 class="text-base font-bold font-headline text-zinc-100">Subir Conocimiento</h3>
+          <p class="text-xs text-zinc-500">Sube un archivo y la IA lo procesa automáticamente</p>
+        </div>
+      </div>
+      <div class="flex flex-wrap gap-2">
+        <span class="px-2.5 py-1 bg-red-500/10    text-red-400    rounded-full text-xs font-semibold">PDF</span>
+        <span class="px-2.5 py-1 bg-purple-500/10 text-purple-400 rounded-full text-xs font-semibold">Video</span>
+        <span class="px-2.5 py-1 bg-amber-500/10  text-amber-400  rounded-full text-xs font-semibold">Audio</span>
+        <span class="px-2.5 py-1 bg-blue-500/10   text-blue-400   rounded-full text-xs font-semibold">Word / TXT</span>
+      </div>
+    </div>
+
+    <!-- Explicación visual del flujo -->
+    <div class="grid grid-cols-2 md:grid-cols-4 gap-3 mb-5">
+      <div class="bg-black/30 rounded-xl p-3 text-center border border-zinc-800/50">
+        <span class="material-symbols-outlined text-primary block mb-1" style="font-size:22px">upload_file</span>
+        <p class="text-xs font-semibold text-zinc-300">1. Subes el archivo</p>
+        <p class="text-xs text-zinc-600 mt-0.5">PDF, video, audio</p>
+      </div>
+      <div class="bg-black/30 rounded-xl p-3 text-center border border-zinc-800/50">
+        <span class="material-symbols-outlined text-amber-400 block mb-1" style="font-size:22px">storage</span>
+        <p class="text-xs font-semibold text-zinc-300">2. Se guarda en BD</p>
+        <p class="text-xs text-zinc-600 mt-0.5">Supabase Storage</p>
+      </div>
+      <div class="bg-black/30 rounded-xl p-3 text-center border border-zinc-800/50">
+        <span class="material-symbols-outlined text-purple-400 block mb-1" style="font-size:22px">transcribe</span>
+        <p class="text-xs font-semibold text-zinc-300">3. IA lo procesa</p>
+        <p class="text-xs text-zinc-600 mt-0.5">Extrae el texto</p>
+      </div>
+      <div class="bg-black/30 rounded-xl p-3 text-center border border-zinc-800/50">
+        <span class="material-symbols-outlined text-green-400 block mb-1" style="font-size:22px">psychology</span>
+        <p class="text-xs font-semibold text-zinc-300">4. Disponible</p>
+        <p class="text-xs text-zinc-600 mt-0.5">El Cerebro lo usa</p>
+      </div>
+    </div>
+
+    <!-- DROP ZONE -->
+    <div class="drop-zone mb-5" id="drop-zone"
+         ondragover="handleDragOver(event)"
+         ondragleave="handleDragLeave(event)"
+         ondrop="handleDrop(event)">
+      <input type="file" id="file-input"
+             accept=".pdf,.mp4,.mov,.avi,.mp3,.wav,.m4a,.doc,.docx,.txt"
+             multiple
+             onchange="handleFileSelect(event)"/>
+      <div class="flex flex-col items-center gap-3 pointer-events-none">
+        <div class="w-12 h-12 rounded-2xl bg-zinc-800 flex items-center justify-center">
+          <span class="material-symbols-outlined text-zinc-400" style="font-size:26px">upload_file</span>
+        </div>
+        <div>
+          <p class="text-zinc-300 font-semibold text-sm md:text-base">
+            Arrastra tu archivo aquí o <span class="text-primary">selecciona</span>
+          </p>
+          <p class="text-zinc-600 text-xs mt-1">Máx. 500 MB · PDF, MP4, MOV, MP3, WAV, DOC, DOCX, TXT</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- COLA DE PROCESAMIENTO -->
+    <div id="upload-queue" class="space-y-3 mb-5 hidden">
+      <p class="text-xs font-semibold text-zinc-500 uppercase tracking-widest">Procesando</p>
+    </div>
+
+    <!-- ARCHIVOS DEL ÁREA -->
+    <div>
+      <div class="flex items-center justify-between mb-3">
+        <p class="text-xs font-semibold text-zinc-500 uppercase tracking-widest">
+          Archivos del área — <span id="files-area-label">General</span>
+        </p>
+        <span class="text-xs text-zinc-600" id="files-count">0 archivos</span>
+      </div>
+      <div id="files-list" class="space-y-3">
+        <div id="files-empty" class="text-center py-8 text-zinc-700 text-sm italic">
+          No hay archivos subidos para esta área
+        </div>
+      </div>
+    </div>
+
+    <!-- Nota Whisper -->
+    <div class="mt-5 p-3 bg-amber-900/10 border border-amber-700/20 rounded-xl text-xs text-amber-500/80 leading-relaxed">
+      <span class="material-symbols-outlined align-middle mr-1" style="font-size:14px">info</span>
+      <strong>Videos y audio:</strong> Se transcriben con Whisper AI (OpenAI).
+      Un video de 3 horas tarda ~5 min. Necesitas agregar
+      <code class="bg-black/40 px-1 rounded">OPENAI_API_KEY</code> en los secrets de Vercel.
+      Sin esa key, el archivo se guarda y puedes pegar la transcripción manualmente en Capa 1.
+    </div>
+  </section>
+
+  <!-- ════════════════════════════════
+       FILA 3: CAPA 2 — Expediente
+  ════════════════════════════════ -->
+  <section class="bg-zinc-900/30 border border-zinc-800 rounded-2xl p-5 md:p-6 backdrop-blur-sm">
+    <div class="flex flex-col md:flex-row md:items-center justify-between gap-4 mb-5">
+      <div class="flex items-center gap-3">
+        <div class="w-9 h-9 rounded-lg bg-primary/10 flex items-center justify-center text-primary shrink-0">
+          <span class="material-symbols-outlined" style="font-variation-settings:'FILL' 1; font-size:19px">assignment_ind</span>
+        </div>
+        <div>
+          <h3 class="text-base font-bold font-headline text-zinc-100">Capa 2 — Expediente del Cliente</h3>
+          <p class="text-xs text-zinc-500 uppercase tracking-wide">Solo lectura · viene de /clientes</p>
+        </div>
+      </div>
+      <div class="relative w-full md:w-auto md:min-w-[260px]">
+        <select id="client-selector" onchange="loadClientData()"
+                class="w-full bg-black border border-zinc-800 rounded-xl px-4 py-2.5 text-sm
+                       text-zinc-300 appearance-none focus:ring-1 focus:ring-primary cursor-pointer">
+          <option value="">Seleccionar cliente...</option>
+        </select>
+        <div class="absolute right-3 top-1/2 -translate-y-1/2 pointer-events-none text-zinc-500">
+          <span class="material-symbols-outlined" style="font-size:17px">expand_more</span>
+        </div>
+      </div>
+    </div>
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+      <div class="capa2-card">
+        <div class="flex items-center gap-2 mb-3 text-zinc-400">
+          <span class="material-symbols-outlined" style="font-size:17px">description</span>
+          <span class="text-xs font-bold uppercase tracking-widest">Brief</span>
+        </div>
+        <p id="client-brief" class="text-sm text-zinc-500 leading-relaxed italic">Selecciona un cliente...</p>
+      </div>
+      <div class="capa2-card">
+        <div class="flex items-center gap-2 mb-3 text-zinc-400">
+          <span class="material-symbols-outlined" style="font-size:17px">record_voice_over</span>
+          <span class="text-xs font-bold uppercase tracking-widest">Tono de voz</span>
+        </div>
+        <p id="client-tono" class="text-sm text-zinc-500 leading-relaxed italic">Selecciona un cliente...</p>
+      </div>
+      <div class="capa2-card">
+        <div class="flex items-center gap-2 mb-3 text-zinc-400">
+          <span class="material-symbols-outlined" style="font-size:17px">history_edu</span>
+          <span class="text-xs font-bold uppercase tracking-widest">Historial</span>
+        </div>
+        <p id="client-historial" class="text-sm text-zinc-500 leading-relaxed italic">Selecciona un cliente...</p>
+      </div>
+    </div>
+  </section>
+
 </main>
 
+<div id="toast"></div>
+
 <script src="rateUs.js" defer></script>
-<script src="app.js" defer></script><script src="global-nav.js" defer></script>
-</body></html>
+<script src="app.js" defer></script>
+<script src="global-nav.js" defer></script>
 
+<script>
+/* ══════════════════════════════════════════════════════════
+   CEREBROS IA — Lógica completa
+   Supabase: cerebro_conocimiento (capa 1, 2, 3)
+   IA: Claude API (consultas + resúmenes)
+   Transcripción: Whisper API (videos/audio)
+   PDF: pdf.js (cliente, sin servidor)
+══════════════════════════════════════════════════════════ */
 
+let currentArea        = 'general';
+let currentKnowledgeId = null;
+let lastIAResponse     = '';
+let autoSaveTimer      = null;
 
+const PLACEHOLDERS = {
+  general:   `Valores y diferenciadores de Novu 360:\n- Agencia de marketing digital para negocios locales en CDMX\n- Tono: profesional, cercano, siempre en español\n- Precios: starter $X/mes, completo $Y/mes\n- IA integrada en todos los módulos`,
+  ventas:    `Prospecto ideal, objeciones y respuestas:\n- Negocio local 1-3 años, dueño activo en redes\n- Objeción precio → "¿Cuánto cuesta NO aparecer en Google?"\n- Script SRI: Apertura > Problema > Deseo > Cierre`,
+  ads:       `Estructura de campañas:\n- 80% frío / 20% remarketing\n- CPL objetivo: menor a $X\n- ROAS mínimo: 3x\n- Ángulos por giro: restaurante, gym, clínica...`,
+  community: `Pilares de contenido:\n- 3 posts/semana: educativo, entretenimiento, conversión\n- Horarios pico CDMX: 7am, 12pm, 8pm\n- Formatos top: Reel 15s, Carrusel, Historia con encuesta`,
+  seo:       `Google Business:\n- Reseña positiva → agradecer + keyword + CTA\n- Reseña negativa → disculpa + solución + contacto\n- Palabras clave: "[giro] en [colonia/ciudad]"`,
+  web:       `Landing pages que convierten:\n- Hero claro con propuesta de valor en una frase\n- 3 beneficios, testimonios reales, CTA flotante\n- Animaciones GSAP para engagement`
+};
 
+/* ══════════ INIT ══════════ */
+document.addEventListener('DOMContentLoaded', async () => {
+  setupTabs();
+  document.getElementById('knowledge-editor').addEventListener('input', () => {
+    updateCharCount();
+    setSaveStatus('saving', 'Sin guardar...');
+    clearTimeout(autoSaveTimer);
+    autoSaveTimer = setTimeout(saveKnowledge, 8000);
+  });
+  await loadClients();
+  await loadKnowledge(currentArea);
+  await loadFiles(currentArea);
+});
+
+/* ══════════ TABS ══════════ */
+function setupTabs() {
+  document.querySelectorAll('.tab-btn').forEach(btn => {
+    btn.addEventListener('click', async () => {
+      document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+      currentArea = btn.dataset.area;
+      const label = btn.textContent.trim();
+      document.getElementById('area-label').textContent       = 'Área: ' + label;
+      document.getElementById('files-area-label').textContent = label;
+      resetIAResponse();
+      await Promise.all([loadKnowledge(currentArea), loadFiles(currentArea)]);
+    });
+  });
+}
+
+/* ══════════ SUPABASE: Capa 1 ══════════ */
+async function loadKnowledge(area) {
+  if (!window.supabaseClient) return;
+  setSaveStatus('loading', 'Cargando...');
+  const { data } = await window.supabaseClient
+    .from('cerebro_conocimiento')
+    .select('id, contenido')
+    .eq('area', area).eq('capa', 1).is('cliente_id', null)
+    .maybeSingle();
+  currentKnowledgeId = data?.id || null;
+  document.getElementById('knowledge-editor').value = data?.contenido || '';
+  updateCharCount();
+  setSaveStatus('idle', 'Cargado');
+}
+
+async function saveKnowledge() {
+  if (!window.supabaseClient) { showToast('Supabase no conectado', 'error'); return; }
+  const contenido = document.getElementById('knowledge-editor').value.trim();
+  setSaveStatus('saving', 'Guardando...');
+  const payload = { area: currentArea, capa: 1, contenido, cliente_id: null, updated_at: new Date().toISOString() };
+  let error;
+  if (currentKnowledgeId) {
+    ({ error } = await window.supabaseClient.from('cerebro_conocimiento').update(payload).eq('id', currentKnowledgeId));
+  } else {
+    const { data, error: e } = await window.supabaseClient.from('cerebro_conocimiento').insert(payload).select('id').single();
+    error = e;
+    if (data) currentKnowledgeId = data.id;
+  }
+  error ? (setSaveStatus('error', 'Error'), showToast('Error: ' + error.message, 'error'))
+        : (setSaveStatus('saved', 'Guardado ✓'), showToast('Conocimiento guardado', 'success'));
+}
+
+/* ══════════ SUPABASE: Clientes ══════════ */
+async function loadClients() {
+  if (!window.supabaseClient) return;
+  const { data } = await window.supabaseClient
+    .from('clientes').select('id, nombre_negocio').eq('estado', 'activo').order('nombre_negocio');
+  if (!data) return;
+  [document.getElementById('client-selector'), document.getElementById('query-client-selector')].forEach(sel => {
+    data.forEach(c => {
+      const o = document.createElement('option');
+      o.value = c.id; o.textContent = c.nombre_negocio; sel.appendChild(o);
+    });
+  });
+}
+
+async function loadClientData() {
+  const id = document.getElementById('client-selector').value;
+  if (!id || !window.supabaseClient) { resetCapa2(); return; }
+  const { data } = await window.supabaseClient
+    .from('expediente').select('brief, tono_voz, historial_campanas').eq('cliente_id', id).maybeSingle();
+  if (!data) { resetCapa2(); return; }
+  setText('client-brief',     data.brief             || 'Sin brief registrado.');
+  setText('client-tono',      data.tono_voz          || 'Sin tono definido.');
+  setText('client-historial', data.historial_campanas || 'Sin historial.');
+  ['client-brief','client-tono','client-historial'].forEach(i => {
+    const el = document.getElementById(i);
+    el.classList.remove('italic','text-zinc-500'); el.classList.add('text-zinc-300');
+  });
+}
+
+function resetCapa2() {
+  ['client-brief','client-tono','client-historial'].forEach(i => {
+    const el = document.getElementById(i);
+    el.textContent = 'Selecciona un cliente...';
+    el.classList.add('italic','text-zinc-500'); el.classList.remove('text-zinc-300');
+  });
+}
+
+/* ══════════ CONSULTAR IA ══════════ */
+async function consultarIA() {
+  const question = document.getElementById('notebook-question').value.trim();
+  if (!question) { showToast('Escribe una pregunta primero', 'error'); return; }
+
+  const capa1 = document.getElementById('knowledge-editor').value.trim();
+  const filesKnowledge = await getFilesKnowledge(currentArea);
+
+  // Capa 2 del cliente seleccionado en el query
+  let capa2Text = '';
+  const qClientId = document.getElementById('query-client-selector').value;
+  if (qClientId && window.supabaseClient) {
+    const { data } = await window.supabaseClient
+      .from('expediente').select('brief, tono_voz, historial_campanas')
+      .eq('cliente_id', qClientId).maybeSingle();
+    if (data) capa2Text = `\nExpediente del cliente:\nBrief: ${data.brief||''}\nTono: ${data.tono_voz||''}\nHistorial: ${data.historial_campanas||''}`;
+  }
+
+  setQueryLoading(true);
+
+  const system = `Eres el asistente experto de Novu 360, agencia de marketing digital para negocios locales en México.
+Responde siempre en español, de forma clara, concreta y accionable.
+Área activa: ${currentArea.toUpperCase()}
+${capa1 ? '\nCONOCIMIENTO BASE:\n' + capa1 : ''}
+${capa2Text}
+${filesKnowledge ? '\nCONOCIMIENTO DE ARCHIVOS:\n' + filesKnowledge.substring(0, 6000) : ''}`;
+
+  try {
+    const res = await fetch('https://api.anthropic.com/v1/messages', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        model: 'claude-sonnet-4-20250514', max_tokens: 1000,
+        system,
+        messages: [{ role: 'user', content: question }]
+      })
+    });
+    if (!res.ok) { const e = await res.json(); throw new Error(e.error?.message || 'API error'); }
+    const d = await res.json();
+    lastIAResponse = d.content?.map(b => b.text||'').join('') || '';
+    const el = document.getElementById('ia-response');
+    el.textContent = lastIAResponse; el.classList.remove('italic','text-zinc-500'); el.style.color = '#dde4e1';
+    document.getElementById('response-meta').textContent = new Date().toLocaleTimeString('es-MX',{hour:'2-digit',minute:'2-digit'});
+    document.getElementById('paste-btn').disabled = false;
+  } catch(e) {
+    document.getElementById('ia-response').textContent = '⚠ Error: ' + e.message;
+    showToast('Error: ' + e.message, 'error');
+  } finally { setQueryLoading(false); }
+}
+
+async function getFilesKnowledge(area) {
+  if (!window.supabaseClient) return '';
+  const { data } = await window.supabaseClient
+    .from('cerebro_conocimiento').select('contenido')
+    .eq('area', area).eq('capa', 3).is('cliente_id', null);
+  return data?.map(d => d.contenido).join('\n\n---\n\n') || '';
+}
+
+function setQueryLoading(on) {
+  const btn = document.getElementById('query-btn');
+  btn.disabled = on;
+  document.getElementById('query-btn-text').innerHTML = on
+    ? '<span class="spinner"></span> Procesando...'
+    : 'Preguntar al Cerebro';
+}
+
+function resetIAResponse() {
+  lastIAResponse = '';
+  const el = document.getElementById('ia-response');
+  el.textContent = 'La respuesta aparecerá aquí...';
+  el.classList.add('italic','text-zinc-500'); el.style.color = '';
+  document.getElementById('response-meta').textContent = '';
+  document.getElementById('paste-btn').disabled = true;
+}
+
+function pasteIntoCapa1() {
+  if (!lastIAResponse) return;
+  const ta = document.getElementById('knowledge-editor');
+  ta.value = ta.value.trim() ? ta.value.trim() + '\n\n--- Respuesta IA ---\n' + lastIAResponse : lastIAResponse;
+  updateCharCount(); setSaveStatus('saving','Sin guardar');
+  showToast('Pegado. Recuerda guardar.', 'success');
+}
+
+function copyResponse() {
+  if (!lastIAResponse) return;
+  navigator.clipboard.writeText(lastIAResponse).then(() => showToast('Copiado', 'success'));
+}
+
+/* ══════════ ARCHIVOS: Drag & Drop ══════════ */
+function handleDragOver(e)  { e.preventDefault(); document.getElementById('drop-zone').classList.add('drag-over'); }
+function handleDragLeave()  { document.getElementById('drop-zone').classList.remove('drag-over'); }
+function handleDrop(e)      { e.preventDefault(); handleDragLeave(); processFiles(Array.from(e.dataTransfer.files)); }
+function handleFileSelect(e){ processFiles(Array.from(e.target.files)); e.target.value = ''; }
+
+function processFiles(files) {
+  files.forEach(file => {
+    if (file.size > 500 * 1024 * 1024) { showToast(file.name + ' supera 500 MB', 'error'); return; }
+    uploadFile(file);
+  });
+}
+
+/* ══════════ ARCHIVOS: Upload + Procesamiento ══════════ */
+async function uploadFile(file) {
+  if (!window.supabaseClient) { showToast('Supabase no conectado', 'error'); return; }
+  const cardId = 'up-' + Date.now() + '-' + Math.random().toString(36).substr(2,4);
+  showUploadCard(cardId, file);
+
+  try {
+    // 1. Supabase Storage
+    updCard(cardId, 'processing', 'Subiendo archivo...', 20);
+    const filePath = `cerebros/${currentArea}/${Date.now()}_${sanitizeFilename(file.name)}`;
+    const { error: storErr } = await window.supabaseClient.storage
+      .from('novu360-docs').upload(filePath, file, { upsert: false });
+    if (storErr) throw new Error('Storage: ' + storErr.message);
+
+    // 2. Extraer texto
+    updCard(cardId, 'processing', 'Extrayendo contenido...', 45);
+    let texto = await extractText(file, cardId);
+
+    // 3. Resumen con IA
+    updCard(cardId, 'processing', 'Generando resumen con IA...', 80);
+    const resumen = await generarResumen(texto, file.name);
+
+    // 4. Guardar en cerebro_conocimiento capa 3
+    updCard(cardId, 'processing', 'Guardando en base de conocimiento...', 92);
+    const { error: insErr } = await window.supabaseClient.from('cerebro_conocimiento').insert({
+      area: currentArea, capa: 3,
+      contenido: `=== ARCHIVO: ${file.name} ===\n\nRESUMEN:\n${resumen}\n\nTEXTO COMPLETO:\n${texto.substring(0, 15000)}`,
+      cliente_id: null, updated_at: new Date().toISOString()
+    });
+    if (insErr) throw new Error('BD: ' + insErr.message);
+
+    updCard(cardId, 'done', 'Procesado correctamente ✓', 100);
+    showToast(file.name + ' listo', 'success');
+    await loadFiles(currentArea);
+
+  } catch(err) {
+    updCard(cardId, 'error', err.message, 0);
+    showToast('Error: ' + err.message, 'error');
+    console.error(err);
+  }
+}
+
+async function extractText(file, cardId) {
+  const isPDF   = file.type === 'application/pdf';
+  const isVideo = file.type.startsWith('video/');
+  const isAudio = file.type.startsWith('audio/');
+  const isTxt   = file.type === 'text/plain';
+  const isDoc   = /\.(doc|docx)$/i.test(file.name);
+
+  if (isTxt)          return await file.text();
+  if (isPDF)          return await extractPDFText(file);
+  if (isVideo||isAudio) {
+    updCard(cardId, 'processing', 'Transcribiendo audio/video con Whisper...', 55);
+    return await transcribeWhisper(file);
+  }
+  if (isDoc) return `[Documento Word: ${file.name}]\nPega el contenido manualmente en Capa 1 para que el Cerebro lo use.`;
+  return '[Archivo subido. Contenido no extraíble automáticamente.]';
+}
+
+async function extractPDFText(file) {
+  if (!window.pdfjsLib) {
+    await loadScript('https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js');
+    window.pdfjsLib.GlobalWorkerOptions.workerSrc =
+      'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js';
+  }
+  const pdf  = await window.pdfjsLib.getDocument({ data: await file.arrayBuffer() }).promise;
+  let text   = '';
+  for (let i = 1; i <= pdf.numPages; i++) {
+    const page    = await pdf.getPage(i);
+    const content = await page.getTextContent();
+    text += content.items.map(item => item.str).join(' ') + '\n';
+  }
+  return text.trim() || '[PDF sin texto extraíble — puede estar escaneado]';
+}
+
+async function transcribeWhisper(file) {
+  const key = window.OPENAI_KEY || (typeof config !== 'undefined' ? config.OPENAI_KEY : '');
+  if (!key) {
+    return `[TRANSCRIPCIÓN PENDIENTE]\nArchivo "${file.name}" guardado en Supabase Storage.\nPara transcripción automática: agrega OPENAI_API_KEY en los secrets de Vercel.\nO pega el contenido manualmente en Capa 1.`;
+  }
+  const form = new FormData();
+  form.append('file', file, file.name);
+  form.append('model', 'whisper-1');
+  form.append('language', 'es');
+  const res = await fetch('https://api.openai.com/v1/audio/transcriptions', {
+    method: 'POST', headers: { 'Authorization': 'Bearer ' + key }, body: form
+  });
+  if (!res.ok) { const e = await res.json(); throw new Error('Whisper: ' + (e.error?.message||'error')); }
+  return (await res.json()).text || '[Sin transcripción]';
+}
+
+async function generarResumen(texto, nombre) {
+  if (!texto || texto.length < 50) return 'Archivo sin contenido textual significativo.';
+  try {
+    const res = await fetch('https://api.anthropic.com/v1/messages', {
+      method: 'POST', headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        model: 'claude-sonnet-4-20250514', max_tokens: 500,
+        messages: [{ role: 'user', content:
+          `Eres asistente de Novu 360 (agencia marketing CDMX). Analiza el contenido del archivo "${nombre}" (área: ${currentArea}).
+Genera un resumen en español de máx 150 palabras con:
+1. De qué trata
+2. Puntos clave para el equipo de la agencia
+3. Cómo usarlo en el trabajo diario
+
+CONTENIDO:\n${texto.substring(0,4000)}`
+        }]
+      })
+    });
+    if (!res.ok) throw new Error('API');
+    const d = await res.json();
+    return d.content?.map(b => b.text||'').join('') || 'Resumen no disponible.';
+  } catch { return 'Resumen automático no disponible. Contenido guardado para consultas.'; }
+}
+
+function sanitizeFilename(name) {
+  return name.replace(/[^a-zA-Z0-9._-]/g, '_');
+}
+
+function loadScript(src) {
+  return new Promise((res, rej) => {
+    if (document.querySelector(`script[src="${src}"]`)) { res(); return; }
+    const s = document.createElement('script');
+    s.src = src; s.onload = res; s.onerror = rej;
+    document.head.appendChild(s);
+  });
+}
+
+/* ══════════ UI: Cards de upload ══════════ */
+const iconType = n => /\.pdf$/i.test(n)?'pdf':/\.(mp4|mov|avi)$/i.test(n)?'video':/\.(mp3|wav|m4a)$/i.test(n)?'audio':/\.(doc|docx)$/i.test(n)?'doc':'text';
+const iconSym  = t => ({pdf:'picture_as_pdf',video:'videocam',audio:'mic',doc:'article',text:'description'})[t]||'description';
+
+function showUploadCard(cardId, file) {
+  const queue = document.getElementById('upload-queue');
+  queue.classList.remove('hidden');
+  const t = iconType(file.name);
+  const sz = (file.size/1024/1024).toFixed(1);
+  const div = document.createElement('div');
+  div.id = cardId; div.className = 'file-card';
+  div.innerHTML = `
+    <div class="file-icon ${t}">
+      <span class="material-symbols-outlined" style="font-size:18px">${iconSym(t)}</span>
+    </div>
+    <div class="flex-1 min-w-0">
+      <p class="text-sm font-semibold text-zinc-200 truncate">${file.name}</p>
+      <p class="text-xs text-zinc-500 mb-2">${sz} MB · ${currentArea}</p>
+      <div class="progress-bar-track"><div class="progress-bar-fill" id="${cardId}-bar" style="width:5%"></div></div>
+      <p class="text-xs text-zinc-500 mt-1.5" id="${cardId}-status">Iniciando...</p>
+    </div>
+    <span class="text-xs px-2 py-1 rounded-full badge-processing font-semibold ml-2 shrink-0" id="${cardId}-badge">Procesando</span>`;
+  queue.prepend(div);
+}
+
+function updCard(cardId, state, text, pct) {
+  const bar = document.getElementById(cardId+'-bar');
+  const st  = document.getElementById(cardId+'-status');
+  const bdg = document.getElementById(cardId+'-badge');
+  if (bar) bar.style.width = pct + '%';
+  if (st)  st.textContent  = text;
+  if (bdg) {
+    bdg.className = 'text-xs px-2 py-1 rounded-full font-semibold ml-2 shrink-0';
+    if (state==='done')  { bdg.classList.add('badge-ready'); bdg.textContent='Listo'; }
+    else if (state==='error') { bdg.classList.add('badge-error'); bdg.textContent='Error'; }
+    else { bdg.classList.add('badge-processing'); bdg.textContent='Procesando'; }
+  }
+  if (state==='done'||state==='error') {
+    setTimeout(() => {
+      document.getElementById(cardId)?.remove();
+      const q = document.getElementById('upload-queue');
+      if (q && !q.querySelector('.file-card')) q.classList.add('hidden');
+    }, 5000);
+  }
+}
+
+/* ══════════ SUPABASE: Lista de archivos ══════════ */
+async function loadFiles(area) {
+  if (!window.supabaseClient) return;
+  const list  = document.getElementById('files-list');
+  const empty = document.getElementById('files-empty');
+  const count = document.getElementById('files-count');
+  list.querySelectorAll('.file-card-saved').forEach(el => el.remove());
+
+  const { data } = await window.supabaseClient
+    .from('cerebro_conocimiento').select('id, contenido, updated_at')
+    .eq('area', area).eq('capa', 3).is('cliente_id', null)
+    .order('updated_at', { ascending: false });
+
+  if (!data?.length) { empty.style.display=''; count.textContent='0 archivos'; return; }
+  empty.style.display = 'none';
+  count.textContent   = data.length + ' archivo' + (data.length>1?'s':'');
+
+  data.forEach(r => {
+    const nameMatch  = r.contenido.match(/=== ARCHIVO: (.+?) ===/);
+    const nombre     = nameMatch ? nameMatch[1] : 'Archivo';
+    const resumMatch = r.contenido.match(/RESUMEN:\n([\s\S]+?)\n\nTEXTO COMPLETO:/);
+    const resumen    = resumMatch ? resumMatch[1].trim() : '';
+    const fecha      = new Date(r.updated_at).toLocaleDateString('es-MX',{day:'2-digit',month:'short',year:'numeric'});
+    const t          = iconType(nombre);
+    const card       = document.createElement('div');
+    card.className   = 'file-card file-card-saved';
+    card.innerHTML   = `
+      <div class="file-icon ${t}">
+        <span class="material-symbols-outlined" style="font-size:18px">${iconSym(t)}</span>
+      </div>
+      <div class="flex-1 min-w-0">
+        <div class="flex items-start justify-between gap-2">
+          <p class="text-sm font-semibold text-zinc-200 truncate">${nombre}</p>
+          <span class="text-xs px-2 py-0.5 rounded-full badge-ready font-semibold shrink-0">Listo</span>
+        </div>
+        ${resumen ? `<p class="text-xs text-zinc-500 mt-1 line-clamp-2">${resumen}</p>` : ''}
+        <div class="flex items-center gap-3 mt-2">
+          <span class="text-xs text-zinc-600">${fecha}</span>
+          <button onclick="deleteFile('${r.id}')" class="ml-auto text-zinc-700 hover:text-red-400 transition-colors">
+            <span class="material-symbols-outlined" style="font-size:16px">delete</span>
+          </button>
+        </div>
+      </div>`;
+    list.appendChild(card);
+  });
+}
+
+async function deleteFile(id) {
+  if (!confirm('¿Eliminar este archivo del conocimiento?')) return;
+  const { error } = await window.supabaseClient.from('cerebro_conocimiento').delete().eq('id', id);
+  error ? showToast('Error al eliminar', 'error') : (showToast('Eliminado', 'success'), loadFiles(currentArea));
+}
+
+/* ══════════ EDITOR UTILS ══════════ */
+function formatText(cmd)  { document.getElementById('knowledge-editor').focus(); document.execCommand(cmd,false,null); }
+function insertHeading()  {
+  const ta=document.getElementById('knowledge-editor'), s=ta.selectionStart;
+  const b=ta.value.substring(0,s), a=ta.value.substring(ta.selectionEnd);
+  const ls=b.lastIndexOf('\n')+1;
+  ta.value=b.substring(0,ls)+'## '+b.substring(ls)+a; updateCharCount();
+}
+function clearEditor()    { if(!confirm('¿Limpiar el editor?')) return; document.getElementById('knowledge-editor').value=''; updateCharCount(); setSaveStatus('idle','Sin cambios'); }
+function insertPlaceholder() {
+  const ta=document.getElementById('knowledge-editor');
+  if(ta.value.trim()&&!confirm('¿Agregar la guía al final?')) return;
+  ta.value=ta.value.trim()?ta.value.trim()+'\n\n'+PLACEHOLDERS[currentArea]:PLACEHOLDERS[currentArea];
+  updateCharCount();
+}
+function updateCharCount() {
+  document.getElementById('char-count').textContent = document.getElementById('knowledge-editor').value.length.toLocaleString()+' chars';
+}
+
+/* ══════════ UI UTILS ══════════ */
+function setSaveStatus(type, text) {
+  const dot=document.getElementById('save-dot'), lbl=document.getElementById('save-text');
+  lbl.textContent=text; lbl.className='text-xs font-medium uppercase tracking-wider'; dot.className='w-2 h-2 rounded-full';
+  const m={saved:['bg-emerald-500','save-saved'],saving:['bg-amber-400','save-saving'],error:['bg-red-500','save-error'],idle:['bg-zinc-600','save-idle'],loading:['bg-zinc-500','save-idle']};
+  const [dc,tc]=m[type]||m.idle; dot.classList.add(dc); lbl.classList.add(tc);
+}
+function showToast(msg, type='success') {
+  const t=document.getElementById('toast'); t.textContent=msg; t.className='show '+type;
+  setTimeout(()=>{ t.className=type; }, 3200);
+}
+function setText(id, txt) { document.getElementById(id).textContent=txt; }
+</script>
+</body>
+</html>
