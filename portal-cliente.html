@@ -1,9 +1,9 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 
 <html class="dark" lang="es"><head>
 <meta charset="utf-8"/>
 <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
-<title>Novu 360 Â· Portal del Cliente</title>
+<title>Novu 360 · Portal del Cliente</title>
 <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
 <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;600;700;800&amp;family=Inter:wght@400;500;600&amp;display=swap" rel="stylesheet"/>
 <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
@@ -79,6 +79,11 @@
 <script src="config.js"></script>
 <script src="auth.js"></script>
 <script>checkAuth();</script>
+<style>
+    @media (max-width: 1023px) {
+      main { padding-top: 56px !important; padding-bottom: 80px !important; }
+    }
+  </style>
 </head>
 <body class="bg-black text-on-surface antialiased overflow-x-hidden">
 <!-- TopNavBar Implementation -->
@@ -103,7 +108,7 @@
 <!-- Pagos status bar -->
 <div class="hidden lg:flex items-center gap-3 px-3 py-1.5 rounded-lg bg-neutral-800/30 border border-neutral-700/50">
 <div class="flex flex-col items-end">
-<p class="text-[10px] text-neutral-400 leading-none">PrÃ³ximo pago: 15 Abr</p>
+<p class="text-[10px] text-neutral-400 leading-none">Próximo pago: 15 Abr</p>
 <p class="text-xs font-bold text-white">$5,400 MXN</p>
 </div>
 <span class="px-2 py-0.5 rounded-full text-[10px] font-bold bg-green-500/20 text-green-400 border border-green-500/30 uppercase tracking-wider">Activo</span>

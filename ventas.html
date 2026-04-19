@@ -1,243 +1,679 @@
-﻿<!DOCTYPE html>
-
-<html class="dark" lang="es"><head>
-<meta charset="utf-8"/>
-<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
-<title>Novu 360 Â· Ventas & Prospector IA</title>
-<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
-<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;600;700;800&amp;family=Inter:wght@400;500;600&amp;display=swap" rel="stylesheet"/>
-<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
-<script id="tailwind-config">
+<!DOCTYPE html>
+<html class="dark" lang="es">
+<head>
+  <meta charset="utf-8"/>
+  <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+  <title>Novu 360 · Ventas & Pipeline</title>
+  <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;600;700;800&family=Inter:wght@400;500;600&display=swap" rel="stylesheet"/>
+  <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet"/>
+  <script id="tailwind-config">
     tailwind.config = {
       darkMode: "class",
       theme: {
         extend: {
           colors: {
-            "tertiary-fixed": "#ffdbd0",
-            "surface-container": "#09100e",
-            "on-secondary-fixed-variant": "#474747",
-            "on-tertiary-fixed-variant": "#7e2c0f",
-            "surface-container-highest": "#1a211f",
-            "outline-variant": "#3c4a46",
-            "secondary-container": "#474747",
-            "surface-container-lowest": "#000000",
-            "on-tertiary-container": "#752509",
-            "primary-fixed": "#65fade",
-            "error": "#ffb4ab",
-            "surface-container-low": "#0e1513",
-            "surface-bright": "#333b38",
             "primary": "#00C2A8",
-            "on-primary-fixed-variant": "#005045",
-            "primary-fixed-dim": "#41ddc2",
-            "on-tertiary-fixed": "#3a0b00",
-            "on-primary-fixed": "#00201b",
-            "on-background": "#dde4e1",
-            "primary-container": "#00C2A8",
             "on-primary": "#00382f",
-            "surface-dim": "#000000",
-            "on-secondary-container": "#b5b5b5",
-            "on-tertiary": "#5e1700",
-            "on-secondary": "#303030",
-            "tertiary-fixed-dim": "#ffb59e",
-            "surface-variant": "#161d1b",
-            "secondary-fixed-dim": "#c6c6c6",
-            "on-surface-variant": "#bbcac4",
+            "primary-container": "#00C2A8",
             "on-primary-container": "#00493e",
-            "on-secondary-fixed": "#1b1b1b",
-            "on-error": "#690005",
-            "tertiary-container": "#ff8d69",
-            "outline": "#445550",
-            "inverse-primary": "#006b5c",
-            "surface-tint": "#00C2A8",
-            "secondary-fixed": "#e2e2e2",
-            "on-error-container": "#ffdad6",
-            "error-container": "#93000a",
             "surface": "#000000",
-            "tertiary": "#ffb6a0",
-            "on-surface": "#dde4e1",
+            "surface-container": "#09100e",
+            "surface-container-low": "#0e1513",
             "surface-container-high": "#161d1b",
+            "surface-container-highest": "#1a211f",
+            "on-surface": "#dde4e1",
+            "on-surface-variant": "#bbcac4",
+            "outline": "#445550",
+            "outline-variant": "#3c4a46",
             "secondary": "#c6c6c6",
+            "secondary-container": "#474747",
+            "on-secondary-container": "#b5b5b5",
+            "tertiary-container": "#ff8d69",
+            "error": "#ffb4ab",
             "background": "#000000",
-            "inverse-on-surface": "#2b3230",
-            "inverse-surface": "#dde4e1"
           },
           fontFamily: {
             "headline": ["Manrope"],
             "body": ["Inter"],
-            "label": ["Inter"]
           },
           borderRadius: {"DEFAULT": "0.25rem", "lg": "0.5rem", "xl": "0.75rem", "full": "9999px"},
         },
       },
     }
   </script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;700;800&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script src="config.js"></script>
+  <script src="auth.js"></script>
+  <script>checkAuth();</script>
+  <style>
+    /* Etapa badges */
+    .etapa-badge {
+      font-size: 0.65rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      padding: 2px 8px;
+      border-radius: 20px;
+      letter-spacing: 0.1em;
+    }
+    .etapa-nuevo    { background: rgba(0,194,168,0.15);  color: #00C2A8; }
+    .etapa-contactado { background: rgba(255,141,105,0.15); color: #FF8D69; }
+    .etapa-calificado { background: rgba(99,179,237,0.15);  color: #63B3ED; }
+    .etapa-propuesta  { background: rgba(154,230,180,0.15); color: #68D391; }
+    .etapa-cerrado    { background: rgba(246,173,85,0.15);  color: #F6AD55; }
 
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;700;800&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="style.css">
-<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-<script src="config.js"></script>
-<script src="auth.js"></script>
-<script>checkAuth();</script>
+    /* Modal */
+    .modal-overlay {
+      position: fixed; inset: 0; z-index: 100;
+      background: rgba(0,0,0,0.8);
+      display: flex; align-items: center; justify-content: center;
+      padding: 16px;
+    }
+    .modal-box {
+      background: #0f0f0f;
+      border: 1px solid #242424;
+      border-radius: 16px;
+      padding: 28px;
+      width: 100%;
+      max-width: 480px;
+      max-height: 90vh;
+      overflow-y: auto;
+    }
+
+    /* Form styles */
+    .form-label {
+      display: block;
+      margin-bottom: 6px;
+      font-size: 0.7rem;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.15em;
+      color: #c9c9c9;
+    }
+    .form-input {
+      width: 100%;
+      border-radius: 6px;
+      border: 1px solid #242424;
+      background: #141414;
+      padding: 10px 14px;
+      font-size: 0.875rem;
+      color: #f5f5f5;
+      outline: none;
+      transition: border-color 0.15s;
+      font-family: 'Inter', sans-serif;
+    }
+    .form-input:focus { border-color: #00C2A8; box-shadow: 0 0 0 2px rgba(0,194,168,0.12); }
+    .form-input option { background: #141414; }
+
+    /* AI result */
+    .ai-result {
+      background: #141414;
+      border: 1px solid rgba(0,194,168,0.25);
+      border-radius: 12px;
+      padding: 16px;
+      margin-top: 12px;
+      position: relative;
+    }
+    .ai-result p { font-size: 0.875rem; color: #c9c9c9; line-height: 1.6; white-space: pre-wrap; }
+    .ai-result-label { font-size: 0.65rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.2em; color: #00C2A8; margin-bottom: 8px; }
+
+    /* Loader */
+    .ai-loader { display: inline-flex; align-items: center; gap: 6px; }
+    .ai-loader .dot {
+      width: 5px; height: 5px; border-radius: 50%; background: #000;
+      animation: dotPulse 1.2s ease-in-out infinite;
+    }
+    .ai-loader .dot:nth-child(2) { animation-delay: 0.2s; }
+    .ai-loader .dot:nth-child(3) { animation-delay: 0.4s; }
+    @keyframes dotPulse {
+      0%, 100% { opacity: 0.3; transform: scale(0.8); }
+      50% { opacity: 1; transform: scale(1); }
+    }
+
+    /* Mobile main padding */
+    @media (max-width: 1023px) {
+      main { padding-top: 56px !important; padding-bottom: 80px !important; }
+    }
+  </style>
 </head>
 <body class="bg-black text-on-surface antialiased overflow-x-hidden">
 
-<!-- Main Workspace -->
-<main class="bg-black">
-<!-- Top Header -->
-<header class="bg-black flex justify-between items-center h-16 px-8 w-full sticky top-0 z-10 border-b border-white/5">
-<div class="flex items-center gap-6">
-<h1 class="text-xl font-extrabold text-white tracking-tight">Novu 360 Â· Pipeline de Ventas</h1>
-</div>
-<div class="flex items-center gap-4">
-<button id="mobile-menu-toggle" class="md:hidden p-2 text-white"><span class="material-symbols-outlined">menu</span></button>
-<div class="hidden md:flex items-center bg-white/5 rounded-full px-4 py-1.5 gap-2 border border-white/5">
-<span class="material-symbols-outlined text-sm text-neutral-500">search</span>
-<input id="dashboard-search" class="bg-transparent border-none focus:ring-0 text-sm text-on-surface w-48 placeholder-neutral-500" placeholder="Buscar..." type="text"/>
-</div>
-<button id="dashboard-notifications-btn" class="p-2 rounded-full hover:bg-white/5 transition-colors relative" type="button">
-<span class="material-symbols-outlined text-primary">notifications</span>
-</button>
-<div class="flex items-center gap-3 ml-2">
-<img id="dashboard-user-avatar" alt="User avatar" class="w-10 h-10 rounded-full border-2 border-primary bg-neutral-900 object-cover" src=""/>
-</div>
-</div>
+<!-- Top Header (desktop) -->
+<header class="hidden md:flex bg-black justify-between items-center h-16 px-8 w-full sticky top-0 z-10 border-b border-white/5">
+  <div class="flex items-center gap-6">
+    <h1 class="text-xl font-extrabold text-white tracking-tight font-headline">Novu 360 · Ventas</h1>
+  </div>
+  <div class="flex items-center gap-4">
+    <div class="flex items-center bg-white/5 rounded-full px-4 py-1.5 gap-2 border border-white/5">
+      <span class="material-symbols-outlined text-sm text-neutral-500">search</span>
+      <input id="pipeline-search" class="bg-transparent border-none focus:ring-0 text-sm text-on-surface w-48 placeholder-neutral-500" placeholder="Buscar lead..." type="text"/>
+    </div>
+    <button id="dashboard-notifications-btn" class="p-2 rounded-full hover:bg-white/5 transition-colors relative">
+      <span class="material-symbols-outlined text-primary">notifications</span>
+    </button>
+    <div class="flex items-center gap-3 ml-2">
+      <img id="dashboard-user-avatar" alt="User avatar" class="w-10 h-10 rounded-full border-2 border-primary bg-neutral-900 object-cover" src=""/>
+    </div>
+  </div>
 </header>
-<div class="p-8 space-y-8">
-<section class="grid grid-cols-12 gap-8">
-<div class="col-span-12 lg:col-span-8 space-y-8">
-<div class="flex items-center justify-between">
-<div>
-<h2 class="text-2xl font-black text-white tracking-tight">Pipeline Comercial</h2>
-<p class="text-slate-500 text-xs mt-1">Gestiona tus prospectos y cierres en tiempo real</p>
-</div>
-<div class="flex gap-3">
-<button class="bg-black border border-slate-800 text-white px-4 py-2 rounded-lg text-sm font-bold flex items-center gap-2 hover:bg-slate-900 transition-all">
-<span class="material-symbols-outlined text-sm">filter_list</span> Filtrar
-</button>
-<button class="bg-[#00C2A8] text-[#00382f] px-4 py-2 rounded-lg text-sm font-black flex items-center gap-2 hover:brightness-110 transition-all shadow-lg shadow-[#00C2A8]/20">
-<span class="material-symbols-outlined text-sm">add</span> Nuevo Lead
-</button>
-</div>
-</div>
-<div class="overflow-x-auto no-scrollbar rounded-2xl border border-slate-800 bg-[#0c0c0c]/50">
-<table class="w-full text-left border-collapse">
-<thead>
-<tr class="border-b border-slate-800 bg-black/50">
-<th class="px-6 py-4 text-[10px] font-bold uppercase tracking-[0.2em] text-slate-500">Prospecto</th>
-<th class="px-6 py-4 text-[10px] font-bold uppercase tracking-[0.2em] text-slate-500">Origen</th>
-<th class="px-6 py-4 text-[10px] font-bold uppercase tracking-[0.2em] text-slate-500">Estado</th>
-<th class="px-6 py-4 text-[10px] font-bold uppercase tracking-[0.2em] text-slate-500 text-right">Valor Est.</th>
-</tr>
-</thead>
-<tbody class="divide-y divide-slate-800/50">
-<tr class="hover:bg-white/5 transition-colors group cursor-pointer">
-<td class="px-6 py-5">
-<div class="flex items-center gap-3">
-<div class="w-10 h-10 rounded-lg bg-orange-500/20 border border-orange-500/30 flex items-center justify-center text-orange-500 font-bold">R</div>
-<div>
-<h3 class="text-sm font-bold text-slate-100">Restaurante Roma</h3>
-<p class="text-[10px] text-slate-500 mt-0.5">Gastronomia Italiana</p>
-</div>
-</div>
-</td>
-<td class="px-6 py-5">
-<span class="text-xs text-slate-400">Instagram DM</span>
-</td>
-<td class="px-6 py-5">
-<div class="inline-flex items-center gap-1.5 rounded-full bg-blue-500/10 px-2.5 py-1 text-[10px] font-bold text-blue-400 border border-blue-500/20">
-<span class="h-1.5 w-1.5 rounded-full bg-blue-400 animate-pulse"></span>
-                    Contactado
-                  </div>
-</td>
-<td class="px-6 py-5 text-right font-bold text-sm text-slate-200">$1,200/mo</td>
-</tr>
-<tr class="hover:bg-white/5 transition-colors group cursor-pointer">
-<td class="px-6 py-5">
-<div class="flex items-center gap-3">
-<div class="w-10 h-10 rounded-lg bg-emerald-500/20 border border-emerald-500/30 flex items-center justify-center text-emerald-500 font-bold">G</div>
-<div>
-<h3 class="text-sm font-bold text-slate-100">Studio Glow</h3>
-<p class="text-[10px] text-slate-500 mt-0.5">Belleza & Bienestar</p>
-</div>
-</div>
-</td>
-<td class="px-6 py-5">
-<span class="text-xs text-slate-400">Referido</span>
-</td>
-<td class="px-6 py-5">
-<div class="inline-flex items-center gap-1.5 rounded-full bg-[#00C2A8]/10 px-2.5 py-1 text-[10px] font-bold text-[#00C2A8] border border-[#00C2A8]/20">
-<span class="h-1.5 w-1.5 rounded-full bg-[#00C2A8]"></span>
-                    Propuesta
-                  </div>
-</td>
-<td class="px-6 py-5 text-right font-bold text-sm text-slate-200">$850/mo</td>
-</tr>
-</tbody>
-</table>
-</div>
-</div>
-<section class="hidden md:flex w-full lg:w-1/3 flex-col gap-8">
-<div class="rounded-2xl border border-slate-800 bg-[#0c0c0c] p-6 shadow-2xl relative overflow-hidden">
-<div class="absolute -right-4 -top-4 text-[#00C2A8]/5">
-<span class="material-symbols-outlined text-[120px]">psychology</span>
-</div>
-<div class="relative z-10">
-<div class="flex items-center gap-2 mb-6">
-<span class="material-symbols-outlined text-[#00C2A8]">auto_awesome</span>
-<h2 class="text-xl font-bold font-headline text-white">AI Assistant</h2>
-</div>
-<p class="text-xs text-slate-400 leading-relaxed mb-6">Analizando tus leads activos... Tienes <strong>2 propuestas</strong> que requieren seguimiento hoy para maximizar el cierre.</p>
-<div class="mt-6 grid grid-cols-2 gap-3 text-xs text-slate-300">
-<div class="rounded-md border border-slate-800 bg-black/70 p-3">
-<p class="text-[10px] uppercase tracking-[0.25em] text-slate-500">Paso 1</p>
-<p class="mt-2">Datos del negocio</p>
-</div>
-<div class="rounded-md border border-slate-800 bg-black/70 p-3">
-<p class="text-[10px] uppercase tracking-[0.25em] text-slate-500">Paso 2</p>
-<p class="mt-2">Subir capturas</p>
-</div>
-<div class="rounded-md border border-slate-800 bg-black/70 p-3">
-<p class="text-[10px] uppercase tracking-[0.25em] text-slate-500">Paso 3</p>
-<p class="mt-2">AnÃ¡lisis + mensaje</p>
-</div>
-<div class="rounded-md border border-slate-800 bg-black/70 p-3">
-<p class="text-[10px] uppercase tracking-[0.25em] text-slate-500">Paso 4</p>
-<p class="mt-2">Expediente del lead</p>
-</div>
-</div>
-<a href="prospector-ia.html" class="mt-6 inline-flex w-full items-center justify-center gap-2 rounded-md bg-[#00C2A8] px-4 py-3 text-sm font-bold text-[#00382f] transition hover:brightness-110">
-<span class="material-symbols-outlined text-sm">open_in_new</span>
-Abrir Prospector IA
-</a>
-</div>
-</div>
-<div class="rounded-2xl border border-slate-800 bg-[#0c0c0c] p-6 shadow-xl text-center">
-<p class="text-[10px] font-bold uppercase tracking-[0.35em] text-slate-500 mb-4 text-left">Resumen Operativo</p>
-<div class="grid grid-cols-2 gap-4">
-<div class="p-4 rounded-xl bg-black border border-slate-800">
-<p class="text-2xl font-black text-white">12</p>
-<p class="text-[9px] text-slate-500 uppercase tracking-widest mt-1">Leads Mes</p>
-</div>
-<div class="p-4 rounded-xl bg-black border border-slate-800">
-<p class="text-2xl font-black text-[#00C2A8]">4</p>
-<p class="text-[9px] text-slate-500 uppercase tracking-widest mt-1">Cierres</p>
-</div>
-</div>
-</div>
-</section>
-</section>
-</div>
+
+<!-- Main -->
+<main class="bg-black p-4 md:p-8 space-y-8">
+
+  <!-- Top stats row -->
+  <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
+    <div class="bg-surface-container-high rounded-xl border border-white/5 p-5">
+      <p class="text-[10px] uppercase tracking-widest text-neutral-500 mb-1">Total leads</p>
+      <p id="stat-total" class="text-3xl font-black text-white">—</p>
+    </div>
+    <div class="bg-surface-container-high rounded-xl border border-white/5 p-5">
+      <p class="text-[10px] uppercase tracking-widest text-neutral-500 mb-1">Cierres mes</p>
+      <p id="stat-cierres" class="text-3xl font-black text-primary">—</p>
+    </div>
+    <div class="bg-surface-container-high rounded-xl border border-white/5 p-5">
+      <p class="text-[10px] uppercase tracking-widest text-neutral-500 mb-1">En propuesta</p>
+      <p id="stat-propuesta" class="text-3xl font-black text-yellow-400">—</p>
+    </div>
+    <div class="bg-surface-container-high rounded-xl border border-white/5 p-5">
+      <p class="text-[10px] uppercase tracking-widest text-neutral-500 mb-1">Nuevos hoy</p>
+      <p id="stat-nuevos" class="text-3xl font-black text-blue-400">—</p>
+    </div>
+  </div>
+
+  <!-- Actions row -->
+  <div class="flex flex-col sm:flex-row gap-3 items-start sm:items-center justify-between">
+    <h2 class="text-2xl font-black text-white tracking-tight font-headline">Pipeline Comercial</h2>
+    <div class="flex gap-3 w-full sm:w-auto">
+      <a href="prospector-ia.html"
+        class="flex-1 sm:flex-none flex items-center justify-center gap-2 bg-white/5 border border-white/10 text-white px-4 py-2 rounded-lg text-sm font-bold hover:bg-white/10 transition-all">
+        <span class="material-symbols-outlined text-sm text-primary">auto_awesome</span> Prospector IA
+      </a>
+      <button id="btn-nuevo-lead"
+        class="flex-1 sm:flex-none flex items-center justify-center gap-2 bg-primary text-on-primary px-4 py-2 rounded-lg text-sm font-black hover:brightness-110 transition-all shadow-lg shadow-primary/20">
+        <span class="material-symbols-outlined text-sm">add</span> Nuevo Lead
+      </button>
+    </div>
+  </div>
+
+  <!-- Pipeline table -->
+  <div class="overflow-x-auto rounded-2xl border border-slate-800 bg-[#0c0c0c]/50">
+    <table class="w-full text-left border-collapse min-w-[600px]">
+      <thead>
+        <tr class="border-b border-slate-800 bg-black/50">
+          <th class="px-6 py-4 text-[10px] font-bold uppercase tracking-[0.2em] text-slate-500">Prospecto</th>
+          <th class="px-6 py-4 text-[10px] font-bold uppercase tracking-[0.2em] text-slate-500">Ciudad</th>
+          <th class="px-6 py-4 text-[10px] font-bold uppercase tracking-[0.2em] text-slate-500">Origen</th>
+          <th class="px-6 py-4 text-[10px] font-bold uppercase tracking-[0.2em] text-slate-500">Etapa</th>
+          <th class="px-6 py-4 text-[10px] font-bold uppercase tracking-[0.2em] text-slate-500">Fecha</th>
+          <th class="px-6 py-4 text-[10px] font-bold uppercase tracking-[0.2em] text-slate-500 text-right">Acciones</th>
+        </tr>
+      </thead>
+      <tbody id="pipeline-tbody" class="divide-y divide-slate-800/50">
+        <tr>
+          <td colspan="6" class="px-6 py-10 text-center text-slate-500 text-sm">Cargando leads...</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <!-- AI Pitch section -->
+  <div class="rounded-2xl border border-slate-800 bg-[#0c0c0c] p-6 relative overflow-hidden">
+    <div class="absolute -right-4 -top-4 text-primary/5">
+      <span class="material-symbols-outlined text-[120px]">mic</span>
+    </div>
+    <div class="relative z-10">
+      <div class="flex items-center gap-2 mb-2">
+        <span class="material-symbols-outlined text-primary">record_voice_over</span>
+        <h3 class="text-lg font-bold font-headline text-white">Maestra del Pitch</h3>
+        <span class="text-[10px] bg-primary/10 text-primary border border-primary/20 px-2 py-0.5 rounded-full font-bold uppercase tracking-wider">Claude API</span>
+      </div>
+      <p class="text-xs text-slate-400 mb-4">Genera un pitch de 5-8 min personalizado al giro del cliente.</p>
+
+      <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-4">
+        <div>
+          <label class="form-label">Nombre del negocio</label>
+          <input id="pitch-nombre" class="form-input" placeholder="Ej. Restaurante Roma Norte" type="text" />
+        </div>
+        <div>
+          <label class="form-label">Giro del negocio</label>
+          <select id="pitch-giro" class="form-input">
+            <option value="">Selecciona...</option>
+            <option>Restaurante</option>
+            <option>Gimnasio</option>
+            <option>Consultorio / Clínica</option>
+            <option>Estética / Spa</option>
+            <option>Tienda / Retail</option>
+            <option>Servicios Profesionales</option>
+            <option>Inmobiliaria</option>
+            <option>Educación</option>
+            <option>Otro</option>
+          </select>
+        </div>
+      </div>
+      <div class="mb-4">
+        <label class="form-label">Contexto del prospecto (opcional)</label>
+        <textarea id="pitch-contexto" class="form-input" rows="2" placeholder="¿Qué sabes de él? ¿Cuál es su dolor principal? ¿Cuántos seguidores tiene?"></textarea>
+      </div>
+
+      <button id="btn-pitch"
+        class="flex items-center gap-2 bg-primary text-on-primary px-5 py-2.5 rounded-lg font-bold text-sm hover:brightness-110 transition-all">
+        <span class="material-symbols-outlined text-sm">auto_awesome</span> Generar Pitch
+      </button>
+
+      <div id="result-pitch" class="hidden ai-result mt-4">
+        <div class="ai-result-label">🎤 Pitch generado por Claude</div>
+        <button id="btn-copy-pitch"
+          class="absolute top-3 right-3 flex items-center gap-1 text-[10px] text-slate-400 hover:text-primary border border-slate-700 hover:border-primary rounded px-2 py-1 transition">
+          <span class="material-symbols-outlined text-xs">content_copy</span> Copiar
+        </button>
+        <p id="text-pitch"></p>
+      </div>
+    </div>
+  </div>
+
 </main>
-<button id="mobile-ai-button" class="fixed bottom-24 right-6 z-50 inline-flex items-center gap-2 rounded-full bg-[#00C2A8] px-4 py-3 text-sm font-black text-[#00382f] shadow-2xl transition hover:scale-105 active:scale-95 md:hidden" type="button" aria-label="Abrir Prospector IA">
-<span class="material-symbols-outlined text-2xl font-bold" style="font-variation-settings: 'FILL' 1;">bolt</span>
-<span>AI</span>
+
+<!-- Modal: Nuevo / Editar Lead -->
+<div id="modal-lead" class="modal-overlay hidden">
+  <div class="modal-box">
+    <div class="flex items-center justify-between mb-6">
+      <h3 id="modal-title" class="text-lg font-bold text-white font-headline">Nuevo Lead</h3>
+      <button id="modal-close" class="text-slate-400 hover:text-white transition">
+        <span class="material-symbols-outlined">close</span>
+      </button>
+    </div>
+    <div class="space-y-4">
+      <input type="hidden" id="modal-lead-id" />
+      <div>
+        <label class="form-label">Nombre del negocio *</label>
+        <input id="modal-nombre" class="form-input" placeholder="Restaurante Roma Norte" type="text" />
+      </div>
+      <div class="grid grid-cols-2 gap-3">
+        <div>
+          <label class="form-label">Giro *</label>
+          <select id="modal-giro" class="form-input">
+            <option value="">Selecciona...</option>
+            <option>Restaurante</option>
+            <option>Gimnasio</option>
+            <option>Consultorio / Clínica</option>
+            <option>Estética / Spa</option>
+            <option>Tienda / Retail</option>
+            <option>Servicios Profesionales</option>
+            <option>E-commerce</option>
+            <option>Educación</option>
+            <option>Inmobiliaria</option>
+            <option>Otro</option>
+          </select>
+        </div>
+        <div>
+          <label class="form-label">Ciudad *</label>
+          <input id="modal-ciudad" class="form-input" placeholder="CDMX" type="text" />
+        </div>
+      </div>
+      <div class="grid grid-cols-2 gap-3">
+        <div>
+          <label class="form-label">Instagram</label>
+          <input id="modal-instagram" class="form-input" placeholder="@negocio" type="text" />
+        </div>
+        <div>
+          <label class="form-label">Teléfono</label>
+          <input id="modal-telefono" class="form-input" placeholder="55 1234 5678" type="tel" />
+        </div>
+      </div>
+      <div>
+        <label class="form-label">Etapa</label>
+        <select id="modal-etapa" class="form-input">
+          <option value="nuevo">Nuevo</option>
+          <option value="contactado">Contactado</option>
+          <option value="calificado">Calificado</option>
+          <option value="propuesta">Propuesta</option>
+          <option value="cerrado">Cerrado</option>
+        </select>
+      </div>
+      <div>
+        <label class="form-label">Notas</label>
+        <textarea id="modal-notas" class="form-input" rows="2" placeholder="Notas adicionales..."></textarea>
+      </div>
+    </div>
+    <div class="flex gap-3 mt-6">
+      <button id="modal-cancel" class="flex-1 py-2.5 border border-slate-700 text-slate-400 font-semibold rounded-lg hover:border-slate-500 transition text-sm">
+        Cancelar
+      </button>
+      <button id="modal-save" class="flex-1 py-2.5 bg-primary text-on-primary font-bold rounded-lg hover:brightness-110 transition text-sm">
+        Guardar
+      </button>
+    </div>
+    <p id="modal-status" class="text-xs text-center mt-3 text-muted"></p>
+  </div>
+</div>
+
+<!-- FAB móvil -->
+<button id="mobile-fab"
+  class="fixed bottom-24 right-6 z-50 inline-flex items-center gap-2 rounded-full bg-primary px-4 py-3 text-sm font-black text-on-primary shadow-2xl transition hover:scale-105 active:scale-95 md:hidden"
+  type="button" aria-label="Ir a Prospector IA">
+  <span class="material-symbols-outlined text-xl" style="font-variation-settings:'FILL' 1">bolt</span>
+  <span>IA</span>
 </button>
 
-<script src="rateUs.js" defer></script>
-<script src="app.js" defer></script><script src="global-nav.js" defer></script>
-</body></html>
+<script src="app.js" defer></script>
+<script src="global-nav.js" defer></script>
 
+<script>
+document.addEventListener('DOMContentLoaded', async () => {
 
+  // ── Supabase ──────────────────────────────────────────────
+  function getDB() {
+    if (!window.supabaseClient) throw new Error('Supabase no inicializado');
+    return window.supabaseClient;
+  }
 
+  // ── Claude API ────────────────────────────────────────────
+  async function callClaude(systemPrompt, userPrompt) {
+    const CLAUDE_KEY = window.CLAUDE_KEY || '';
+    if (!CLAUDE_KEY) throw new Error('CLAUDE_KEY no configurada en config.js / Vercel secrets');
 
+    const response = await fetch('https://api.anthropic.com/v1/messages', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'x-api-key': CLAUDE_KEY,
+        'anthropic-version': '2023-06-01',
+        'anthropic-dangerous-direct-browser-access': 'true'
+      },
+      body: JSON.stringify({
+        model: 'claude-sonnet-4-20250514',
+        max_tokens: 1024,
+        system: systemPrompt,
+        messages: [{ role: 'user', content: userPrompt }]
+      })
+    });
+
+    const data = await response.json();
+    if (data.error) throw new Error(data.error.message);
+    return data.content?.[0]?.text || '';
+  }
+
+  // ── Verificar sesión y cargar avatar ─────────────────────
+  try {
+    const db = getDB();
+    const { data: { session } } = await db.auth.getSession();
+    if (!session) { window.location.href = 'index.html'; return; }
+
+    const { data: perfil } = await db.from('usuarios').select('nombre, avatar_url').eq('id', session.user.id).single();
+    const avatarEl = document.getElementById('dashboard-user-avatar');
+    if (avatarEl && perfil?.avatar_url) avatarEl.src = perfil.avatar_url;
+  } catch (e) {
+    console.warn('Auth check:', e.message);
+  }
+
+  // ── Cargar pipeline desde Supabase ───────────────────────
+  async function loadPipeline() {
+    try {
+      const db = getDB();
+      const { data: leads, error } = await db
+        .from('leads')
+        .select('*')
+        .order('created_at', { ascending: false });
+
+      if (error) throw error;
+
+      // Stats
+      const hoy = new Date(); hoy.setHours(0,0,0,0);
+      const mesInicio = new Date(hoy.getFullYear(), hoy.getMonth(), 1);
+
+      document.getElementById('stat-total').textContent = leads.length;
+      document.getElementById('stat-cierres').textContent = leads.filter(l => l.etapa === 'cerrado' && new Date(l.created_at) >= mesInicio).length;
+      document.getElementById('stat-propuesta').textContent = leads.filter(l => l.etapa === 'propuesta').length;
+      document.getElementById('stat-nuevos').textContent = leads.filter(l => new Date(l.created_at) >= hoy).length;
+
+      renderTable(leads);
+    } catch (e) {
+      document.getElementById('pipeline-tbody').innerHTML = `
+        <tr><td colspan="6" class="px-6 py-10 text-center text-red-400 text-sm">Error al cargar: ${e.message}</td></tr>
+      `;
+    }
+  }
+
+  function renderTable(leads) {
+    const tbody = document.getElementById('pipeline-tbody');
+    if (!leads.length) {
+      tbody.innerHTML = '<tr><td colspan="6" class="px-6 py-10 text-center text-slate-500 text-sm">Sin leads aún. ¡Crea el primero!</td></tr>';
+      return;
+    }
+
+    const etapaColors = {
+      nuevo: 'bg-primary/10 text-primary border-primary/20',
+      contactado: 'bg-orange-500/10 text-orange-400 border-orange-500/20',
+      calificado: 'bg-blue-500/10 text-blue-400 border-blue-500/20',
+      propuesta: 'bg-green-500/10 text-green-400 border-green-500/20',
+      cerrado: 'bg-yellow-500/10 text-yellow-400 border-yellow-500/20',
+    };
+
+    tbody.innerHTML = leads.map(lead => {
+      const etapa = lead.etapa || 'nuevo';
+      const color = etapaColors[etapa] || etapaColors.nuevo;
+      const inicial = (lead.nombre_negocio || '?')[0].toUpperCase();
+      const colores = ['bg-orange-500/20 text-orange-400', 'bg-blue-500/20 text-blue-400', 'bg-emerald-500/20 text-emerald-400', 'bg-purple-500/20 text-purple-400'];
+      const colorIdx = inicial.charCodeAt(0) % colores.length;
+      const fecha = lead.created_at ? new Date(lead.created_at).toLocaleDateString('es-MX', { day:'2-digit', month:'short' }) : '—';
+
+      return `
+        <tr class="hover:bg-white/5 transition-colors cursor-pointer" data-id="${lead.id}">
+          <td class="px-6 py-5">
+            <div class="flex items-center gap-3">
+              <div class="w-10 h-10 rounded-lg ${colores[colorIdx]} border border-white/10 flex items-center justify-center font-bold text-sm shrink-0">${inicial}</div>
+              <div>
+                <p class="text-sm font-bold text-slate-100">${lead.nombre_negocio || '—'}</p>
+                <p class="text-[10px] text-slate-500 mt-0.5">${lead.giro || '—'}</p>
+              </div>
+            </div>
+          </td>
+          <td class="px-6 py-5"><span class="text-xs text-slate-400">${lead.ciudad || '—'}</span></td>
+          <td class="px-6 py-5"><span class="text-xs text-slate-400">${lead.instagram || 'Instagram DM'}</span></td>
+          <td class="px-6 py-5">
+            <div class="inline-flex items-center gap-1.5 rounded-full ${color} border px-2.5 py-1 text-[10px] font-bold uppercase">
+              <span class="h-1.5 w-1.5 rounded-full bg-current ${etapa === 'nuevo' ? 'animate-pulse' : ''}"></span>
+              ${etapa}
+            </div>
+          </td>
+          <td class="px-6 py-5"><span class="text-xs text-slate-500">${fecha}</span></td>
+          <td class="px-6 py-5 text-right">
+            <button onclick="editLead('${lead.id}')" class="text-xs text-slate-400 hover:text-primary border border-slate-700 hover:border-primary px-2 py-1 rounded transition mr-2">
+              Editar
+            </button>
+            <button onclick="deleteLead('${lead.id}')" class="text-xs text-slate-400 hover:text-red-400 border border-slate-700 hover:border-red-400 px-2 py-1 rounded transition">
+              Eliminar
+            </button>
+          </td>
+        </tr>
+      `;
+    }).join('');
+  }
+
+  // ── Búsqueda en tiempo real ───────────────────────────────
+  let allLeads = [];
+  async function loadAllLeads() {
+    try {
+      const db = getDB();
+      const { data } = await db.from('leads').select('*').order('created_at', { ascending: false });
+      allLeads = data || [];
+      renderTable(allLeads);
+
+      const hoy = new Date(); hoy.setHours(0,0,0,0);
+      const mesInicio = new Date(hoy.getFullYear(), hoy.getMonth(), 1);
+      document.getElementById('stat-total').textContent = allLeads.length;
+      document.getElementById('stat-cierres').textContent = allLeads.filter(l => l.etapa === 'cerrado' && new Date(l.created_at) >= mesInicio).length;
+      document.getElementById('stat-propuesta').textContent = allLeads.filter(l => l.etapa === 'propuesta').length;
+      document.getElementById('stat-nuevos').textContent = allLeads.filter(l => new Date(l.created_at) >= hoy).length;
+    } catch(e) { console.error(e); }
+  }
+
+  document.getElementById('pipeline-search')?.addEventListener('input', (e) => {
+    const q = e.target.value.toLowerCase();
+    const filtered = allLeads.filter(l =>
+      (l.nombre_negocio || '').toLowerCase().includes(q) ||
+      (l.giro || '').toLowerCase().includes(q) ||
+      (l.ciudad || '').toLowerCase().includes(q)
+    );
+    renderTable(filtered);
+  });
+
+  // ── Modal lógica ─────────────────────────────────────────
+  const modal = document.getElementById('modal-lead');
+  const modalTitle = document.getElementById('modal-title');
+
+  function openModal(lead = null) {
+    document.getElementById('modal-lead-id').value = lead?.id || '';
+    document.getElementById('modal-nombre').value = lead?.nombre_negocio || '';
+    document.getElementById('modal-giro').value = lead?.giro || '';
+    document.getElementById('modal-ciudad').value = lead?.ciudad || '';
+    document.getElementById('modal-instagram').value = lead?.instagram || '';
+    document.getElementById('modal-telefono').value = lead?.telefono || '';
+    document.getElementById('modal-etapa').value = lead?.etapa || 'nuevo';
+    document.getElementById('modal-notas').value = lead?.notas || '';
+    document.getElementById('modal-status').textContent = '';
+    modalTitle.textContent = lead ? 'Editar Lead' : 'Nuevo Lead';
+    modal.classList.remove('hidden');
+  }
+
+  function closeModal() { modal.classList.add('hidden'); }
+
+  document.getElementById('btn-nuevo-lead').addEventListener('click', () => openModal());
+  document.getElementById('modal-close').addEventListener('click', closeModal);
+  document.getElementById('modal-cancel').addEventListener('click', closeModal);
+  modal.addEventListener('click', (e) => { if (e.target === modal) closeModal(); });
+
+  document.getElementById('modal-save').addEventListener('click', async () => {
+    const nombre = document.getElementById('modal-nombre').value.trim();
+    const giro = document.getElementById('modal-giro').value;
+    const ciudad = document.getElementById('modal-ciudad').value.trim();
+    const statusEl = document.getElementById('modal-status');
+
+    if (!nombre || !giro || !ciudad) {
+      statusEl.textContent = 'Nombre, giro y ciudad son requeridos';
+      statusEl.style.color = '#ffb4ab';
+      return;
+    }
+
+    const btn = document.getElementById('modal-save');
+    btn.disabled = true;
+    btn.textContent = 'Guardando...';
+
+    try {
+      const db = getDB();
+      const leadId = document.getElementById('modal-lead-id').value;
+      const leadData = {
+        nombre_negocio: nombre,
+        giro,
+        ciudad,
+        instagram: document.getElementById('modal-instagram').value.trim(),
+        telefono: document.getElementById('modal-telefono').value.trim(),
+        etapa: document.getElementById('modal-etapa').value,
+        notas: document.getElementById('modal-notas').value.trim(),
+      };
+
+      const { data: { session } } = await db.auth.getSession();
+      if (!leadId) leadData.vendedor_id = session?.user?.id || null;
+
+      if (leadId) {
+        await db.from('leads').update(leadData).eq('id', leadId);
+      } else {
+        const { error } = await db.from('leads').insert([leadData]);
+        if (error) throw error;
+      }
+
+      closeModal();
+      await loadAllLeads();
+    } catch (e) {
+      statusEl.textContent = 'Error: ' + e.message;
+      statusEl.style.color = '#ffb4ab';
+    } finally {
+      btn.disabled = false;
+      btn.textContent = 'Guardar';
+    }
+  });
+
+  // ── Edit / Delete globales ────────────────────────────────
+  window.editLead = function(id) {
+    const lead = allLeads.find(l => l.id === id);
+    if (lead) openModal(lead);
+  };
+
+  window.deleteLead = async function(id) {
+    if (!confirm('¿Eliminar este lead? Esta acción no se puede deshacer.')) return;
+    try {
+      const db = getDB();
+      await db.from('leads').delete().eq('id', id);
+      await loadAllLeads();
+    } catch(e) { alert('Error al eliminar: ' + e.message); }
+  };
+
+  // ── Maestra del Pitch (Claude API) ───────────────────────
+  document.getElementById('btn-pitch').addEventListener('click', async () => {
+    const nombre = document.getElementById('pitch-nombre').value.trim();
+    const giro = document.getElementById('pitch-giro').value;
+    const contexto = document.getElementById('pitch-contexto').value.trim();
+
+    if (!nombre || !giro) {
+      alert('Ingresa el nombre del negocio y el giro');
+      return;
+    }
+
+    const btn = document.getElementById('btn-pitch');
+    btn.disabled = true;
+    btn.innerHTML = '<span class="ai-loader"><div class="dot"></div><div class="dot"></div><div class="dot"></div></span> Generando...';
+
+    const systemPrompt = `Eres la Maestra del Pitch de Novu 360, experta en cerrar ventas de marketing digital para negocios locales en México. Generas pitches de ventas estructurados, persuasivos y naturales que convierten prospectos en clientes.`;
+
+    const userPrompt = `Genera un pitch de venta de 5-8 minutos para presentar los servicios de Novu 360 a este prospecto:
+
+Negocio: ${nombre}
+Giro: ${giro}
+${contexto ? `Contexto del prospecto: ${contexto}` : ''}
+
+Usa esta estructura:
+1. PROMESA IMPACTANTE: Una frase que enganche en los primeros 10 segundos
+2. PUENTE DE CREDIBILIDAD: Por qué Novu 360, qué nos diferencia, resultados reales
+3. ENTREGA DE VALOR: Los 4 servicios principales adaptados al giro (Google Local, Contenido, Ads, Web)
+4. TEMPERATURA DEL PRECIO: Cómo presentar la inversión sin shock, anclaje de valor
+5. CIERRE CON URGENCIA: Una razón real para decidir hoy
+
+Personaliza cada sección al giro "${giro}". Usa lenguaje natural mexicano, no formal ni corporativo. Incluye posibles objeciones y cómo manejarlas.`;
+
+    try {
+      const resultado = await callClaude(systemPrompt, userPrompt);
+      document.getElementById('text-pitch').textContent = resultado;
+      document.getElementById('result-pitch').classList.remove('hidden');
+
+      document.getElementById('btn-copy-pitch').addEventListener('click', () => {
+        navigator.clipboard.writeText(resultado).then(() => {
+          document.getElementById('btn-copy-pitch').innerHTML = '<span class="material-symbols-outlined text-xs">check</span> Copiado';
+          setTimeout(() => {
+            document.getElementById('btn-copy-pitch').innerHTML = '<span class="material-symbols-outlined text-xs">content_copy</span> Copiar';
+          }, 2000);
+        });
+      }, { once: true });
+    } catch (err) {
+      alert('Error Claude API: ' + err.message);
+    } finally {
+      btn.disabled = false;
+      btn.innerHTML = '<span class="material-symbols-outlined text-sm">auto_awesome</span> Generar Pitch';
+    }
+  });
+
+  // ── FAB móvil → Prospector ────────────────────────────────
+  document.getElementById('mobile-fab')?.addEventListener('click', () => {
+    window.location.href = 'prospector-ia.html';
+  });
+
+  // ── Init ─────────────────────────────────────────────────
+  loadAllLeads();
+
+});
+</script>
+
+</body>
+</html>
