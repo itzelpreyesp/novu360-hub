@@ -1,0 +1,458 @@
+<!DOCTYPE html>
+<html class="dark" lang="es">
+<head>
+  <meta charset="utf-8"/>
+  <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+  <title>Novu 360 · Clientes</title>
+  <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;700;800&family=Inter:wght@400;500;600&display=swap" rel="stylesheet"/>
+  <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet"/>
+  <script>
+    tailwind.config = {
+      darkMode: "class",
+      theme: {
+        extend: {
+          colors: {
+            primary: "#00C2A8", "on-primary": "#00382f",
+            "primary-container": "#00C2A8",
+            surface: "#000000", "surface-container": "#09100e",
+            "surface-container-low": "#0e1513",
+            "surface-container-high": "#161d1b",
+            "surface-container-highest": "#1a211f",
+            "on-surface": "#dde4e1", "on-surface-variant": "#bbcac4",
+            outline: "#445550", "outline-variant": "#3c4a46",
+            error: "#ffb4ab", background: "#000000",
+          },
+          fontFamily: { headline: ["Manrope"], body: ["Inter"] },
+        },
+      },
+    }
+  </script>
+  <link rel="stylesheet" href="style.css">
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script src="config.js"></script>
+  <script src="auth.js"></script>
+  <script>checkAuth();</script>
+  <style>
+    .semaforo { width: 10px; height: 10px; border-radius: 50%; display: inline-block; }
+    .semaforo.verde   { background: #22c55e; box-shadow: 0 0 6px #22c55e; }
+    .semaforo.amarillo{ background: #eab308; box-shadow: 0 0 6px #eab308; }
+    .semaforo.rojo    { background: #ef4444; box-shadow: 0 0 6px #ef4444; }
+    .estado-badge { font-size:0.65rem; font-weight:700; text-transform:uppercase; padding:2px 10px; border-radius:20px; letter-spacing:0.1em; }
+    .estado-activo  { background:rgba(0,194,168,0.15); color:#00C2A8; border:1px solid rgba(0,194,168,0.3); }
+    .estado-pausado { background:rgba(234,179,8,0.15); color:#eab308; border:1px solid rgba(234,179,8,0.3); }
+    .estado-inactivo{ background:rgba(239,68,68,0.15); color:#ef4444; border:1px solid rgba(239,68,68,0.3); }
+    .form-input {
+      width:100%; border-radius:6px; border:1px solid #242424;
+      background:#141414; padding:9px 12px; font-size:0.85rem;
+      color:#f5f5f5; outline:none; font-family:'Inter',sans-serif;
+      transition:border-color 0.15s;
+    }
+    .form-input:focus { border-color:#00C2A8; }
+    .form-label { display:block; margin-bottom:5px; font-size:0.68rem; font-weight:700; text-transform:uppercase; letter-spacing:0.18em; color:#c9c9c9; }
+    .modal-overlay { position:fixed; inset:0; z-index:100; background:rgba(0,0,0,0.85); display:flex; align-items:center; justify-content:center; padding:16px; }
+    .modal-box { background:#0f0f0f; border:1px solid #242424; border-radius:16px; padding:28px; width:100%; max-width:520px; max-height:90vh; overflow-y:auto; }
+    @media(max-width:1023px){
+      main { padding-top:56px !important; padding-bottom:80px !important; }
+    }
+  </style>
+</head>
+<body class="bg-black text-on-surface antialiased overflow-x-hidden">
+
+<!-- Sidebar desktop -->
+<aside class="hidden lg:flex lg:flex-col w-64 bg-[#0a0a0a] border-r border-white/5 px-4 py-6 fixed top-0 left-0 h-full z-40">
+  <a class="font-headline text-2xl font-extrabold text-primary tracking-tight mb-8" href="dashboard.html">Novu 360</a>
+  <nav class="flex flex-col gap-1 text-sm font-semibold">
+    <a class="px-3 py-2 rounded-lg text-white/70 hover:bg-primary/10 hover:text-primary transition-all" href="dashboard.html">Dashboard</a>
+    <a class="px-3 py-2 rounded-lg bg-primary/10 text-primary" href="clientes.html">Clientes</a>
+    <a class="px-3 py-2 rounded-lg text-white/70 hover:bg-primary/10 hover:text-primary transition-all" href="ventas.html">Ventas</a>
+    <a class="px-3 py-2 rounded-lg text-white/70 hover:bg-primary/10 hover:text-primary transition-all" href="ads.html">Ads / Meta</a>
+    <a class="px-3 py-2 rounded-lg text-white/70 hover:bg-primary/10 hover:text-primary transition-all" href="community.html">Community</a>
+    <a class="px-3 py-2 rounded-lg text-white/70 hover:bg-primary/10 hover:text-primary transition-all" href="seo.html">SEO</a>
+    <a class="px-3 py-2 rounded-lg text-white/70 hover:bg-primary/10 hover:text-primary transition-all" href="web.html">Web</a>
+    <a class="px-3 py-2 rounded-lg text-white/70 hover:bg-primary/10 hover:text-primary transition-all" href="finanzas.html">Finanzas</a>
+    <a class="px-3 py-2 rounded-lg text-white/70 hover:bg-primary/10 hover:text-primary transition-all" href="cerebros.html">Cerebros IA</a>
+    <a class="px-3 py-2 rounded-lg text-white/70 hover:bg-primary/10 hover:text-primary transition-all" href="aprobaciones.html">Aprobaciones</a>
+    <a class="px-3 py-2 rounded-lg text-white/70 hover:bg-primary/10 hover:text-primary transition-all" href="onboarding.html">Onboarding</a>
+  </nav>
+</aside>
+
+<div class="lg:ml-64">
+  <!-- Header desktop -->
+  <header class="hidden md:flex bg-black justify-between items-center h-16 px-8 w-full sticky top-0 z-10 border-b border-white/5">
+    <h1 class="text-xl font-extrabold text-white tracking-tight font-headline">Clientes Activos</h1>
+    <div class="flex items-center gap-4">
+      <div class="flex items-center bg-white/5 rounded-full px-4 py-1.5 gap-2 border border-white/5">
+        <span class="material-symbols-outlined text-sm text-neutral-500">search</span>
+        <input id="search-input" class="bg-transparent border-none focus:ring-0 text-sm text-on-surface w-48 placeholder-neutral-500" placeholder="Buscar cliente..." type="text"/>
+      </div>
+      <img id="user-avatar" alt="Avatar" class="w-9 h-9 rounded-full border-2 border-primary bg-neutral-900 object-cover" src=""/>
+    </div>
+  </header>
+
+  <main class="p-4 md:p-8 space-y-6">
+
+    <!-- Stats rápidas -->
+    <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
+      <div class="bg-[#0f0f0f] rounded-xl border border-white/5 p-5">
+        <p class="text-[10px] uppercase tracking-widest text-neutral-500 mb-1">Activos</p>
+        <p id="stat-activos" class="text-3xl font-black text-white">—</p>
+      </div>
+      <div class="bg-[#0f0f0f] rounded-xl border border-white/5 p-5">
+        <p class="text-[10px] uppercase tracking-widest text-neutral-500 mb-1">Pausados</p>
+        <p id="stat-pausados" class="text-3xl font-black text-yellow-400">—</p>
+      </div>
+      <div class="bg-[#0f0f0f] rounded-xl border border-white/5 p-5">
+        <p class="text-[10px] uppercase tracking-widest text-neutral-500 mb-1">Aprobaciones pendientes</p>
+        <p id="stat-aprobaciones" class="text-3xl font-black text-primary">—</p>
+      </div>
+      <div class="bg-[#0f0f0f] rounded-xl border border-white/5 p-5">
+        <p class="text-[10px] uppercase tracking-widest text-neutral-500 mb-1">Pagos vencidos</p>
+        <p id="stat-pagos" class="text-3xl font-black text-red-400">—</p>
+      </div>
+    </div>
+
+    <!-- Acciones y filtros -->
+    <div class="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3">
+      <div class="flex gap-2 flex-wrap">
+        <button data-filter="todos" class="filter-btn px-3 py-1.5 rounded-full text-xs font-bold border border-primary bg-primary/10 text-primary transition-all">Todos</button>
+        <button data-filter="activo" class="filter-btn px-3 py-1.5 rounded-full text-xs font-bold border border-white/10 text-neutral-400 hover:border-primary hover:text-primary transition-all">Activos</button>
+        <button data-filter="pausado" class="filter-btn px-3 py-1.5 rounded-full text-xs font-bold border border-white/10 text-neutral-400 hover:border-primary hover:text-primary transition-all">Pausados</button>
+        <button data-filter="inactivo" class="filter-btn px-3 py-1.5 rounded-full text-xs font-bold border border-white/10 text-neutral-400 hover:border-primary hover:text-primary transition-all">Inactivos</button>
+      </div>
+      <button id="btn-nuevo-cliente" class="flex items-center gap-2 bg-primary text-on-primary px-4 py-2 rounded-lg text-sm font-black hover:brightness-110 transition-all shadow-lg shadow-primary/20">
+        <span class="material-symbols-outlined text-sm">add</span> Nuevo Cliente
+      </button>
+    </div>
+
+    <!-- Grid de clientes -->
+    <div id="clientes-grid" class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-4">
+      <div class="col-span-full text-center py-16 text-neutral-500 text-sm">Cargando clientes...</div>
+    </div>
+
+  </main>
+</div>
+
+<!-- Modal nuevo cliente -->
+<div id="modal-cliente" class="modal-overlay hidden">
+  <div class="modal-box">
+    <div class="flex items-center justify-between mb-6">
+      <h3 id="modal-titulo" class="text-lg font-bold text-white font-headline">Nuevo Cliente</h3>
+      <button id="modal-close" class="text-neutral-400 hover:text-white transition">
+        <span class="material-symbols-outlined">close</span>
+      </button>
+    </div>
+    <div class="space-y-4">
+      <input type="hidden" id="modal-id"/>
+      <div>
+        <label class="form-label">Nombre del negocio *</label>
+        <input id="modal-nombre" class="form-input" placeholder="Ej. Gimnasio FitZone" type="text"/>
+      </div>
+      <div class="grid grid-cols-2 gap-3">
+        <div>
+          <label class="form-label">Giro *</label>
+          <select id="modal-giro" class="form-input">
+            <option value="">Selecciona...</option>
+            <option>Gimnasio</option>
+            <option>Restaurante</option>
+            <option>Clínica / Consultorio</option>
+            <option>Estética / Spa</option>
+            <option>Tienda / Retail</option>
+            <option>Servicios Profesionales</option>
+            <option>Inmobiliaria</option>
+            <option>Educación</option>
+            <option>Otro</option>
+          </select>
+        </div>
+        <div>
+          <label class="form-label">Ciudad *</label>
+          <input id="modal-ciudad" class="form-input" placeholder="CDMX" type="text"/>
+        </div>
+      </div>
+      <div class="grid grid-cols-2 gap-3">
+        <div>
+          <label class="form-label">Teléfono</label>
+          <input id="modal-telefono" class="form-input" placeholder="55 1234 5678" type="tel"/>
+        </div>
+        <div>
+          <label class="form-label">Instagram</label>
+          <input id="modal-instagram" class="form-input" placeholder="@negocio" type="text"/>
+        </div>
+      </div>
+      <div>
+        <label class="form-label">Email</label>
+        <input id="modal-email" class="form-input" placeholder="contacto@negocio.com" type="email"/>
+      </div>
+      <div>
+        <label class="form-label">Estado</label>
+        <select id="modal-estado" class="form-input">
+          <option value="activo">Activo</option>
+          <option value="pausado">Pausado</option>
+          <option value="inactivo">Inactivo</option>
+        </select>
+      </div>
+      <div>
+        <label class="form-label">Fecha de inicio</label>
+        <input id="modal-fecha" class="form-input" type="date"/>
+      </div>
+    </div>
+    <div class="flex gap-3 mt-6">
+      <button id="modal-cancel" class="flex-1 py-2.5 border border-neutral-700 text-neutral-400 font-semibold rounded-lg hover:border-neutral-500 transition text-sm">Cancelar</button>
+      <button id="modal-save" class="flex-1 py-2.5 bg-primary text-on-primary font-bold rounded-lg hover:brightness-110 transition text-sm">Guardar</button>
+    </div>
+    <p id="modal-status" class="text-xs text-center mt-3 text-neutral-500"></p>
+  </div>
+</div>
+
+<script src="app.js" defer></script>
+<script src="global-nav.js" defer></script>
+
+<script>
+document.addEventListener('DOMContentLoaded', async () => {
+
+  function getDB() {
+    if (!window.supabaseClient) throw new Error('Supabase no inicializado');
+    return window.supabaseClient;
+  }
+
+  // Auth
+  try {
+    const db = getDB();
+    const { data: { session } } = await db.auth.getSession();
+    if (!session) { window.location.href = 'index.html'; return; }
+    const { data: perfil } = await db.from('usuarios').select('avatar_url').eq('id', session.user.id).single();
+    const av = document.getElementById('user-avatar');
+    if (av && perfil?.avatar_url) av.src = perfil.avatar_url;
+  } catch(e) { console.warn(e); }
+
+  let allClientes = [];
+  let filtroActual = 'todos';
+
+  // ── Cargar clientes ───────────────────────────────────────
+  async function loadClientes() {
+    try {
+      const db = getDB();
+      const { data, error } = await db
+        .from('clientes')
+        .select('*, usuario_roles(nombre)')
+        .order('fecha_inicio', { ascending: false });
+
+      if (error) throw error;
+      allClientes = data || [];
+      updateStats();
+      renderGrid(allClientes);
+    } catch(e) {
+      document.getElementById('clientes-grid').innerHTML =
+        `<div class="col-span-full text-center py-16 text-red-400 text-sm">Error: ${e.message}</div>`;
+    }
+  }
+
+  function updateStats() {
+    document.getElementById('stat-activos').textContent   = allClientes.filter(c => c.estado === 'activo').length;
+    document.getElementById('stat-pausados').textContent  = allClientes.filter(c => c.estado === 'pausado').length;
+    document.getElementById('stat-aprobaciones').textContent = '—';
+    document.getElementById('stat-pagos').textContent     = '—';
+
+    // Cargar aprobaciones pendientes y pagos vencidos async
+    (async () => {
+      try {
+        const db = getDB();
+        const { count: apCount } = await db.from('aprobaciones').select('*', { count:'exact', head:true }).eq('estado', 'pendiente');
+        document.getElementById('stat-aprobaciones').textContent = apCount || 0;
+
+        const hoy = new Date().toISOString().slice(0,10);
+        const { count: pgCount } = await db.from('pagos').select('*', { count:'exact', head:true }).lt('fecha_pago', hoy).eq('estado', 'pendiente');
+        document.getElementById('stat-pagos').textContent = pgCount || 0;
+      } catch(e) {}
+    })();
+  }
+
+  // ── Render grid ───────────────────────────────────────────
+  function renderGrid(clientes) {
+    const grid = document.getElementById('clientes-grid');
+
+    const filtered = filtroActual === 'todos'
+      ? clientes
+      : clientes.filter(c => c.estado === filtroActual);
+
+    if (!filtered.length) {
+      grid.innerHTML = '<div class="col-span-full text-center py-16 text-neutral-500 text-sm">No hay clientes en esta categoría.</div>';
+      return;
+    }
+
+    // Colores por giro
+    const giroColors = {
+      'Gimnasio':               'text-emerald-400 bg-emerald-400/10',
+      'Restaurante':            'text-orange-400 bg-orange-400/10',
+      'Clínica / Consultorio':  'text-blue-400 bg-blue-400/10',
+      'Estética / Spa':         'text-pink-400 bg-pink-400/10',
+      'Tienda / Retail':        'text-purple-400 bg-purple-400/10',
+      'Servicios Profesionales':'text-yellow-400 bg-yellow-400/10',
+    };
+
+    grid.innerHTML = filtered.map(c => {
+      const inicial = (c.nombre_negocio || '?')[0].toUpperCase();
+      const colorClass = giroColors[c.giro] || 'text-primary bg-primary/10';
+      const estadoClass = c.estado === 'activo' ? 'estado-activo' : c.estado === 'pausado' ? 'estado-pausado' : 'estado-inactivo';
+      const semClass = c.estado === 'activo' ? 'verde' : c.estado === 'pausado' ? 'amarillo' : 'rojo';
+      const fechaInicio = c.fecha_inicio ? new Date(c.fecha_inicio).toLocaleDateString('es-MX', { month:'short', year:'numeric' }) : '—';
+
+      return `
+        <div class="bg-[#0f0f0f] rounded-2xl border border-white/5 p-5 hover:border-primary/40 transition-all group cursor-pointer"
+             onclick="window.location.href='cliente-expediente.html?id=${c.id}'">
+
+          <!-- Header tarjeta -->
+          <div class="flex items-start justify-between mb-4">
+            <div class="flex items-center gap-3">
+              <div class="w-12 h-12 rounded-xl ${colorClass} flex items-center justify-center font-black text-lg border border-white/10 shrink-0">
+                ${inicial}
+              </div>
+              <div>
+                <h3 class="font-headline font-bold text-white text-sm leading-tight">${c.nombre_negocio || '—'}</h3>
+                <p class="text-[11px] text-neutral-400 mt-0.5">${c.giro || '—'} · ${c.ciudad || '—'}</p>
+              </div>
+            </div>
+            <div class="flex items-center gap-2">
+              <span class="semaforo ${semClass}"></span>
+              <span class="estado-badge ${estadoClass}">${c.estado || 'activo'}</span>
+            </div>
+          </div>
+
+          <!-- Servicios semáforo -->
+          <div class="grid grid-cols-4 gap-1.5 mb-4">
+            ${['Ads', 'Community', 'SEO', 'Web'].map(s => `
+              <div class="rounded-lg bg-white/5 border border-white/5 p-2 text-center">
+                <div class="w-2 h-2 rounded-full bg-primary mx-auto mb-1"></div>
+                <p class="text-[9px] text-neutral-500 font-bold uppercase tracking-wider">${s}</p>
+              </div>
+            `).join('')}
+          </div>
+
+          <!-- Footer -->
+          <div class="flex items-center justify-between pt-3 border-t border-white/5">
+            <div>
+              <p class="text-[10px] text-neutral-500">Desde</p>
+              <p class="text-xs font-bold text-white">${fechaInicio}</p>
+            </div>
+            <div class="flex gap-2">
+              <button onclick="event.stopPropagation(); editarCliente('${c.id}')"
+                class="text-[11px] text-neutral-400 hover:text-primary border border-neutral-700 hover:border-primary px-2.5 py-1 rounded-lg transition">
+                Editar
+              </button>
+              <button onclick="event.stopPropagation(); window.open('portal-cliente.html?token=${c.id}', '_blank')"
+                class="text-[11px] text-neutral-400 hover:text-primary border border-neutral-700 hover:border-primary px-2.5 py-1 rounded-lg transition flex items-center gap-1">
+                <span class="material-symbols-outlined text-xs">open_in_new</span> Portal
+              </button>
+            </div>
+          </div>
+        </div>
+      `;
+    }).join('');
+  }
+
+  // ── Búsqueda ──────────────────────────────────────────────
+  document.getElementById('search-input')?.addEventListener('input', e => {
+    const q = e.target.value.toLowerCase();
+    const filtrados = allClientes.filter(c =>
+      (c.nombre_negocio || '').toLowerCase().includes(q) ||
+      (c.giro || '').toLowerCase().includes(q) ||
+      (c.ciudad || '').toLowerCase().includes(q)
+    );
+    renderGrid(filtrados);
+  });
+
+  // ── Filtros ───────────────────────────────────────────────
+  document.querySelectorAll('.filter-btn').forEach(btn => {
+    btn.addEventListener('click', () => {
+      document.querySelectorAll('.filter-btn').forEach(b => {
+        b.classList.remove('border-primary', 'bg-primary/10', 'text-primary');
+        b.classList.add('border-white/10', 'text-neutral-400');
+      });
+      btn.classList.add('border-primary', 'bg-primary/10', 'text-primary');
+      btn.classList.remove('border-white/10', 'text-neutral-400');
+      filtroActual = btn.dataset.filter;
+      renderGrid(allClientes);
+    });
+  });
+
+  // ── Modal ─────────────────────────────────────────────────
+  const modal = document.getElementById('modal-cliente');
+
+  function abrirModal(cliente = null) {
+    document.getElementById('modal-id').value      = cliente?.id || '';
+    document.getElementById('modal-nombre').value  = cliente?.nombre_negocio || '';
+    document.getElementById('modal-giro').value    = cliente?.giro || '';
+    document.getElementById('modal-ciudad').value  = cliente?.ciudad || '';
+    document.getElementById('modal-telefono').value= cliente?.telefono || '';
+    document.getElementById('modal-instagram').value = cliente?.instagram || '';
+    document.getElementById('modal-email').value   = cliente?.email || '';
+    document.getElementById('modal-estado').value  = cliente?.estado || 'activo';
+    document.getElementById('modal-fecha').value   = cliente?.fecha_inicio || '';
+    document.getElementById('modal-status').textContent = '';
+    document.getElementById('modal-titulo').textContent = cliente ? 'Editar Cliente' : 'Nuevo Cliente';
+    modal.classList.remove('hidden');
+  }
+
+  function cerrarModal() { modal.classList.add('hidden'); }
+
+  document.getElementById('btn-nuevo-cliente').addEventListener('click', () => abrirModal());
+  document.getElementById('modal-close').addEventListener('click', cerrarModal);
+  document.getElementById('modal-cancel').addEventListener('click', cerrarModal);
+  modal.addEventListener('click', e => { if (e.target === modal) cerrarModal(); });
+
+  document.getElementById('modal-save').addEventListener('click', async () => {
+    const nombre = document.getElementById('modal-nombre').value.trim();
+    const giro   = document.getElementById('modal-giro').value;
+    const ciudad = document.getElementById('modal-ciudad').value.trim();
+    const status = document.getElementById('modal-status');
+
+    if (!nombre || !giro || !ciudad) {
+      status.textContent = 'Nombre, giro y ciudad son requeridos';
+      status.style.color = '#ef4444'; return;
+    }
+
+    const btn = document.getElementById('modal-save');
+    btn.disabled = true; btn.textContent = 'Guardando...';
+
+    try {
+      const db = getDB();
+      const id = document.getElementById('modal-id').value;
+      const data = {
+        nombre_negocio: nombre, giro, ciudad,
+        telefono:   document.getElementById('modal-telefono').value.trim(),
+        instagram:  document.getElementById('modal-instagram').value.trim(),
+        email:      document.getElementById('modal-email').value.trim(),
+        estado:     document.getElementById('modal-estado').value,
+        fecha_inicio: document.getElementById('modal-fecha').value || null,
+      };
+
+      if (id) {
+        await db.from('clientes').update(data).eq('id', id);
+      } else {
+        const { error } = await db.from('clientes').insert([data]);
+        if (error) throw error;
+      }
+
+      cerrarModal();
+      await loadClientes();
+    } catch(e) {
+      status.textContent = 'Error: ' + e.message;
+      status.style.color = '#ef4444';
+    } finally {
+      btn.disabled = false; btn.textContent = 'Guardar';
+    }
+  });
+
+  // ── Editar desde tarjeta ──────────────────────────────────
+  window.editarCliente = function(id) {
+    const c = allClientes.find(x => x.id === id);
+    if (c) abrirModal(c);
+  };
+
+  // ── Init ──────────────────────────────────────────────────
+  loadClientes();
+});
+</script>
+
+</body>
+</html>

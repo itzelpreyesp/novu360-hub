@@ -1,0 +1,1173 @@
+<!DOCTYPE html>
+<html class="dark" lang="es">
+<head>
+  <meta charset="utf-8"/>
+  <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+  <title>Novu 360 · Expediente Cliente</title>
+  <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;700;800&family=Inter:wght@400;500;600&display=swap" rel="stylesheet"/>
+  <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet"/>
+  <script>
+    tailwind.config = {
+      darkMode: "class",
+      theme: {
+        extend: {
+          colors: {
+            primary: "#00C2A8", "on-primary": "#00382f",
+            surface: "#000000", "surface-container": "#09100e",
+            "surface-container-low": "#0e1513",
+            "surface-container-high": "#161d1b",
+            "on-surface": "#dde4e1", "on-surface-variant": "#bbcac4",
+            error: "#ffb4ab", background: "#000000",
+          },
+          fontFamily: { headline: ["Manrope"], body: ["Inter"] },
+        },
+      },
+    }
+  </script>
+  <link rel="stylesheet" href="style.css">
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script src="config.js"></script>
+  <script src="auth.js"></script>
+  <script>checkAuth();</script>
+  <style>
+    .tab-btn { padding:8px 18px; border-radius:8px; font-size:0.8rem; font-weight:700; border:1px solid #242424; background:transparent; color:#8a8a8a; cursor:pointer; transition:all 0.15s; white-space:nowrap; }
+    .tab-btn.active { background:#00C2A8; color:#000; border-color:#00C2A8; }
+    .tab-panel { display:none; }
+    .tab-panel.active { display:block; }
+    .semaforo { width:10px; height:10px; border-radius:50%; display:inline-block; }
+    .semaforo.verde    { background:#22c55e; box-shadow:0 0 6px #22c55e; }
+    .semaforo.amarillo { background:#eab308; box-shadow:0 0 6px #eab308; }
+    .semaforo.rojo     { background:#ef4444; box-shadow:0 0 6px #ef4444; }
+    .form-label { display:block; margin-bottom:5px; font-size:0.68rem; font-weight:700; text-transform:uppercase; letter-spacing:0.18em; color:#c9c9c9; }
+    .form-input { width:100%; border-radius:6px; border:1px solid #242424; background:#141414; padding:9px 12px; font-size:0.875rem; color:#f5f5f5; outline:none; font-family:'Inter',sans-serif; transition:border-color 0.15s; }
+    .form-input:focus { border-color:#00C2A8; box-shadow:0 0 0 2px rgba(0,194,168,0.12); }
+    .form-input option { background:#141414; }
+    textarea.form-input { resize:vertical; }
+    .btn-primary { display:inline-flex; align-items:center; gap:6px; background:#00C2A8; color:#000; font-weight:700; font-size:0.85rem; padding:9px 16px; border-radius:8px; border:none; cursor:pointer; transition:filter 0.15s; font-family:'Manrope',sans-serif; }
+    .btn-primary:hover { filter:brightness(1.1); }
+    .btn-primary:disabled { opacity:0.5; cursor:not-allowed; }
+    .btn-ghost { display:inline-flex; align-items:center; gap:6px; background:transparent; color:#8a8a8a; font-weight:600; font-size:0.85rem; padding:9px 14px; border-radius:8px; border:1px solid #242424; cursor:pointer; transition:all 0.15s; }
+    .btn-ghost:hover { border-color:#00C2A8; color:#00C2A8; }
+    .servicio-chip { display:flex; align-items:center; gap:8px; padding:10px 14px; border-radius:10px; border:1px solid #242424; background:#141414; }
+    .content-card { background:#0f0f0f; border:1px solid #242424; border-radius:12px; padding:20px; }
+    .content-card-title { font-size:0.7rem; font-weight:700; text-transform:uppercase; letter-spacing:0.2em; color:#00C2A8; margin-bottom:14px; }
+    .metric-box { background:#141414; border:1px solid #242424; border-radius:10px; padding:14px; text-align:center; }
+    .metric-box .val { font-size:1.6rem; font-weight:900; color:#fff; line-height:1; }
+    .metric-box .lbl { font-size:0.65rem; text-transform:uppercase; letter-spacing:0.15em; color:#8a8a8a; margin-top:4px; }
+    .tarea-item { display:flex; align-items:center; gap:10px; padding:10px 0; border-bottom:1px solid #242424; }
+    .tarea-item:last-child { border-bottom:none; }
+    .ai-result { background:#141414; border:1px solid rgba(0,194,168,0.2); border-radius:10px; padding:14px; margin-top:10px; }
+    .ai-loader { display:inline-flex; align-items:center; gap:6px; }
+    .ai-loader .dot { width:5px; height:5px; border-radius:50%; background:#000; animation:dotPulse 1.2s ease-in-out infinite; }
+    .ai-loader .dot:nth-child(2) { animation-delay:.2s; }
+    .ai-loader .dot:nth-child(3) { animation-delay:.4s; }
+    @keyframes dotPulse { 0%,100%{opacity:.3;transform:scale(.8)} 50%{opacity:1;transform:scale(1)} }
+    @media(max-width:1023px){
+      main { padding-top:56px !important; padding-bottom:80px !important; }
+    }
+  </style>
+</head>
+<body class="bg-black text-on-surface antialiased overflow-x-hidden">
+
+<!-- Sidebar desktop -->
+<aside class="hidden lg:flex lg:flex-col w-64 bg-[#0a0a0a] border-r border-white/5 px-4 py-6 fixed top-0 left-0 h-full z-40">
+  <a class="font-headline text-2xl font-extrabold text-primary tracking-tight mb-8" href="dashboard.html">Novu 360</a>
+  <nav class="flex flex-col gap-1 text-sm font-semibold">
+    <a class="px-3 py-2 rounded-lg text-white/70 hover:bg-primary/10 hover:text-primary transition-all" href="dashboard.html">Dashboard</a>
+    <a class="px-3 py-2 rounded-lg bg-primary/10 text-primary" href="clientes.html">Clientes</a>
+    <a class="px-3 py-2 rounded-lg text-white/70 hover:bg-primary/10 hover:text-primary transition-all" href="ventas.html">Ventas</a>
+    <a class="px-3 py-2 rounded-lg text-white/70 hover:bg-primary/10 hover:text-primary transition-all" href="ads.html">Ads / Meta</a>
+    <a class="px-3 py-2 rounded-lg text-white/70 hover:bg-primary/10 hover:text-primary transition-all" href="community.html">Community</a>
+    <a class="px-3 py-2 rounded-lg text-white/70 hover:bg-primary/10 hover:text-primary transition-all" href="seo.html">SEO</a>
+    <a class="px-3 py-2 rounded-lg text-white/70 hover:bg-primary/10 hover:text-primary transition-all" href="web.html">Web</a>
+    <a class="px-3 py-2 rounded-lg text-white/70 hover:bg-primary/10 hover:text-primary transition-all" href="finanzas.html">Finanzas</a>
+    <a class="px-3 py-2 rounded-lg text-white/70 hover:bg-primary/10 hover:text-primary transition-all" href="cerebros.html">Cerebros IA</a>
+    <a class="px-3 py-2 rounded-lg text-white/70 hover:bg-primary/10 hover:text-primary transition-all" href="aprobaciones.html">Aprobaciones</a>
+    <a class="px-3 py-2 rounded-lg text-white/70 hover:bg-primary/10 hover:text-primary transition-all" href="onboarding.html">Onboarding</a>
+  </nav>
+</aside>
+
+<div class="lg:ml-64">
+
+  <!-- Header desktop -->
+  <header class="hidden md:flex bg-black justify-between items-center h-16 px-8 w-full sticky top-0 z-10 border-b border-white/5">
+    <div class="flex items-center gap-3">
+      <a href="clientes.html" class="flex items-center gap-1.5 text-sm text-neutral-400 hover:text-primary transition">
+        <span class="material-symbols-outlined text-base">arrow_back</span> Clientes
+      </a>
+      <span class="text-neutral-600">/</span>
+      <h1 id="header-nombre" class="text-base font-bold text-white font-headline">Cargando...</h1>
+    </div>
+    <div class="flex items-center gap-3">
+      <button id="btn-ver-portal"
+        class="flex items-center gap-1.5 text-sm text-neutral-400 hover:text-primary border border-neutral-700 hover:border-primary px-3 py-1.5 rounded-lg transition">
+        <span class="material-symbols-outlined text-base">open_in_new</span> Portal del cliente
+      </button>
+      <button id="btn-guardar-expediente" class="btn-primary text-sm">
+        <span class="material-symbols-outlined text-base">save</span> Guardar cambios
+      </button>
+    </div>
+  </header>
+
+  <main class="p-4 md:p-8 space-y-6">
+
+    <!-- Info general del cliente -->
+    <div class="content-card">
+      <div class="flex flex-col sm:flex-row sm:items-center gap-4 mb-5">
+        <div id="cliente-inicial" class="w-16 h-16 rounded-2xl bg-primary/10 border border-primary/20 flex items-center justify-center font-black text-2xl text-primary shrink-0">?</div>
+        <div class="flex-1">
+          <div class="flex flex-wrap items-center gap-2 mb-1">
+            <h2 id="cliente-nombre" class="font-headline text-xl font-black text-white">Cargando...</h2>
+            <span id="cliente-estado-badge" class="text-[10px] font-bold uppercase px-2 py-0.5 rounded-full border"></span>
+          </div>
+          <p id="cliente-subtitulo" class="text-sm text-neutral-400"></p>
+        </div>
+        <div class="flex gap-2 flex-wrap">
+          <a id="link-instagram" href="#" target="_blank"
+            class="flex items-center gap-1.5 text-xs text-neutral-400 hover:text-primary border border-neutral-700 hover:border-primary px-3 py-1.5 rounded-lg transition">
+            <span class="material-symbols-outlined text-sm">photo_camera</span> Instagram
+          </a>
+          <a id="link-whatsapp" href="#" target="_blank"
+            class="flex items-center gap-1.5 text-xs text-neutral-400 hover:text-primary border border-neutral-700 hover:border-primary px-3 py-1.5 rounded-lg transition">
+            <span class="material-symbols-outlined text-sm">chat</span> WhatsApp
+          </a>
+        </div>
+      </div>
+
+      <!-- Semáforo de servicios -->
+      <div class="grid grid-cols-2 sm:grid-cols-4 gap-3">
+        <div class="servicio-chip">
+          <span class="semaforo verde"></span>
+          <div><p class="text-xs font-bold text-white">Ads Meta</p><p class="text-[10px] text-neutral-500">Activo</p></div>
+        </div>
+        <div class="servicio-chip">
+          <span class="semaforo verde"></span>
+          <div><p class="text-xs font-bold text-white">Community</p><p class="text-[10px] text-neutral-500">Activo</p></div>
+        </div>
+        <div class="servicio-chip">
+          <span class="semaforo amarillo"></span>
+          <div><p class="text-xs font-bold text-white">Google Local</p><p class="text-[10px] text-neutral-500">Pendiente</p></div>
+        </div>
+        <div class="servicio-chip">
+          <span class="semaforo verde"></span>
+          <div><p class="text-xs font-bold text-white">Web / Landing</p><p class="text-[10px] text-neutral-500">Activo</p></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Tabs de navegación -->
+    <div class="flex gap-2 overflow-x-auto pb-1 no-scrollbar">
+      <button class="tab-btn active" data-tab="brief">📋 Brief</button>
+      <button class="tab-btn" data-tab="metricas">📊 Métricas</button>
+      <button class="tab-btn" data-tab="tareas">✅ Tareas</button>
+      <button class="tab-btn" data-tab="contenido">🎬 Contenido</button>
+      <button class="tab-btn" data-tab="bot">🤖 Bot CRM</button>
+      <button class="tab-btn" data-tab="finanzas">💳 Finanzas</button>
+      <button class="tab-btn" data-tab="ia">🧠 IA</button>
+    </div>
+
+    <!-- ── TAB: BRIEF ── -->
+    <div id="tab-brief" class="tab-panel active space-y-4">
+      <div class="grid grid-cols-1 lg:grid-cols-2 gap-4">
+
+        <div class="content-card space-y-4">
+          <p class="content-card-title">Datos del negocio</p>
+          <div>
+            <label class="form-label">Nombre del negocio</label>
+            <input id="brief-nombre" class="form-input" type="text" placeholder="Gimnasio FitZone"/>
+          </div>
+          <div class="grid grid-cols-2 gap-3">
+            <div>
+              <label class="form-label">Giro</label>
+              <select id="brief-giro" class="form-input">
+                <option value="">Selecciona...</option>
+                <option>Gimnasio</option>
+                <option>Restaurante</option>
+                <option>Clínica / Consultorio</option>
+                <option>Estética / Spa</option>
+                <option>Tienda / Retail</option>
+                <option>Servicios Profesionales</option>
+                <option>Inmobiliaria</option>
+                <option>Educación</option>
+                <option>Otro</option>
+              </select>
+            </div>
+            <div>
+              <label class="form-label">Ciudad</label>
+              <input id="brief-ciudad" class="form-input" type="text" placeholder="CDMX"/>
+            </div>
+          </div>
+          <div class="grid grid-cols-2 gap-3">
+            <div>
+              <label class="form-label">Teléfono</label>
+              <input id="brief-telefono" class="form-input" type="tel" placeholder="55 1234 5678"/>
+            </div>
+            <div>
+              <label class="form-label">Instagram</label>
+              <input id="brief-instagram" class="form-input" type="text" placeholder="@negocio"/>
+            </div>
+          </div>
+          <div>
+            <label class="form-label">Email</label>
+            <input id="brief-email" class="form-input" type="email" placeholder="contacto@negocio.com"/>
+          </div>
+          <div>
+            <label class="form-label">Sitio web / Landing</label>
+            <input id="brief-web" class="form-input" type="url" placeholder="https://negocio.com"/>
+          </div>
+          <div>
+            <label class="form-label">Estado del cliente</label>
+            <select id="brief-estado" class="form-input">
+              <option value="activo">Activo</option>
+              <option value="pausado">Pausado</option>
+              <option value="inactivo">Inactivo</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="space-y-4">
+          <div class="content-card">
+            <p class="content-card-title">Brief del negocio</p>
+            <div class="space-y-3">
+              <div>
+                <label class="form-label">¿Qué hace el negocio? (descripción para la IA)</label>
+                <textarea id="brief-descripcion" class="form-input" rows="3" placeholder="Ej. Gimnasio funcional en la Colonia Roma con clases grupales, área de máquinas y nutrición personalizada..."></textarea>
+              </div>
+              <div>
+                <label class="form-label">Cliente ideal del negocio</label>
+                <textarea id="brief-cliente-ideal" class="form-input" rows="2" placeholder="Ej. Hombres y mujeres de 25-40 años que quieren bajar de peso o ganar músculo sin contratar un entrenador personal..."></textarea>
+              </div>
+              <div>
+                <label class="form-label">Servicios y precios principales</label>
+                <textarea id="brief-servicios" class="form-input" rows="3" placeholder="Ej. Membresía mensual $800 MXN, Plan anual $7,500 MXN, Clases personalizadas $350/sesión..."></textarea>
+              </div>
+            </div>
+          </div>
+
+          <div class="content-card">
+            <p class="content-card-title">Identidad de marca</p>
+            <div class="space-y-3">
+              <div>
+                <label class="form-label">Tono de voz</label>
+                <select id="brief-tono" class="form-input">
+                  <option value="">Selecciona...</option>
+                  <option>Motivacional y energético</option>
+                  <option>Profesional y confiable</option>
+                  <option>Cercano y amigable</option>
+                  <option>Elegante y aspiracional</option>
+                  <option>Divertido y casual</option>
+                  <option>Educativo y experto</option>
+                </select>
+              </div>
+              <div>
+                <label class="form-label">Colores de marca (hex o descripción)</label>
+                <input id="brief-colores" class="form-input" type="text" placeholder="Ej. Negro y dorado, o #000000 y #FFD700"/>
+              </div>
+              <div>
+                <label class="form-label">Hashtags y palabras clave locales</label>
+                <input id="brief-hashtags" class="form-input" type="text" placeholder="Ej. #GymRoma #FitnessCDMX #GymCDMX"/>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="content-card">
+        <p class="content-card-title">Historial y notas internas</p>
+        <div class="grid grid-cols-1 lg:grid-cols-2 gap-4">
+          <div>
+            <label class="form-label">Historial de campañas anteriores</label>
+            <textarea id="brief-historial" class="form-input" rows="4" placeholder="Ej. Enero: Campaña de inscripciones con descuento 30%, CPL $120 MXN, 23 inscripciones nuevas..."></textarea>
+          </div>
+          <div>
+            <label class="form-label">Qué ha funcionado / qué no</label>
+            <textarea id="brief-notas" class="form-input" rows="4" placeholder="Ej. Los videos de clase en acción tienen mejor CTR que las imágenes estáticas. Las promociones de tiempo limitado convierten mejor..."></textarea>
+          </div>
+        </div>
+      </div>
+
+      <div class="content-card">
+        <p class="content-card-title">Accesos y configuración técnica</p>
+        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+          <div>
+            <label class="form-label">Business Manager ID (Meta)</label>
+            <input id="brief-bm-id" class="form-input" type="text" placeholder="123456789"/>
+          </div>
+          <div>
+            <label class="form-label">Cuenta publicitaria ID</label>
+            <input id="brief-ad-account" class="form-input" type="text" placeholder="act_123456789"/>
+          </div>
+          <div>
+            <label class="form-label">URL Google Business Profile</label>
+            <input id="brief-gbp-url" class="form-input" type="url" placeholder="https://g.page/negocio"/>
+          </div>
+          <div>
+            <label class="form-label">WordPress URL</label>
+            <input id="brief-wp-url" class="form-input" type="url" placeholder="https://negocio.com"/>
+          </div>
+          <div>
+            <label class="form-label">WordPress usuario</label>
+            <input id="brief-wp-user" class="form-input" type="text" placeholder="admin"/>
+          </div>
+          <div>
+            <label class="form-label">Carpeta Drive (link)</label>
+            <input id="brief-drive" class="form-input" type="url" placeholder="https://drive.google.com/..."/>
+          </div>
+        </div>
+      </div>
+
+      <div class="flex justify-end">
+        <button id="btn-guardar-brief" class="btn-primary">
+          <span class="material-symbols-outlined text-base">save</span> Guardar brief
+        </button>
+      </div>
+    </div>
+
+    <!-- ── TAB: MÉTRICAS ── -->
+    <div id="tab-metricas" class="tab-panel space-y-4">
+      <div class="grid grid-cols-2 sm:grid-cols-4 gap-3">
+        <div class="metric-box">
+          <div id="m-leads" class="val">—</div>
+          <div class="lbl">Leads este mes</div>
+        </div>
+        <div class="metric-box">
+          <div id="m-cpl" class="val" style="color:#00C2A8">—</div>
+          <div class="lbl">CPL promedio</div>
+        </div>
+        <div class="metric-box">
+          <div id="m-ventas" class="val" style="color:#22c55e">—</div>
+          <div class="lbl">Conversiones</div>
+        </div>
+        <div class="metric-box">
+          <div id="m-resenas" class="val" style="color:#eab308">—</div>
+          <div class="lbl">Reseñas Google</div>
+        </div>
+      </div>
+
+      <!-- Métricas manuales por área -->
+      <div class="grid grid-cols-1 lg:grid-cols-2 gap-4">
+        <div class="content-card">
+          <p class="content-card-title">Ads Meta — Mes actual</p>
+          <div class="space-y-3">
+            <div class="grid grid-cols-2 gap-3">
+              <div>
+                <label class="form-label">Inversión (MXN)</label>
+                <input id="m-inversion" class="form-input" type="number" placeholder="10000"/>
+              </div>
+              <div>
+                <label class="form-label">Leads generados</label>
+                <input id="m-leads-input" class="form-input" type="number" placeholder="45"/>
+              </div>
+            </div>
+            <div class="grid grid-cols-2 gap-3">
+              <div>
+                <label class="form-label">Leads calificados</label>
+                <input id="m-leads-cal" class="form-input" type="number" placeholder="28"/>
+              </div>
+              <div>
+                <label class="form-label">Conversiones / Ventas</label>
+                <input id="m-conversiones" class="form-input" type="number" placeholder="12"/>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="content-card">
+          <p class="content-card-title">Google Local — Mes actual</p>
+          <div class="space-y-3">
+            <div class="grid grid-cols-2 gap-3">
+              <div>
+                <label class="form-label">Vistas de ficha</label>
+                <input id="m-vistas" class="form-input" type="number" placeholder="1500"/>
+              </div>
+              <div>
+                <label class="form-label">Clics al sitio</label>
+                <label class="form-label">Clics al sitio</label>
+                <input id="m-clics" class="form-input" type="number" placeholder="320"/>
+              </div>
+            </div>
+            <div class="grid grid-cols-2 gap-3">
+              <div>
+                <label class="form-label">Reseñas nuevas</label>
+                <input id="m-resenas-input" class="form-input" type="number" placeholder="5"/>
+              </div>
+              <div>
+                <label class="form-label">Calificación actual</label>
+                <input id="m-calificacion" class="form-input" type="number" step="0.1" placeholder="4.7"/>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="content-card">
+          <p class="content-card-title">Redes Sociales — Mes actual</p>
+          <div class="space-y-3">
+            <div class="grid grid-cols-2 gap-3">
+              <div>
+                <label class="form-label">Seguidores actuales</label>
+                <input id="m-seguidores" class="form-input" type="number" placeholder="2500"/>
+              </div>
+              <div>
+                <label class="form-label">Crecimiento del mes</label>
+                <input id="m-crecimiento" class="form-input" type="number" placeholder="120"/>
+              </div>
+            </div>
+            <div class="grid grid-cols-2 gap-3">
+              <div>
+                <label class="form-label">Posts publicados</label>
+                <input id="m-posts" class="form-input" type="number" placeholder="15"/>
+              </div>
+              <div>
+                <label class="form-label">Engagement rate (%)</label>
+                <input id="m-engagement" class="form-input" type="number" step="0.1" placeholder="3.5"/>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="content-card">
+          <p class="content-card-title">Notas del mes</p>
+          <textarea id="m-notas" class="form-input" rows="6" placeholder="Observaciones del mes, qué funcionó, ajustes realizados, próximos pasos..."></textarea>
+        </div>
+      </div>
+
+      <div class="flex justify-end">
+        <button id="btn-guardar-metricas" class="btn-primary">
+          <span class="material-symbols-outlined text-base">save</span> Guardar métricas
+        </button>
+      </div>
+    </div>
+
+    <!-- ── TAB: TAREAS ── -->
+    <div id="tab-tareas" class="tab-panel space-y-4">
+      <div class="flex items-center justify-between">
+        <p class="text-sm text-neutral-400">Tareas activas de este cliente</p>
+        <button id="btn-nueva-tarea" class="btn-primary text-sm">
+          <span class="material-symbols-outlined text-base">add</span> Nueva tarea
+        </button>
+      </div>
+
+      <!-- Filtros por área -->
+      <div class="flex gap-2 flex-wrap">
+        <button class="tarea-filter-btn tab-btn active text-xs py-1.5 px-3" data-area="todas">Todas</button>
+        <button class="tarea-filter-btn tab-btn text-xs py-1.5 px-3" data-area="ads">Ads</button>
+        <button class="tarea-filter-btn tab-btn text-xs py-1.5 px-3" data-area="community">Community</button>
+        <button class="tarea-filter-btn tab-btn text-xs py-1.5 px-3" data-area="seo">SEO</button>
+        <button class="tarea-filter-btn tab-btn text-xs py-1.5 px-3" data-area="web">Web</button>
+      </div>
+
+      <div id="tareas-lista" class="content-card">
+        <p class="text-sm text-neutral-500 text-center py-8">Sin tareas activas para este cliente.</p>
+      </div>
+    </div>
+
+    <!-- ── TAB: CONTENIDO ── -->
+    <div id="tab-contenido" class="tab-panel space-y-4">
+      <div class="content-card">
+        <div class="flex items-center justify-between mb-4">
+          <p class="content-card-title" style="margin-bottom:0">Banco de Contenido</p>
+          <button id="btn-agregar-contenido" class="btn-primary text-sm">
+            <span class="material-symbols-outlined text-base">add_photo_alternate</span> Agregar
+          </button>
+        </div>
+
+        <!-- Filtro tipo -->
+        <div class="flex gap-2 mb-4 flex-wrap">
+          <button class="contenido-filter tab-btn active text-xs py-1.5 px-3" data-tipo="todos">Todo</button>
+          <button class="contenido-filter tab-btn text-xs py-1.5 px-3" data-tipo="real">📸 Fotos/Video reales</button>
+          <button class="contenido-filter tab-btn text-xs py-1.5 px-3" data-tipo="ia">🤖 Generado con IA</button>
+        </div>
+
+        <!-- Carpeta Drive -->
+        <div class="flex items-center gap-3 p-3 rounded-lg bg-white/5 border border-white/5 mb-4">
+          <span class="material-symbols-outlined text-neutral-400">folder</span>
+          <div class="flex-1">
+            <p class="text-xs font-bold text-white">Carpeta de Drive</p>
+            <a id="link-drive" href="#" target="_blank" class="text-xs text-primary hover:underline">— Sin configurar —</a>
+          </div>
+          <a id="btn-abrir-drive" href="#" target="_blank"
+            class="text-xs text-neutral-400 hover:text-primary border border-neutral-700 hover:border-primary px-2.5 py-1 rounded-lg transition flex items-center gap-1">
+            <span class="material-symbols-outlined text-xs">open_in_new</span> Abrir
+          </a>
+        </div>
+
+        <!-- Grid de contenido -->
+        <div id="contenido-grid" class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-3">
+          <p class="col-span-full text-center py-8 text-neutral-500 text-sm">Sin contenido registrado aún.</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- ── TAB: BOT CRM ── -->
+    <div id="tab-bot" class="tab-panel space-y-4">
+      <div class="grid grid-cols-1 lg:grid-cols-2 gap-4">
+
+        <div class="content-card">
+          <p class="content-card-title">Configuración del Bot</p>
+          <div class="space-y-3">
+            <div>
+              <label class="form-label">Nombre del bot</label>
+              <input id="bot-nombre" class="form-input" type="text" placeholder="Ej. Ana de FitZone"/>
+            </div>
+            <div>
+              <label class="form-label">Número de WhatsApp del bot</label>
+              <input id="bot-whatsapp" class="form-input" type="tel" placeholder="+52 55 1234 5678"/>
+            </div>
+            <div>
+              <label class="form-label">Mensaje de bienvenida</label>
+              <textarea id="bot-bienvenida" class="form-input" rows="3" placeholder="Ej. ¡Hola! Soy Ana de FitZone 😊 ¿Estás interesado/a en unirte al gym? Cuéntame un poco sobre ti..."></textarea>
+            </div>
+            <div>
+              <label class="form-label">Servicios y precios (para que el bot los conozca)</label>
+              <textarea id="bot-servicios" class="form-input" rows="3" placeholder="Membresía mensual $800 MXN. Plan anual $7,500 MXN. Primera semana gratis para probar..."></textarea>
+            </div>
+            <div>
+              <label class="form-label">Horario de atención del negocio</label>
+              <input id="bot-horario" class="form-input" type="text" placeholder="Lun-Vie 6am-10pm, Sáb-Dom 7am-8pm"/>
+            </div>
+            <div>
+              <label class="form-label">CTA principal del bot</label>
+              <select id="bot-cta" class="form-input">
+                <option value="agenda">Agendar visita / clase de prueba</option>
+                <option value="llamada">Solicitar llamada</option>
+                <option value="info">Enviar información por WhatsApp</option>
+                <option value="cotizacion">Solicitar cotización</option>
+              </select>
+            </div>
+          </div>
+          <div class="mt-4 flex justify-end">
+            <button id="btn-guardar-bot" class="btn-primary text-sm">
+              <span class="material-symbols-outlined text-base">save</span> Guardar configuración
+            </button>
+          </div>
+        </div>
+
+        <div class="content-card">
+          <p class="content-card-title">Métricas del Bot — Este mes</p>
+          <div class="grid grid-cols-2 gap-3 mb-4">
+            <div class="metric-box">
+              <div id="bot-m-contactos" class="val">—</div>
+              <div class="lbl">Contactos recibidos</div>
+            </div>
+            <div class="metric-box">
+              <div id="bot-m-calificados" class="val" style="color:#00C2A8">—</div>
+              <div class="lbl">Calificados</div>
+            </div>
+            <div class="metric-box">
+              <div id="bot-m-agendados" class="val" style="color:#eab308">—</div>
+              <div class="lbl">Agendados</div>
+            </div>
+            <div class="metric-box">
+              <div id="bot-m-cerrados" class="val" style="color:#22c55e">—</div>
+              <div class="lbl">Cerrados / Inscritos</div>
+            </div>
+          </div>
+
+          <p class="content-card-title">Últimas conversaciones</p>
+          <div id="bot-conversaciones" class="space-y-2 max-h-64 overflow-y-auto">
+            <p class="text-sm text-neutral-500 text-center py-6">Sin conversaciones registradas aún.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ── TAB: FINANZAS ── -->
+    <div id="tab-finanzas" class="tab-panel space-y-4">
+      <div class="grid grid-cols-1 lg:grid-cols-2 gap-4">
+
+        <div class="content-card">
+          <p class="content-card-title">Contrato activo</p>
+          <div class="space-y-3">
+            <div class="grid grid-cols-2 gap-3">
+              <div>
+                <label class="form-label">Monto mensual (MXN)</label>
+                <input id="fin-monto" class="form-input" type="number" placeholder="15000"/>
+              </div>
+              <div>
+                <label class="form-label">Día de pago</label>
+                <input id="fin-dia-pago" class="form-input" type="number" min="1" max="31" placeholder="1"/>
+              </div>
+            </div>
+            <div class="grid grid-cols-2 gap-3">
+              <div>
+                <label class="form-label">Fecha inicio contrato</label>
+                <input id="fin-inicio" class="form-input" type="date"/>
+              </div>
+              <div>
+                <label class="form-label">Fecha vencimiento</label>
+                <input id="fin-vencimiento" class="form-input" type="date"/>
+              </div>
+            </div>
+            <div>
+              <label class="form-label">Plan contratado</label>
+              <select id="fin-plan" class="form-input">
+                <option value="">Selecciona...</option>
+                <option>Paquete Básico (Ads + Community + Google Local)</option>
+                <option>Paquete Completo (+ Bot WhatsApp + Landing Web)</option>
+                <option>Solo Ads</option>
+                <option>Solo Community</option>
+                <option>Personalizado</option>
+              </select>
+            </div>
+            <div>
+              <label class="form-label">Notas del contrato</label>
+              <textarea id="fin-notas" class="form-input" rows="2" placeholder="Condiciones especiales, descuentos, compromisos..."></textarea>
+            </div>
+          </div>
+          <div class="mt-4 flex justify-end">
+            <button id="btn-guardar-finanzas" class="btn-primary text-sm">
+              <span class="material-symbols-outlined text-base">save</span> Guardar
+            </button>
+          </div>
+        </div>
+
+        <div class="content-card">
+          <p class="content-card-title">Historial de pagos</p>
+          <div id="pagos-lista" class="space-y-2 max-h-80 overflow-y-auto">
+            <p class="text-sm text-neutral-500 text-center py-8">Sin pagos registrados.</p>
+          </div>
+          <div class="mt-4 flex justify-end">
+            <button id="btn-registrar-pago" class="btn-ghost text-sm">
+              <span class="material-symbols-outlined text-base">add</span> Registrar pago
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ── TAB: IA ── -->
+    <div id="tab-ia" class="tab-panel space-y-4">
+      <div class="content-card">
+        <p class="content-card-title">Cerebros IA — Asistente del cliente</p>
+        <p class="text-xs text-neutral-400 mb-4">La IA ya tiene acceso al expediente completo de este cliente. Úsala para generar contenido, analizar conversaciones o crear estrategias personalizadas.</p>
+
+        <div class="space-y-3">
+
+          <!-- Copy para redes -->
+          <div class="rounded-lg border border-neutral-800 bg-black/50 p-4">
+            <div class="flex items-center justify-between mb-2">
+              <div class="flex items-center gap-2">
+                <span class="material-symbols-outlined text-primary text-base">edit_note</span>
+                <div>
+                  <p class="text-sm font-bold text-white">Generador de Copies</p>
+                  <p class="text-xs text-neutral-500">Genera copies para posts, Stories o Reels</p>
+                </div>
+              </div>
+            </div>
+            <div class="flex gap-2">
+              <select id="ia-tipo-post" class="form-input flex-1 text-sm">
+                <option value="">Tipo de post...</option>
+                <option>Reel de resultado/transformación</option>
+                <option>Carrusel educativo</option>
+                <option>Story de promoción</option>
+                <option>Post de testimonio</option>
+                <option>Anuncio de oferta</option>
+                <option>Contenido motivacional</option>
+                <option>Post de servicios</option>
+              </select>
+              <button id="btn-gen-copy" class="btn-primary text-sm shrink-0">
+                <span class="material-symbols-outlined text-base">auto_awesome</span> Generar
+              </button>
+            </div>
+            <div id="result-copy" class="hidden ai-result mt-3">
+              <div class="flex justify-between items-center mb-2">
+                <p class="text-[10px] font-bold uppercase tracking-widest text-primary">Copy generado</p>
+                <button onclick="copiarTexto('result-copy-text')" class="text-[10px] text-neutral-400 hover:text-primary border border-neutral-700 hover:border-primary px-2 py-0.5 rounded transition flex items-center gap-1">
+                  <span class="material-symbols-outlined text-xs">content_copy</span> Copiar
+                </button>
+              </div>
+              <p id="result-copy-text" class="text-sm text-neutral-300 leading-relaxed whitespace-pre-wrap"></p>
+            </div>
+          </div>
+
+          <!-- Respuesta a reseña -->
+          <div class="rounded-lg border border-neutral-800 bg-black/50 p-4">
+            <div class="flex items-center gap-2 mb-3">
+              <span class="material-symbols-outlined text-primary text-base">star</span>
+              <div>
+                <p class="text-sm font-bold text-white">Respuesta a Reseña Google</p>
+                <p class="text-xs text-neutral-500">Genera respuesta profesional en 1 clic</p>
+              </div>
+            </div>
+            <div class="space-y-2">
+              <select id="ia-tipo-resena" class="form-input text-sm">
+                <option value="positiva">Reseña positiva (4-5 estrellas)</option>
+                <option value="negativa">Reseña negativa (1-3 estrellas)</option>
+                <option value="neutral">Reseña neutral (sin comentario)</option>
+              </select>
+              <textarea id="ia-texto-resena" class="form-input text-sm" rows="2" placeholder="Pega aquí el texto de la reseña del cliente..."></textarea>
+              <div class="flex justify-end">
+                <button id="btn-gen-resena" class="btn-primary text-sm">
+                  <span class="material-symbols-outlined text-base">auto_awesome</span> Generar respuesta
+                </button>
+              </div>
+            </div>
+            <div id="result-resena" class="hidden ai-result mt-3">
+              <div class="flex justify-between items-center mb-2">
+                <p class="text-[10px] font-bold uppercase tracking-widest text-primary">Respuesta lista</p>
+                <button onclick="copiarTexto('result-resena-text')" class="text-[10px] text-neutral-400 hover:text-primary border border-neutral-700 hover:border-primary px-2 py-0.5 rounded transition flex items-center gap-1">
+                  <span class="material-symbols-outlined text-xs">content_copy</span> Copiar
+                </button>
+              </div>
+              <p id="result-resena-text" class="text-sm text-neutral-300 leading-relaxed whitespace-pre-wrap"></p>
+            </div>
+          </div>
+
+          <!-- Análisis estratégico -->
+          <div class="rounded-lg border border-neutral-800 bg-black/50 p-4">
+            <div class="flex items-center justify-between mb-2">
+              <div class="flex items-center gap-2">
+                <span class="material-symbols-outlined text-primary text-base">psychology</span>
+                <div>
+                  <p class="text-sm font-bold text-white">Diagnóstico Estratégico</p>
+                  <p class="text-xs text-neutral-500">Analiza el estado del cliente y sugiere acciones</p>
+                </div>
+              </div>
+              <button id="btn-gen-diagnostico" class="btn-primary text-sm">
+                <span class="material-symbols-outlined text-base">auto_awesome</span> Analizar
+              </button>
+            </div>
+            <div id="result-diagnostico" class="hidden ai-result">
+              <div class="flex justify-between items-center mb-2">
+                <p class="text-[10px] font-bold uppercase tracking-widest text-primary">Diagnóstico</p>
+                <button onclick="copiarTexto('result-diag-text')" class="text-[10px] text-neutral-400 hover:text-primary border border-neutral-700 hover:border-primary px-2 py-0.5 rounded transition flex items-center gap-1">
+                  <span class="material-symbols-outlined text-xs">content_copy</span> Copiar
+                </button>
+              </div>
+              <p id="result-diag-text" class="text-sm text-neutral-300 leading-relaxed whitespace-pre-wrap"></p>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </div>
+
+  </main>
+</div>
+
+<script src="app.js" defer></script>
+<script src="global-nav.js" defer></script>
+
+<script>
+document.addEventListener('DOMContentLoaded', async () => {
+
+  // ── Helpers ───────────────────────────────────────────────
+  function getDB() {
+    if (!window.supabaseClient) throw new Error('Supabase no inicializado');
+    return window.supabaseClient;
+  }
+
+  function getClienteId() {
+    return new URLSearchParams(window.location.search).get('id');
+  }
+
+  // ── Claude API ────────────────────────────────────────────
+  async function callClaude(systemPrompt, userPrompt) {
+    const CLAUDE_KEY = window.CLAUDE_KEY || '';
+    if (!CLAUDE_KEY) throw new Error('CLAUDE_KEY no configurada en config.js / Vercel secrets');
+    const res = await fetch('https://api.anthropic.com/v1/messages', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'x-api-key': CLAUDE_KEY,
+        'anthropic-version': '2023-06-01',
+        'anthropic-dangerous-direct-browser-access': 'true'
+      },
+      body: JSON.stringify({
+        model: 'claude-sonnet-4-20250514',
+        max_tokens: 1024,
+        system: systemPrompt,
+        messages: [{ role: 'user', content: userPrompt }]
+      })
+    });
+    const data = await res.json();
+    if (data.error) throw new Error(data.error.message);
+    return data.content?.[0]?.text || '';
+  }
+
+  // ── Auth ──────────────────────────────────────────────────
+  const clienteId = getClienteId();
+  if (!clienteId) { window.location.href = 'clientes.html'; return; }
+
+  try {
+    const db = getDB();
+    const { data: { session } } = await db.auth.getSession();
+    if (!session) { window.location.href = 'index.html'; return; }
+  } catch(e) { console.warn(e); }
+
+  // ── Estado del cliente y expediente ──────────────────────
+  let clienteData = {};
+  let expedienteData = {};
+  let metricasData = {};
+  let contratoData = {};
+
+  // ── Cargar datos ──────────────────────────────────────────
+  async function loadCliente() {
+    const db = getDB();
+    const { data: c } = await db.from('clientes').select('*').eq('id', clienteId).single();
+    if (!c) { window.location.href = 'clientes.html'; return; }
+    clienteData = c;
+
+    // Header
+    const inicial = (c.nombre_negocio || '?')[0].toUpperCase();
+    document.getElementById('cliente-inicial').textContent = inicial;
+    document.getElementById('cliente-nombre').textContent = c.nombre_negocio || '—';
+    document.getElementById('header-nombre').textContent = c.nombre_negocio || '—';
+    document.getElementById('cliente-subtitulo').textContent = `${c.giro || '—'} · ${c.ciudad || '—'}`;
+
+    const estadoBadge = document.getElementById('cliente-estado-badge');
+    const estadoClasses = {
+      activo: 'bg-primary/10 text-primary border-primary/30',
+      pausado: 'bg-yellow-400/10 text-yellow-400 border-yellow-400/30',
+      inactivo: 'bg-red-400/10 text-red-400 border-red-400/30',
+    };
+    estadoBadge.textContent = c.estado || 'activo';
+    estadoBadge.className = `text-[10px] font-bold uppercase px-2.5 py-0.5 rounded-full border ${estadoClasses[c.estado] || estadoClasses.activo}`;
+
+    // Links
+    if (c.instagram) {
+      const ig = c.instagram.replace('@','');
+      document.getElementById('link-instagram').href = `https://instagram.com/${ig}`;
+    }
+    if (c.telefono) {
+      document.getElementById('link-whatsapp').href = `https://wa.me/52${c.telefono.replace(/\D/g,'')}`;
+    }
+
+    // Portal
+    document.getElementById('btn-ver-portal').addEventListener('click', () => {
+      window.open(`portal-cliente.html?token=${clienteId}`, '_blank');
+    });
+
+    // Llenar brief
+    document.getElementById('brief-nombre').value    = c.nombre_negocio || '';
+    document.getElementById('brief-giro').value      = c.giro || '';
+    document.getElementById('brief-ciudad').value    = c.ciudad || '';
+    document.getElementById('brief-telefono').value  = c.telefono || '';
+    document.getElementById('brief-instagram').value = c.instagram || '';
+    document.getElementById('brief-email').value     = c.email || '';
+    document.getElementById('brief-estado').value    = c.estado || 'activo';
+    document.getElementById('brief-fecha').value     = c.fecha_inicio || '';
+  }
+
+  async function loadExpediente() {
+    const db = getDB();
+    const { data: exp } = await db.from('expediente').select('*').eq('cliente_id', clienteId).single();
+    if (!exp) return;
+    expedienteData = exp;
+    document.getElementById('brief-descripcion').value    = exp.brief || '';
+    document.getElementById('brief-tono').value           = exp.tono_voz || '';
+    document.getElementById('brief-historial').value      = exp.historial_campanas || '';
+    document.getElementById('brief-notas').value          = exp.notas || '';
+  }
+
+  async function loadMetricas() {
+    const db = getDB();
+    const periodo = new Date().toISOString().slice(0,7);
+    const { data: m } = await db.from('metricas').select('*').eq('cliente_id', clienteId).eq('periodo', periodo).single();
+    if (!m?.datos) return;
+    metricasData = m.datos;
+    const d = m.datos;
+    document.getElementById('m-inversion').value     = d.inversion || '';
+    document.getElementById('m-leads-input').value   = d.leads || '';
+    document.getElementById('m-leads-cal').value     = d.leads_calificados || '';
+    document.getElementById('m-conversiones').value  = d.conversiones || '';
+    document.getElementById('m-vistas').value        = d.vistas_ficha || '';
+    document.getElementById('m-clics').value         = d.clics_sitio || '';
+    document.getElementById('m-resenas-input').value = d.resenas_nuevas || '';
+    document.getElementById('m-calificacion').value  = d.calificacion || '';
+    document.getElementById('m-seguidores').value    = d.seguidores || '';
+    document.getElementById('m-crecimiento').value   = d.crecimiento || '';
+    document.getElementById('m-posts').value         = d.posts || '';
+    document.getElementById('m-engagement').value    = d.engagement || '';
+    document.getElementById('m-notas').value         = d.notas || '';
+
+    document.getElementById('m-leads').textContent    = d.leads || '0';
+    document.getElementById('m-ventas').textContent   = d.conversiones || '0';
+    document.getElementById('m-resenas').textContent  = d.resenas_nuevas || '0';
+    if (d.inversion && d.leads) {
+      document.getElementById('m-cpl').textContent = '$' + Math.round(d.inversion / d.leads);
+    }
+  }
+
+  async function loadTareas() {
+    const db = getDB();
+    const { data: tareas } = await db.from('tareas').select('*').eq('cliente_id', clienteId).order('fecha_limite', { ascending: true });
+    const lista = document.getElementById('tareas-lista');
+    if (!tareas?.length) return;
+
+    const hoy = new Date().toISOString().slice(0,10);
+    lista.innerHTML = tareas.map(t => {
+      const vencida = t.fecha_limite && t.fecha_limite < hoy && t.estado !== 'completada';
+      const areaColors = { ads:'text-orange-400', community:'text-blue-400', seo:'text-green-400', web:'text-purple-400' };
+      const color = areaColors[t.area] || 'text-neutral-400';
+      return `
+        <div class="tarea-item">
+          <input type="checkbox" class="rounded border-neutral-600 bg-neutral-800 text-primary" ${t.estado === 'completada' ? 'checked' : ''}
+            onchange="toggleTarea('${t.id}', this.checked)"/>
+          <div class="flex-1">
+            <p class="text-sm ${t.estado === 'completada' ? 'line-through text-neutral-600' : 'text-white'}">${t.descripcion}</p>
+            <div class="flex items-center gap-2 mt-0.5">
+              <span class="text-[10px] font-bold uppercase ${color}">${t.area || '—'}</span>
+              ${t.fecha_limite ? `<span class="text-[10px] ${vencida ? 'text-red-400 font-bold' : 'text-neutral-500'}">${vencida ? '⚠ ' : ''}${t.fecha_limite}</span>` : ''}
+            </div>
+          </div>
+        </div>
+      `;
+    }).join('');
+  }
+
+  async function loadDrive() {
+    const db = getDB();
+    const { data: exp } = await db.from('expediente').select('*').eq('cliente_id', clienteId).single();
+    if (exp?.notas) {
+      const driveMatch = exp.notas.match(/https:\/\/drive\.google\.com\/[^\s]+/);
+      if (driveMatch) {
+        document.getElementById('link-drive').textContent = driveMatch[0];
+        document.getElementById('link-drive').href = driveMatch[0];
+        document.getElementById('btn-abrir-drive').href = driveMatch[0];
+      }
+    }
+  }
+
+  // ── Tabs ──────────────────────────────────────────────────
+  document.querySelectorAll('.tab-btn[data-tab]').forEach(btn => {
+    btn.addEventListener('click', () => {
+      document.querySelectorAll('.tab-btn[data-tab]').forEach(b => b.classList.remove('active'));
+      document.querySelectorAll('.tab-panel').forEach(p => p.classList.remove('active'));
+      btn.classList.add('active');
+      document.getElementById('tab-' + btn.dataset.tab).classList.add('active');
+    });
+  });
+
+  // ── Guardar brief ─────────────────────────────────────────
+  async function guardarBrief() {
+    const db = getDB();
+    const btn = document.getElementById('btn-guardar-brief');
+    btn.disabled = true; btn.textContent = 'Guardando...';
+    try {
+      await db.from('clientes').update({
+        nombre_negocio: document.getElementById('brief-nombre').value,
+        giro:     document.getElementById('brief-giro').value,
+        ciudad:   document.getElementById('brief-ciudad').value,
+        telefono: document.getElementById('brief-telefono').value,
+        instagram:document.getElementById('brief-instagram').value,
+        email:    document.getElementById('brief-email').value,
+        estado:   document.getElementById('brief-estado').value,
+      }).eq('id', clienteId);
+
+      const expData = {
+        cliente_id:        clienteId,
+        brief:             document.getElementById('brief-descripcion').value,
+        tono_voz:          document.getElementById('brief-tono').value,
+        historial_campanas:document.getElementById('brief-historial').value,
+        notas:             document.getElementById('brief-notas').value,
+        updated_at:        new Date().toISOString(),
+      };
+      await db.from('expediente').upsert([expData], { onConflict: 'cliente_id' });
+      btn.innerHTML = '✓ Guardado';
+      setTimeout(() => { btn.innerHTML = '<span class="material-symbols-outlined text-base">save</span> Guardar brief'; btn.disabled = false; }, 2000);
+    } catch(e) { alert('Error: ' + e.message); btn.disabled = false; btn.innerHTML = '<span class="material-symbols-outlined text-base">save</span> Guardar brief'; }
+  }
+
+  document.getElementById('btn-guardar-brief').addEventListener('click', guardarBrief);
+  document.getElementById('btn-guardar-expediente').addEventListener('click', guardarBrief);
+
+  // ── Guardar métricas ──────────────────────────────────────
+  document.getElementById('btn-guardar-metricas').addEventListener('click', async () => {
+    const db = getDB();
+    const btn = document.getElementById('btn-guardar-metricas');
+    btn.disabled = true; btn.textContent = 'Guardando...';
+    try {
+      const periodo = new Date().toISOString().slice(0,7);
+      const datos = {
+        inversion:         parseFloat(document.getElementById('m-inversion').value) || 0,
+        leads:             parseInt(document.getElementById('m-leads-input').value) || 0,
+        leads_calificados: parseInt(document.getElementById('m-leads-cal').value) || 0,
+        conversiones:      parseInt(document.getElementById('m-conversiones').value) || 0,
+        vistas_ficha:      parseInt(document.getElementById('m-vistas').value) || 0,
+        clics_sitio:       parseInt(document.getElementById('m-clics').value) || 0,
+        resenas_nuevas:    parseInt(document.getElementById('m-resenas-input').value) || 0,
+        calificacion:      parseFloat(document.getElementById('m-calificacion').value) || 0,
+        seguidores:        parseInt(document.getElementById('m-seguidores').value) || 0,
+        crecimiento:       parseInt(document.getElementById('m-crecimiento').value) || 0,
+        posts:             parseInt(document.getElementById('m-posts').value) || 0,
+        engagement:        parseFloat(document.getElementById('m-engagement').value) || 0,
+        notas:             document.getElementById('m-notas').value,
+      };
+      await db.from('metricas').upsert([{ cliente_id: clienteId, area: 'general', periodo, datos, created_at: new Date().toISOString() }], { onConflict: 'cliente_id,area,periodo' });
+      btn.innerHTML = '✓ Guardado';
+      setTimeout(() => { btn.innerHTML = '<span class="material-symbols-outlined text-base">save</span> Guardar métricas'; btn.disabled = false; }, 2000);
+    } catch(e) { alert('Error: ' + e.message); btn.disabled = false; btn.innerHTML = '<span class="material-symbols-outlined text-base">save</span> Guardar métricas'; }
+  });
+
+  // ── Toggle tarea ──────────────────────────────────────────
+  window.toggleTarea = async function(id, completada) {
+    const db = getDB();
+    await db.from('tareas').update({ estado: completada ? 'completada' : 'pendiente' }).eq('id', id);
+  };
+
+  // ── Guardar bot ───────────────────────────────────────────
+  document.getElementById('btn-guardar-bot').addEventListener('click', async () => {
+    const db = getDB();
+    const botConfig = {
+      nombre:     document.getElementById('bot-nombre').value,
+      whatsapp:   document.getElementById('bot-whatsapp').value,
+      bienvenida: document.getElementById('bot-bienvenida').value,
+      servicios:  document.getElementById('bot-servicios').value,
+      horario:    document.getElementById('bot-horario').value,
+      cta:        document.getElementById('bot-cta').value,
+    };
+    await db.from('expediente').upsert([{ cliente_id: clienteId, notas: JSON.stringify({ bot: botConfig }), updated_at: new Date().toISOString() }], { onConflict: 'cliente_id' });
+    alert('Configuración del bot guardada ✓');
+  });
+
+  // ── IA: Generador de copies ───────────────────────────────
+  document.getElementById('btn-gen-copy').addEventListener('click', async () => {
+    const tipo = document.getElementById('ia-tipo-post').value;
+    if (!tipo) { alert('Selecciona el tipo de post'); return; }
+    const btn = document.getElementById('btn-gen-copy');
+    btn.disabled = true;
+    btn.innerHTML = '<span class="ai-loader"><div class="dot"></div><div class="dot"></div><div class="dot"></div></span>';
+
+    const giro        = clienteData.giro || 'negocio local';
+    const nombre      = clienteData.nombre_negocio || 'el negocio';
+    const tono        = document.getElementById('brief-tono').value || 'cercano y amigable';
+    const servicios   = document.getElementById('brief-servicios').value || 'sus servicios principales';
+    const clienteIdeal= document.getElementById('brief-cliente-ideal').value || 'clientes locales';
+    const hashtags    = document.getElementById('brief-hashtags').value || '#CDMX';
+
+    const systemPrompt = `Eres experto en redes sociales para negocios locales en México (CDMX). 
+Generas copies auténticos, con tono natural y que convierten. 
+NUNCA usas frases genéricas de agencia. 
+El copy debe sonar como si lo escribiera el dueño del negocio, no una agencia.`;
+
+    const userPrompt = `Genera el copy para un ${tipo} para este negocio:
+
+Negocio: ${nombre}
+Giro: ${giro}
+Tono de voz: ${tono}
+Servicios principales: ${servicios}
+Cliente ideal: ${clienteIdeal}
+Hashtags del negocio: ${hashtags}
+
+Incluye:
+- Hook en la primera línea (lo que se ve antes del "ver más")
+- Cuerpo del texto con la historia o información
+- CTA claro al final (ej: "Escríbenos al DM", "Agenda tu cita", "Visítanos")
+- Hashtags relevantes al final (máximo 12, mezcla locales + del giro + específicos)
+
+Formato limpio, listo para copiar y pegar en Instagram.`;
+
+    try {
+      const resultado = await callClaude(systemPrompt, userPrompt);
+      document.getElementById('result-copy-text').textContent = resultado;
+      document.getElementById('result-copy').classList.remove('hidden');
+    } catch(e) { alert('Error Claude API: ' + e.message); }
+    finally {
+      btn.disabled = false;
+      btn.innerHTML = '<span class="material-symbols-outlined text-base">auto_awesome</span> Generar';
+    }
+  });
+
+  // ── IA: Respuesta a reseña ────────────────────────────────
+  document.getElementById('btn-gen-resena').addEventListener('click', async () => {
+    const tipo    = document.getElementById('ia-tipo-resena').value;
+    const texto   = document.getElementById('ia-texto-resena').value.trim();
+    const btn = document.getElementById('btn-gen-resena');
+    btn.disabled = true;
+    btn.innerHTML = '<span class="ai-loader"><div class="dot"></div><div class="dot"></div><div class="dot"></div></span>';
+
+    const systemPrompt = `Eres experto en gestión de reputación online para negocios locales en México. 
+Generas respuestas a reseñas de Google que son auténticas, profesionales y humanizadas.
+Para reseñas positivas: agradeces, personalizas y invitas a volver.
+Para reseñas negativas: reconoces, te disculpas sin atacar y ofreces solución.
+Nunca defiendes agresivamente. Siempre mantienes el tono del negocio.`;
+
+    const userPrompt = `Genera una respuesta ${tipo} a esta reseña de Google para ${clienteData.nombre_negocio || 'el negocio'} (${clienteData.giro || 'negocio local'}):
+
+Reseña: "${texto || 'Sin texto, solo calificación'}"
+Tipo: ${tipo}
+
+La respuesta debe:
+- Sonar humana y auténtica, no de plantilla
+- Ser breve (máximo 4-5 líneas)
+- Si es positiva: agradecer algo específico de la reseña
+- Si es negativa: reconocer el problema y proponer contacto directo
+- Terminar con invitación a volver o a contactar`;
+
+    try {
+      const resultado = await callClaude(systemPrompt, userPrompt);
+      document.getElementById('result-resena-text').textContent = resultado;
+      document.getElementById('result-resena').classList.remove('hidden');
+    } catch(e) { alert('Error Claude API: ' + e.message); }
+    finally {
+      btn.disabled = false;
+      btn.innerHTML = '<span class="material-symbols-outlined text-base">auto_awesome</span> Generar respuesta';
+    }
+  });
+
+  // ── IA: Diagnóstico estratégico ───────────────────────────
+  document.getElementById('btn-gen-diagnostico').addEventListener('click', async () => {
+    const btn = document.getElementById('btn-gen-diagnostico');
+    btn.disabled = true;
+    btn.innerHTML = '<span class="ai-loader"><div class="dot"></div><div class="dot"></div><div class="dot"></div></span>';
+
+    const leads      = document.getElementById('m-leads-input').value || '?';
+    const inversion  = document.getElementById('m-inversion').value || '?';
+    const conv       = document.getElementById('m-conversiones').value || '?';
+    const engagement = document.getElementById('m-engagement').value || '?';
+    const notas      = document.getElementById('m-notas').value || 'Sin notas';
+
+    const systemPrompt = `Eres Marketerito, consultor estratégico de Novu 360, agencia de marketing para negocios locales en México. 
+Analizas los datos del cliente y das dirección clara, específica y accionable. 
+Eres directo, sin rodeos, orientado a resultados reales. Máximo 200 palabras.`;
+
+    const userPrompt = `Analiza este cliente y dame un diagnóstico con las 2-3 acciones más urgentes:
+
+Cliente: ${clienteData.nombre_negocio || '—'} (${clienteData.giro || '—'}, ${clienteData.ciudad || 'CDMX'})
+Estado: ${clienteData.estado || 'activo'}
+
+Métricas del mes:
+- Leads generados: ${leads}
+- Inversión en Ads: $${inversion} MXN
+- Conversiones: ${conv}
+- Engagement rate: ${engagement}%
+
+Notas del mes: ${notas}
+
+Breve del negocio: ${document.getElementById('brief-descripcion').value || 'Sin brief configurado'}
+
+Formato: PROBLEMA → ACCIÓN INMEDIATA. Sin rodeos.`;
+
+    try {
+      const resultado = await callClaude(systemPrompt, userPrompt);
+      document.getElementById('result-diag-text').textContent = resultado;
+      document.getElementById('result-diagnostico').classList.remove('hidden');
+    } catch(e) { alert('Error Claude API: ' + e.message); }
+    finally {
+      btn.disabled = false;
+      btn.innerHTML = '<span class="material-symbols-outlined text-base">auto_awesome</span> Analizar';
+    }
+  });
+
+  // ── Copiar texto ──────────────────────────────────────────
+  window.copiarTexto = function(id) {
+    const texto = document.getElementById(id)?.textContent || '';
+    navigator.clipboard.writeText(texto).then(() => {
+      // Feedback visual breve
+    });
+  };
+
+  // ── Init ──────────────────────────────────────────────────
+  await loadCliente();
+  await loadExpediente();
+  await loadMetricas();
+  await loadTareas();
+  loadDrive();
+
+});
+</script>
+
+</body>
+</html>
