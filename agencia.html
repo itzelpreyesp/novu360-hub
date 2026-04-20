@@ -1,0 +1,555 @@
+<!DOCTYPE html>
+<html class="dark" lang="es">
+<head>
+  <meta charset="utf-8"/>
+  <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+  <title>Novu 360 · Métricas de la Agencia</title>
+  <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;700;800&family=Inter:wght@400;500;600&display=swap" rel="stylesheet"/>
+  <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet"/>
+  <script>
+    tailwind.config = {
+      darkMode:"class",
+      theme:{ extend:{ colors:{
+        primary:"#00C2A8","on-primary":"#00382f",
+        surface:"#000","on-surface":"#dde4e1","on-surface-variant":"#bbcac4",
+        error:"#ffb4ab",background:"#000"
+      }, fontFamily:{ headline:["Manrope"],body:["Inter"] } } }
+    }
+  </script>
+  <link rel="stylesheet" href="style.css">
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script src="config.js"></script>
+  <script src="auth.js"></script>
+  <script>checkAuth();</script>
+  <style>
+    .kpi-card{background:#0f0f0f;border:1px solid #242424;border-radius:16px;padding:20px}
+    .kpi-val{font-size:2rem;font-weight:900;color:#fff;line-height:1;font-family:'Manrope',sans-serif}
+    .kpi-lbl{font-size:.65rem;text-transform:uppercase;letter-spacing:.18em;color:#8a8a8a;margin-top:4px}
+    .kpi-trend-up{font-size:.75rem;font-weight:700;color:#22c55e}
+    .kpi-trend-dn{font-size:.75rem;font-weight:700;color:#ef4444}
+    .section-title{font-size:.7rem;font-weight:700;text-transform:uppercase;letter-spacing:.2em;color:#00C2A8;margin-bottom:14px}
+    .content-card{background:#0f0f0f;border:1px solid #242424;border-radius:12px;padding:20px}
+    .bar-wrap{display:flex;align-items:center;gap:10px;margin-bottom:8px}
+    .bar-label{font-size:.75rem;color:#c9c9c9;width:90px;shrink-0:1;text-align:right}
+    .bar-track{flex:1;height:8px;background:#1b1b1b;border-radius:4px;overflow:hidden}
+    .bar-fill{height:100%;border-radius:4px;transition:width .6s ease}
+    .pipeline-row{display:flex;align-items:center;justify-content:space-between;padding:10px 0;border-bottom:1px solid #242424}
+    .pipeline-row:last-child{border-bottom:none}
+    .form-input{width:100%;border-radius:6px;border:1px solid #242424;background:#141414;padding:9px 12px;font-size:.875rem;color:#f5f5f5;outline:none;font-family:'Inter',sans-serif;transition:border-color .15s}
+    .form-input:focus{border-color:#00C2A8}
+    .form-label{display:block;margin-bottom:5px;font-size:.68rem;font-weight:700;text-transform:uppercase;letter-spacing:.18em;color:#c9c9c9}
+    .btn-primary{display:inline-flex;align-items:center;gap:6px;background:#00C2A8;color:#000;font-weight:700;font-size:.85rem;padding:9px 16px;border-radius:8px;border:none;cursor:pointer;transition:filter .15s;font-family:'Manrope',sans-serif}
+    .btn-primary:hover{filter:brightness(1.1)}
+    .ai-result{background:#141414;border:1px solid rgba(0,194,168,.2);border-radius:10px;padding:14px;margin-top:10px}
+    .ai-loader{display:inline-flex;align-items:center;gap:5px}
+    .ai-loader .dot{width:5px;height:5px;border-radius:50%;background:#000;animation:dotP 1.2s ease-in-out infinite}
+    .ai-loader .dot:nth-child(2){animation-delay:.2s}
+    .ai-loader .dot:nth-child(3){animation-delay:.4s}
+    @keyframes dotP{0%,100%{opacity:.3;transform:scale(.8)}50%{opacity:1;transform:scale(1)}}
+    @media(max-width:1023px){main{padding-top:56px!important;padding-bottom:80px!important}}
+  </style>
+</head>
+<body class="bg-black text-on-surface antialiased overflow-x-hidden">
+
+<!-- Sidebar -->
+<aside class="hidden lg:flex lg:flex-col w-64 bg-[#0a0a0a] border-r border-white/5 px-4 py-6 fixed top-0 left-0 h-full z-40">
+  <a class="font-headline text-2xl font-extrabold text-primary tracking-tight mb-8" href="dashboard.html">Novu 360</a>
+  <nav class="flex flex-col gap-1 text-sm font-semibold">
+    <a class="px-3 py-2 rounded-lg text-white/70 hover:bg-primary/10 hover:text-primary transition-all" href="dashboard.html">Dashboard</a>
+    <a class="px-3 py-2 rounded-lg text-white/70 hover:bg-primary/10 hover:text-primary transition-all" href="clientes.html">Clientes</a>
+    <a class="px-3 py-2 rounded-lg text-white/70 hover:bg-primary/10 hover:text-primary transition-all" href="ventas.html">Ventas</a>
+    <a class="px-3 py-2 rounded-lg text-white/70 hover:bg-primary/10 hover:text-primary transition-all" href="ads.html">Ads / Meta</a>
+    <a class="px-3 py-2 rounded-lg text-white/70 hover:bg-primary/10 hover:text-primary transition-all" href="community.html">Community</a>
+    <a class="px-3 py-2 rounded-lg text-white/70 hover:bg-primary/10 hover:text-primary transition-all" href="seo.html">SEO</a>
+    <a class="px-3 py-2 rounded-lg text-white/70 hover:bg-primary/10 hover:text-primary transition-all" href="web.html">Web</a>
+    <a class="px-3 py-2 rounded-lg text-white/70 hover:bg-primary/10 hover:text-primary transition-all" href="finanzas.html">Finanzas</a>
+    <a class="px-3 py-2 rounded-lg text-white/70 hover:bg-primary/10 hover:text-primary transition-all" href="cerebros.html">Cerebros IA</a>
+    <a class="px-3 py-2 rounded-lg text-white/70 hover:bg-primary/10 hover:text-primary transition-all" href="aprobaciones.html">Aprobaciones</a>
+    <a class="px-3 py-2 rounded-lg text-white/70 hover:bg-primary/10 hover:text-primary transition-all" href="onboarding.html">Onboarding</a>
+    <a class="px-3 py-2 rounded-lg bg-primary/10 text-primary" href="agencia.html">📊 Agencia</a>
+    <a class="px-3 py-2 rounded-lg text-white/70 hover:bg-primary/10 hover:text-primary transition-all" href="empleados.html">👥 Equipo</a>
+  </nav>
+</aside>
+
+<div class="lg:ml-64">
+  <header class="hidden md:flex bg-black justify-between items-center h-16 px-8 w-full sticky top-0 z-10 border-b border-white/5">
+    <div class="flex items-center gap-3">
+      <h1 class="text-xl font-extrabold text-white font-headline">Métricas de la Agencia</h1>
+      <div class="flex items-center gap-1.5 text-xs font-bold text-primary px-3 py-1 bg-primary/10 rounded-full">
+        <span class="h-2 w-2 rounded-full bg-primary animate-pulse"></span>
+        Novu 360 — Vista interna
+      </div>
+    </div>
+    <!-- Selector de mes -->
+    <div class="flex items-center gap-3">
+      <input id="mes-selector" type="month" class="bg-[#141414] border border-neutral-700 rounded-lg px-3 py-1.5 text-sm text-white focus:border-primary outline-none"/>
+      <button id="btn-marketerito" class="btn-primary text-sm">
+        <span class="material-symbols-outlined text-base">psychology</span> Consultar Marketerito
+      </button>
+    </div>
+  </header>
+
+  <main class="p-4 md:p-8 space-y-6">
+
+    <!-- KPIs principales -->
+    <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
+      <div class="kpi-card">
+        <div class="kpi-lbl mb-2">Clientes activos</div>
+        <div id="kpi-clientes" class="kpi-val">—</div>
+        <div id="kpi-clientes-trend" class="kpi-trend-up mt-1"></div>
+      </div>
+      <div class="kpi-card">
+        <div class="kpi-lbl mb-2">Ingresos del mes</div>
+        <div id="kpi-ingresos" class="kpi-val" style="color:#00C2A8">—</div>
+        <div id="kpi-ingresos-trend" class="kpi-trend-up mt-1"></div>
+      </div>
+      <div class="kpi-card">
+        <div class="kpi-lbl mb-2">Leads en pipeline</div>
+        <div id="kpi-leads" class="kpi-val" style="color:#eab308">—</div>
+        <div id="kpi-leads-trend" class="kpi-trend-up mt-1"></div>
+      </div>
+      <div class="kpi-card">
+        <div class="kpi-lbl mb-2">Tasa de cierre</div>
+        <div id="kpi-tasa" class="kpi-val" style="color:#22c55e">—</div>
+        <div class="kpi-lbl">leads → clientes</div>
+      </div>
+    </div>
+
+    <!-- Segunda fila de KPIs -->
+    <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
+      <div class="kpi-card">
+        <div class="kpi-lbl mb-2">Tareas vencidas</div>
+        <div id="kpi-tareas" class="kpi-val" style="color:#ef4444">—</div>
+      </div>
+      <div class="kpi-card">
+        <div class="kpi-lbl mb-2">Aprobaciones pendientes</div>
+        <div id="kpi-aprobaciones" class="kpi-val" style="color:#f97316">—</div>
+      </div>
+      <div class="kpi-card">
+        <div class="kpi-lbl mb-2">Pagos vencidos</div>
+        <div id="kpi-pagos" class="kpi-val" style="color:#ef4444">—</div>
+      </div>
+      <div class="kpi-card">
+        <div class="kpi-lbl mb-2">Ticket promedio</div>
+        <div id="kpi-ticket" class="kpi-val">—</div>
+      </div>
+    </div>
+
+    <!-- Salud operativa + Pipeline -->
+    <div class="grid grid-cols-1 lg:grid-cols-2 gap-4">
+
+      <!-- Salud por área -->
+      <div class="content-card">
+        <p class="section-title">Salud Operativa por Área</p>
+        <div class="space-y-3" id="salud-areas">
+          <!-- Generado por JS -->
+        </div>
+      </div>
+
+      <!-- Pipeline de ventas -->
+      <div class="content-card">
+        <p class="section-title">Pipeline Comercial</p>
+        <div id="pipeline-stats">
+          <div class="pipeline-row">
+            <span class="text-sm text-neutral-300">Nuevos</span>
+            <div class="flex items-center gap-3">
+              <div class="w-24 h-1.5 bg-neutral-800 rounded-full"><div id="bar-nuevo" class="bar-fill bg-primary h-full" style="width:0%"></div></div>
+              <span id="cnt-nuevo" class="text-sm font-bold text-white w-6 text-right">0</span>
+            </div>
+          </div>
+          <div class="pipeline-row">
+            <span class="text-sm text-neutral-300">Contactados</span>
+            <div class="flex items-center gap-3">
+              <div class="w-24 h-1.5 bg-neutral-800 rounded-full"><div id="bar-contactado" class="bar-fill bg-orange-400 h-full" style="width:0%"></div></div>
+              <span id="cnt-contactado" class="text-sm font-bold text-white w-6 text-right">0</span>
+            </div>
+          </div>
+          <div class="pipeline-row">
+            <span class="text-sm text-neutral-300">Calificados</span>
+            <div class="flex items-center gap-3">
+              <div class="w-24 h-1.5 bg-neutral-800 rounded-full"><div id="bar-calificado" class="bar-fill bg-blue-400 h-full" style="width:0%"></div></div>
+              <span id="cnt-calificado" class="text-sm font-bold text-white w-6 text-right">0</span>
+            </div>
+          </div>
+          <div class="pipeline-row">
+            <span class="text-sm text-neutral-300">En propuesta</span>
+            <div class="flex items-center gap-3">
+              <div class="w-24 h-1.5 bg-neutral-800 rounded-full"><div id="bar-propuesta" class="bar-fill bg-green-400 h-full" style="width:0%"></div></div>
+              <span id="cnt-propuesta" class="text-sm font-bold text-white w-6 text-right">0</span>
+            </div>
+          </div>
+          <div class="pipeline-row">
+            <span class="text-sm text-neutral-300">Cerrados (mes)</span>
+            <div class="flex items-center gap-3">
+              <div class="w-24 h-1.5 bg-neutral-800 rounded-full"><div id="bar-cerrado" class="bar-fill bg-yellow-400 h-full" style="width:0%"></div></div>
+              <span id="cnt-cerrado" class="text-sm font-bold text-white w-6 text-right">0</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Métricas manuales de la agencia -->
+    <div class="content-card">
+      <p class="section-title">Registro Manual del Mes — Novu 360</p>
+      <p class="text-xs text-neutral-400 mb-4">Datos que no vienen de Supabase automáticamente (gastos, leads de prospección propia, etc.)</p>
+      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+        <div>
+          <label class="form-label">Gastos operativos (MXN)</label>
+          <input id="ag-gastos" class="form-input" type="number" placeholder="Ej. 8000"/>
+        </div>
+        <div>
+          <label class="form-label">Nómina / pagos equipo</label>
+          <input id="ag-nomina" class="form-input" type="number" placeholder="Ej. 15000"/>
+        </div>
+        <div>
+          <label class="form-label">Inversión en herramientas</label>
+          <input id="ag-herramientas" class="form-input" type="number" placeholder="Ej. 2500"/>
+        </div>
+        <div>
+          <label class="form-label">Leads propios generados</label>
+          <input id="ag-leads-propios" class="form-input" type="number" placeholder="Ej. 12"/>
+        </div>
+        <div>
+          <label class="form-label">DMs enviados este mes</label>
+          <input id="ag-dms" class="form-input" type="number" placeholder="Ej. 45"/>
+        </div>
+        <div>
+          <label class="form-label">Sesiones de foto/video (clientes)</label>
+          <input id="ag-sesiones" class="form-input" type="number" placeholder="Ej. 3"/>
+        </div>
+        <div>
+          <label class="form-label">Propuestas enviadas</label>
+          <input id="ag-propuestas" class="form-input" type="number" placeholder="Ej. 5"/>
+        </div>
+        <div>
+          <label class="form-label">Contratos cerrados</label>
+          <input id="ag-contratos" class="form-input" type="number" placeholder="Ej. 2"/>
+        </div>
+      </div>
+      <div class="mt-4">
+        <label class="form-label">Notas del mes</label>
+        <textarea id="ag-notas" class="form-input" rows="2" placeholder="Qué pasó este mes en la agencia, logros, retos, decisiones importantes..."></textarea>
+      </div>
+      <div class="flex justify-end mt-4">
+        <button id="btn-guardar-agencia" class="btn-primary text-sm">
+          <span class="material-symbols-outlined text-base">save</span> Guardar métricas del mes
+        </button>
+      </div>
+    </div>
+
+    <!-- Clientes activos con estado -->
+    <div class="content-card">
+      <p class="section-title">Estado de Clientes Activos</p>
+      <div class="overflow-x-auto">
+        <table class="w-full text-left border-collapse min-w-[500px]">
+          <thead>
+            <tr class="border-b border-neutral-800">
+              <th class="pb-3 text-[10px] font-bold uppercase tracking-widest text-neutral-500">Cliente</th>
+              <th class="pb-3 text-[10px] font-bold uppercase tracking-widest text-neutral-500">Giro</th>
+              <th class="pb-3 text-[10px] font-bold uppercase tracking-widest text-neutral-500">Plan</th>
+              <th class="pb-3 text-[10px] font-bold uppercase tracking-widest text-neutral-500">Estado pago</th>
+              <th class="pb-3 text-[10px] font-bold uppercase tracking-widest text-neutral-500">Tareas</th>
+            </tr>
+          </thead>
+          <tbody id="tabla-clientes">
+            <tr><td colspan="5" class="py-8 text-center text-neutral-500 text-sm">Cargando...</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- Marketerito modal -->
+    <div id="marketerito-modal" class="hidden fixed inset-0 z-50 bg-black/80 flex items-center justify-center p-4">
+      <div class="bg-[#0f0f0f] border border-primary/30 rounded-2xl shadow-2xl w-full max-w-2xl">
+        <div class="flex items-center justify-between px-6 py-4 border-b border-white/5">
+          <div class="flex items-center gap-2">
+            <span class="material-symbols-outlined text-primary">psychology</span>
+            <h3 class="font-headline font-extrabold text-lg text-white">Marketerito — Diagnóstico de Agencia</h3>
+          </div>
+          <button id="marketerito-close" class="text-neutral-400 hover:text-white">
+            <span class="material-symbols-outlined">close</span>
+          </button>
+        </div>
+        <div id="marketerito-content" class="px-6 py-5 text-sm text-neutral-300 leading-relaxed">
+          Analizando métricas de la agencia...
+        </div>
+      </div>
+    </div>
+
+  </main>
+</div>
+
+<script src="app.js" defer></script>
+<script src="global-nav.js" defer></script>
+
+<script>
+document.addEventListener('DOMContentLoaded', async () => {
+
+  function getDB() {
+    if (!window.supabaseClient) throw new Error('Supabase no inicializado');
+    return window.supabaseClient;
+  }
+
+  try {
+    const db = getDB();
+    const { data:{session} } = await db.auth.getSession();
+    if (!session) { window.location.href='index.html'; return; }
+  } catch(e) { console.warn(e); }
+
+  // Mes actual por defecto
+  const mesActual = new Date().toISOString().slice(0,7);
+  document.getElementById('mes-selector').value = mesActual;
+
+  let kpiState = {};
+
+  // ── Cargar KPIs desde Supabase ────────────────────────────
+  async function loadKPIs() {
+    const db = getDB();
+    const mes = document.getElementById('mes-selector').value;
+    const hoy = new Date().toISOString().slice(0,10);
+
+    // Clientes activos
+    const { count: clientes } = await db.from('clientes').select('*',{count:'exact',head:true}).eq('estado','activo');
+    document.getElementById('kpi-clientes').textContent = clientes || 0;
+    kpiState.clientesActivos = clientes || 0;
+
+    // Ingresos del mes (pagos cobrados)
+    const { data: pagos } = await db.from('pagos').select('monto').gte('fecha_pago', mes+'-01').eq('estado','pagado');
+    const ingresos = pagos?.reduce((s,p) => s + Number(p.monto||0), 0) || 0;
+    document.getElementById('kpi-ingresos').textContent = '$' + ingresos.toLocaleString('es-MX');
+    kpiState.ingresosMes = ingresos;
+
+    // Ticket promedio
+    if (clientes && ingresos) {
+      document.getElementById('kpi-ticket').textContent = '$' + Math.round(ingresos/clientes).toLocaleString('es-MX');
+    }
+
+    // Leads en pipeline
+    const { count: leads } = await db.from('leads').select('*',{count:'exact',head:true}).not('etapa','eq','cerrado');
+    document.getElementById('kpi-leads').textContent = leads || 0;
+    kpiState.leadsActivos = leads || 0;
+
+    // Tasa de cierre
+    const { count: totalLeads } = await db.from('leads').select('*',{count:'exact',head:true});
+    const { count: cerrados } = await db.from('leads').select('*',{count:'exact',head:true}).eq('etapa','cerrado');
+    const tasa = totalLeads ? Math.round((cerrados/totalLeads)*100) : 0;
+    document.getElementById('kpi-tasa').textContent = tasa + '%';
+    kpiState.tasaCierre = tasa;
+
+    // Tareas vencidas
+    const { count: tareas } = await db.from('tareas').select('*',{count:'exact',head:true}).lt('fecha_limite',hoy).eq('estado','pendiente');
+    document.getElementById('kpi-tareas').textContent = tareas || 0;
+    kpiState.tareasVencidas = tareas || 0;
+
+    // Aprobaciones
+    const { count: aprobaciones } = await db.from('aprobaciones').select('*',{count:'exact',head:true}).eq('estado','pendiente');
+    document.getElementById('kpi-aprobaciones').textContent = aprobaciones || 0;
+    kpiState.aprobacionesPendientes = aprobaciones || 0;
+
+    // Pagos vencidos
+    const { count: pagosV } = await db.from('pagos').select('*',{count:'exact',head:true}).lt('fecha_pago',hoy).eq('estado','pendiente');
+    document.getElementById('kpi-pagos').textContent = pagosV || 0;
+    kpiState.pagosVencidos = pagosV || 0;
+  }
+
+  // ── Salud operativa por área ──────────────────────────────
+  async function loadSalud() {
+    const db = getDB();
+    const hoy = new Date().toISOString().slice(0,10);
+    const areas = [
+      { id:'ventas',    label:'Ventas',    icon:'trending_up' },
+      { id:'ads',       label:'Ads',       icon:'ads_click' },
+      { id:'community', label:'Community', icon:'forum' },
+      { id:'seo',       label:'SEO',       icon:'search' },
+      { id:'web',       label:'Web',       icon:'language' },
+      { id:'finanzas',  label:'Finanzas',  icon:'payments' },
+    ];
+
+    const container = document.getElementById('salud-areas');
+    const resultados = [];
+
+    for (const area of areas) {
+      const { count: vencidas } = await db.from('tareas').select('*',{count:'exact',head:true})
+        .eq('area', area.id).lt('fecha_limite', hoy).eq('estado','pendiente');
+      const color  = vencidas === 0 ? '#22c55e' : vencidas <= 2 ? '#eab308' : '#ef4444';
+      const estado = vencidas === 0 ? 'Sin tareas vencidas' : `${vencidas} tarea${vencidas>1?'s':''} vencida${vencidas>1?'s':''}`;
+      resultados.push({ ...area, vencidas, color, estado });
+    }
+
+    container.innerHTML = resultados.map(a => `
+      <div class="flex items-center justify-between py-2">
+        <div class="flex items-center gap-3">
+          <span class="material-symbols-outlined text-base" style="color:${a.color}">${a.icon}</span>
+          <span class="text-sm font-semibold text-white">${a.label}</span>
+        </div>
+        <div class="flex items-center gap-2">
+          <span class="text-xs text-neutral-400">${a.estado}</span>
+          <div class="w-2.5 h-2.5 rounded-full" style="background:${a.color};box-shadow:0 0 6px ${a.color}"></div>
+        </div>
+      </div>
+    `).join('');
+
+    kpiState.saludAreas = resultados.reduce((acc, a) => {
+      acc[a.id] = a.vencidas === 0 ? 'verde' : a.vencidas <= 2 ? 'amarillo' : 'rojo';
+      return acc;
+    }, {});
+  }
+
+  // ── Pipeline stats ────────────────────────────────────────
+  async function loadPipeline() {
+    const db = getDB();
+    const { data: leads } = await db.from('leads').select('etapa');
+    if (!leads?.length) return;
+
+    const counts = { nuevo:0, contactado:0, calificado:0, propuesta:0, cerrado:0 };
+    leads.forEach(l => { if (counts[l.etapa] !== undefined) counts[l.etapa]++; });
+    const max = Math.max(...Object.values(counts), 1);
+
+    Object.entries(counts).forEach(([etapa, cnt]) => {
+      const barEl = document.getElementById(`bar-${etapa}`);
+      const cntEl = document.getElementById(`cnt-${etapa}`);
+      if (barEl) barEl.style.width = `${Math.round((cnt/max)*100)}%`;
+      if (cntEl) cntEl.textContent = cnt;
+    });
+  }
+
+  // ── Tabla de clientes ─────────────────────────────────────
+  async function loadTablaClientes() {
+    const db = getDB();
+    const hoy = new Date().toISOString().slice(0,10);
+    const { data: clientes } = await db.from('clientes').select('*').eq('estado','activo').order('fecha_inicio', { ascending: true });
+    const tbody = document.getElementById('tabla-clientes');
+    if (!clientes?.length) {
+      tbody.innerHTML = '<tr><td colspan="5" class="py-8 text-center text-neutral-500 text-sm">Sin clientes activos.</td></tr>';
+      return;
+    }
+    tbody.innerHTML = clientes.map(c => `
+      <tr class="border-b border-neutral-800/50 hover:bg-white/5 cursor-pointer transition-colors"
+          onclick="window.location.href='cliente-expediente.html?id=${c.id}'">
+        <td class="py-3">
+          <div class="flex items-center gap-2">
+            <div class="w-7 h-7 rounded-lg bg-primary/10 flex items-center justify-center text-primary text-xs font-black">${(c.nombre_negocio||'?')[0]}</div>
+            <span class="text-sm font-semibold text-white">${c.nombre_negocio||'—'}</span>
+          </div>
+        </td>
+        <td class="py-3 text-xs text-neutral-400">${c.giro||'—'}</td>
+        <td class="py-3 text-xs text-neutral-400">Completo</td>
+        <td class="py-3">
+          <span class="text-[10px] font-bold uppercase px-2 py-0.5 rounded-full bg-green-400/10 text-green-400 border border-green-400/20">Al día</span>
+        </td>
+        <td class="py-3 text-xs text-neutral-400">—</td>
+      </tr>
+    `).join('');
+  }
+
+  // ── Cargar métricas manuales guardadas ────────────────────
+  async function loadMetricasAgencia() {
+    const db = getDB();
+    const mes = document.getElementById('mes-selector').value;
+    const { data } = await db.from('metricas').select('datos').eq('cliente_id', '00000000-0000-0000-0000-000000000000').eq('area','agencia').eq('periodo', mes).single();
+    if (!data?.datos) return;
+    const d = data.datos;
+    ['gastos','nomina','herramientas','leads-propios','dms','sesiones','propuestas','contratos'].forEach(k => {
+      const el = document.getElementById(`ag-${k}`);
+      if (el && d[k]) el.value = d[k];
+    });
+    if (d.notas) document.getElementById('ag-notas').value = d.notas;
+  }
+
+  // ── Guardar métricas de la agencia ────────────────────────
+  document.getElementById('btn-guardar-agencia').addEventListener('click', async () => {
+    const db = getDB();
+    const mes = document.getElementById('mes-selector').value;
+    const datos = {
+      gastos:        parseFloat(document.getElementById('ag-gastos').value) || 0,
+      nomina:        parseFloat(document.getElementById('ag-nomina').value) || 0,
+      herramientas:  parseFloat(document.getElementById('ag-herramientas').value) || 0,
+      'leads-propios': parseInt(document.getElementById('ag-leads-propios').value) || 0,
+      dms:           parseInt(document.getElementById('ag-dms').value) || 0,
+      sesiones:      parseInt(document.getElementById('ag-sesiones').value) || 0,
+      propuestas:    parseInt(document.getElementById('ag-propuestas').value) || 0,
+      contratos:     parseInt(document.getElementById('ag-contratos').value) || 0,
+      notas:         document.getElementById('ag-notas').value,
+    };
+    // Usamos un cliente_id especial '00000000...' para la agencia misma
+    try {
+      await db.from('metricas').upsert([{
+        cliente_id: '00000000-0000-0000-0000-000000000000',
+        area: 'agencia',
+        periodo: mes,
+        datos,
+        created_at: new Date().toISOString()
+      }], { onConflict:'cliente_id,area,periodo' });
+      alert('Métricas de agencia guardadas ✓');
+    } catch(e) { alert('Error: '+e.message); }
+  });
+
+  // ── Marketerito con Claude API ────────────────────────────
+  document.getElementById('btn-marketerito').addEventListener('click', async () => {
+    const modal = document.getElementById('marketerito-modal');
+    const content = document.getElementById('marketerito-content');
+    modal.classList.remove('hidden');
+    content.innerHTML = '<div class="flex items-center gap-2 text-neutral-400"><div class="ai-loader"><div class="dot" style="background:#00C2A8"></div><div class="dot" style="background:#00C2A8"></div><div class="dot" style="background:#00C2A8"></div></div> Analizando métricas...</div>';
+
+    const KEY = window.CLAUDE_KEY || '';
+    if (!KEY) { content.textContent = 'CLAUDE_KEY no configurada en config.js / Vercel secrets.'; return; }
+
+    const { clientesActivos=0, ingresosMes=0, leadsActivos=0, tareasVencidas=0, pagosVencidos=0, aprobacionesPendientes=0, saludAreas={}, tasaCierre=0 } = kpiState;
+
+    const prompt = `Datos actuales de Novu 360 (agencia de marketing digital CDMX):
+- Clientes activos: ${clientesActivos}
+- Ingresos del mes: $${ingresosMes.toLocaleString('es-MX')} MXN
+- Leads en pipeline: ${leadsActivos}
+- Tasa de cierre: ${tasaCierre}%
+- Tareas vencidas: ${tareasVencidas}
+- Pagos vencidos: ${pagosVencidos}
+- Aprobaciones pendientes: ${aprobacionesPendientes}
+- Salud por área: ${JSON.stringify(saludAreas)}
+
+Analiza estos números y dame los 2-3 cuellos de botella más urgentes con acción inmediata.
+Formato: PROBLEMA → ACCIÓN INMEDIATA. Máximo 150 palabras. Sé específico y directo.`;
+
+    try {
+      const res = await fetch('https://api.anthropic.com/v1/messages', {
+        method:'POST',
+        headers:{
+          'Content-Type':'application/json',
+          'x-api-key': KEY,
+          'anthropic-version':'2023-06-01',
+          'anthropic-dangerous-direct-browser-access':'true'
+        },
+        body: JSON.stringify({
+          model:'claude-sonnet-4-20250514',
+          max_tokens:400,
+          system:'Eres Marketerito, consultor estratégico de Novu 360. Directo, sin rodeos, orientado a resultados reales.',
+          messages:[{ role:'user', content: prompt }]
+        })
+      });
+      const d = await res.json();
+      content.textContent = d.content?.[0]?.text || 'Sin respuesta.';
+    } catch(e) { content.textContent = 'Error: ' + e.message; }
+  });
+
+  document.getElementById('marketerito-close').addEventListener('click', () => {
+    document.getElementById('marketerito-modal').classList.add('hidden');
+  });
+
+  // ── Cambio de mes ─────────────────────────────────────────
+  document.getElementById('mes-selector').addEventListener('change', () => {
+    loadKPIs();
+    loadMetricasAgencia();
+  });
+
+  // ── Init ──────────────────────────────────────────────────
+  await loadKPIs();
+  loadSalud();
+  loadPipeline();
+  loadTablaClientes();
+  loadMetricasAgencia();
+});
+</script>
+
+</body>
+</html>

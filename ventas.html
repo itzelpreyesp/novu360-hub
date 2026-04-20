@@ -187,7 +187,7 @@
   <div class="flex flex-col sm:flex-row gap-3 items-start sm:items-center justify-between">
     <h2 class="text-2xl font-black text-white tracking-tight font-headline">Pipeline Comercial</h2>
     <div class="flex gap-3 w-full sm:w-auto">
-      <a href="prospector-ia.html"
+      <a href="prospector-ia.html" onclick="event.stopPropagation()"
         class="flex-1 sm:flex-none flex items-center justify-center gap-2 bg-white/5 border border-white/10 text-white px-4 py-2 rounded-lg text-sm font-bold hover:bg-white/10 transition-all">
         <span class="material-symbols-outlined text-sm text-primary">auto_awesome</span> Prospector IA
       </a>
@@ -461,7 +461,8 @@ document.addEventListener('DOMContentLoaded', async () => {
       const fecha = lead.created_at ? new Date(lead.created_at).toLocaleDateString('es-MX', { day:'2-digit', month:'short' }) : '—';
 
       return `
-        <tr class="hover:bg-white/5 transition-colors cursor-pointer" data-id="${lead.id}">
+        <tr class="hover:bg-white/5 transition-colors cursor-pointer" data-id="${lead.id}"
+            onclick="window.location.href='lead-expediente.html?id=${lead.id}'">
           <td class="px-6 py-5">
             <div class="flex items-center gap-3">
               <div class="w-10 h-10 rounded-lg ${colores[colorIdx]} border border-white/10 flex items-center justify-center font-bold text-sm shrink-0">${inicial}</div>
@@ -481,8 +482,8 @@ document.addEventListener('DOMContentLoaded', async () => {
           </td>
           <td class="px-6 py-5"><span class="text-xs text-slate-500">${fecha}</span></td>
           <td class="px-6 py-5 text-right">
-            <button onclick="editLead('${lead.id}')" class="text-xs text-slate-400 hover:text-primary border border-slate-700 hover:border-primary px-2 py-1 rounded transition mr-2">
-              Editar
+            <button onclick="event.stopPropagation(); window.location.href='lead-expediente.html?id=${lead.id}'" class="text-xs text-slate-400 hover:text-primary border border-slate-700 hover:border-primary px-2 py-1 rounded transition mr-2">
+              Ver expediente
             </button>
             <button onclick="deleteLead('${lead.id}')" class="text-xs text-slate-400 hover:text-red-400 border border-slate-700 hover:border-red-400 px-2 py-1 rounded transition">
               Eliminar

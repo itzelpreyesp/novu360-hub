@@ -1,0 +1,884 @@
+<!DOCTYPE html>
+<html class="dark" lang="es">
+<head>
+  <meta charset="utf-8"/>
+  <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+  <title>Novu 360 · Expediente Lead</title>
+  <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;700;800&family=Inter:wght@400;500;600&display=swap" rel="stylesheet"/>
+  <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet"/>
+  <script>
+    tailwind.config = {
+      darkMode:"class",
+      theme:{ extend:{ colors:{
+        primary:"#00C2A8","on-primary":"#00382f",
+        surface:"#000","on-surface":"#dde4e1","on-surface-variant":"#bbcac4",
+        error:"#ffb4ab",background:"#000"
+      }, fontFamily:{ headline:["Manrope"],body:["Inter"] } } }
+    }
+  </script>
+  <link rel="stylesheet" href="style.css">
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script src="config.js"></script>
+  <script src="auth.js"></script>
+  <script>checkAuth();</script>
+  <style>
+    .form-label{display:block;margin-bottom:5px;font-size:.68rem;font-weight:700;text-transform:uppercase;letter-spacing:.18em;color:#c9c9c9}
+    .form-input{width:100%;border-radius:6px;border:1px solid #242424;background:#141414;padding:9px 12px;font-size:.875rem;color:#f5f5f5;outline:none;font-family:'Inter',sans-serif;transition:border-color .15s}
+    .form-input:focus{border-color:#00C2A8;box-shadow:0 0 0 2px rgba(0,194,168,.12)}
+    .form-input option{background:#141414}
+    textarea.form-input{resize:vertical}
+    .btn-primary{display:inline-flex;align-items:center;gap:6px;background:#00C2A8;color:#000;font-weight:700;font-size:.85rem;padding:9px 16px;border-radius:8px;border:none;cursor:pointer;transition:filter .15s;font-family:'Manrope',sans-serif}
+    .btn-primary:hover{filter:brightness(1.1)}
+    .btn-primary:disabled{opacity:.5;cursor:not-allowed}
+    .btn-ghost{display:inline-flex;align-items:center;gap:6px;background:transparent;color:#8a8a8a;font-weight:600;font-size:.85rem;padding:9px 14px;border-radius:8px;border:1px solid #242424;cursor:pointer;transition:all .15s}
+    .btn-ghost:hover{border-color:#00C2A8;color:#00C2A8}
+    .tab-btn{padding:8px 16px;border-radius:8px;font-size:.8rem;font-weight:700;border:1px solid #242424;background:transparent;color:#8a8a8a;cursor:pointer;transition:all .15s;white-space:nowrap}
+    .tab-btn.active{background:#00C2A8;color:#000;border-color:#00C2A8}
+    .tab-panel{display:none}
+    .tab-panel.active{display:block}
+    .content-card{background:#0f0f0f;border:1px solid #242424;border-radius:12px;padding:20px}
+    .content-card-title{font-size:.7rem;font-weight:700;text-transform:uppercase;letter-spacing:.2em;color:#00C2A8;margin-bottom:14px}
+    .etapa-badge{font-size:.65rem;font-weight:700;text-transform:uppercase;padding:3px 10px;border-radius:20px;letter-spacing:.1em}
+    .etapa-nuevo{background:rgba(0,194,168,.15);color:#00C2A8;border:1px solid rgba(0,194,168,.3)}
+    .etapa-contactado{background:rgba(255,141,105,.15);color:#FF8D69;border:1px solid rgba(255,141,105,.3)}
+    .etapa-calificado{background:rgba(99,179,237,.15);color:#63B3ED;border:1px solid rgba(99,179,237,.3)}
+    .etapa-propuesta{background:rgba(154,230,180,.15);color:#68D391;border:1px solid rgba(154,230,180,.3)}
+    .etapa-cerrado{background:rgba(246,173,85,.15);color:#F6AD55;border:1px solid rgba(246,173,85,.3)}
+    .ai-result{background:#141414;border:1px solid rgba(0,194,168,.2);border-radius:10px;padding:14px;margin-top:10px}
+    .ai-result p{font-size:.875rem;color:#c9c9c9;line-height:1.6;white-space:pre-wrap}
+    .msg-bubble{padding:10px 14px;border-radius:10px;max-width:85%;font-size:.85rem;line-height:1.5}
+    .msg-out{background:rgba(0,194,168,.12);border:1px solid rgba(0,194,168,.2);color:#c9c9c9;margin-left:auto}
+    .msg-in{background:#1b1b1b;border:1px solid #242424;color:#c9c9c9}
+    .preview-thumb{width:80px;height:80px;border-radius:8px;object-fit:cover;border:1px solid #242424}
+    .ai-loader{display:inline-flex;align-items:center;gap:5px}
+    .ai-loader .dot{width:5px;height:5px;border-radius:50%;background:#000;animation:dotP 1.2s ease-in-out infinite}
+    .ai-loader .dot:nth-child(2){animation-delay:.2s}
+    .ai-loader .dot:nth-child(3){animation-delay:.4s}
+    @keyframes dotP{0%,100%{opacity:.3;transform:scale(.8)}50%{opacity:1;transform:scale(1)}}
+    @media(max-width:1023px){main{padding-top:56px!important;padding-bottom:80px!important}}
+  </style>
+</head>
+<body class="bg-black text-on-surface antialiased overflow-x-hidden">
+
+<!-- Sidebar desktop -->
+<aside class="hidden lg:flex lg:flex-col w-64 bg-[#0a0a0a] border-r border-white/5 px-4 py-6 fixed top-0 left-0 h-full z-40">
+  <a class="font-headline text-2xl font-extrabold text-primary tracking-tight mb-8" href="dashboard.html">Novu 360</a>
+  <nav class="flex flex-col gap-1 text-sm font-semibold">
+    <a class="px-3 py-2 rounded-lg text-white/70 hover:bg-primary/10 hover:text-primary transition-all" href="dashboard.html">Dashboard</a>
+    <a class="px-3 py-2 rounded-lg text-white/70 hover:bg-primary/10 hover:text-primary transition-all" href="clientes.html">Clientes</a>
+    <a class="px-3 py-2 rounded-lg bg-primary/10 text-primary" href="ventas.html">Ventas</a>
+    <a class="px-3 py-2 rounded-lg text-white/70 hover:bg-primary/10 hover:text-primary transition-all" href="ads.html">Ads / Meta</a>
+    <a class="px-3 py-2 rounded-lg text-white/70 hover:bg-primary/10 hover:text-primary transition-all" href="community.html">Community</a>
+    <a class="px-3 py-2 rounded-lg text-white/70 hover:bg-primary/10 hover:text-primary transition-all" href="seo.html">SEO</a>
+    <a class="px-3 py-2 rounded-lg text-white/70 hover:bg-primary/10 hover:text-primary transition-all" href="web.html">Web</a>
+    <a class="px-3 py-2 rounded-lg text-white/70 hover:bg-primary/10 hover:text-primary transition-all" href="finanzas.html">Finanzas</a>
+    <a class="px-3 py-2 rounded-lg text-white/70 hover:bg-primary/10 hover:text-primary transition-all" href="cerebros.html">Cerebros IA</a>
+    <a class="px-3 py-2 rounded-lg text-white/70 hover:bg-primary/10 hover:text-primary transition-all" href="aprobaciones.html">Aprobaciones</a>
+    <a class="px-3 py-2 rounded-lg text-white/70 hover:bg-primary/10 hover:text-primary transition-all" href="onboarding.html">Onboarding</a>
+    <a class="px-3 py-2 rounded-lg text-white/70 hover:bg-primary/10 hover:text-primary transition-all" href="agencia.html">📊 Agencia</a>
+    <a class="px-3 py-2 rounded-lg text-white/70 hover:bg-primary/10 hover:text-primary transition-all" href="empleados.html">👥 Equipo</a>
+  </nav>
+</aside>
+
+<div class="lg:ml-64">
+
+  <!-- Header -->
+  <header class="hidden md:flex bg-black justify-between items-center h-16 px-8 w-full sticky top-0 z-10 border-b border-white/5">
+    <div class="flex items-center gap-3">
+      <a href="ventas.html" class="flex items-center gap-1.5 text-sm text-neutral-400 hover:text-primary transition">
+        <span class="material-symbols-outlined text-base">arrow_back</span> Ventas
+      </a>
+      <span class="text-neutral-600">/</span>
+      <h1 id="header-nombre" class="text-base font-bold text-white font-headline">Cargando...</h1>
+      <span id="header-etapa" class="etapa-badge etapa-nuevo">nuevo</span>
+    </div>
+    <div class="flex items-center gap-3">
+      <button id="btn-convertir" class="hidden items-center gap-1.5 text-sm bg-primary/10 text-primary border border-primary/30 hover:bg-primary hover:text-black px-3 py-1.5 rounded-lg transition font-bold">
+        <span class="material-symbols-outlined text-base">workspace_premium</span> Convertir a cliente
+      </button>
+      <button id="btn-guardar-lead" class="btn-primary text-sm">
+        <span class="material-symbols-outlined text-base">save</span> Guardar cambios
+      </button>
+    </div>
+  </header>
+
+  <main class="p-4 md:p-8 space-y-5">
+
+    <!-- Info rápida del lead -->
+    <div class="content-card">
+      <div class="flex flex-col sm:flex-row sm:items-center gap-4">
+        <div id="lead-inicial" class="w-14 h-14 rounded-2xl bg-primary/10 border border-primary/20 flex items-center justify-center font-black text-2xl text-primary shrink-0">?</div>
+        <div class="flex-1">
+          <div class="flex flex-wrap items-center gap-2 mb-1">
+            <h2 id="lead-nombre" class="font-headline text-xl font-black text-white">Cargando...</h2>
+            <span id="lead-etapa-badge" class="etapa-badge etapa-nuevo">nuevo</span>
+          </div>
+          <p id="lead-subtitulo" class="text-sm text-neutral-400"></p>
+        </div>
+        <div class="flex gap-2 flex-wrap">
+          <a id="link-ig" href="#" target="_blank" class="flex items-center gap-1 text-xs text-neutral-400 hover:text-primary border border-neutral-700 hover:border-primary px-3 py-1.5 rounded-lg transition">
+            <span class="material-symbols-outlined text-sm">photo_camera</span> Instagram
+          </a>
+          <a id="link-wa" href="#" target="_blank" class="flex items-center gap-1 text-xs text-neutral-400 hover:text-primary border border-neutral-700 hover:border-primary px-3 py-1.5 rounded-lg transition">
+            <span class="material-symbols-outlined text-sm">chat</span> WhatsApp
+          </a>
+        </div>
+      </div>
+    </div>
+
+    <!-- Tabs -->
+    <div class="flex gap-2 overflow-x-auto pb-1 no-scrollbar">
+      <button class="tab-btn active" data-tab="datos">📋 Datos</button>
+      <button class="tab-btn" data-tab="mensajes">💬 Mensajes</button>
+      <button class="tab-btn" data-tab="analisis">🧠 Análisis IA</button>
+      <button class="tab-btn" data-tab="capturas">📸 Capturas</button>
+      <button class="tab-btn" data-tab="pitch">🎤 Pitch</button>
+    </div>
+
+    <!-- TAB: DATOS -->
+    <div id="tab-datos" class="tab-panel active space-y-4">
+      <div class="grid grid-cols-1 lg:grid-cols-2 gap-4">
+
+        <div class="content-card space-y-4">
+          <p class="content-card-title">Información del prospecto</p>
+          <div>
+            <label class="form-label">Nombre del negocio *</label>
+            <input id="f-nombre" class="form-input" type="text" placeholder="Restaurante Roma Norte"/>
+          </div>
+          <div class="grid grid-cols-2 gap-3">
+            <div>
+              <label class="form-label">Giro *</label>
+              <select id="f-giro" class="form-input">
+                <option value="">Selecciona...</option>
+                <option>Restaurante</option><option>Gimnasio</option>
+                <option>Clínica / Consultorio</option><option>Estética / Spa</option>
+                <option>Tienda / Retail</option><option>Servicios Profesionales</option>
+                <option>E-commerce</option><option>Educación</option>
+                <option>Inmobiliaria</option><option>Otro</option>
+              </select>
+            </div>
+            <div>
+              <label class="form-label">Ciudad *</label>
+              <input id="f-ciudad" class="form-input" type="text" placeholder="CDMX"/>
+            </div>
+          </div>
+          <div class="grid grid-cols-2 gap-3">
+            <div>
+              <label class="form-label">Instagram</label>
+              <input id="f-instagram" class="form-input" type="text" placeholder="@negocio"/>
+            </div>
+            <div>
+              <label class="form-label">Teléfono</label>
+              <input id="f-telefono" class="form-input" type="tel" placeholder="55 1234 5678"/>
+            </div>
+          </div>
+          <div>
+            <label class="form-label">Nombre del contacto (dueño)</label>
+            <input id="f-contacto" class="form-input" type="text" placeholder="Nombre del dueño o encargado"/>
+          </div>
+        </div>
+
+        <div class="content-card space-y-4">
+          <p class="content-card-title">Estado y seguimiento</p>
+          <div>
+            <label class="form-label">Etapa en el pipeline</label>
+            <select id="f-etapa" class="form-input">
+              <option value="nuevo">Nuevo — sin contactar</option>
+              <option value="contactado">Contactado — DM enviado</option>
+              <option value="calificado">Calificado — hay interés real</option>
+              <option value="propuesta">Propuesta — recibió el pitch</option>
+              <option value="cerrado">Cerrado — firmó contrato</option>
+            </select>
+          </div>
+          <div>
+            <label class="form-label">Origen del lead</label>
+            <select id="f-origen" class="form-input">
+              <option value="instagram_dm">Instagram DM</option>
+              <option value="referido">Referido</option>
+              <option value="google">Google</option>
+              <option value="facebook">Facebook</option>
+              <option value="evento">Evento / networking</option>
+              <option value="otro">Otro</option>
+            </select>
+          </div>
+          <div>
+            <label class="form-label">Próxima acción</label>
+            <input id="f-proxima-accion" class="form-input" type="text" placeholder="Ej. Llamar el lunes 28, Enviar propuesta"/>
+          </div>
+          <div>
+            <label class="form-label">Fecha próxima acción</label>
+            <input id="f-fecha-accion" class="form-input" type="date"/>
+          </div>
+          <div>
+            <label class="form-label">Notas generales</label>
+            <textarea id="f-notas" class="form-input" rows="3" placeholder="¿Cómo llegó el lead? ¿Qué sabe de nosotros? ¿Qué objeciones tiene?"></textarea>
+          </div>
+          <div class="flex justify-end">
+            <button id="btn-guardar-datos" class="btn-primary text-sm">
+              <span class="material-symbols-outlined text-base">save</span> Guardar datos
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- TAB: MENSAJES -->
+    <div id="tab-mensajes" class="tab-panel space-y-4">
+      <div class="content-card">
+        <p class="content-card-title">Historial de mensajes</p>
+        <div id="mensajes-lista" class="space-y-3 max-h-96 overflow-y-auto mb-4">
+          <p class="text-sm text-neutral-500 text-center py-8">Sin mensajes registrados.</p>
+        </div>
+        <!-- Nuevo mensaje -->
+        <div class="border-t border-neutral-800 pt-4">
+          <label class="form-label">Registrar nuevo mensaje</label>
+          <div class="grid grid-cols-1 sm:grid-cols-3 gap-2 mb-2">
+            <select id="msg-canal" class="form-input text-sm">
+              <option value="instagram">Instagram DM</option>
+              <option value="whatsapp">WhatsApp</option>
+              <option value="email">Email</option>
+              <option value="llamada">Llamada</option>
+              <option value="reunion">Reunión</option>
+            </select>
+            <select id="msg-tipo" class="form-input text-sm">
+              <option value="enviado">Enviado por nosotros</option>
+              <option value="recibido">Recibido del prospecto</option>
+            </select>
+            <input id="msg-fecha" class="form-input text-sm" type="date"/>
+          </div>
+          <textarea id="msg-contenido" class="form-input text-sm mb-2" rows="3" placeholder="Escribe o pega el contenido del mensaje..."></textarea>
+          <div class="flex justify-end">
+            <button id="btn-guardar-msg" class="btn-primary text-sm">
+              <span class="material-symbols-outlined text-base">send</span> Registrar mensaje
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- TAB: ANÁLISIS IA -->
+    <div id="tab-analisis" class="tab-panel space-y-4">
+
+      <!-- Investigador Emocional -->
+      <div class="content-card">
+        <div class="flex items-center justify-between mb-3">
+          <div>
+            <p class="content-card-title" style="margin-bottom:2px">🧠 Investigador Emocional</p>
+            <p class="text-xs text-neutral-500">Perfil de dolores, deseos y ángulo de entrada</p>
+          </div>
+          <button id="btn-gen-perfil" class="btn-primary text-sm">
+            <span class="material-symbols-outlined text-base">auto_awesome</span> Analizar
+          </button>
+        </div>
+        <div id="result-perfil" class="ai-result">
+          <p id="text-perfil" class="text-sm text-neutral-500 italic">Sin análisis generado aún. Haz clic en "Analizar" para generar.</p>
+        </div>
+        <div class="flex justify-end mt-2">
+          <button onclick="copiar('text-perfil')" class="text-xs text-neutral-400 hover:text-primary border border-neutral-700 hover:border-primary px-2.5 py-1 rounded transition flex items-center gap-1">
+            <span class="material-symbols-outlined text-xs">content_copy</span> Copiar
+          </button>
+        </div>
+      </div>
+
+      <!-- Diego SRI -->
+      <div class="content-card">
+        <div class="flex items-center justify-between mb-3">
+          <div>
+            <p class="content-card-title" style="margin-bottom:2px">🎯 Diego SRI — Auditor de conversación</p>
+            <p class="text-xs text-neutral-500">Analiza la conversación existente por las 4 fases del SRI</p>
+          </div>
+          <button id="btn-gen-diego" class="btn-primary text-sm">
+            <span class="material-symbols-outlined text-base">analytics</span> Auditar
+          </button>
+        </div>
+        <textarea id="input-diego" class="form-input text-sm mb-3" rows="4" placeholder="Pega aquí la conversación de DM para auditar con el Sistema de Recalificación Inversa..."></textarea>
+        <div id="result-diego" class="ai-result">
+          <p id="text-diego" class="text-sm text-neutral-500 italic">Sin auditoría generada aún.</p>
+        </div>
+        <div class="flex justify-end mt-2">
+          <button onclick="copiar('text-diego')" class="text-xs text-neutral-400 hover:text-primary border border-neutral-700 hover:border-primary px-2.5 py-1 rounded transition flex items-center gap-1">
+            <span class="material-symbols-outlined text-xs">content_copy</span> Copiar
+          </button>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- TAB: CAPTURAS -->
+    <div id="tab-capturas" class="tab-panel space-y-4">
+      <div class="content-card">
+        <p class="content-card-title">Capturas del prospecto</p>
+        <p class="text-xs text-neutral-400 mb-4">Imágenes de su Instagram, Google Maps, Facebook o sitio web usadas para el análisis.</p>
+
+        <!-- Upload zone -->
+        <div id="upload-zone" class="border-2 border-dashed border-neutral-700 rounded-xl p-8 text-center cursor-pointer hover:border-primary transition mb-4">
+          <input type="file" id="file-input" accept="image/*" multiple class="hidden"/>
+          <span class="material-symbols-outlined text-3xl text-neutral-500 mb-2 block">cloud_upload</span>
+          <p class="text-sm text-neutral-300 font-semibold">Arrastra imágenes aquí o haz clic para seleccionar</p>
+          <p class="text-xs text-neutral-500 mt-1">PNG, JPG, WEBP — múltiples archivos</p>
+          <button type="button" onclick="document.getElementById('file-input').click()"
+            class="mt-3 px-4 py-1.5 text-sm border border-neutral-600 text-neutral-300 hover:border-primary hover:text-primary rounded-lg transition">
+            Seleccionar archivos
+          </button>
+        </div>
+
+        <!-- Fuente selector -->
+        <div class="flex flex-wrap gap-2 mb-4">
+          <button class="src-btn active px-3 py-1 rounded-full text-xs font-bold border border-primary bg-primary/10 text-primary transition" data-src="Instagram">📸 Instagram</button>
+          <button class="src-btn px-3 py-1 rounded-full text-xs font-bold border border-neutral-700 text-neutral-400 hover:border-primary hover:text-primary transition" data-src="Facebook">👥 Facebook</button>
+          <button class="src-btn px-3 py-1 rounded-full text-xs font-bold border border-neutral-700 text-neutral-400 hover:border-primary hover:text-primary transition" data-src="Google Maps">📍 Maps</button>
+          <button class="src-btn px-3 py-1 rounded-full text-xs font-bold border border-neutral-700 text-neutral-400 hover:border-primary hover:text-primary transition" data-src="Web">🌐 Web</button>
+          <button class="src-btn px-3 py-1 rounded-full text-xs font-bold border border-neutral-700 text-neutral-400 hover:border-primary hover:text-primary transition" data-src="TikTok">🎵 TikTok</button>
+        </div>
+
+        <!-- Grid de previews -->
+        <div id="capturas-grid" class="grid grid-cols-3 sm:grid-cols-4 lg:grid-cols-6 gap-3">
+          <p class="col-span-full text-sm text-neutral-500 text-center py-6">Sin capturas subidas.</p>
+        </div>
+
+        <!-- Botón analizar con Vision -->
+        <div class="flex justify-between items-center mt-4 pt-4 border-t border-neutral-800">
+          <p class="text-xs text-neutral-500" id="capturas-count">0 capturas</p>
+          <button id="btn-analizar-capturas" class="btn-primary text-sm">
+            <span class="material-symbols-outlined text-base">psychology</span> Analizar capturas con Claude Vision
+          </button>
+        </div>
+        <div id="result-capturas" class="ai-result hidden mt-3">
+          <p class="text-[10px] font-bold uppercase tracking-widest text-primary mb-2">Análisis visual del prospecto</p>
+          <p id="text-capturas" class="text-sm text-neutral-300 whitespace-pre-wrap"></p>
+        </div>
+      </div>
+    </div>
+
+    <!-- TAB: PITCH -->
+    <div id="tab-pitch" class="tab-panel space-y-4">
+      <div class="content-card">
+        <div class="flex items-center justify-between mb-3">
+          <div>
+            <p class="content-card-title" style="margin-bottom:2px">🎤 Maestra del Pitch</p>
+            <p class="text-xs text-neutral-500">Pitch personalizado de 5-8 min para este prospecto</p>
+          </div>
+          <button id="btn-gen-pitch" class="btn-primary text-sm">
+            <span class="material-symbols-outlined text-base">auto_awesome</span> Generar pitch
+          </button>
+        </div>
+        <div id="result-pitch" class="ai-result">
+          <p id="text-pitch" class="text-sm text-neutral-500 italic">Sin pitch generado aún. Completa primero los datos del prospecto.</p>
+        </div>
+        <div class="flex justify-end mt-2">
+          <button onclick="copiar('text-pitch')" class="text-xs text-neutral-400 hover:text-primary border border-neutral-700 hover:border-primary px-2.5 py-1 rounded transition flex items-center gap-1">
+            <span class="material-symbols-outlined text-xs">content_copy</span> Copiar pitch
+          </button>
+        </div>
+      </div>
+
+      <!-- Primer DM generado -->
+      <div class="content-card">
+        <div class="flex items-center justify-between mb-3">
+          <div>
+            <p class="content-card-title" style="margin-bottom:2px">💬 Appointment Setter</p>
+            <p class="text-xs text-neutral-500">Mensaje DM de primer contacto (máx. 2 líneas)</p>
+          </div>
+          <button id="btn-gen-dm" class="btn-primary text-sm">
+            <span class="material-symbols-outlined text-base">send</span> Generar DM
+          </button>
+        </div>
+        <div id="result-dm" class="ai-result">
+          <p id="text-dm" class="text-sm text-neutral-500 italic">Sin mensaje generado.</p>
+        </div>
+        <div class="flex justify-end mt-2 gap-2">
+          <button onclick="copiar('text-dm')" class="text-xs text-neutral-400 hover:text-primary border border-neutral-700 hover:border-primary px-2.5 py-1 rounded transition flex items-center gap-1">
+            <span class="material-symbols-outlined text-xs">content_copy</span> Copiar
+          </button>
+          <button id="btn-registrar-dm" class="text-xs text-primary border border-primary/30 hover:bg-primary/10 px-2.5 py-1 rounded transition flex items-center gap-1">
+            <span class="material-symbols-outlined text-xs">save</span> Guardar en mensajes
+          </button>
+        </div>
+      </div>
+    </div>
+
+  </main>
+</div>
+
+<script src="app.js" defer></script>
+<script src="global-nav.js" defer></script>
+
+<script>
+document.addEventListener('DOMContentLoaded', async () => {
+
+  function getDB() {
+    if (!window.supabaseClient) throw new Error('Supabase no inicializado');
+    return window.supabaseClient;
+  }
+
+  function getLeadId() {
+    return new URLSearchParams(window.location.search).get('id');
+  }
+
+  // ── Claude API ────────────────────────────────────────────
+  async function callClaude(system, user, images = []) {
+    const KEY = window.CLAUDE_KEY || '';
+    if (!KEY) throw new Error('CLAUDE_KEY no configurada');
+    let content = [];
+    if (images.length > 0) {
+      images.forEach(img => {
+        const b64 = img.dataUrl.split(',')[1];
+        const mt  = img.dataUrl.split(';')[0].split(':')[1] || 'image/jpeg';
+        content.push({ type:'image', source:{ type:'base64', media_type:mt, data:b64 } });
+      });
+      content.push({ type:'text', text:`Fuentes: ${images.map(i=>i.source).join(', ')}\n\n${user}` });
+    } else {
+      content = user;
+    }
+    const res = await fetch('https://api.anthropic.com/v1/messages', {
+      method:'POST',
+      headers:{
+        'Content-Type':'application/json',
+        'x-api-key': KEY,
+        'anthropic-version':'2023-06-01',
+        'anthropic-dangerous-direct-browser-access':'true'
+      },
+      body: JSON.stringify({
+        model:'claude-sonnet-4-20250514',
+        max_tokens:1024,
+        system, messages:[{ role:'user', content }]
+      })
+    });
+    const d = await res.json();
+    if (d.error) throw new Error(d.error.message);
+    return d.content?.[0]?.text || '';
+  }
+
+  // ── Auth & Load ───────────────────────────────────────────
+  const leadId = getLeadId();
+  if (!leadId) { window.location.href = 'ventas.html'; return; }
+
+  try {
+    const db = getDB();
+    const { data:{session} } = await db.auth.getSession();
+    if (!session) { window.location.href = 'index.html'; return; }
+  } catch(e) { console.warn(e); }
+
+  let leadData = {};
+  let uploadedFiles = [];
+  let currentSource = 'Instagram';
+
+  async function loadLead() {
+    const db = getDB();
+    const { data: l } = await db.from('leads').select('*').eq('id', leadId).single();
+    if (!l) { window.location.href = 'ventas.html'; return; }
+    leadData = l;
+
+    const inicial = (l.nombre_negocio || '?')[0].toUpperCase();
+    document.getElementById('lead-inicial').textContent = inicial;
+    document.getElementById('lead-nombre').textContent = l.nombre_negocio || '—';
+    document.getElementById('header-nombre').textContent = l.nombre_negocio || '—';
+    document.getElementById('lead-subtitulo').textContent = `${l.giro||'—'} · ${l.ciudad||'—'}`;
+
+    const etapaEl = [document.getElementById('lead-etapa-badge'), document.getElementById('header-etapa')];
+    etapaEl.forEach(el => {
+      if (!el) return;
+      el.textContent = l.etapa || 'nuevo';
+      el.className = `etapa-badge etapa-${l.etapa||'nuevo'}`;
+    });
+
+    if (l.etapa === 'cerrado') {
+      document.getElementById('btn-convertir').classList.remove('hidden');
+      document.getElementById('btn-convertir').classList.add('flex');
+    }
+
+    // Links
+    if (l.instagram) document.getElementById('link-ig').href = `https://instagram.com/${l.instagram.replace('@','')}`;
+    if (l.telefono) document.getElementById('link-wa').href = `https://wa.me/52${l.telefono.replace(/\D/g,'')}`;
+
+    // Llenar formulario
+    document.getElementById('f-nombre').value   = l.nombre_negocio || '';
+    document.getElementById('f-giro').value     = l.giro || '';
+    document.getElementById('f-ciudad').value   = l.ciudad || '';
+    document.getElementById('f-instagram').value= l.instagram || '';
+    document.getElementById('f-telefono').value = l.telefono || '';
+    document.getElementById('f-contacto').value = l.contacto || '';
+    document.getElementById('f-etapa').value    = l.etapa || 'nuevo';
+    document.getElementById('f-notas').value    = l.notas || '';
+    if (l.origen) document.getElementById('f-origen').value = l.origen;
+  }
+
+  async function loadAnalisis() {
+    const db = getDB();
+    const { data } = await db.from('analisis_lead').select('*').eq('lead_id', leadId).order('created_at', { ascending: false });
+    if (!data?.length) return;
+
+    data.forEach(a => {
+      if (a.tipo === 'investigador_emocional') {
+        document.getElementById('text-perfil').textContent = a.resultado;
+        document.getElementById('text-perfil').classList.remove('italic', 'text-neutral-500');
+      }
+      if (a.tipo === 'diego_sri') {
+        document.getElementById('text-diego').textContent = a.resultado;
+        document.getElementById('text-diego').classList.remove('italic', 'text-neutral-500');
+      }
+      if (a.tipo === 'pitch') {
+        document.getElementById('text-pitch').textContent = a.resultado;
+        document.getElementById('text-pitch').classList.remove('italic', 'text-neutral-500');
+      }
+    });
+  }
+
+  async function loadMensajes() {
+    const db = getDB();
+    const { data } = await db.from('mensajes_lead').select('*').eq('lead_id', leadId).order('created_at', { ascending: true });
+    const lista = document.getElementById('mensajes-lista');
+    if (!data?.length) return;
+
+    const iconos = { instagram:'📸', whatsapp:'💬', email:'📧', llamada:'📞', reunion:'🤝' };
+    lista.innerHTML = data.map(m => {
+      const esNuestro = m.tipo === 'primer_contacto' || m.tipo === 'seguimiento' || m.estado === 'enviado' || m.tipo === 'generado';
+      const fecha = m.created_at ? new Date(m.created_at).toLocaleDateString('es-MX',{day:'2-digit',month:'short'}) : '';
+      return `
+        <div class="flex flex-col ${esNuestro ? 'items-end' : 'items-start'}">
+          <div class="flex items-center gap-1.5 mb-1">
+            <span class="text-[10px] text-neutral-500">${iconos[m.canal||'instagram']||'💬'} ${m.canal||'instagram'} · ${fecha}</span>
+            <span class="text-[10px] font-bold uppercase px-1.5 py-0.5 rounded ${esNuestro ? 'bg-primary/10 text-primary' : 'bg-neutral-800 text-neutral-400'}">${m.tipo||'mensaje'}</span>
+          </div>
+          <div class="msg-bubble ${esNuestro ? 'msg-out' : 'msg-in'}">${m.contenido}</div>
+        </div>
+      `;
+    }).join('');
+    lista.scrollTop = lista.scrollHeight;
+  }
+
+  // ── Tabs ──────────────────────────────────────────────────
+  document.querySelectorAll('.tab-btn[data-tab]').forEach(btn => {
+    btn.addEventListener('click', () => {
+      document.querySelectorAll('.tab-btn[data-tab]').forEach(b => b.classList.remove('active'));
+      document.querySelectorAll('.tab-panel').forEach(p => p.classList.remove('active'));
+      btn.classList.add('active');
+      document.getElementById('tab-' + btn.dataset.tab).classList.add('active');
+    });
+  });
+
+  // ── Guardar datos del lead ────────────────────────────────
+  async function guardarDatos() {
+    const db = getDB();
+    const etapa = document.getElementById('f-etapa').value;
+    const data = {
+      nombre_negocio: document.getElementById('f-nombre').value.trim(),
+      giro:       document.getElementById('f-giro').value,
+      ciudad:     document.getElementById('f-ciudad').value.trim(),
+      instagram:  document.getElementById('f-instagram').value.trim(),
+      telefono:   document.getElementById('f-telefono').value.trim(),
+      contacto:   document.getElementById('f-contacto').value.trim(),
+      etapa,
+      notas:      document.getElementById('f-notas').value.trim(),
+    };
+    await db.from('leads').update(data).eq('id', leadId);
+
+    // Actualizar badge de etapa
+    [document.getElementById('lead-etapa-badge'), document.getElementById('header-etapa')].forEach(el => {
+      if (el) { el.textContent = etapa; el.className = `etapa-badge etapa-${etapa}`; }
+    });
+
+    if (etapa === 'cerrado') {
+      document.getElementById('btn-convertir').classList.remove('hidden');
+      document.getElementById('btn-convertir').classList.add('flex');
+    }
+
+    return data;
+  }
+
+  document.getElementById('btn-guardar-datos').addEventListener('click', async () => {
+    const btn = document.getElementById('btn-guardar-datos');
+    btn.disabled = true; btn.textContent = 'Guardando...';
+    try { await guardarDatos(); btn.innerHTML = '✓ Guardado'; setTimeout(() => { btn.innerHTML = '<span class="material-symbols-outlined text-base">save</span> Guardar datos'; btn.disabled=false; }, 2000); }
+    catch(e) { alert('Error: '+e.message); btn.disabled=false; btn.innerHTML='<span class="material-symbols-outlined text-base">save</span> Guardar datos'; }
+  });
+
+  document.getElementById('btn-guardar-lead').addEventListener('click', async () => {
+    const btn = document.getElementById('btn-guardar-lead');
+    btn.disabled=true; btn.textContent='Guardando...';
+    try { await guardarDatos(); btn.innerHTML='✓ Guardado'; setTimeout(()=>{ btn.innerHTML='<span class="material-symbols-outlined text-base">save</span> Guardar cambios'; btn.disabled=false; },2000); }
+    catch(e) { alert('Error: '+e.message); btn.disabled=false; btn.innerHTML='<span class="material-symbols-outlined text-base">save</span> Guardar cambios'; }
+  });
+
+  // ── Registrar mensaje ─────────────────────────────────────
+  document.getElementById('btn-guardar-msg').addEventListener('click', async () => {
+    const contenido = document.getElementById('msg-contenido').value.trim();
+    if (!contenido) { alert('Escribe el contenido del mensaje'); return; }
+    const db = getDB();
+    await db.from('mensajes_lead').insert([{
+      lead_id:  leadId,
+      tipo:     document.getElementById('msg-tipo').value === 'enviado' ? 'seguimiento' : 'recibido',
+      contenido,
+      canal:    document.getElementById('msg-canal').value,
+      estado:   document.getElementById('msg-tipo').value,
+      created_at: document.getElementById('msg-fecha').value ? new Date(document.getElementById('msg-fecha').value).toISOString() : new Date().toISOString()
+    }]);
+    document.getElementById('msg-contenido').value = '';
+    await loadMensajes();
+  });
+
+  // ── Capturas upload ───────────────────────────────────────
+  const uploadZone = document.getElementById('upload-zone');
+  const fileInput  = document.getElementById('file-input');
+  const capGrid    = document.getElementById('capturas-grid');
+
+  document.querySelectorAll('.src-btn').forEach(btn => {
+    btn.addEventListener('click', () => {
+      document.querySelectorAll('.src-btn').forEach(b => {
+        b.classList.remove('active','border-primary','bg-primary/10','text-primary');
+        b.classList.add('border-neutral-700','text-neutral-400');
+      });
+      btn.classList.add('active','border-primary','bg-primary/10','text-primary');
+      btn.classList.remove('border-neutral-700','text-neutral-400');
+      currentSource = btn.dataset.src;
+    });
+  });
+
+  uploadZone.addEventListener('dragover', e => { e.preventDefault(); uploadZone.classList.add('border-primary'); });
+  uploadZone.addEventListener('dragleave', () => uploadZone.classList.remove('border-primary'));
+  uploadZone.addEventListener('drop', e => { e.preventDefault(); uploadZone.classList.remove('border-primary'); handleFiles(e.dataTransfer.files); });
+  fileInput.addEventListener('change', e => handleFiles(e.target.files));
+
+  function handleFiles(files) {
+    [...files].forEach(file => {
+      if (!file.type.startsWith('image/')) return;
+      const reader = new FileReader();
+      reader.onload = e => {
+        const item = { file, dataUrl: e.target.result, source: currentSource };
+        uploadedFiles.push(item);
+        renderCapturas();
+      };
+      reader.readAsDataURL(file);
+    });
+  }
+
+  function renderCapturas() {
+    if (!uploadedFiles.length) {
+      capGrid.innerHTML = '<p class="col-span-full text-sm text-neutral-500 text-center py-6">Sin capturas subidas.</p>';
+      document.getElementById('capturas-count').textContent = '0 capturas';
+      return;
+    }
+    document.getElementById('capturas-count').textContent = `${uploadedFiles.length} captura${uploadedFiles.length>1?'s':''}`;
+    capGrid.innerHTML = uploadedFiles.map((f, i) => `
+      <div class="relative group">
+        <img src="${f.dataUrl}" class="preview-thumb w-full"/>
+        <div class="absolute bottom-0 left-0 right-0 bg-black/70 text-[9px] text-primary font-bold px-1 py-0.5 rounded-b-lg">${f.source}</div>
+        <button onclick="quitarCaptura(${i})" class="absolute top-1 right-1 w-5 h-5 bg-black/70 rounded-full text-white text-xs flex items-center justify-center opacity-0 group-hover:opacity-100 transition">×</button>
+      </div>
+    `).join('');
+  }
+
+  window.quitarCaptura = function(i) {
+    uploadedFiles.splice(i, 1);
+    renderCapturas();
+  };
+
+  // ── Analizar capturas con Claude Vision ───────────────────
+  document.getElementById('btn-analizar-capturas').addEventListener('click', async () => {
+    if (!uploadedFiles.length) { alert('Sube al menos una captura primero'); return; }
+    const btn = document.getElementById('btn-analizar-capturas');
+    btn.disabled=true;
+    btn.innerHTML='<span class="ai-loader"><div class="dot"></div><div class="dot"></div><div class="dot"></div></span> Analizando...';
+
+    const system = `Eres el Investigador Emocional de Novu 360, experto en analizar la presencia digital de negocios locales en México.
+Analizas capturas de redes sociales, Google Maps y sitios web para identificar oportunidades de mejora y el perfil del negocio.`;
+
+    const user = `Analiza estas capturas del negocio "${leadData.nombre_negocio||'el prospecto'}" (${leadData.giro||'negocio local'}, ${leadData.ciudad||'CDMX'}).
+
+Identifica:
+1. PRESENCIA DIGITAL ACTUAL: Qué tan bien manejan sus redes, calidad del contenido, engagement visible
+2. PUNTOS DE DOLOR EVIDENTES: Qué está faltando o haciéndose mal (fotos, consistencia, respuestas, reseñas)
+3. OPORTUNIDADES CONCRETAS: Específicamente qué podría mejorar Novu 360 para ellos
+4. PERFIL DEL NEGOCIO: Tamaño estimado, tipo de clientela, nivel de digitalización
+
+Sé específico y directo. Máximo 250 palabras. Esta información se usará para personalizar el pitch de venta.`;
+
+    try {
+      const resultado = await callClaude(system, user, uploadedFiles);
+      document.getElementById('text-capturas').textContent = resultado;
+      document.getElementById('result-capturas').classList.remove('hidden');
+
+      // Guardar en analisis_lead
+      const db = getDB();
+      await db.from('analisis_lead').upsert([{ lead_id: leadId, tipo: 'vision_capturas', resultado }]);
+    } catch(e) { alert('Error Claude Vision: '+e.message); }
+    finally { btn.disabled=false; btn.innerHTML='<span class="material-symbols-outlined text-base">psychology</span> Analizar capturas con Claude Vision'; }
+  });
+
+  // ── Investigador Emocional ────────────────────────────────
+  document.getElementById('btn-gen-perfil').addEventListener('click', async () => {
+    const btn = document.getElementById('btn-gen-perfil');
+    btn.disabled=true; btn.innerHTML='<span class="ai-loader"><div class="dot"></div><div class="dot"></div><div class="dot"></div></span>';
+
+    const system = `Eres el Investigador Emocional de Novu 360, experto en psicología de negocios locales en México. Identificas dolores, deseos y el perfil emocional del dueño para personalizar la prospección.`;
+    const user = `Negocio: ${leadData.nombre_negocio||'—'}
+Giro: ${leadData.giro||'—'}
+Ciudad: ${leadData.ciudad||'—'}
+Notas: ${leadData.notas||'Sin notas'}
+
+Analiza e identifica:
+1. DOLOR PRINCIPAL: ¿Su mayor problema con el marketing digital?
+2. DESEO OCULTO: ¿Qué quieren lograr realmente?
+3. PERFIL EMOCIONAL: Cómo es el dueño, qué lo motiva, qué lo frena
+4. ÁNGULO DE ENTRADA: El punto de dolor perfecto para abordarlo en el pitch
+
+Máximo 200 palabras. Formato claro con etiquetas.`;
+
+    try {
+      const resultado = await callClaude(system, user);
+      document.getElementById('text-perfil').textContent = resultado;
+      document.getElementById('text-perfil').classList.remove('italic','text-neutral-500');
+      const db = getDB();
+      await db.from('analisis_lead').upsert([{ lead_id: leadId, tipo:'investigador_emocional', resultado }]);
+    } catch(e) { alert('Error: '+e.message); }
+    finally { btn.disabled=false; btn.innerHTML='<span class="material-symbols-outlined text-base">auto_awesome</span> Analizar'; }
+  });
+
+  // ── Diego SRI ─────────────────────────────────────────────
+  document.getElementById('btn-gen-diego').addEventListener('click', async () => {
+    const conv = document.getElementById('input-diego').value.trim();
+    if (!conv) { alert('Pega una conversación para auditar'); return; }
+    const btn = document.getElementById('btn-gen-diego');
+    btn.disabled=true; btn.innerHTML='<span class="ai-loader"><div class="dot"></div><div class="dot"></div><div class="dot"></div></span>';
+
+    const system = `Eres Diego, experto en ventas con el Sistema de Recalificación Inversa (SRI). Analizas conversaciones de venta con precisión quirúrgica. Directo, sin endulzar.`;
+    const user = `Analiza esta conversación de DM:
+---
+${conv}
+---
+
+Evalúa las 4 fases del SRI:
+FASE 1 - APERTURA: ¿Cómo se abrió? ¿Qué salió mal? ¿Qué debió decirse?
+FASE 2 - PROBLEMA/OBJETIVO: ¿Se identificó el dolor real? ¿Qué falló?
+FASE 3 - DESEO: ¿Se conectó con lo que quieren lograr? ¿Cómo mejorar?
+FASE 4 - CIERRE/SIGUIENTE PASO: ¿Se propuso un siguiente paso claro? ¿Qué cambiar?
+
+Para cada fase: qué estuvo mal, impacto del error, qué decir diferente. Sé directo.`;
+
+    try {
+      const resultado = await callClaude(system, user);
+      document.getElementById('text-diego').textContent = resultado;
+      document.getElementById('text-diego').classList.remove('italic','text-neutral-500');
+      const db = getDB();
+      await db.from('analisis_lead').upsert([{ lead_id: leadId, tipo:'diego_sri', resultado }]);
+    } catch(e) { alert('Error: '+e.message); }
+    finally { btn.disabled=false; btn.innerHTML='<span class="material-symbols-outlined text-base">analytics</span> Auditar'; }
+  });
+
+  // ── Pitch ─────────────────────────────────────────────────
+  document.getElementById('btn-gen-pitch').addEventListener('click', async () => {
+    const btn = document.getElementById('btn-gen-pitch');
+    btn.disabled=true; btn.innerHTML='<span class="ai-loader"><div class="dot"></div><div class="dot"></div><div class="dot"></div></span>';
+
+    const perfilEl = document.getElementById('text-perfil');
+    const perfil = perfilEl && !perfilEl.classList.contains('italic') ? perfilEl.textContent : 'Sin análisis previo';
+
+    const system = `Eres la Maestra del Pitch de Novu 360, experta en cerrar ventas de marketing digital para negocios locales en México. Generas pitches personalizados, persuasivos y naturales.`;
+    const user = `Genera un pitch de venta de 5-8 minutos para este prospecto:
+
+Negocio: ${leadData.nombre_negocio||'—'} (${leadData.giro||'—'}, ${leadData.ciudad||'CDMX'})
+Perfil emocional del dueño: ${perfil}
+
+Estructura obligatoria:
+1. PROMESA IMPACTANTE (30 seg): Una frase que enganche directamente al dolor del giro
+2. PUENTE DE CREDIBILIDAD (1 min): Por qué Novu 360, qué nos diferencia
+3. ENTREGA DE VALOR (2-3 min): Los 4 servicios adaptados a SU giro — Ads Meta, Bot WhatsApp CRM, Contenido real, Google Local
+4. TEMPERATURA DEL PRECIO (1 min): Anclar valor antes de mencionar inversión
+5. CIERRE CON URGENCIA REAL (1 min): Una razón legítima para decidir hoy
+
+Incluye 2-3 objeciones comunes para este giro y cómo manejarlas.
+Lenguaje natural mexicano, no corporativo.`;
+
+    try {
+      const resultado = await callClaude(system, user);
+      document.getElementById('text-pitch').textContent = resultado;
+      document.getElementById('text-pitch').classList.remove('italic','text-neutral-500');
+      const db = getDB();
+      await db.from('analisis_lead').upsert([{ lead_id: leadId, tipo:'pitch', resultado }]);
+    } catch(e) { alert('Error: '+e.message); }
+    finally { btn.disabled=false; btn.innerHTML='<span class="material-symbols-outlined text-base">auto_awesome</span> Generar pitch'; }
+  });
+
+  // ── Appointment Setter DM ─────────────────────────────────
+  document.getElementById('btn-gen-dm').addEventListener('click', async () => {
+    const btn = document.getElementById('btn-gen-dm');
+    btn.disabled=true; btn.innerHTML='<span class="ai-loader"><div class="dot"></div><div class="dot"></div><div class="dot"></div></span>';
+
+    const perfilEl = document.getElementById('text-perfil');
+    const perfil = perfilEl && !perfilEl.classList.contains('italic') ? perfilEl.textContent : '';
+
+    const system = `Eres el Appointment Setter de Novu 360. Generas mensajes Instagram DM de primer contacto que suenan humanos y despiertan curiosidad sin vender.`;
+    const user = `Negocio: ${leadData.nombre_negocio||'—'} (${leadData.giro||'—'})
+Perfil emocional: ${perfil || 'No disponible'}
+
+Genera UN mensaje para Instagram DM. Reglas ESTRICTAS:
+- Máximo 2 líneas
+- Tono humano, natural, NO de vendedor
+- NO menciones precios ni servicios
+- Despierta curiosidad genuina
+- Termina con UNA pregunta suave que invite a responder
+- Usa el nombre del negocio naturalmente
+
+Solo el mensaje, sin comillas ni explicaciones.`;
+
+    try {
+      const resultado = await callClaude(system, user);
+      document.getElementById('text-dm').textContent = resultado;
+      document.getElementById('text-dm').classList.remove('italic','text-neutral-500');
+    } catch(e) { alert('Error: '+e.message); }
+    finally { btn.disabled=false; btn.innerHTML='<span class="material-symbols-outlined text-base">send</span> Generar DM'; }
+  });
+
+  // Guardar DM en mensajes
+  document.getElementById('btn-registrar-dm').addEventListener('click', async () => {
+    const texto = document.getElementById('text-dm').textContent;
+    if (!texto || texto.includes('Sin mensaje')) { alert('Genera el DM primero'); return; }
+    const db = getDB();
+    await db.from('mensajes_lead').insert([{
+      lead_id: leadId, tipo:'primer_contacto',
+      contenido: texto, canal:'instagram', estado:'generado'
+    }]);
+    alert('DM guardado en el historial ✓');
+    await loadMensajes();
+  });
+
+  // ── Convertir a cliente ───────────────────────────────────
+  document.getElementById('btn-convertir').addEventListener('click', async () => {
+    if (!confirm('¿Convertir este lead en cliente activo? Se creará su expediente y portal.')) return;
+    const db = getDB();
+    const { data: cliente, error } = await db.from('clientes').insert([{
+      nombre_negocio: leadData.nombre_negocio,
+      giro:      leadData.giro,
+      ciudad:    leadData.ciudad,
+      telefono:  leadData.telefono,
+      instagram: leadData.instagram,
+      estado:    'activo',
+      fecha_inicio: new Date().toISOString().slice(0,10),
+    }]).select().single();
+    if (error) { alert('Error al crear cliente: '+error.message); return; }
+
+    // Crear expediente básico
+    await db.from('expediente').insert([{ cliente_id: cliente.id, brief: leadData.notas||'', updated_at: new Date().toISOString() }]);
+    // Crear token de portal
+    await db.from('portal_cliente').insert([{ cliente_id: cliente.id, token_acceso: cliente.id, activo: true }]);
+
+    alert('✓ Cliente creado. Redirigiendo al expediente...');
+    window.location.href = `cliente-expediente.html?id=${cliente.id}`;
+  });
+
+  // ── Copiar texto ──────────────────────────────────────────
+  window.copiar = function(id) {
+    const t = document.getElementById(id)?.textContent || '';
+    navigator.clipboard.writeText(t);
+  };
+
+  // ── Init ──────────────────────────────────────────────────
+  await loadLead();
+  await loadAnalisis();
+  await loadMensajes();
+});
+</script>
+
+</body>
+</html>

@@ -1,0 +1,374 @@
+<!DOCTYPE html>
+<html class="dark" lang="es">
+<head>
+  <meta charset="utf-8"/>
+  <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+  <title>Novu 360 · Equipo</title>
+  <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;700;800&family=Inter:wght@400;500;600&display=swap" rel="stylesheet"/>
+  <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet"/>
+  <script>
+    tailwind.config = {
+      darkMode:"class",
+      theme:{ extend:{ colors:{
+        primary:"#00C2A8","on-primary":"#00382f",
+        surface:"#000","on-surface":"#dde4e1","on-surface-variant":"#bbcac4",
+        error:"#ffb4ab",background:"#000"
+      }, fontFamily:{ headline:["Manrope"],body:["Inter"] } } }
+    }
+  </script>
+  <link rel="stylesheet" href="style.css">
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script src="config.js"></script>
+  <script src="auth.js"></script>
+  <script>checkAuth();</script>
+  <style>
+    .form-label{display:block;margin-bottom:5px;font-size:.68rem;font-weight:700;text-transform:uppercase;letter-spacing:.18em;color:#c9c9c9}
+    .form-input{width:100%;border-radius:6px;border:1px solid #242424;background:#141414;padding:9px 12px;font-size:.875rem;color:#f5f5f5;outline:none;font-family:'Inter',sans-serif;transition:border-color .15s}
+    .form-input:focus{border-color:#00C2A8;box-shadow:0 0 0 2px rgba(0,194,168,.12)}
+    .form-input option{background:#141414}
+    .btn-primary{display:inline-flex;align-items:center;gap:6px;background:#00C2A8;color:#000;font-weight:700;font-size:.85rem;padding:9px 16px;border-radius:8px;border:none;cursor:pointer;transition:filter .15s;font-family:'Manrope',sans-serif}
+    .btn-primary:hover{filter:brightness(1.1)}
+    .btn-primary:disabled{opacity:.5;cursor:not-allowed}
+    .modal-overlay{position:fixed;inset:0;z-index:100;background:rgba(0,0,0,.85);display:flex;align-items:center;justify-content:center;padding:16px}
+    .modal-box{background:#0f0f0f;border:1px solid #242424;border-radius:16px;padding:28px;width:100%;max-width:520px;max-height:90vh;overflow-y:auto}
+    .rol-chip{display:inline-flex;align-items:center;gap:4px;padding:2px 8px;border-radius:12px;font-size:.65rem;font-weight:700;text-transform:uppercase;letter-spacing:.1em}
+    @media(max-width:1023px){main{padding-top:56px!important;padding-bottom:80px!important}}
+  </style>
+</head>
+<body class="bg-black text-on-surface antialiased overflow-x-hidden">
+
+<!-- Sidebar -->
+<aside class="hidden lg:flex lg:flex-col w-64 bg-[#0a0a0a] border-r border-white/5 px-4 py-6 fixed top-0 left-0 h-full z-40">
+  <a class="font-headline text-2xl font-extrabold text-primary tracking-tight mb-8" href="dashboard.html">Novu 360</a>
+  <nav class="flex flex-col gap-1 text-sm font-semibold">
+    <a class="px-3 py-2 rounded-lg text-white/70 hover:bg-primary/10 hover:text-primary transition-all" href="dashboard.html">Dashboard</a>
+    <a class="px-3 py-2 rounded-lg text-white/70 hover:bg-primary/10 hover:text-primary transition-all" href="clientes.html">Clientes</a>
+    <a class="px-3 py-2 rounded-lg text-white/70 hover:bg-primary/10 hover:text-primary transition-all" href="ventas.html">Ventas</a>
+    <a class="px-3 py-2 rounded-lg text-white/70 hover:bg-primary/10 hover:text-primary transition-all" href="ads.html">Ads / Meta</a>
+    <a class="px-3 py-2 rounded-lg text-white/70 hover:bg-primary/10 hover:text-primary transition-all" href="community.html">Community</a>
+    <a class="px-3 py-2 rounded-lg text-white/70 hover:bg-primary/10 hover:text-primary transition-all" href="seo.html">SEO</a>
+    <a class="px-3 py-2 rounded-lg text-white/70 hover:bg-primary/10 hover:text-primary transition-all" href="web.html">Web</a>
+    <a class="px-3 py-2 rounded-lg text-white/70 hover:bg-primary/10 hover:text-primary transition-all" href="finanzas.html">Finanzas</a>
+    <a class="px-3 py-2 rounded-lg text-white/70 hover:bg-primary/10 hover:text-primary transition-all" href="cerebros.html">Cerebros IA</a>
+    <a class="px-3 py-2 rounded-lg text-white/70 hover:bg-primary/10 hover:text-primary transition-all" href="aprobaciones.html">Aprobaciones</a>
+    <a class="px-3 py-2 rounded-lg text-white/70 hover:bg-primary/10 hover:text-primary transition-all" href="onboarding.html">Onboarding</a>
+    <a class="px-3 py-2 rounded-lg text-white/70 hover:bg-primary/10 hover:text-primary transition-all" href="agencia.html">📊 Agencia</a>
+    <a class="px-3 py-2 rounded-lg bg-primary/10 text-primary" href="empleados.html">👥 Equipo</a>
+  </nav>
+</aside>
+
+<div class="lg:ml-64">
+  <header class="hidden md:flex bg-black justify-between items-center h-16 px-8 w-full sticky top-0 z-10 border-b border-white/5">
+    <h1 class="text-xl font-extrabold text-white font-headline">Equipo Novu 360</h1>
+    <div class="flex items-center gap-3">
+      <button id="btn-nuevo-empleado" class="btn-primary text-sm">
+        <span class="material-symbols-outlined text-base">person_add</span> Agregar persona
+      </button>
+    </div>
+  </header>
+
+  <main class="p-4 md:p-8 space-y-6">
+
+    <!-- Stats -->
+    <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
+      <div class="bg-[#0f0f0f] rounded-xl border border-white/5 p-5">
+        <p class="text-[10px] uppercase tracking-widest text-neutral-500 mb-1">Total equipo</p>
+        <p id="stat-total" class="text-3xl font-black text-white">—</p>
+      </div>
+      <div class="bg-[#0f0f0f] rounded-xl border border-white/5 p-5">
+        <p class="text-[10px] uppercase tracking-widest text-neutral-500 mb-1">En capacitación</p>
+        <p id="stat-capacitacion" class="text-3xl font-black text-primary">—</p>
+      </div>
+      <div class="bg-[#0f0f0f] rounded-xl border border-white/5 p-5">
+        <p class="text-[10px] uppercase tracking-widest text-neutral-500 mb-1">Módulos completados</p>
+        <p id="stat-modulos" class="text-3xl font-black text-yellow-400">—</p>
+      </div>
+      <div class="bg-[#0f0f0f] rounded-xl border border-white/5 p-5">
+        <p class="text-[10px] uppercase tracking-widest text-neutral-500 mb-1">Activos hoy</p>
+        <p id="stat-activos" class="text-3xl font-black text-green-400">—</p>
+      </div>
+    </div>
+
+    <!-- Grid de empleados -->
+    <div id="empleados-grid" class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-4">
+      <div class="col-span-full text-center py-16 text-neutral-500 text-sm">Cargando equipo...</div>
+    </div>
+
+  </main>
+</div>
+
+<!-- Modal nuevo/editar empleado -->
+<div id="modal-empleado" class="modal-overlay hidden">
+  <div class="modal-box">
+    <div class="flex items-center justify-between mb-6">
+      <h3 id="modal-titulo" class="text-lg font-bold text-white font-headline">Nueva persona</h3>
+      <button id="modal-close" class="text-neutral-400 hover:text-white"><span class="material-symbols-outlined">close</span></button>
+    </div>
+    <div class="space-y-4">
+      <input type="hidden" id="modal-id"/>
+      <div>
+        <label class="form-label">Nombre completo *</label>
+        <input id="modal-nombre" class="form-input" type="text" placeholder="Ej. Sofía Martínez"/>
+      </div>
+      <div>
+        <label class="form-label">Email (para acceso al hub) *</label>
+        <input id="modal-email" class="form-input" type="email" placeholder="sofia@novu360.com"/>
+      </div>
+      <div>
+        <label class="form-label">WhatsApp</label>
+        <input id="modal-whatsapp" class="form-input" type="tel" placeholder="55 1234 5678"/>
+      </div>
+      <div>
+        <label class="form-label">Rol principal</label>
+        <select id="modal-rol" class="form-input">
+          <option value="admin">Admin (Itzel) — acceso total</option>
+          <option value="account">Account Manager</option>
+          <option value="ventas">Ventas / Prospección</option>
+          <option value="ads">Ads / Meta</option>
+          <option value="community">Community Manager</option>
+          <option value="seo">SEO / Google Local</option>
+          <option value="web">Web / Landing Pages</option>
+          <option value="aprendiz">Aprendiz — solo onboarding</option>
+        </select>
+      </div>
+      <div>
+        <label class="form-label">Áreas con acceso (además del rol principal)</label>
+        <div class="grid grid-cols-2 gap-2 mt-1">
+          <label class="flex items-center gap-2 text-sm text-neutral-300 cursor-pointer">
+            <input type="checkbox" class="area-check rounded border-neutral-600 bg-neutral-800 text-primary" value="ventas"/> Ventas
+          </label>
+          <label class="flex items-center gap-2 text-sm text-neutral-300 cursor-pointer">
+            <input type="checkbox" class="area-check rounded border-neutral-600 bg-neutral-800 text-primary" value="ads"/> Ads
+          </label>
+          <label class="flex items-center gap-2 text-sm text-neutral-300 cursor-pointer">
+            <input type="checkbox" class="area-check rounded border-neutral-600 bg-neutral-800 text-primary" value="community"/> Community
+          </label>
+          <label class="flex items-center gap-2 text-sm text-neutral-300 cursor-pointer">
+            <input type="checkbox" class="area-check rounded border-neutral-600 bg-neutral-800 text-primary" value="seo"/> SEO
+          </label>
+          <label class="flex items-center gap-2 text-sm text-neutral-300 cursor-pointer">
+            <input type="checkbox" class="area-check rounded border-neutral-600 bg-neutral-800 text-primary" value="web"/> Web
+          </label>
+          <label class="flex items-center gap-2 text-sm text-neutral-300 cursor-pointer">
+            <input type="checkbox" class="area-check rounded border-neutral-600 bg-neutral-800 text-primary" value="finanzas"/> Finanzas
+          </label>
+        </div>
+      </div>
+      <div>
+        <label class="form-label">Módulos de onboarding desbloqueados</label>
+        <div class="space-y-2 mt-1">
+          <label class="flex items-center gap-2 text-sm text-neutral-300 cursor-pointer">
+            <input type="checkbox" class="modulo-check rounded border-neutral-600 bg-neutral-800 text-primary" value="1" checked disabled/> 
+            <span class="text-primary">Módulo 1</span> — Qué es Novu 360 (siempre desbloqueado)
+          </label>
+          <label class="flex items-center gap-2 text-sm text-neutral-300 cursor-pointer">
+            <input type="checkbox" class="modulo-check rounded border-neutral-600 bg-neutral-800 text-primary" value="2"/> 
+            Módulo 2 — Cómo usar el hub
+          </label>
+          <label class="flex items-center gap-2 text-sm text-neutral-300 cursor-pointer">
+            <input type="checkbox" class="modulo-check rounded border-neutral-600 bg-neutral-800 text-primary" value="3"/> 
+            Módulo 3 — Prospección con IA
+          </label>
+          <label class="flex items-center gap-2 text-sm text-neutral-300 cursor-pointer">
+            <input type="checkbox" class="modulo-check rounded border-neutral-600 bg-neutral-800 text-primary" value="4"/> 
+            Módulo 4 — Contenido con Freepik
+          </label>
+          <label class="flex items-center gap-2 text-sm text-neutral-300 cursor-pointer">
+            <input type="checkbox" class="modulo-check rounded border-neutral-600 bg-neutral-800 text-primary" value="5"/> 
+            Módulo 5 — Clientes y aprobaciones
+          </label>
+        </div>
+      </div>
+      <div>
+        <label class="form-label">Notas internas</label>
+        <textarea id="modal-notas" class="form-input" rows="2" placeholder="Fortalezas, áreas de mejora, observaciones..."></textarea>
+      </div>
+    </div>
+    <div class="flex gap-3 mt-6">
+      <button id="modal-cancel" class="flex-1 py-2.5 border border-neutral-700 text-neutral-400 font-semibold rounded-lg hover:border-neutral-500 transition text-sm">Cancelar</button>
+      <button id="modal-save" class="flex-1 py-2.5 bg-primary text-on-primary font-bold rounded-lg hover:brightness-110 transition text-sm">Guardar</button>
+    </div>
+    <p id="modal-status" class="text-xs text-center mt-3 text-neutral-500"></p>
+  </div>
+</div>
+
+<script src="app.js" defer></script>
+<script src="global-nav.js" defer></script>
+
+<script>
+document.addEventListener('DOMContentLoaded', async () => {
+
+  function getDB() {
+    if (!window.supabaseClient) throw new Error('Supabase no inicializado');
+    return window.supabaseClient;
+  }
+
+  try {
+    const db = getDB();
+    const { data:{session} } = await db.auth.getSession();
+    if (!session) { window.location.href='index.html'; return; }
+  } catch(e) { console.warn(e); }
+
+  const rolColors = {
+    admin:     'bg-primary/20 text-primary border-primary/30',
+    account:   'bg-blue-400/20 text-blue-400 border-blue-400/30',
+    ventas:    'bg-orange-400/20 text-orange-400 border-orange-400/30',
+    ads:       'bg-yellow-400/20 text-yellow-400 border-yellow-400/30',
+    community: 'bg-pink-400/20 text-pink-400 border-pink-400/30',
+    seo:       'bg-green-400/20 text-green-400 border-green-400/30',
+    web:       'bg-purple-400/20 text-purple-400 border-purple-400/30',
+    aprendiz:  'bg-neutral-400/20 text-neutral-400 border-neutral-400/30',
+  };
+
+  const rolLabels = {
+    admin:'Admin', account:'Account', ventas:'Ventas', ads:'Ads',
+    community:'Community', seo:'SEO', web:'Web', aprendiz:'Aprendiz'
+  };
+
+  let allEmpleados = [];
+
+  async function loadEmpleados() {
+    try {
+      const db = getDB();
+      const { data } = await db.from('usuarios').select('*, usuario_roles(rol)').order('created_at', { ascending: true });
+      allEmpleados = data || [];
+      updateStats();
+      renderGrid();
+    } catch(e) {
+      document.getElementById('empleados-grid').innerHTML =
+        `<div class="col-span-full text-center py-16 text-red-400 text-sm">Error: ${e.message}</div>`;
+    }
+  }
+
+  function updateStats() {
+    document.getElementById('stat-total').textContent = allEmpleados.length;
+    document.getElementById('stat-capacitacion').textContent = allEmpleados.filter(e => e.usuario_roles?.[0]?.rol === 'aprendiz').length;
+    document.getElementById('stat-modulos').textContent = '—';
+    document.getElementById('stat-activos').textContent = allEmpleados.length;
+  }
+
+  function renderGrid() {
+    const grid = document.getElementById('empleados-grid');
+    if (!allEmpleados.length) {
+      grid.innerHTML = '<div class="col-span-full text-center py-16 text-neutral-500 text-sm">Sin personas en el equipo aún. Agrega la primera.</div>';
+      return;
+    }
+    grid.innerHTML = allEmpleados.map(emp => {
+      const rol = emp.usuario_roles?.[0]?.rol || 'aprendiz';
+      const rolColor = rolColors[rol] || rolColors.aprendiz;
+      const inicial = (emp.nombre || emp.email || '?')[0].toUpperCase();
+      const nombre = emp.nombre || emp.email?.split('@')[0] || '—';
+      return `
+        <div class="bg-[#0f0f0f] rounded-2xl border border-white/5 p-5 hover:border-primary/40 transition-all">
+          <div class="flex items-start gap-3 mb-4">
+            <div class="w-12 h-12 rounded-xl bg-primary/10 border border-primary/20 flex items-center justify-center font-black text-lg text-primary shrink-0">
+              ${emp.avatar_url ? `<img src="${emp.avatar_url}" class="w-full h-full rounded-xl object-cover"/>` : inicial}
+            </div>
+            <div class="flex-1">
+              <h3 class="font-headline font-bold text-white text-sm">${nombre}</h3>
+              <p class="text-xs text-neutral-400">${emp.email || '—'}</p>
+              <span class="rol-chip border ${rolColor} mt-1">${rolLabels[rol]||rol}</span>
+            </div>
+          </div>
+
+          <!-- Progreso onboarding (visual placeholder) -->
+          <div class="mb-4">
+            <div class="flex justify-between items-center mb-1">
+              <p class="text-[10px] uppercase tracking-widest text-neutral-500">Onboarding</p>
+              <p class="text-[10px] text-neutral-400">Módulo 1 / 5</p>
+            </div>
+            <div class="w-full h-1.5 bg-neutral-800 rounded-full">
+              <div class="h-full bg-primary rounded-full" style="width:20%"></div>
+            </div>
+          </div>
+
+          <!-- Acciones -->
+          <div class="flex gap-2">
+            <button onclick="editarEmpleado('${emp.id}')"
+              class="flex-1 text-xs text-neutral-400 hover:text-primary border border-neutral-700 hover:border-primary px-3 py-1.5 rounded-lg transition flex items-center justify-center gap-1">
+              <span class="material-symbols-outlined text-xs">edit</span> Editar
+            </button>
+            <button onclick="verPerfil('${emp.id}')"
+              class="flex-1 text-xs text-primary border border-primary/30 hover:bg-primary/10 px-3 py-1.5 rounded-lg transition flex items-center justify-center gap-1">
+              <span class="material-symbols-outlined text-xs">analytics</span> Ver perfil
+            </button>
+          </div>
+        </div>
+      `;
+    }).join('');
+  }
+
+  // ── Modal ─────────────────────────────────────────────────
+  const modal = document.getElementById('modal-empleado');
+
+  function abrirModal(emp = null) {
+    document.getElementById('modal-id').value     = emp?.id || '';
+    document.getElementById('modal-nombre').value = emp?.nombre || '';
+    document.getElementById('modal-email').value  = emp?.email || '';
+    document.getElementById('modal-notas').value  = '';
+    document.getElementById('modal-status').textContent = '';
+    document.getElementById('modal-titulo').textContent = emp ? 'Editar persona' : 'Nueva persona';
+    modal.classList.remove('hidden');
+  }
+
+  function cerrarModal() { modal.classList.add('hidden'); }
+
+  document.getElementById('btn-nuevo-empleado').addEventListener('click', () => abrirModal());
+  document.getElementById('modal-close').addEventListener('click', cerrarModal);
+  document.getElementById('modal-cancel').addEventListener('click', cerrarModal);
+  modal.addEventListener('click', e => { if (e.target === modal) cerrarModal(); });
+
+  document.getElementById('modal-save').addEventListener('click', async () => {
+    const nombre = document.getElementById('modal-nombre').value.trim();
+    const email  = document.getElementById('modal-email').value.trim();
+    const rol    = document.getElementById('modal-rol').value;
+    const status = document.getElementById('modal-status');
+
+    if (!nombre || !email) {
+      status.textContent = 'Nombre y email son requeridos';
+      status.style.color = '#ef4444'; return;
+    }
+
+    const btn = document.getElementById('modal-save');
+    btn.disabled=true; btn.textContent='Guardando...';
+
+    try {
+      const db = getDB();
+      const id = document.getElementById('modal-id').value;
+
+      if (id) {
+        await db.from('usuarios').update({ nombre }).eq('id', id);
+        await db.from('usuario_roles').upsert([{ usuario_id: id, rol }], { onConflict:'usuario_id' });
+      } else {
+        // Crear usuario en auth.users via Supabase Admin no es posible client-side
+        // Guardamos en tabla usuarios con email — el login lo crearán ellos mismos
+        const { data: u, error } = await db.from('usuarios').insert([{ email, nombre }]).select().single();
+        if (error) throw error;
+        await db.from('usuario_roles').insert([{ usuario_id: u.id, rol }]);
+      }
+
+      cerrarModal();
+      await loadEmpleados();
+    } catch(e) {
+      status.textContent = 'Error: ' + e.message;
+      status.style.color = '#ef4444';
+    } finally {
+      btn.disabled=false; btn.textContent='Guardar';
+    }
+  });
+
+  window.editarEmpleado = function(id) {
+    const emp = allEmpleados.find(e => e.id === id);
+    if (emp) abrirModal(emp);
+  };
+
+  window.verPerfil = function(id) {
+    window.location.href = `perfil-equipo.html?id=${id}`;
+  };
+
+  loadEmpleados();
+});
+</script>
+</body>
+</html>
