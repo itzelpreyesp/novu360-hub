@@ -56,27 +56,11 @@
       main { padding-top:56px !important; padding-bottom:80px !important; }
     }
   </style>
+  <script src="sidebar.js"></script>
 </head>
 <body class="bg-black text-on-surface antialiased overflow-x-hidden">
 
 <!-- Sidebar desktop -->
-<aside class="hidden lg:flex lg:flex-col w-64 bg-[#0a0a0a] border-r border-white/5 px-4 py-6 fixed top-0 left-0 h-full z-40">
-  <a class="font-headline text-2xl font-extrabold text-primary tracking-tight mb-8" href="dashboard.html">Novu 360</a>
-  <nav class="flex flex-col gap-1 text-sm font-semibold">
-    <a class="px-3 py-2 rounded-lg text-white/70 hover:bg-primary/10 hover:text-primary transition-all" href="dashboard.html">Dashboard</a>
-    <a class="px-3 py-2 rounded-lg bg-primary/10 text-primary" href="clientes.html">Clientes</a>
-    <a class="px-3 py-2 rounded-lg text-white/70 hover:bg-primary/10 hover:text-primary transition-all" href="ventas.html">Ventas</a>
-    <a class="px-3 py-2 rounded-lg text-white/70 hover:bg-primary/10 hover:text-primary transition-all" href="ads.html">Ads / Meta</a>
-    <a class="px-3 py-2 rounded-lg text-white/70 hover:bg-primary/10 hover:text-primary transition-all" href="community.html">Community</a>
-    <a class="px-3 py-2 rounded-lg text-white/70 hover:bg-primary/10 hover:text-primary transition-all" href="seo.html">SEO</a>
-    <a class="px-3 py-2 rounded-lg text-white/70 hover:bg-primary/10 hover:text-primary transition-all" href="web.html">Web</a>
-    <a class="px-3 py-2 rounded-lg text-white/70 hover:bg-primary/10 hover:text-primary transition-all" href="finanzas.html">Finanzas</a>
-    <a class="px-3 py-2 rounded-lg text-white/70 hover:bg-primary/10 hover:text-primary transition-all" href="cerebros.html">Cerebros IA</a>
-    <a class="px-3 py-2 rounded-lg text-white/70 hover:bg-primary/10 hover:text-primary transition-all" href="aprobaciones.html">Aprobaciones</a>
-    <a class="px-3 py-2 rounded-lg text-white/70 hover:bg-primary/10 hover:text-primary transition-all" href="onboarding.html">Onboarding</a>
-  </nav>
-</aside>
-
 <div class="lg:ml-64">
   <!-- Header desktop -->
   <header class="hidden md:flex bg-black justify-between items-center h-16 px-8 w-full sticky top-0 z-10 border-b border-white/5">
@@ -233,8 +217,7 @@ document.addEventListener('DOMContentLoaded', async () => {
     try {
       const db = getDB();
       const { data, error } = await db
-        .from('clientes')
-        .select('*, usuario_roles(nombre)')
+        .from('clientes').select('*')
         .order('fecha_inicio', { ascending: false });
 
       if (error) throw error;
